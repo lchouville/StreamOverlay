@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Saphirshwartz - Fond Plein (Start/End)</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+  /* Canvas de reference : 1920x1080. A utiliser pour les scenes "Starting Soon" / "Stream Ending"
+     ou il n'y a pas de capture de jeu : le fond etoile couvre TOUT le canvas, sans trou. */
+  body { width: 1920px; height: 1080px; position: relative; }
+
+  #bg-layer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, #1a2560 0%, #05081a 70%);
+  }
+</style>
+</head>
+<body>
+
+  <div id="bg-layer">
+    <div class="star-field" id="bg-stars"></div>
+  </div>
+
+<script src="../shared/stars.js"></script>
+<script>
+  spawnStarField(document.getElementById('bg-stars'), 220);
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Saphirshwartz - Secondary Frame (Chat)</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+  /* Canvas de reference : 420x700. Source dimensionnee pile a la taille du chat : dans OBS,
+     mets la source en 420x700 et positionne-la a (1500, 360). Place ton widget de chat
+     par-dessus, a l'interieur de #chat-inner, en fond transparent. */
+  body { width: 420px; height: 700px; position: relative; }
+
+  #chat-rect {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 420px;
+    height: 700px;
+  }
+
+  .ring { position: absolute; inset: 0; border-radius: 24px; pointer-events: none; }
+  .ring-outer { border: 2px solid var(--gold); box-shadow: 0 0 10px rgba(217,201,138,0.3); }
+  .ring-dotted { inset: 7px; border-radius: 20px; border: 2px dotted var(--gold-dim); }
+  .ring-inner { inset: 13px; border-radius: 16px; border: 1px solid var(--gold); }
+
+  #chat-inner {
+    position: absolute;
+    inset: 17px;
+    border-radius: 15px;
+    background: linear-gradient(180deg, rgba(13,20,64,0.55), rgba(7,11,34,0.65));
+    overflow: hidden;
+  }
+
+  .motif { position: absolute; z-index: 2; }
+
+  #chat-label {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+  }
+
+  #chat-label span {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    color: var(--gold-bright);
+    background: var(--navy-deep);
+    padding: 4px 14px;
+    border: 1px solid var(--gold);
+    border-radius: 14px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+  <div id="chat-rect">
+    <div class="ring ring-outer"></div>
+    <div class="ring ring-dotted"></div>
+    <div class="ring ring-inner"></div>
+    <div id="chat-inner"><div class="star-field" id="chat-stars"></div></div>
+    <div id="chat-label"><span>Live Chat</span></div>
+  </div>
+
+<script src="../shared/stars.js"></script>
+<script src="../shared/motifs.js"></script>
+<script>
+  spawnStarField(document.getElementById('chat-stars'), 26);
+
+  const rect = document.getElementById('chat-rect');
+  placeMedallion(rect, 'sapphire', 26, 0, 0);
+  placeMedallion(rect, 'sapphire', 26, 100, 0);
+  placeMedallion(rect, 'sunburst', 30, 0, 100);
+  placeMedallion(rect, 'sunburst', 30, 100, 100);
+</script>
+</body>
+</html>

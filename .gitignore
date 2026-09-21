@@ -1,0 +1,10 @@
+# dependances et sorties generees
+node_modules/
+export/
+
+# OS / editeurs
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Saphirshwartz - Primary Frame</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+  /* Canvas de reference : 1920x1080, base sur le zoning (zoning/1.html) :
+     grid-template-columns: 1500px 420px ; grid-template-rows: 120px 240px 720px.
+     - game-rect  : 1440x810 (16:9), centre dans la cellule panel (30,195)
+     - cam-rect   : 420x240, cellule cam telle quelle (1500,120)
+     Le fond etoile remplit tout le canvas SAUF ces deux zones, qui restent 100% transparentes. */
+  body { width: 1920px; height: 1080px; position: relative; }
+
+  #bg-layer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, #1a2560 0%, #05081a 70%);
+    -webkit-mask-image: url(#view-holes);
+    mask-image: url(#view-holes);
+  }
+
+  #game-rect {
+    position: absolute;
+    left: 30px;
+    top: 195px;
+    width: 1440px;
+    height: 810px;
+  }
+
+  #cam-rect {
+    position: absolute;
+    left: 1500px;
+    top: 120px;
+    width: 420px;
+    height: 240px;
+  }
+
+  .ring { position: absolute; inset: 0; pointer-events: none; }
+
+  #game-rect .ring-outer { border: 2px solid var(--gold); border-radius: 26px; box-shadow: 0 0 12px rgba(217, 201, 138, 0.35); }
+  #game-rect .ring-dotted { inset: 8px; border: 3px dotted var(--gold-dim); border-radius: 22px; }
+  #game-rect .ring-inner { inset: 16px; border: 1px solid var(--gold); border-radius: 18px; }
+
+  #cam-rect .ring-outer { border: 2px solid var(--gold); border-radius: 14px; box-shadow: 0 0 10px rgba(217, 201, 138, 0.35); }
+  #cam-rect .ring-dotted { inset: 5px; border: 2px dotted var(--gold-dim); border-radius: 11px; }
+  #cam-rect .ring-inner { inset: 9px; border: 1px solid var(--gold); border-radius: 8px; }
+
+  .motif { position: absolute; z-index: 2; }
+</style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <mask id="view-holes" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080">
+        <rect x="0" y="0" width="1920" height="1080" fill="white"/>
+        <rect x="30" y="195" width="1440" height="810" rx="18" fill="black"/>
+        <rect x="1500" y="120" width="420" height="240" rx="8" fill="black"/>
+      </mask>
+    </defs>
+  </svg>
+
+  <div id="bg-layer">
+    <div class="star-field" id="bg-stars"></div>
+  </div>
+
+  <div id="game-rect">
+    <div class="ring ring-outer"></div>
+    <div class="ring ring-dotted"></div>
+    <div class="ring ring-inner"></div>
+  </div>
+
+  <div id="cam-rect">
+    <div class="ring ring-outer"></div>
+    <div class="ring ring-dotted"></div>
+    <div class="ring ring-inner"></div>
+  </div>
+
+<script src="../shared/stars.js"></script>
+<script src="../shared/motifs.js"></script>
+<script>
+  spawnStarField(document.getElementById('bg-stars'), 140);
+
+  const gameRect = document.getElementById('game-rect');
+  placeMedallion(gameRect, 'sunburst', 46, 0, 0);
+  placeMedallion(gameRect, 'sunburst', 46, 100, 0);
+  placeMedallion(gameRect, 'sunburst', 46, 0, 100);
+  placeMedallion(gameRect, 'sunburst', 46, 100, 100);
+  placeMedallion(gameRect, 'crescent', 40, 50, 0);
+  placeMedallion(gameRect, 'crescent', 40, 50, 100);
+  placeMedallion(gameRect, 'sapphire', 34, 0, 50);
+  placeMedallion(gameRect, 'sapphire', 34, 100, 50);
+
+  const camRect = document.getElementById('cam-rect');
+  placeMedallion(camRect, 'sunburst', 24, 0, 0);
+  placeMedallion(camRect, 'sunburst', 24, 100, 0);
+  placeMedallion(camRect, 'sunburst', 24, 0, 100);
+  placeMedallion(camRect, 'sunburst', 24, 100, 100);
+</script>
+</body>
+</html>

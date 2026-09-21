@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+  --navy-deep: #070b22;
+  --navy: #0d1440;
+  --navy-light: #16205c;
+  --gold: #d9c98a;
+  --gold-bright: #f3e6b3;
+  --gold-dim: #8a7a45;
+  --sapphire-1: #2a4bd6;
+  --sapphire-2: #6a3fe0;
+  --sapphire-3: #1c2f8f;
+  --text-cream: #efe6c8;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+.label-font {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.14em;
+}
+
+/* ---------- twinkling star field ---------- */
+.star-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.15;
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.1; transform: scale(0.8); }
+  50% { opacity: 0.9; transform: scale(1.15); }
+}
+
+/* ---------- sapphire crystal accent ---------- */
+.sapphire {
+  filter: drop-shadow(0 0 4px rgba(90, 110, 240, 0.85));
+}

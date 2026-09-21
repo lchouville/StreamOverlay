@@ -1,0 +1,54 @@
+/* ---------- Timer box ---------- */
+.timer-box {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: linear-gradient(160deg, var(--navy-light) 0%, var(--navy-deep) 100%);
+  overflow: hidden;
+}
+
+.timer-box .ring { position: absolute; inset: 0; pointer-events: none; }
+.timer-box .ring-outer { border: 2px solid var(--gold); border-radius: 16px; box-shadow: 0 0 10px rgba(217, 201, 138, 0.35); }
+.timer-box .ring-dotted { inset: 5px; border: 2px dotted var(--gold-dim); border-radius: 12px; }
+.timer-box .ring-inner { inset: 9px; border: 1px solid var(--gold); border-radius: 8px; }
+
+.timer-label {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  color: var(--gold);
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.timer-time {
+  position: relative;
+  z-index: 1;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 1;
+  color: var(--text-cream);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 12px rgba(106, 63, 224, 0.7);
+}
+
+/* etats */
+.timer-box.paused .timer-time { opacity: 0.6; }
+.timer-box.warning .timer-time { color: #ffb45a; text-shadow: 0 0 12px rgba(255, 140, 40, 0.7); }
+.timer-box.finished .timer-time {
+  color: var(--gold-bright);
+  text-shadow: 0 0 16px rgba(243, 230, 179, 0.9);
+  animation: timer-pulse 1s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}

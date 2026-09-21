@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Saphirshwartz - Alerte Nouveau Follower</title>
+<link rel="stylesheet" href="../../shared/theme.css">
+<style>
+  /* Canvas de reference : 250x60 (taille exacte de la pastille). */
+  body { width: 250px; height: 60px; }
+
+  .pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 0 0 8px;
+    background: linear-gradient(180deg, rgba(13,20,64,0.92), rgba(7,11,34,0.92));
+    border: 1.5px solid var(--gold);
+    border-radius: 30px;
+    box-shadow: inset 0 0 10px rgba(217,201,138,0.25), 0 2px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(217,201,138,0.18), transparent 70%);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .icon-circle svg { width: 22px; height: 22px; }
+</style>
+</head>
+<body>
+  <div class="pill">
+    <div class="star-field"></div>
+    <div class="icon-circle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f3e6b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="4"/>
+        <path d="M2 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/>
+        <path d="M19 8v6M16 11h6"/>
+      </svg>
+    </div>
+  </div>
+
+<script src="../../shared/stars.js"></script>
+<script>
+  document.querySelectorAll('.star-field').forEach(f => spawnStarField(f, 8));
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Saphirshwartz - Box Alerte Nouveau follower</title>
+<link rel="stylesheet" href="../../shared/theme.css">
+<link rel="stylesheet" href="../../shared/alert-box.css">
+<style>
+  /* Canvas de reference : 350x80 (taille exacte de la box). */
+  body { width: 350px; height: 80px; }
+  #stage { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+
+<script src="../../shared/stars.js"></script>
+<script src="../../shared/alert-box.js"></script>
+<script>
+  const stage = document.getElementById('stage');
+  const params = new URLSearchParams(location.search);
+  const alertData = Object.assign({}, ALERT_DEMO.newfollower, {
+    user: params.get('user') || ALERT_DEMO.newfollower.user,
+    amount: params.get('amount') || ALERT_DEMO.newfollower.amount,
+    message: params.get('message') || ALERT_DEMO.newfollower.message
+  });
+
+  // Rejoue l'animation en boucle pour la previsualisation ; ?once pour une seule lecture.
+  function loop() {
+    playAlert(stage, alertData, () => { if (!params.has('once')) setTimeout(loop, 1500); });
+  }
+  loop();
+</script>
+</body>
+</html>

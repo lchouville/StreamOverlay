@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Saphirshwartz - Primary Frame (sans cam)</title>
+<link rel="stylesheet" href="../shared/theme.css">
+<style>
+  /* Canvas de reference : 1920x1080, meme zone de jeu que game-frame.html :
+     - game-rect  : 1440x810 (16:9), centre dans la cellule panel (30,195)
+     Variante SANS CAM : seule la zone de jeu est transparente ; la zone cam
+     (1500,120 - 420x240) est remplie par le fond etoile, sans cadre ni medaillons. */
+  body { width: 1920px; height: 1080px; position: relative; }
+
+  #bg-layer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, #1a2560 0%, #05081a 70%);
+    -webkit-mask-image: url(#view-holes);
+    mask-image: url(#view-holes);
+  }
+
+  #game-rect {
+    position: absolute;
+    left: 30px;
+    top: 195px;
+    width: 1440px;
+    height: 810px;
+  }
+
+  .ring { position: absolute; inset: 0; pointer-events: none; }
+
+  #game-rect .ring-outer { border: 2px solid var(--gold); border-radius: 26px; box-shadow: 0 0 12px rgba(217, 201, 138, 0.35); }
+  #game-rect .ring-dotted { inset: 8px; border: 3px dotted var(--gold-dim); border-radius: 22px; }
+  #game-rect .ring-inner { inset: 16px; border: 1px solid var(--gold); border-radius: 18px; }
+
+  .motif { position: absolute; z-index: 2; }
+</style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <mask id="view-holes" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080">
+        <rect x="0" y="0" width="1920" height="1080" fill="white"/>
+        <rect x="30" y="195" width="1440" height="810" rx="18" fill="black"/>
+      </mask>
+    </defs>
+  </svg>
+
+  <div id="bg-layer">
+    <div class="star-field" id="bg-stars"></div>
+  </div>
+
+  <div id="game-rect">
+    <div class="ring ring-outer"></div>
+    <div class="ring ring-dotted"></div>
+    <div class="ring ring-inner"></div>
+  </div>
+
+<script src="../shared/stars.js"></script>
+<script src="../shared/motifs.js"></script>
+<script>
+  spawnStarField(document.getElementById('bg-stars'), 140);
+
+  const gameRect = document.getElementById('game-rect');
+  placeMedallion(gameRect, 'sunburst', 46, 0, 0);
+  placeMedallion(gameRect, 'sunburst', 46, 100, 0);
+  placeMedallion(gameRect, 'sunburst', 46, 0, 100);
+  placeMedallion(gameRect, 'sunburst', 46, 100, 100);
+  placeMedallion(gameRect, 'crescent', 40, 50, 0);
+  placeMedallion(gameRect, 'crescent', 40, 50, 100);
+  placeMedallion(gameRect, 'sapphire', 34, 0, 50);
+  placeMedallion(gameRect, 'sapphire', 34, 100, 50);
+</script>
+</body>
+</html>
