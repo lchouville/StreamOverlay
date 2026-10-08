@@ -1,0 +1,66 @@
+/* Feuille de style "scene zoning" : dessine sur un canvas 1920x1080 toutes les
+   zones d'une scene OBS (fenetres, cams, chat, timer, alertes), a
+   leur position finale. Meme principe que Elwe/shared/zoning.css : sert
+   uniquement a valider le placement avant de definir le theme visuel. */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #202020;
+  overflow: hidden;
+  font-family: system-ui, sans-serif;
+}
+
+html { background: #111; }
+
+/* Le body EST le canvas du stream : 1920x1080, rien ne doit en sortir.
+   Il est reduit par scene.js pour tenir entier dans la fenetre du navigateur
+   (echelle 1 dans OBS). Le contour blanc materialise les bords du stream. */
+body {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  transform-origin: 0 0;
+  outline: 2px solid #fff;
+}
+
+.zone {
+  position: absolute;
+  border: 2px dashed var(--c);
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+  --c: #ff7a1a;
+}
+
+/* Un point de vue = un ecran + sa cam : meme couleur pour les relier. */
+.zone.pdv1 { --c: #4da3ff; }
+.zone.pdv2 { --c: #5fd35f; }
+.zone.element { --c: #ff7a1a; }
+
+.zone-label {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  max-width: calc(100% - 12px);
+  background: var(--c);
+  color: #111;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: pre-line;
+}
+
+.scene-name {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #eee;
+  color: #111;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe [zoning] - Secondary Frame (Chat)</title>
+<link rel="stylesheet" href="../shared/zoning.css">
+<link rel="stylesheet" href="../shared/chat-messages.css">
+<style>
+  /* Canvas de reference : 420x700. Dans OBS, source en 420x700 positionnee a (1500, 360)
+     (meme zoning que overlay/secondary-frame/chat-frame.html).
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant.
+     Le visuel INTERNE des messages (shared/chat-messages.css) est un fichier
+     a part, pense pour etre copie-colle tel quel ailleurs si besoin. */
+  body { width: 420px; height: 700px; position: relative; }
+
+  #chat-rect { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+  <div id="chat-rect"></div>
+
+  <!-- Structure identique a celle generee par le widget Streamlabs Chat Box
+       (voir shared/chat-messages.css) : sert juste a previsualiser le zoning. -->
+  <div id="log" class="sl__chat__layout">
+    <div data-from="Pseudo">
+      <span class="meta">
+        <span class="badges"></span>
+        <span class="name">Pseudo</span>
+      </span>
+      <span class="message">Message court</span>
+    </div>
+    <div data-from="UnAutrePseudo">
+      <span class="meta">
+        <span class="badges"></span>
+        <span class="name">UnAutrePseudo</span>
+      </span>
+      <span class="message">Un message un peu plus long pour voir comment le texte se comporte sur plusieurs lignes.</span>
+    </div>
+    <div data-from="Viewer3">
+      <span class="meta">
+        <span class="badges"></span>
+        <span class="name">Viewer3</span>
+      </span>
+      <span class="message">gg</span>
+    </div>
+  </div>
+
+<script src="../shared/zoning.js"></script>
+<script>
+  document.getElementById('chat-rect').appendChild(makeZone('CHAT\n420x700\nOBS @ (1500,360)'));
+</script>
+</body>
+</html>

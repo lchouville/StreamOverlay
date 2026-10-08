@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Scene [zoning] - Dual ecran</title>
+<link rel="stylesheet" href="shared/scene.css">
+<!-- Canvas de reference : 1920x1080.
+     2 ecrans 16:9 en diagonale dans la zone jeu (x 30-1470, y 110-1050) :
+     cote a cote ils seraient limites a ~710x400 ; empiles en diagonale ils
+     montent a 816x459 (la hauteur 940 = 2x459 + 20 de goutiere), sans aucune
+     superposition. Ca libere un espace 624x459 a cote de chaque ecran.
+     Pas de cam.
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. -->
+</head>
+<body>
+<script src="shared/scene.js"></script>
+<script>
+  zone('ECRAN 1', 30, 110, 816, 459, 'pdv1');
+  zone('ECRAN 2', 654, 589, 816, 459, 'pdv2');
+  elements();
+  sceneName('Dual ecran');
+</script>
+</body>
+</html>

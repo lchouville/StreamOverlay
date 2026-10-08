@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe [zoning] - Primary Frame</title>
+<link rel="stylesheet" href="../shared/zoning.css">
+<style>
+  /* Canvas de reference : 1920x1080. Meme zoning que overlay/primary-frame/game-frame.html :
+     - game-rect : 1440x810 (16:9), position (30,195)
+     - cam-rect  : 420x240, position (1500,120)
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. */
+  body { width: 1920px; height: 1080px; position: relative; }
+
+  #game-rect { position: absolute; left: 30px; top: 195px; width: 1440px; height: 810px; }
+  #cam-rect  { position: absolute; left: 1500px; top: 120px; width: 420px; height: 240px; }
+</style>
+</head>
+<body>
+  <div id="game-rect"></div>
+  <div id="cam-rect"></div>
+
+<script src="../shared/zoning.js"></script>
+<script>
+  document.getElementById('game-rect').appendChild(makeZone('GAME\n1440x810 @ (30,195)'));
+  document.getElementById('cam-rect').appendChild(makeZone('CAM\n420x240 @ (1500,120)'));
+</script>
+</body>
+</html>

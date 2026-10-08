@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Scene [zoning] - 1 ecran</title>
+<link rel="stylesheet" href="shared/scene.css">
+<!-- Canvas de reference : 1920x1080.
+     Ecran 1440x810 (16:9, limite par la largeur x 30-1470), centre dans la
+     zone y 110-1050 sous la rangee d'alertes. Pas de cam.
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. -->
+</head>
+<body>
+<script src="shared/scene.js"></script>
+<script>
+  zone('ECRAN', 30, 175, 1440, 810, 'pdv1');
+  elements();
+  sceneName('1 ecran');
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+/* Chat Streamlabs - VERSION ZONING.
+   Meme structure HTML que chat.html (widget Streamlabs, lecture seule) :
+   <div id="log">
+     <div data-from="{from}">
+       <span class="meta" style="color: {color}">
+         <span class="badges"></span>
+         <span class="name">{from}</span>
+       </span>
+       <span class="message">{message}</span>
+     </div>
+   </div>
+
+   Objectif ici : juste caler la mise en page (largeur pseudo / message,
+   emplacement des badges) en blocs pointilles. Le theme final ("beaux"
+   messages lies au theme d'Elwe : couleurs, police, badges, animations)
+   viendra remplacer ce fichier plus tard, meme structure. */
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: transparent;
+    font-family: system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.5em;
+    color: #ff7a1a;
+}
+
+#log {
+    display: table;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0 10px 10px;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0 10px;
+}
+
+#log>div {
+    display: table-row;
+    /* animations d'apparition/disparition coupees le temps du zoning */
+    animation: none !important;
+    -webkit-animation: none !important;
+}
+
+#log>div.deleted {
+    visibility: hidden;
+}
+
+.colon {
+    display: none;
+}
+
+#log .emote {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    padding: 0.4em 0.2em;
+    position: relative;
+}
+
+#log .emote img {
+    display: inline-block;
+    height: 1em;
+    opacity: 0;
+}
+
+#log .message, #log .meta {
+    vertical-align: top;
+    display: table-cell;
+    padding: 2px 6px;
+    border: 2px dashed #ff7a1a;
+    background: rgba(255, 122, 26, 0.10);
+    border-radius: 4px;
+}
+
+#log .meta {
+    width: 35%;
+    text-align: right;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* on ecrase la couleur par pseudo (style inline) tant qu'on est en zoning */
+    color: #ff7a1a !important;
+}
+
+#log .message {
+    word-wrap: break-word;
+    width: 65%;
+}
+
+.badges {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+.badges:empty::before {
+    content: 'BADGES';
+    font-size: 0.6em;
+    opacity: 0.7;
+}
+
+.badge {
+    display: inline-block;
+    margin-right: 0.2em;
+    position: relative;
+    height: 1em;
+    vertical-align: middle;
+    top: -0.1em;
+}
+
+.name {
+    margin-left: 0.2em;
+}

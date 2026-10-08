@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe [zoning] - Timer</title>
+<link rel="stylesheet" href="../shared/zoning.css">
+<style>
+  /* Canvas de reference : 320x110 (taille exacte de la box).
+     Brouillon de placement uniquement : pas de theme visuel, ni de logique de
+     compte a rebours pour l'instant (voir overlay/secondary-frame/timer.html
+     pour le comportement fonctionnel a reprendre plus tard). */
+  body { width: 320px; height: 110px; position: relative; }
+
+  #timer-rect { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+  <div id="timer-rect"></div>
+
+<script src="../shared/zoning.js"></script>
+<script>
+  document.getElementById('timer-rect').appendChild(makeZone('TIMER\n320x110'));
+</script>
+</body>
+</html>

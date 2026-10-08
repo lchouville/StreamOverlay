@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe [zoning] - Box Alerte Nouveau follower</title>
+<link rel="stylesheet" href="../../shared/zoning.css">
+<style>
+  /* Canvas de reference : 350x80 (taille exacte de la box).
+     Brouillon de placement uniquement : pas de theme visuel, ni d'animation
+     pour l'instant (voir overlay/secondary-frame/alert/newfollower.html pour le
+     comportement fonctionnel a reprendre plus tard). */
+  body { width: 350px; height: 80px; position: relative; }
+
+  #alert-rect { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+  <div id="alert-rect"></div>
+
+<script src="../../shared/zoning.js"></script>
+<script>
+  document.getElementById('alert-rect').appendChild(makeZone('ALERTE Nouveau follower\n350x80'));
+</script>
+</body>
+</html>

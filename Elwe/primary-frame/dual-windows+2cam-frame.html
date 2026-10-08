@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe [zoning] - Primary Frame (dual ecran + 2 cams)</title>
+<link rel="stylesheet" href="../shared/zoning.css">
+<style>
+  /* Canvas de reference : 1920x1080. Meme dual view que dual-windows-frame.html
+     (2 fenetres 710x810 cote a cote), + la colonne cam de windows+cam-frame.html
+     (420 large, 1500-1920 / 120-360) coupee en 2 cams empilees avec une
+     goutiere de 20px, sans toucher au reste de la mise en page.
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. */
+  body { width: 1920px; height: 1080px; position: relative; }
+
+  #screen1-rect { position: absolute; left: 30px;   top: 195px; width: 710px; height: 810px; }
+  #screen2-rect { position: absolute; left: 760px;  top: 195px; width: 710px; height: 810px; }
+  #cam1-rect    { position: absolute; left: 1500px; top: 120px; width: 420px; height: 110px; }
+  #cam2-rect    { position: absolute; left: 1500px; top: 250px; width: 420px; height: 110px; }
+</style>
+</head>
+<body>
+  <div id="screen1-rect"></div>
+  <div id="screen2-rect"></div>
+  <div id="cam1-rect"></div>
+  <div id="cam2-rect"></div>
+
+<script src="../shared/zoning.js"></script>
+<script>
+  document.getElementById('screen1-rect').appendChild(makeZone('ECRAN 1\n710x810 @ (30,195)'));
+  document.getElementById('screen2-rect').appendChild(makeZone('ECRAN 2\n710x810 @ (760,195)'));
+  document.getElementById('cam1-rect').appendChild(makeZone('CAM 1\n420x110 @ (1500,120)'));
+  document.getElementById('cam2-rect').appendChild(makeZone('CAM 2\n420x110 @ (1500,250)'));
+</script>
+</body>
+</html>

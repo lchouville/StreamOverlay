@@ -1,0 +1,41 @@
+/* Feuille de style "zoning" : sert uniquement a visualiser le placement et les
+   dimensions des zones, en attendant que le theme visuel d'Elwe soit defini.
+   A remplacer par un vrai theme.css (comme overlay/shared/theme.css) une fois
+   le style choisi. */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: system-ui, sans-serif;
+}
+
+/* Le parent (le "slot") porte position:absolute + left/top/width/height ;
+   .zone se contente de remplir ce slot et de dessiner le cadre de reperage. */
+.zone {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #ff7a1a;
+  background: rgba(255, 122, 26, 0.10);
+}
+
+.zone-label {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  max-width: calc(100% - 12px);
+  background: #ff7a1a;
+  color: #1a1000;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  white-space: pre-line;
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe [zoning] - Primary Frame (sans cam)</title>
+<link rel="stylesheet" href="../shared/zoning.css">
+<style>
+  /* Canvas de reference : 1920x1080. Meme zone de jeu que game-frame.html,
+     variante sans cam : seule game-rect est definie ici.
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. */
+  body { width: 1920px; height: 1080px; position: relative; }
+
+  #game-rect { position: absolute; left: 30px; top: 195px; width: 1440px; height: 810px; }
+</style>
+</head>
+<body>
+  <div id="game-rect"></div>
+
+<script src="../shared/zoning.js"></script>
+<script>
+  document.getElementById('game-rect').appendChild(makeZone('GAME\n1440x810 @ (30,195)'));
+</script>
+</body>
+</html>

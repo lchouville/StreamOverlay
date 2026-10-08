@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe [zoning] - Primary Frame (1 ecran + 2 cams)</title>
+<link rel="stylesheet" href="../shared/zoning.css">
+<style>
+  /* Canvas de reference : 1920x1080. Meme zone jeu que windows+cam-frame.html
+     (1440x810 @ 30,195), mais colonne cam (420 large, 1500-1920 / 120-360)
+     coupee en 2 cams empilees avec une goutiere de 20px, sans toucher au
+     reste de la mise en page.
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. */
+  body { width: 1920px; height: 1080px; position: relative; }
+
+  #game-rect { position: absolute; left: 30px;   top: 195px; width: 1440px; height: 810px; }
+  #cam1-rect { position: absolute; left: 1500px; top: 120px; width: 420px;  height: 110px; }
+  #cam2-rect { position: absolute; left: 1500px; top: 250px; width: 420px;  height: 110px; }
+</style>
+</head>
+<body>
+  <div id="game-rect"></div>
+  <div id="cam1-rect"></div>
+  <div id="cam2-rect"></div>
+
+<script src="../shared/zoning.js"></script>
+<script>
+  document.getElementById('game-rect').appendChild(makeZone('GAME\n1440x810 @ (30,195)'));
+  document.getElementById('cam1-rect').appendChild(makeZone('CAM 1\n420x110 @ (1500,120)'));
+  document.getElementById('cam2-rect').appendChild(makeZone('CAM 2\n420x110 @ (1500,250)'));
+</script>
+</body>
+</html>

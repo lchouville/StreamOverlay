@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe [zoning] - Primary Frame (dual ecran)</title>
+<link rel="stylesheet" href="../shared/zoning.css">
+<style>
+  /* Canvas de reference : 1920x1080. Variante DUAL VIEW : la zone jeu de
+     windows-frame.html (1440x810 @ 30,195) est coupee en deux fenetres cote
+     a cote, avec une goutiere de 20px. Pas de cam ici (comme windows-frame.html).
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. */
+  body { width: 1920px; height: 1080px; position: relative; }
+
+  #screen1-rect { position: absolute; left: 30px;  top: 195px; width: 710px; height: 810px; }
+  #screen2-rect { position: absolute; left: 760px; top: 195px; width: 710px; height: 810px; }
+</style>
+</head>
+<body>
+  <div id="screen1-rect"></div>
+  <div id="screen2-rect"></div>
+
+<script src="../shared/zoning.js"></script>
+<script>
+  document.getElementById('screen1-rect').appendChild(makeZone('ECRAN 1\n710x810 @ (30,195)'));
+  document.getElementById('screen2-rect').appendChild(makeZone('ECRAN 2\n710x810 @ (760,195)'));
+</script>
+</body>
+</html>

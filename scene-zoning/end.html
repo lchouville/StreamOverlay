@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Scene [zoning] - Fin (Stream Ending)</title>
+<link rel="stylesheet" href="shared/scene.css">
+<!-- Canvas de reference : 1920x1080. Fond plein (Elwe/primary-frame/full-frame.html).
+     Scene de fin : pas de timer, rangee d'alertes en haut (4 max), chat a sa
+     place habituelle.
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. -->
+</head>
+<body>
+<script src="shared/scene.js"></script>
+<script>
+  zone('FOND PLEIN', 0, 0, 1920, 1080);
+  alertRow(0, 1920, 120);
+  zone('CHAT', 1500, 360, 420, 700);
+  sceneName('Fin (Stream Ending)');
+</script>
+</body>
+</html>

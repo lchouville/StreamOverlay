@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Scene [zoning] - 1 ecran + 2 cams</title>
+<link rel="stylesheet" href="shared/scene.css">
+<!-- Canvas de reference : 1920x1080.
+     Les 2 cams gardent le format de base 420x240 (2 points de vue sur le
+     meme ecran), empilees dans la colonne de droite avec 20px de goutiere :
+     le chat est donc raccourci a 420x420 @ (1500,640).
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. -->
+</head>
+<body>
+<script src="shared/scene.js"></script>
+<script>
+  zone('ECRAN', 30, 175, 1440, 810);
+  zone('CAM 1 (point de vue 1)', 1500, 120, 420, 240, 'pdv1');
+  zone('CAM 2 (point de vue 2)', 1500, 380, 420, 240, 'pdv2');
+  elements({ chat: [1500, 640, 420, 420] });
+  sceneName('1 ecran + 2 cams');
+</script>
+</body>
+</html>

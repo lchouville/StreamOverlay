@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Scene [zoning] - Pause</title>
+<link rel="stylesheet" href="shared/scene.css">
+<!-- Canvas de reference : 1920x1080. Fond plein (Elwe/primary-frame/full-frame.html).
+     Scene de pause : meme placement que start.html. Le timer est optionnel
+     (a afficher seulement si la pause a une duree definie).
+     Brouillon de placement uniquement : pas de theme visuel pour l'instant. -->
+</head>
+<body>
+<script src="shared/scene.js"></script>
+<script>
+  zone('FOND PLEIN', 0, 0, 1920, 1080);
+  zone('TIMER (optionnel)', 800, 485, 320, 110);
+  alertRow(0, 1920, 120);
+  zone('CHAT', 1500, 360, 420, 700);
+  sceneName('Pause');
+</script>
+</body>
+</html>
