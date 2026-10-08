@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : taches d'encre (flaques irregulieres + eclaboussures). 3840x2160 (16:9). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- bavure d'encre dans les fibres du papier : tremblement ample et irregulier sur le contour des flaques -->
+    <filter id="inkEdge" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.026" numOctaves="3" seed="42" result="turbInk"/>
+      <feDisplacementMap in="SourceGraphic" in2="turbInk" scale="22" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- tache d'encre : corps quasi opaque, qui ne s'estompe qu'au tout dernier bord (bavure) -->
+    <radialGradient id="inkBlot">
+      <stop offset="0%" stop-color="#1c1006" stop-opacity="0.8"/>
+      <stop offset="65%" stop-color="#1c1006" stop-opacity="0.76"/>
+      <stop offset="85%" stop-color="#1c1006" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#1c1006" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- flaques tres irregulieres (lobes profonds + doigts de bavure) + eclaboussures -->
+  <g filter="url(#inkEdge)" opacity="0.55">
+    <g transform="translate(400,1770) scale(1.5) translate(-400,-1770)">
+      <path d="M 230,1740 C 265,1680 330,1640 400,1635 C 450,1630 480,1660 510,1645
+               C 555,1625 585,1665 560,1705 C 605,1715 625,1760 595,1800
+               C 635,1820 610,1870 560,1885 C 520,1896 495,1865 460,1878
+               C 415,1895 370,1885 345,1850 C 300,1862 265,1835 270,1795
+               C 230,1800 205,1765 215,1730 C 219,1718 224,1726 230,1740 Z"
+            fill="url(#inkBlot)" opacity="0.8"/>
+      <path d="M 585,1810 C 602,1815 618,1832 622,1858 C 624,1872 614,1882 602,1874
+               C 590,1866 583,1844 582,1823 C 581,1816 581,1811 585,1810 Z" fill="url(#inkBlot)" opacity="0.65"/>
+      <path d="M 245,1700 C 231,1678 208,1650 214,1618 C 216,1604 229,1602 236,1615
+               C 248,1640 250,1672 251,1693 C 251,1699 248,1702 245,1700 Z" fill="url(#inkBlot)" opacity="0.6"/>
+      <circle cx="660" cy="1770" r="11" fill="#1c1006" opacity="0.5"/>
+      <circle cx="695" cy="1800" r="6" fill="#1c1006" opacity="0.38"/>
+      <circle cx="190" cy="1860" r="6" fill="#1c1006" opacity="0.35"/>
+      <circle cx="150" cy="1890" r="4" fill="#1c1006" opacity="0.28"/>
+    </g>
+
+    <g transform="translate(3270,300) scale(1.5) translate(-3270,-300)">
+      <path d="M 3150,290 C 3178,248 3225,218 3285,216 C 3330,214 3338,240 3368,232
+               C 3405,222 3425,260 3405,292 C 3435,302 3432,340 3395,352
+               C 3412,382 3380,406 3345,396 C 3315,412 3278,402 3258,378
+               C 3222,392 3188,370 3182,338 C 3148,345 3122,316 3130,286
+               C 3133,276 3140,282 3150,290 Z"
+            fill="url(#inkBlot)" opacity="0.65"/>
+      <path d="M 3400,300 C 3418,296 3438,308 3442,330 C 3444,344 3433,352 3422,344
+               C 3411,336 3405,314 3403,304 C 3402,300 3398,301 3400,300 Z" fill="url(#inkBlot)" opacity="0.5"/>
+      <circle cx="3460" cy="340" r="7" fill="#1c1006" opacity="0.38"/>
+      <circle cx="3110" cy="378" r="5" fill="#1c1006" opacity="0.3"/>
+    </g>
+
+    <!-- flaque centrale : beaucoup plus grande (scale 3.5) mais tres claire (opacite de groupe faible) -->
+    <g transform="translate(2550,1270) scale(3.5) translate(-2550,-1270)" opacity="0.28">
+      <path d="M 2445,1225 C 2468,1182 2515,1158 2570,1163 C 2608,1166 2620,1194 2648,1186
+               C 2672,1180 2690,1204 2676,1228 C 2706,1232 2718,1264 2694,1286
+               C 2712,1312 2692,1342 2660,1346 C 2630,1358 2594,1350 2572,1328
+               C 2538,1344 2496,1330 2478,1300 C 2444,1308 2416,1280 2424,1246
+               C 2427,1232 2436,1240 2445,1225 Z"
+            fill="url(#inkBlot)" opacity="0.75"/>
+      <path d="M 2672,1340 C 2692,1330 2716,1338 2724,1360 C 2730,1380 2716,1398 2694,1400
+               C 2672,1402 2654,1386 2655,1364 C 2656,1352 2663,1344 2672,1340 Z"
+            fill="url(#inkBlot)" opacity="0.6"/>
+      <path d="M 2420,1255 C 2404,1248 2385,1256 2382,1274 C 2380,1286 2390,1294 2400,1288
+               C 2410,1282 2418,1268 2421,1259 C 2422,1256 2422,1255 2420,1255 Z" fill="url(#inkBlot)" opacity="0.5"/>
+      <circle cx="2760" cy="1380" r="7" fill="#1c1006" opacity="0.4"/>
+      <circle cx="2400" cy="1190" r="4" fill="#1c1006" opacity="0.3"/>
+    </g>
+
+    <g transform="translate(860,215) scale(1.5) translate(-860,-215)">
+      <path d="M 795,198 C 812,170 848,158 875,172 C 896,160 916,176 910,198
+               C 930,202 934,228 912,242 C 918,262 894,276 873,266
+               C 852,280 826,270 818,248 C 792,252 776,230 784,208
+               C 786,201 790,203 795,198 Z"
+            fill="url(#inkBlot)" opacity="0.5"/>
+      <circle cx="945" cy="180" r="5" fill="#1c1006" opacity="0.3"/>
+      <circle cx="770" cy="260" r="4" fill="#1c1006" opacity="0.26"/>
+    </g>
+  </g>
+</svg>

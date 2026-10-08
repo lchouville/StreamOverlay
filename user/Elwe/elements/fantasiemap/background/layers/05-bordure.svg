@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : bords effiloches + vignette + bordure encre style scribe. 3840x2160 (16:9). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- trait "a main levee" : leger tremblement sur les lignes d'encre -->
+    <filter id="sketchy" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="2" seed="4" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- contour trace a la main, style scribe : tremblement lent et ample sur toute la longueur -->
+    <filter id="scribe" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.003 0.0045" numOctaves="3" seed="17" result="turbS"/>
+      <feDisplacementMap in="SourceGraphic" in2="turbS" scale="22" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="scribe2" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0025 0.0055" numOctaves="3" seed="29" result="turbS2"/>
+      <feDisplacementMap in="SourceGraphic" in2="turbS2" scale="18" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <radialGradient id="vignetteGrad" cx="50%" cy="46%" r="70%">
+      <stop offset="42%" stop-color="#3b2510" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#1a0f05" stop-opacity="0.78"/>
+    </radialGradient>
+  </defs>
+
+  <!-- bords effiloches/rongés, epaisseur variable -->
+  <g fill="#1c1006" filter="url(#sketchy)">
+    <rect x="0" y="0" width="3840" height="14" opacity="0.5"/>
+    <rect x="0" y="2146" width="3840" height="26" opacity="0.55"/>
+    <rect x="0" y="0" width="28" height="2160" opacity="0.55"/>
+    <rect x="3828" y="0" width="12" height="2160" opacity="0.45"/>
+  </g>
+
+  <!-- vignette + bordure encre, double passe tremblante style scribe -->
+  <rect width="3840" height="2160" fill="url(#vignetteGrad)"/>
+  <g fill="none" stroke="#4a3218" stroke-width="8" filter="url(#scribe)" opacity="0.75">
+    <rect x="80" y="80" width="3680" height="2000" rx="12"/>
+  </g>
+  <g fill="none" stroke="#3a2512" stroke-width="5" filter="url(#scribe2)" opacity="0.5">
+    <rect x="80" y="80" width="3680" height="2000" rx="12"/>
+  </g>
+  <g fill="none" stroke="#4a3218" stroke-width="4" filter="url(#scribe2)" opacity="0.7">
+    <rect x="124" y="124" width="3592" height="1912" rx="8"/>
+  </g>
+  <!-- marques de coin, quelques traits courts a la plume -->
+  <g stroke="#3a2512" stroke-width="4" opacity="0.4" filter="url(#sketchy)">
+    <line x1="80" y1="80" x2="136" y2="80"/>
+    <line x1="80" y1="80" x2="80" y2="136"/>
+    <line x1="3760" y1="2080" x2="3704" y2="2080"/>
+    <line x1="3760" y1="2080" x2="3760" y2="2024"/>
+  </g>
+</svg>

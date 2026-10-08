@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fond plein ecran (3840x2160, 16:9) : compose a partir des calques independants dans layers/. -->
+<!-- Un seul appel (ce fichier) reste reference depuis la scene (full-frame/Start.html) ; -->
+<!-- pour editer un calque, ouvrir le fichier correspondant dans layers/ ; -->
+<!-- pour le masquer/reordonner dans la composition, commenter/deplacer sa ligne <image> ci-dessous. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160"
+     preserveAspectRatio="xMidYMid slice">
+  <image href="layers/01-papier.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/02-taches.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/03-plis.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/04-coins.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/02_1_1-tour-horloge.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/05-bordure.svg" x="0" y="0" width="3840" height="2160"/>
+</svg>

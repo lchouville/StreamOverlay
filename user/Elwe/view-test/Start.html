@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe - Fond Plein (Start/Pause/Fin)</title>
+<style>
+  /* Canvas de reference : 1920x1080 affiche, mais le fond source est rendu en 3840x2160 (16:9)
+     puis redimensionne ici pour supersampler les filtres et limiter l'effet pixel. */
+  html, body { margin: 0; padding: 0; width: 1920px; height: 1080px; background: #000; overflow: hidden; }
+  iframe { width: 3840px; height: 2160px; border: 0; display: block; transform: scale(0.5); transform-origin: top left; }
+</style>
+</head>
+<body>
+  <iframe src="../elements/fantasiemap/background/ville-medievale-croquis.svg" title="Fond ville medievale"></iframe>
+</body>
+</html>
