@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Échoppe d'apothicaire avec petite enseigne suspendue à droite. -->
+<!-- 3840x2160 (16:9). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
+      <rect x="0" y="0" width="7" height="7" fill="#b5a481"/>
+      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
+    </pattern>
+    <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect x="0" y="0" width="8" height="8" fill="#6b4a2e"/>
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
+      <rect x="0" y="0" width="10" height="12" fill="#8c6b45"/>
+      <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
+      <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+    <pattern id="hatchAwning" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect x="0" y="0" width="20" height="40" fill="#8b4513"/>
+      <rect x="20" y="0" width="20" height="40" fill="#d4ba82"/>
+    </pattern>
+    <pattern id="hatchBarrel" patternUnits="userSpaceOnUse" width="6" height="6">
+      <rect x="0" y="0" width="6" height="6" fill="#6b4a2e"/>
+      <line x1="0" y1="3" x2="6" y2="3" stroke="#2a1a0a" stroke-width="1" opacity="0.7"/>
+    </pattern>
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- Plus grande / au premier plan (profondeur) : collee contre la tour, chevauchant son mur -->
+  <!-- gauche de ~100u (l'auberge se dessine apres la tour, donc son enseigne et ses details -->
+  <!-- restent entierement visibles par-dessus). Sol abaisse de 70u (vs tour) pour renforcer -->
+  <!-- l'effet premier plan plutot que meme niveau que la tour. -->
+  <g id="echoppe-apothicaire" transform="translate(1892,79.25) scale(0.6)">
+
+    <!-- STRUCTURE DE BASE -->
+    <rect x="850" y="1450" width="500" height="300" 
+          fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="6" 
+          filter="url(#sketchyHeavy)"/>
+    <polygon points="830,1450 1100,1200 1370,1450" 
+             fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="6" 
+             filter="url(#sketchyHeavy)"/>
+
+    <!-- DÉTAILS DU BÂTIMENT -->
+    <g stroke="#2a1a0a" stroke-width="2" filter="url(#sketchyMedium)">
+      <line x1="850" y1="1520" x2="1350" y2="1520"/>
+      <line x1="850" y1="1590" x2="1350" y2="1590"/>
+      <line x1="850" y1="1660" x2="1350" y2="1660"/>
+      <line x1="1000" y1="1450" x2="1000" y2="1520"/>
+      <line x1="1150" y1="1520" x2="1150" y2="1590"/>
+      <line x1="950" y1="1590" x2="950" y2="1660"/>
+      <line x1="1250" y1="1660" x2="1250" y2="1750"/>
+    </g>
+    <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
+      <line x1="880" y1="1400" x2="1320" y2="1400"/>
+      <line x1="920" y1="1350" x2="1280" y2="1350"/>
+      <line x1="960" y1="1300" x2="1240" y2="1300"/>
+      <line x1="1000" y1="1250" x2="1200" y2="1250"/>
+    </g>
+
+    <!-- OUVERTURES -->
+    <path d="M 1200,1750 L 1200,1600 Q 1200,1570 1250,1570 Q 1300,1570 1300,1600 L 1300,1750 Z" 
+          fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="5" 
+          filter="url(#sketchyHeavy)"/>
+    <circle cx="1220" cy="1660" r="6" fill="none" stroke="#1a0f05" stroke-width="2.5" filter="url(#sketchyMedium)"/>
+    <circle cx="1220" cy="1660" r="3" fill="#1a0f05"/>
+
+    <rect x="920" y="1550" width="180" height="120" 
+          fill="#1a0f05" stroke="#1a0f05" stroke-width="4" 
+          filter="url(#sketchyMedium)"/>
+    <path d="M 920,1550 L 880,1560 L 880,1670 L 920,1670 Z" 
+          fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
+    <path d="M 1100,1550 L 1140,1560 L 1140,1670 L 1100,1670 Z" 
+          fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
+    <line x1="910" y1="1670" x2="1110" y2="1670" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyMedium)"/>
+    
+    <g filter="url(#sketchyMedium)">
+      <rect x="940" y="1620" width="20" height="30" fill="#d4ba82" stroke="#1a0f05" stroke-width="2"/>
+      <rect x="970" y="1610" width="25" height="40" fill="#d4ba82" stroke="#1a0f05" stroke-width="2"/>
+      <rect x="1005" y="1625" width="18" height="25" fill="#d4ba82" stroke="#1a0f05" stroke-width="2"/>
+      <rect x="1035" y="1615" width="22" height="35" fill="#d4ba82" stroke="#1a0f05" stroke-width="2"/>
+      <rect x="1065" y="1620" width="20" height="30" fill="#d4ba82" stroke="#1a0f05" stroke-width="2"/>
+    </g>
+
+    <!-- AUVENT ET ÉTALAGE -->
+    <line x1="900" y1="1500" x2="900" y2="1750" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyMedium)"/>
+    <line x1="1150" y1="1500" x2="1150" y2="1750" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyMedium)"/>
+    <path d="M 850,1500 L 900,1450 L 1150,1450 L 1200,1500 Z" 
+          fill="url(#hatchAwning)" stroke="#1a0f05" stroke-width="4" 
+          filter="url(#sketchyMedium)"/>
+    <g stroke="#1a0f05" stroke-width="2" filter="url(#sketchyMedium)">
+      <line x1="860" y1="1500" x2="860" y2="1520"/>
+      <line x1="900" y1="1500" x2="900" y2="1520"/>
+      <line x1="940" y1="1500" x2="940" y2="1520"/>
+      <line x1="980" y1="1500" x2="980" y2="1520"/>
+      <line x1="1020" y1="1500" x2="1020" y2="1520"/>
+      <line x1="1060" y1="1500" x2="1060" y2="1520"/>
+      <line x1="1100" y1="1500" x2="1100" y2="1520"/>
+      <line x1="1140" y1="1500" x2="1140" y2="1520"/>
+      <line x1="1180" y1="1500" x2="1180" y2="1520"/>
+    </g>
+    <g stroke="#3a2a1a" stroke-width="2" filter="url(#sketchyMedium)">
+      <line x1="920" y1="1500" x2="920" y2="1540"/>
+      <line x1="980" y1="1500" x2="980" y2="1545"/>
+      <line x1="1040" y1="1500" x2="1040" y2="1540"/>
+      <line x1="1100" y1="1500" x2="1100" y2="1545"/>
+    </g>
+    <rect x="920" y="1680" width="200" height="15" 
+          fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="3" 
+          filter="url(#sketchyMedium)"/>
+    <line x1="940" y1="1695" x2="940" y2="1750" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
+    <line x1="1100" y1="1695" x2="1100" y2="1750" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
+    <g filter="url(#sketchyMedium)">
+      <path d="M 950,1680 Q 950,1650 970,1650 Q 990,1650 990,1680 Z" fill="#8b7355" stroke="#1a0f05" stroke-width="2.5"/>
+      <path d="M 1000,1680 Q 1000,1655 1015,1655 Q 1030,1655 1030,1680 Z" fill="#8b7355" stroke="#1a0f05" stroke-width="2.5"/>
+      <path d="M 1040,1680 Q 1040,1660 1055,1660 Q 1070,1660 1070,1680 Z" fill="#8b7355" stroke="#1a0f05" stroke-width="2.5"/>
+    </g>
+    <g filter="url(#sketchyMedium)">
+      <ellipse cx="1180" cy="1720" rx="25" ry="30" fill="url(#hatchBarrel)" stroke="#1a0f05" stroke-width="3"/>
+      <line x1="1155" y1="1700" x2="1205" y2="1700" stroke="#1a0f05" stroke-width="2"/>
+      <line x1="1155" y1="1740" x2="1205" y2="1740" stroke="#1a0f05" stroke-width="2"/>
+      <ellipse cx="1230" cy="1730" rx="20" ry="25" fill="url(#hatchBarrel)" stroke="#1a0f05" stroke-width="3"/>
+      <line x1="1210" y1="1715" x2="1250" y2="1715" stroke="#1a0f05" stroke-width="2"/>
+      <line x1="1210" y1="1745" x2="1250" y2="1745" stroke="#1a0f05" stroke-width="2"/>
+    </g>
+    <g filter="url(#sketchyMedium)">
+      <ellipse cx="1230" cy="1700" rx="15" ry="12" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
+      <circle cx="1230" cy="1685" r="10" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
+      <path d="M 1225,1680 L 1222,1670 L 1228,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+      <path d="M 1235,1680 L 1238,1670 L 1232,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+      <path d="M 1245,1700 Q 1260,1695 1255,1680" fill="none" stroke="#1a0f05" stroke-width="2.5"/>
+    </g>
+
+    <!-- PETITE ENSEIGNE SUSPENDUE À DROITE -->
+    <g id="petite-enseigne-droite" filter="url(#sketchyMedium)">
+      
+      <!-- Support en fer forgé (fixé au mur droit) -->
+      <path d="M 1350,1480 L 1350,1420 L 1420,1420" fill="none" stroke="#1a0f05" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Petite console décorative -->
+      <path d="M 1350,1450 Q 1370,1450 1370,1420" fill="none" stroke="#1a0f05" stroke-width="3" stroke-linecap="round"/>
+      <!-- Pointe décorative -->
+      <line x1="1420" y1="1420" x2="1425" y2="1415" stroke="#1a0f05" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- Chaînes de suspension -->
+      <line x1="1385" y1="1420" x2="1390" y2="1390" stroke="#1a0f05" stroke-width="2.5" stroke-dasharray="4,2"/>
+      <line x1="1415" y1="1420" x2="1410" y2="1390" stroke="#1a0f05" stroke-width="2.5" stroke-dasharray="4,2"/>
+      <!-- Anneaux -->
+      <circle cx="1390" cy="1390" r="3" fill="none" stroke="#1a0f05" stroke-width="2"/>
+      <circle cx="1410" cy="1390" r="3" fill="none" stroke="#1a0f05" stroke-width="2"/>
+
+      <!-- Planche (forme de bouclier, plus petite) -->
+      <path d="M 1370,1390 L 1430,1390 L 1430,1435 L 1400,1460 L 1370,1435 Z" 
+            fill="#d4ba82" stroke="#1a0f05" stroke-width="4" stroke-linejoin="round"/>
+      
+      <!-- Bordure intérieure -->
+      <path d="M 1375,1395 L 1425,1395 L 1425,1433 L 1400,1453 L 1375,1433 Z" 
+            fill="none" stroke="#3a2a1a" stroke-width="2" stroke-linejoin="round"/>
+
+      <!-- Veines du bois -->
+      <g stroke="#3a2a1a" stroke-width="1" fill="none">
+        <path d="M 1380,1400 Q 1390,1410 1380,1425"/>
+        <path d="M 1415,1400 Q 1410,1415 1415,1430"/>
+      </g>
+
+      <!-- Symbole : Mortier et Pilon (miniaturisé) -->
+      <g stroke="#1a0f05" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M 1385,1420 L 1388,1435 Q 1388,1442 1400,1442 Q 1412,1442 1412,1435 L 1415,1420 Z" fill="#8b7355"/>
+        <line x1="1390" y1="1425" x2="1405" y2="1410" stroke-width="3"/>
+        <circle cx="1406" cy="1409" r="2.5" fill="#1a0f05"/>
+        <path d="M 1393,1420 Q 1390,1412 1395,1408" stroke-width="1.5"/>
+        <path d="M 1398,1420 Q 1402,1412 1400,1406" stroke-width="1.5"/>
+      </g>
+
+      <!-- Petite lanterne sous l'enseigne -->
+      <line x1="1400" y1="1460" x2="1400" y2="1475" stroke="#1a0f05" stroke-width="2"/>
+      <polygon points="1393,1475 1407,1475 1410,1495 1390,1495" fill="#d4ba82" stroke="#1a0f05" stroke-width="2"/>
+      <polygon points="1390,1475 1400,1468 1410,1475" fill="#2a1a0a" stroke="#1a0f05" stroke-width="1.5"/>
+      <path d="M 1397,1485 Q 1400,1480 1403,1485 Q 1400,1490 1397,1485" fill="#8b4513"/>
+
+    </g>
+
+  </g>
+</svg>

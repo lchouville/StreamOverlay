@@ -9,6 +9,59 @@
   <image href="layers/02-taches.svg" x="0" y="0" width="3840" height="2160"/>
   <image href="layers/03-plis.svg" x="0" y="0" width="3840" height="2160"/>
   <image href="layers/04-coins.svg" x="0" y="0" width="3840" height="2160"/>
-  <image href="layers/02_1_1-tour-horloge.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/02-tour-horloge.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/02-taverne.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/02-auberge.svg" x="0" y="0" width="3840" height="2160"/>
+
+  <!-- Horloge vivante : aiguilles synchronisees sur l'heure reelle du navigateur. -->
+  <!-- Centre du cadran = centre original (2520,950) passe par la transform de la tour (translate(1522.5,140.75) scale(0.55)). -->
+  <!-- Aiguilles style "horloge de tour anglaise" (fer forge, silhouette en fleur-de-lis / losange, contrepoids a l'arriere) -->
+  <g id="horloge-live" transform="translate(2908.5,663.25)">
+    <g id="hand-hour" transform="rotate(0)">
+      <path d="M -3.1,0 L -1.6,-13.5 L -6,-15.1 L 0,-26 L 6,-15.1 L 1.6,-13.5 L 3.1,0 Z"
+            fill="#1a0f05" stroke="#0d0802" stroke-width="0.6"/>
+      <circle cx="0" cy="3.9" r="1.8" fill="#1a0f05" stroke="#0d0802" stroke-width="0.4"/>
+    </g>
+    <g id="hand-minute" transform="rotate(0)">
+      <path d="M -4.6,0 L -2.3,-19.8 L -8.7,-22 L 0,-38 L 8.7,-22 L 2.3,-19.8 L 4.6,0 Z"
+            fill="#1a0f05" stroke="#0d0802" stroke-width="0.6"/>
+      <circle cx="0" cy="5.7" r="2.7" fill="#1a0f05" stroke="#0d0802" stroke-width="0.4"/>
+    </g>
+    <g id="hand-second" transform="rotate(0)">
+      <line x1="0" y1="10" x2="0" y2="-40" stroke="#8b1a1a" stroke-width="1.1" stroke-linecap="round"/>
+      <circle cx="0" cy="10" r="2.2" fill="#8b1a1a"/>
+    </g>
+    <circle cx="0" cy="0" r="3.4" fill="#1a0f05" stroke="#0d0802" stroke-width="0.5"/>
+  </g>
+
   <image href="layers/05-bordure.svg" x="0" y="0" width="3840" height="2160"/>
+
+  <script><![CDATA[
+    (function () {
+      // Mouvement "a l'ancienne" : l'aiguille des secondes avance par a-coups
+      // (un tic par seconde), comme une horloge mecanique a echappement,
+      // plutot qu'un balayage continu de montre a quartz.
+      var hourHand = document.getElementById('hand-hour');
+      var minuteHand = document.getElementById('hand-minute');
+      var secondHand = document.getElementById('hand-second');
+
+      function update() {
+        var now = new Date();
+        var h = now.getHours() % 12;
+        var m = now.getMinutes();
+        var s = now.getSeconds();
+
+        var secAngle = s / 60 * 360;
+        var minAngle = (m + s / 60) / 60 * 360;
+        var hourAngle = (h + m / 60) / 12 * 360;
+
+        hourHand.setAttribute('transform', 'rotate(' + hourAngle + ')');
+        minuteHand.setAttribute('transform', 'rotate(' + minAngle + ')');
+        secondHand.setAttribute('transform', 'rotate(' + secAngle + ')');
+      }
+
+      update();
+      setInterval(update, 1000);
+    })();
+  ]]></script>
 </svg>

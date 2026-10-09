@@ -6,17 +6,20 @@
   <defs>
     <!-- Hachures verticales (texture pierre) -->
     <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
+      <rect x="0" y="0" width="7" height="7" fill="#b5a481"/>
       <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
     </pattern>
-    
+
     <!-- Hachures moyennes croisées -->
     <pattern id="hatchMedium" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(30)">
+      <rect x="0" y="0" width="7" height="7" fill="#b5a481"/>
       <line x1="0" y1="0" x2="0" y2="7" stroke="#3a2a1a" stroke-width="1.5" opacity="0.75"/>
       <line x1="0" y1="0" x2="7" y2="7" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
     </pattern>
-    
+
     <!-- Hachures horizontales pour le toit -->
     <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
+      <rect x="0" y="0" width="10" height="12" fill="#8c6b45"/>
       <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
       <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
       <line x1="5" y1="0" x2="5" y2="6" stroke="#2a1a0a" stroke-width="0.8" opacity="0.4"/>
@@ -24,11 +27,13 @@
 
     <!-- Hachures diagonales pour les corniches -->
     <pattern id="hatchLedge" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+      <rect x="0" y="0" width="6" height="6" fill="#b5a481"/>
       <line x1="0" y1="0" x2="0" y2="6" stroke="#3a2a1a" stroke-width="1.2" opacity="0.7"/>
     </pattern>
 
     <!-- Hachures pour le bois de la porte -->
     <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect x="0" y="0" width="8" height="8" fill="#6b4a2e"/>
       <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
       <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
     </pattern>
@@ -56,10 +61,10 @@
     <!-- Volume principal de la base -->
     <rect x="2050" y="1250" width="940" height="420" 
           fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="7" 
-          filter="url(#sketchyHeavy)" opacity="0.95"/>
+          filter="url(#sketchyHeavy)"/>
 
     <!-- Joints de pierre horizontaux -->
-    <g stroke="#2a1a0a" stroke-width="2.5" opacity="0.7" filter="url(#sketchyMedium)">
+    <g stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyMedium)">
       <line x1="2050" y1="1330" x2="2990" y2="1330"/>
       <line x1="2050" y1="1410" x2="2990" y2="1410"/>
       <line x1="2050" y1="1490" x2="2990" y2="1490"/>
@@ -70,17 +75,17 @@
     <!-- PORTE MÉDIÉVALE -->
     <path d="M 2380,1670 L 2380,1420 Q 2380,1340 2520,1340 Q 2660,1340 2660,1420 L 2660,1670 Z" 
           fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="6" 
-          filter="url(#sketchyHeavy)" opacity="0.9"/>
+          filter="url(#sketchyHeavy)"/>
     
     <path d="M 2360,1340 Q 2520,1300 2680,1340" 
           fill="none" stroke="#1a0f05" stroke-width="5" 
-          filter="url(#sketchyMedium)" opacity="0.85"/>
+          filter="url(#sketchyMedium)"/>
 
     <path d="M 2510,1330 L 2520,1310 L 2530,1330" 
           fill="none" stroke="#1a0f05" stroke-width="4" 
-          filter="url(#sketchyMedium)" opacity="0.9"/>
+          filter="url(#sketchyMedium)"/>
 
-    <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.85">
+    <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)">
       <line x1="2520" y1="1350" x2="2520" y2="1670"/>
       <line x1="2400" y1="1400" x2="2500" y2="1400"/>
       <line x1="2400" y1="1500" x2="2500" y2="1500"/>
@@ -90,11 +95,11 @@
       <line x1="2540" y1="1600" x2="2640" y2="1600"/>
     </g>
 
-    <circle cx="2510" cy="1520" r="8" fill="none" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
-    <circle cx="2530" cy="1520" r="8" fill="none" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
+    <circle cx="2510" cy="1520" r="8" fill="none" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
+    <circle cx="2530" cy="1520" r="8" fill="none" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
 
     <!-- Petites fenêtres latérales -->
-    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.95">
+    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
       <path d="M 2150,1420 L 2150,1500 Q 2150,1515 2170,1515 L 2190,1515 Q 2210,1515 2210,1500 L 2210,1420 Q 2210,1405 2180,1400 Q 2150,1405 2150,1420 Z"/>
       <path d="M 2830,1420 L 2830,1500 Q 2830,1515 2850,1515 L 2870,1515 Q 2890,1515 2890,1500 L 2890,1420 Q 2890,1405 2860,1400 Q 2830,1405 2830,1420 Z"/>
     </g>
@@ -102,9 +107,9 @@
     <!-- CRÉNEAUX (au sommet de la base) -->
     <rect x="2050" y="1200" width="940" height="50" 
           fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" 
-          filter="url(#sketchyHeavy)" opacity="0.95"/>
+          filter="url(#sketchyHeavy)"/>
 
-    <g fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.95">
+    <g fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
       <rect x="2070" y="1150" width="80" height="50"/>
       <rect x="2190" y="1150" width="80" height="50"/>
       <rect x="2310" y="1150" width="80" height="50"/>
@@ -115,7 +120,7 @@
       <rect x="2910" y="1150" width="80" height="50"/>
     </g>
 
-    <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+    <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
       <line x1="2110" y1="1155" x2="2110" y2="1195"/>
       <line x1="2230" y1="1155" x2="2230" y2="1195"/>
       <line x1="2350" y1="1155" x2="2350" y2="1195"/>
@@ -134,10 +139,10 @@
     <!-- Face principale - descend jusqu'à y=1250 -->
     <rect x="2320" y="700" width="400" height="550" 
           fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="6" 
-          filter="url(#sketchyHeavy)" opacity="0.95"/>
+          filter="url(#sketchyHeavy)"/>
 
     <!-- Joints de pierre horizontaux -->
-    <g stroke="#2a1a0a" stroke-width="2.5" opacity="0.65" filter="url(#sketchyMedium)">
+    <g stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyMedium)">
       <line x1="2320" y1="780" x2="2720" y2="780"/>
       <line x1="2320" y1="860" x2="2720" y2="860"/>
       <line x1="2320" y1="940" x2="2720" y2="940"/>
@@ -147,7 +152,7 @@
     </g>
     
     <!-- Joints verticaux -->
-    <g stroke="#2a1a0a" stroke-width="2.5" opacity="0.6" filter="url(#sketchyMedium)">
+    <g stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyMedium)">
       <line x1="2420" y1="700" x2="2420" y2="1250"/>
       <line x1="2520" y1="700" x2="2520" y2="1250"/>
       <line x1="2620" y1="700" x2="2620" y2="1250"/>
@@ -156,26 +161,26 @@
     <!-- EMPLACEMENT HORLOGE -->
     <circle cx="2520" cy="950" r="95" 
             fill="url(#hatchLedge)" stroke="#1a0f05" stroke-width="5" 
-            filter="url(#sketchyHeavy)" opacity="0.9"/>
+            filter="url(#sketchyHeavy)"/>
     <circle cx="2520" cy="950" r="80" 
             fill="#d4ba82" stroke="#1a0f05" stroke-width="3" 
-            filter="url(#sketchyMedium)" opacity="0.95"/>
-    <g stroke="#1a0f05" stroke-width="3" opacity="0.7" filter="url(#sketchyMedium)">
+            filter="url(#sketchyMedium)"/>
+    <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)">
       <line x1="2520" y1="875" x2="2520" y2="885"/>
       <line x1="2595" y1="950" x2="2585" y2="950"/>
       <line x1="2520" y1="1025" x2="2520" y2="1015"/>
       <line x1="2445" y1="950" x2="2455" y2="950"/>
     </g>
-    <circle cx="2520" cy="950" r="6" fill="#1a0f05" opacity="0.8"/>
+    <circle cx="2520" cy="950" r="6" fill="#1a0f05"/>
 
     <!-- Fenêtres gothiques - Niveau supérieur -->
-    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="3.5" filter="url(#sketchyMedium)" opacity="0.95">
+    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="3.5" filter="url(#sketchyMedium)">
       <path d="M 2370,750 L 2370,820 Q 2370,835 2390,835 L 2410,835 Q 2430,835 2430,820 L 2430,750 Q 2430,735 2400,730 Q 2370,735 2370,750 Z"/>
       <path d="M 2610,750 L 2610,820 Q 2610,835 2630,835 L 2650,835 Q 2670,835 2670,820 L 2670,750 Q 2670,735 2640,730 Q 2610,735 2610,750 Z"/>
     </g>
 
     <!-- Fenêtres gothiques - Niveau inférieur -->
-    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.95">
+    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
       <path d="M 2380,1070 L 2380,1150 Q 2380,1170 2410,1170 L 2430,1170 Q 2460,1170 2460,1150 L 2460,1070 Q 2460,1050 2420,1040 Q 2380,1050 2380,1070 Z"/>
       <path d="M 2580,1070 L 2580,1150 Q 2580,1170 2610,1170 L 2630,1170 Q 2660,1170 2660,1150 L 2660,1070 Q 2660,1050 2620,1040 Q 2580,1050 2580,1070 Z"/>
     </g>
@@ -187,9 +192,9 @@
   <g id="toit">
     <polygon points="2280,700 2380,470 2660,470 2760,700" 
              fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="6" 
-             filter="url(#sketchyHeavy)" opacity="0.95"/>
+             filter="url(#sketchyHeavy)"/>
 
-    <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+    <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
       <line x1="2300" y1="500" x2="2740" y2="500"/>
       <line x1="2320" y1="530" x2="2720" y2="530"/>
       <line x1="2340" y1="560" x2="2700" y2="560"/>
@@ -199,23 +204,23 @@
       <line x1="2420" y1="680" x2="2620" y2="680"/>
     </g>
 
-    <g fill="none" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.95">
+    <g fill="none" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)">
       <line x1="2280" y1="700" x2="2380" y2="470"/>
       <line x1="2760" y1="700" x2="2660" y2="470"/>
     </g>
 
     <line x1="2380" y1="470" x2="2660" y2="470" 
           stroke="#1a0f05" stroke-width="6" 
-          filter="url(#sketchyHeavy)" opacity="0.95"/>
+          filter="url(#sketchyHeavy)"/>
 
     <g filter="url(#sketchyMedium)">
       <rect x="2490" y="530" width="60" height="70" 
-            fill="#1a0f05" stroke="#1a0f05" stroke-width="3" opacity="0.9"/>
+            fill="#1a0f05" stroke="#1a0f05" stroke-width="3"/>
       <polygon points="2485,530 2520,500 2555,530" 
-               fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="3" opacity="0.95"/>
+               fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="3"/>
     </g>
 
-    <g stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.9">
+    <g stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
       <line x1="2380" y1="470" x2="2380" y2="440"/>
       <circle cx="2380" cy="435" r="5" fill="#2a1a0a"/>
       <line x1="2660" y1="470" x2="2660" y2="440"/>
@@ -224,7 +229,7 @@
     
     <rect x="2260" y="690" width="520" height="12"
           fill="url(#hatchLedge)" stroke="#1a0f05" stroke-width="3"
-          filter="url(#sketchyMedium)" opacity="0.9"/>
+          filter="url(#sketchyMedium)"/>
   </g>
 
   </g>

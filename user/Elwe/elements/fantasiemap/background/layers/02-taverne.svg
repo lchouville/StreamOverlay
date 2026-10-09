@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Maison 1 - Auberge à colombages avec enseigne de taverne à droite. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
+      <rect x="0" y="0" width="7" height="7" fill="#b5a481"/>
+      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
+    </pattern>
+    <pattern id="hatchTimber" patternUnits="userSpaceOnUse" width="12" height="12">
+      <rect x="0" y="0" width="12" height="12" fill="#d9c9a3"/>
+      <line x1="0" y1="0" x2="12" y2="12" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
+      <line x1="12" y1="0" x2="0" y2="12" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
+      <rect x="0" y="0" width="10" height="12" fill="#8c6b45"/>
+      <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
+      <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+    <pattern id="hatchWoodDoor" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect x="0" y="0" width="8" height="8" fill="#6b4a2e"/>
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- Plus petite / en retrait (profondeur) : groupee pres de la tour, a gauche de l'auberge, -->
+  <!-- sans chevaucher l'auberge (qui se dessine par-dessus) pour garder l'enseigne visible. -->
+  <g id="maison-1-colombages" transform="translate(2006.6,265) scale(0.42)">
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 1 : STRUCTURES DE BASE (murs, toits) -->
+    <!-- ======================================================= -->
+    
+    <!-- RDC Pierre -->
+    <rect x="320" y="1500" width="320" height="250" 
+          fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="6" 
+          filter="url(#sketchyHeavy)"/>
+    
+    <!-- Étage 1 -->
+    <rect x="300" y="1300" width="360" height="200" 
+          fill="url(#hatchTimber)" stroke="#1a0f05" stroke-width="5" 
+          filter="url(#sketchyHeavy)"/>
+    
+    <!-- Étage 2 -->
+    <rect x="280" y="1100" width="400" height="200" 
+          fill="url(#hatchTimber)" stroke="#1a0f05" stroke-width="5" 
+          filter="url(#sketchyHeavy)"/>
+    
+    <!-- Toit -->
+    <polygon points="260,1100 480,650 700,1100" 
+             fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="6" 
+             filter="url(#sketchyHeavy)"/>
+
+    <!-- Poutres de soutien (encorbellement) -->
+    <path d="M 320,1500 L 300,1500 L 300,1460 L 340,1460 L 340,1500" fill="#2a1a0a" filter="url(#sketchyMedium)"/>
+    <path d="M 640,1500 L 660,1500 L 660,1460 L 620,1460 L 620,1500" fill="#2a1a0a" filter="url(#sketchyMedium)"/>
+    <path d="M 300,1300 L 280,1300 L 280,1260 L 320,1260 L 320,1300" fill="#2a1a0a" filter="url(#sketchyMedium)"/>
+    <path d="M 660,1300 L 680,1300 L 680,1260 L 640,1260 L 640,1300" fill="#2a1a0a" filter="url(#sketchyMedium)"/>
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 2 : DÉTAILS DES MURS (joints, poutres) -->
+    <!-- ======================================================= -->
+    
+    <!-- Joints de pierre RDC -->
+    <g stroke="#2a1a0a" stroke-width="2" filter="url(#sketchyMedium)">
+      <line x1="320" y1="1580" x2="640" y2="1580"/>
+      <line x1="320" y1="1660" x2="640" y2="1660"/>
+      <line x1="480" y1="1500" x2="480" y2="1580"/>
+      <line x1="400" y1="1580" x2="400" y2="1660"/>
+      <line x1="560" y1="1580" x2="560" y2="1660"/>
+    </g>
+
+    <!-- Poutres colombages Étage 1 -->
+    <g fill="none" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
+      <rect x="300" y="1300" width="360" height="200"/>
+      <line x1="300" y1="1300" x2="400" y2="1500"/>
+      <line x1="400" y1="1300" x2="300" y2="1500"/>
+      <line x1="560" y1="1300" x2="660" y2="1500"/>
+      <line x1="660" y1="1300" x2="560" y2="1500"/>
+      <line x1="480" y1="1300" x2="480" y2="1500"/>
+      <line x1="300" y1="1400" x2="660" y2="1400"/>
+    </g>
+
+    <!-- Poutres colombages Étage 2 -->
+    <g fill="none" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
+      <rect x="280" y="1100" width="400" height="200"/>
+      <line x1="280" y1="1100" x2="380" y2="1300"/>
+      <line x1="380" y1="1100" x2="280" y2="1300"/>
+      <line x1="580" y1="1100" x2="680" y2="1300"/>
+      <line x1="680" y1="1100" x2="580" y2="1300"/>
+      <line x1="480" y1="1100" x2="480" y2="1300"/>
+      <line x1="280" y1="1200" x2="680" y2="1200"/>
+    </g>
+
+    <!-- Lignes de toit -->
+    <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
+      <line x1="310" y1="1000" x2="650" y2="1000"/>
+      <line x1="340" y1="900" x2="620" y2="900"/>
+      <line x1="370" y1="800" x2="590" y2="800"/>
+      <line x1="400" y1="700" x2="560" y2="700"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 3 : OUVERTURES (AU-DESSUS de tout) -->
+    <!-- ======================================================= -->
+    
+    <!-- PORTE RDC -->
+    <path d="M 430,1750 L 430,1620 Q 430,1590 480,1590 Q 530,1590 530,1620 L 530,1750 Z" 
+          fill="url(#hatchWoodDoor)" stroke="#1a0f05" stroke-width="5" 
+          filter="url(#sketchyHeavy)"/>
+    <circle cx="450" cy="1680" r="4" fill="#1a0f05"/>
+    <circle cx="510" cy="1680" r="4" fill="#1a0f05"/>
+    <circle cx="465" cy="1680" r="6" fill="none" stroke="#1a0f05" stroke-width="2.5" filter="url(#sketchyMedium)"/>
+
+    <!-- FENÊTRE Étage 1 -->
+    <g filter="url(#sketchyMedium)">
+      <rect x="350" y="1340" width="70" height="90" fill="#1a0f05"/>
+      <path d="M 350,1340 L 320,1350 L 320,1430 L 350,1430 Z" fill="url(#hatchWoodDoor)" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 420,1340 L 450,1350 L 450,1430 L 420,1430 Z" fill="url(#hatchWoodDoor)" stroke="#1a0f05" stroke-width="3"/>
+      <line x1="340" y1="1430" x2="430" y2="1430" stroke="#1a0f05" stroke-width="4"/>
+      <path d="M 360,1430 L 365,1415 L 385,1415 L 390,1430 Z" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
+      <circle cx="375" cy="1412" r="8" fill="#5a4030" stroke="#1a0f05" stroke-width="1.5"/>
+    </g>
+
+    <!-- FENÊTRE Étage 2 -->
+    <rect x="530" y="1150" width="60" height="80" fill="#1a0f05" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
+    <line x1="560" y1="1150" x2="560" y2="1230" stroke="#d4ba82" stroke-width="2"/>
+    <line x1="530" y1="1190" x2="590" y2="1190" stroke="#d4ba82" stroke-width="2"/>
+
+    <!-- LUCARNE dans le toit -->
+    <g filter="url(#sketchyMedium)">
+      <polygon points="450,850 480,780 510,850" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="3"/>
+      <rect x="460" y="850" width="40" height="50" fill="#1a0f05" stroke="#1a0f05" stroke-width="3"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 4 : ENSEIGNE DE TAVERNE SUSPENDUE (À droite) -->
+    <!-- ======================================================= -->
+    <g id="enseigne-taverne-droite" filter="url(#sketchyMedium)">
+      
+      <!-- 1. Support en fer forgé (fixé au mur droit de l'étage 1) -->
+      <path d="M 680,1280 L 680,1230 L 760,1230" fill="none" stroke="#1a0f05" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Petite console décorative -->
+      <path d="M 680,1260 Q 710,1260 710,1230" fill="none" stroke="#1a0f05" stroke-width="3" stroke-linecap="round"/>
+      <!-- Pointe décorative -->
+      <line x1="760" y1="1230" x2="765" y2="1225" stroke="#1a0f05" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- 2. Chaînes de suspension -->
+      <line x1="715" y1="1230" x2="720" y2="1200" stroke="#1a0f05" stroke-width="2.5" stroke-dasharray="4,2"/>
+      <line x1="755" y1="1230" x2="750" y2="1200" stroke="#1a0f05" stroke-width="2.5" stroke-dasharray="4,2"/>
+      <!-- Anneaux -->
+      <circle cx="720" cy="1200" r="3" fill="none" stroke="#1a0f05" stroke-width="2"/>
+      <circle cx="750" cy="1200" r="3" fill="none" stroke="#1a0f05" stroke-width="2"/>
+
+      <!-- 3. La Planche (forme d'écusson, taille réduite) -->
+      <path d="M 700,1200 L 770,1200 L 770,1250 L 735,1280 L 700,1250 Z" 
+            fill="#d4ba82" stroke="#1a0f05" stroke-width="4" stroke-linejoin="round"/>
+      
+      <!-- Bordure intérieure sculptée -->
+      <path d="M 706,1206 L 764,1206 L 764,1248 L 735,1272 L 706,1248 Z" 
+            fill="none" stroke="#3a2a1a" stroke-width="2" stroke-linejoin="round"/>
+
+      <!-- Veines du bois -->
+      <g stroke="#3a2a1a" stroke-width="1" fill="none">
+        <path d="M 715,1215 Q 725,1225 715,1240"/>
+        <path d="M 750,1215 Q 740,1230 750,1245"/>
+      </g>
+
+      <!-- 4. Le Symbole : Chope de bière avec mousse -->
+      <g stroke="#1a0f05" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <!-- Corps de la chope -->
+        <path d="M 720,1225 L 720,1245 Q 720,1252 735,1252 Q 750,1252 750,1245 L 750,1225 Z" fill="#8b7355"/>
+        <!-- Anse de la chope -->
+        <path d="M 750,1230 Q 760,1230 760,1240 Q 760,1250 750,1250" stroke-width="2"/>
+        <!-- Mousse qui déborde -->
+        <path d="M 720,1225 Q 725,1218 730,1225 Q 735,1218 740,1225 Q 745,1218 750,1225" stroke-width="2"/>
+      </g>
+
+      <!-- 5. Petite lanterne suspendue sous la pointe -->
+      <line x1="735" y1="1280" x2="735" y2="1295" stroke="#1a0f05" stroke-width="2"/>
+      <!-- Corps de la lanterne -->
+      <polygon points="727,1295 743,1295 745,1315 725,1315" fill="#d4ba82" stroke="#1a0f05" stroke-width="2"/>
+      <!-- Toit de la lanterne -->
+      <polygon points="725,1295 735,1288 745,1295" fill="#2a1a0a" stroke="#1a0f05" stroke-width="1.5"/>
+      <!-- Flamme -->
+      <path d="M 732,1305 Q 735,1300 738,1305 Q 735,1310 732,1305" fill="#8b4513"/>
+
+    </g>
+
+  </g>
+</svg>

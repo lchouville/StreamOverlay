@@ -1,0 +1,159 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- Hachures pierre -->
+    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
+      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
+    </pattern>
+    
+    <!-- Hachures colombages -->
+    <pattern id="hatchTimber" patternUnits="userSpaceOnUse" width="12" height="12">
+      <line x1="0" y1="0" x2="12" y2="12" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
+      <line x1="12" y1="0" x2="0" y2="12" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+
+    <!-- Hachures toit -->
+    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
+      <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
+      <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+
+    <!-- Hachures bois -->
+    <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+
+    <!-- Filtres -->
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- ======================================================= -->
+  <!-- MAISON 1 : Haute et étroite (gauche extrême) -->
+  <!-- ======================================================= -->
+  <g id="ruelle-maison-1" transform="translate(100, 1400)">
+    <!-- Fond uni parchemin (pour opacité) -->
+    <rect x="0" y="0" width="180" height="350" fill="#d4ba82" opacity="1"/>
+    <!-- Hachures pierre -->
+    <rect x="0" y="0" width="180" height="350" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Toit -->
+    <polygon points="-10,0 90,-180 190,0" fill="#d4ba82" opacity="1"/>
+    <polygon points="-10,0 90,-180 190,0" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Joints pierre -->
+    <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+      <line x1="0" y1="70" x2="180" y2="70"/>
+      <line x1="0" y1="140" x2="180" y2="140"/>
+      <line x1="0" y1="210" x2="180" y2="210"/>
+      <line x1="0" y1="280" x2="180" y2="280"/>
+    </g>
+    
+    <!-- Porte -->
+    <path d="M 60,350 L 60,260 Q 60,240 90,240 Q 120,240 120,260 L 120,350 Z" 
+          fill="#8b7355" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyHeavy)" opacity="0.95"/>
+    
+    <!-- Fenêtre haute -->
+    <rect x="70" y="50" width="40" height="60" fill="#1a0f05" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
+  </g>
+
+  <!-- ======================================================= -->
+  <!-- MAISON 2 : Moyenne avec colombages -->
+  <!-- ======================================================= -->
+  <g id="ruelle-maison-2" transform="translate(290, 1500)">
+    <!-- RDC pierre -->
+    <rect x="0" y="0" width="200" height="150" fill="#d4ba82" opacity="1"/>
+    <rect x="0" y="0" width="200" height="150" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Étage colombages -->
+    <rect x="-10" y="-150" width="220" height="150" fill="#d4ba82" opacity="1"/>
+    <rect x="-10" y="-150" width="220" height="150" fill="url(#hatchTimber)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Poutres colombages -->
+    <g fill="none" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
+      <line x1="100" y1="-150" x2="100" y2="0"/>
+      <line x1="-10" y1="-75" x2="210" y2="-75"/>
+      <line x1="-10" y1="-150" x2="100" y2="0"/>
+      <line x1="210" y1="-150" x2="100" y2="0"/>
+    </g>
+    
+    <!-- Toit -->
+    <polygon points="-20,-150 100,-300 220,-150" fill="#d4ba82" opacity="1"/>
+    <polygon points="-20,-150 100,-300 220,-150" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Porte -->
+    <path d="M 70,150 L 70,80 Q 70,60 100,60 Q 130,60 130,80 L 130,150 Z" 
+          fill="#8b7355" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyHeavy)" opacity="0.95"/>
+    
+    <!-- Fenêtre -->
+    <rect x="30" y="-100" width="50" height="70" fill="#1a0f05" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
+  </g>
+
+  <!-- ======================================================= -->
+  <!-- MAISON 3 : Basse et large -->
+  <!-- ======================================================= -->
+  <g id="ruelle-maison-3" transform="translate(520, 1550)">
+    <!-- Mur -->
+    <rect x="0" y="0" width="240" height="200" fill="#d4ba82" opacity="1"/>
+    <rect x="0" y="0" width="240" height="200" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Toit plat avec parapet -->
+    <rect x="-10" y="-30" width="260" height="30" fill="#d4ba82" opacity="1"/>
+    <rect x="-10" y="-30" width="260" height="30" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Créneaux -->
+    <g fill="#d4ba82" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
+      <rect x="0" y="-50" width="30" height="20"/>
+      <rect x="50" y="-50" width="30" height="20"/>
+      <rect x="100" y="-50" width="30" height="20"/>
+      <rect x="150" y="-50" width="30" height="20"/>
+      <rect x="200" y="-50" width="30" height="20"/>
+    </g>
+    
+    <!-- Grande porte cochère -->
+    <path d="M 60,200 L 60,100 Q 60,70 120,70 Q 180,70 180,100 L 180,200 Z" 
+          fill="#8b7355" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.95"/>
+    
+    <!-- Fenêtre -->
+    <rect x="30" y="50" width="60" height="80" fill="#1a0f05" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
+  </g>
+
+  <!-- ======================================================= -->
+  <!-- MAISON 4 : Très haute (4 étages) -->
+  <!-- ======================================================= -->
+  <g id="ruelle-maison-4" transform="translate(790, 1350)">
+    <!-- Mur -->
+    <rect x="0" y="0" width="160" height="400" fill="#d4ba82" opacity="1"/>
+    <rect x="0" y="0" width="160" height="400" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Toit très pentu -->
+    <polygon points="-10,0 80,-250 170,0" fill="#d4ba82" opacity="1"/>
+    <polygon points="-10,0 80,-250 170,0" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Joints -->
+    <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+      <line x1="0" y1="100" x2="160" y2="100"/>
+      <line x1="0" y1="200" x2="160" y2="200"/>
+      <line x1="0" y1="300" x2="160" y2="300"/>
+    </g>
+    
+    <!-- Porte -->
+    <path d="M 50,400 L 50,320 Q 50,300 80,300 Q 110,300 110,320 L 110,400 Z" 
+          fill="#8b7355" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyHeavy)" opacity="0.95"/>
+    
+    <!-- Fenêtres étagées -->
+    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
+      <rect x="50" y="50" width="60" height="70"/>
+      <rect x="50" y="150" width="60" height="70"/>
+      <rect x="50" y="250" width="60" height="70"/>
+    </g>
+  </g>
+
+</svg>

@@ -43,6 +43,18 @@
   <g fill="none" stroke="#4a3218" stroke-width="4" filter="url(#scribe2)" opacity="0.7">
     <rect x="124" y="124" width="3592" height="1912" rx="8"/>
   </g>
+  <!-- Arc separateur (double ligne, style cartouche) : portion d'un cercle dont le centre est -->
+  <!-- hors cadre au-dela du coin haut-droit (4228,-2046), pour que l'arc decoupe ce coin -->
+  <!-- (vue du dessus) du reste de la scene (vue de face). Trace en <path> (pas <circle>) car un -->
+  <!-- cercle entier avec un centre tres loin hors-canvas ne s'affiche pas correctement une fois -->
+  <!-- rasterise via <image> (bbox de filtre demesuree) ; le <path> ne couvre que l'arc visible. -->
+  <g fill="none" stroke="#4a3218" stroke-width="7" filter="url(#scribe)" opacity="0.75">
+    <path d="M 900,124 A 4200,4200 0 0,0 3716,1500"/>
+  </g>
+  <g fill="none" stroke="#3a2512" stroke-width="5" filter="url(#scribe2)" opacity="0.6" transform="translate(-12,12)">
+    <path d="M 900,124 A 4200,4200 0 0,0 3716,1500"/>
+  </g>
+
   <!-- marques de coin, quelques traits courts a la plume -->
   <g stroke="#3a2512" stroke-width="4" opacity="0.4" filter="url(#sketchy)">
     <line x1="80" y1="80" x2="136" y2="80"/>
