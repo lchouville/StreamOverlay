@@ -1,285 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Calque : tour horloge style croquis détaillé avec hachures (style Dinan). -->
-<!-- Perspective à 2 points de fuite. 3840x2160 (16:9). -->
+<!-- Calque : tour horloge style croquis médiéval, vue de face. -->
+<!-- Tour ancrée dans la base, créneaux au sommet de la base. -->
+<!-- 3840x2160 (16:9). -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
   <defs>
-    <!-- ======================================================= -->
-    <!-- MOTIFS DE HACHURES (cross-hatching) -->
-    <!-- ======================================================= -->
-    
-    <!-- Hachures verticales pour le volume cylindrique -->
-    <pattern id="hatchCylinder" patternUnits="userSpaceOnUse" width="10" height="10">
-      <line x1="5" y1="0" x2="5" y2="10" stroke="#4a3d30" stroke-width="1.2" opacity="0.6"/>
+    <!-- Hachures verticales (texture pierre) -->
+    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
+      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
     </pattern>
     
-    <!-- Hachures denses pour les ombres profondes (intérieur arcade, toit droit) -->
-    <pattern id="hatchDeepShadow" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">
-      <line x1="0" y1="0" x2="0" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.85"/>
-      <line x1="0" y1="0" x2="4" y2="4" stroke="#2a1a0a" stroke-width="1" opacity="0.6"/>
-    </pattern>
-
-    <!-- Hachures légères (45°) pour les zones éclairées -->
-    <pattern id="hatchLight" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
-      <line x1="0" y1="0" x2="0" y2="8" stroke="#5a4d40" stroke-width="1" opacity="0.4"/>
+    <!-- Hachures moyennes croisées -->
+    <pattern id="hatchMedium" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(30)">
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#3a2a1a" stroke-width="1.5" opacity="0.75"/>
+      <line x1="0" y1="0" x2="7" y2="7" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
     </pattern>
     
-    <!-- Hachures moyennes pour les volumes standards -->
-    <pattern id="hatchMedium" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
-      <line x1="0" y1="0" x2="0" y2="6" stroke="#4a3d30" stroke-width="1.2" opacity="0.6"/>
-    </pattern>
-    
-    <!-- Hachures serrées (croisées) pour les ombres -->
-    <pattern id="hatchDense" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
-      <line x1="0" y1="0" x2="0" y2="5" stroke="#3a2a1a" stroke-width="1.5" opacity="0.7"/>
-      <line x1="0" y1="0" x2="5" y2="5" stroke="#3a2a1a" stroke-width="1" opacity="0.4"/>
-    </pattern>
-    
-    <!-- Hachures horizontales pour simuler l'ardoise du toit -->
-    <pattern id="hatchHorizontal" patternUnits="userSpaceOnUse" width="6" height="6">
-      <line x1="0" y1="0" x2="6" y2="0" stroke="#4a3d30" stroke-width="1" opacity="0.5"/>
+    <!-- Hachures horizontales pour le toit -->
+    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
+      <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
+      <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
+      <line x1="5" y1="0" x2="5" y2="6" stroke="#2a1a0a" stroke-width="0.8" opacity="0.4"/>
     </pattern>
 
-    <!-- ======================================================= -->
-    <!-- FILTRES DE STYLE CROQUIS -->
-    <!-- ======================================================= -->
-    
-    <!-- Tremblement fort pour les contours principaux -->
-    <filter id="sketchyBold" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.02 0.03" numOctaves="3" seed="31" result="turb"/>
-      <feDisplacementMap in="SourceGraphic" in2="turb" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    <!-- Hachures diagonales pour les corniches -->
+    <pattern id="hatchLedge" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#3a2a1a" stroke-width="1.2" opacity="0.7"/>
+    </pattern>
+
+    <!-- Hachures pour le bois de la porte -->
+    <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+
+    <!-- Filtres -->
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
     
-    <!-- Tremblement léger pour les détails et hachures -->
-    <filter id="sketchyFine" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="2" seed="23" result="turb"/>
-      <feDisplacementMap in="SourceGraphic" in2="turb" scale="2" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    
-    <!-- Flou très léger pour adoucir les hachures -->
-    <filter id="softHatch" x="-5%" y="-5%" width="110%" height="110%">
-      <feGaussianBlur stdDeviation="0.3"/>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
   </defs>
 
+  <!-- Tour réduite et déplacée en haut à droite -->
+  <g id="tour-horloge" transform="translate(1522.5,140.75) scale(0.55)">
+
   <!-- ======================================================= -->
-  <!-- 1. BASE CYLINDRIQUE EN ENCORBELLEMENT -->
+  <!-- 1. BASE RECTANGULAIRE -->
   <!-- ======================================================= -->
-  <g id="base-cylindrique">
+  <g id="base-rectangulaire">
     
-    <!-- Volume principal du cylindre -->
-    <path d="M 2100,1290 
-             Q 2520,1310 2940,1290 
-             L 2940,1650 
-             Q 2520,1680 2100,1650 Z" 
-          fill="url(#hatchCylinder)" stroke="#2a1a0a" stroke-width="4" 
-          filter="url(#sketchyBold)" opacity="0.9"/>
+    <!-- Volume principal de la base -->
+    <rect x="2050" y="1250" width="940" height="420" 
+          fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="7" 
+          filter="url(#sketchyHeavy)" opacity="0.95"/>
 
-    <!-- Ombre portée sur le cylindre (Côté droit) -->
-    <path d="M 2700,1295 
-             L 2940,1290 
-             L 2940,1650 
-             Q 2820,1665 2700,1655 Z" 
-          fill="url(#hatchDeepShadow)" opacity="0.6" filter="url(#sketchyFine)"/>
-
-    <!-- Grande arcade centrale (Le passage) -->
-    <path d="M 2380,1650 
-             L 2380,1480 
-             Q 2380,1370 2520,1370 
-             Q 2660,1370 2660,1480 
-             L 2660,1650 Z" 
-          fill="url(#hatchDeepShadow)" stroke="#2a1a0a" stroke-width="4" 
-          filter="url(#sketchyBold)" opacity="0.95"/>
-    
-    <!-- Détail intérieur de l'arcade (profondeur) -->
-    <path d="M 2390,1640 
-             L 2390,1490 
-             Q 2390,1390 2520,1390 
-             Q 2650,1390 2650,1490 
-             L 2650,1640" 
-          fill="none" stroke="#1a0f05" stroke-width="2" 
-          filter="url(#sketchyFine)" opacity="0.8"/>
-
-    <!-- Clé de voûte de l'arcade -->
-    <path d="M 2510,1375 L 2520,1360 L 2530,1375" 
-          fill="none" stroke="#2a1a0a" stroke-width="3" 
-          filter="url(#sketchyFine)" opacity="0.8"/>
-
-    <!-- Mâchicoulis / Corbeaux (Sous la corniche) -->
-    <g fill="url(#hatchCylinder)" stroke="#2a1a0a" stroke-width="2" filter="url(#sketchyFine)" opacity="0.85">
-      <rect x="2130" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2170" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2210" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2250" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2290" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2330" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2670" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2710" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2750" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2790" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2830" y="1290" width="20" height="35" rx="2"/>
-      <rect x="2870" y="1290" width="20" height="35" rx="2"/>
+    <!-- Joints de pierre horizontaux -->
+    <g stroke="#2a1a0a" stroke-width="2.5" opacity="0.7" filter="url(#sketchyMedium)">
+      <line x1="2050" y1="1330" x2="2990" y2="1330"/>
+      <line x1="2050" y1="1410" x2="2990" y2="1410"/>
+      <line x1="2050" y1="1490" x2="2990" y2="1490"/>
+      <line x1="2050" y1="1570" x2="2990" y2="1570"/>
+      <line x1="2050" y1="1640" x2="2990" y2="1640"/>
     </g>
 
-    <!-- Corniche supérieure de la base -->
-    <path d="M 2080,1290 Q 2520,1315 2960,1290" 
-          fill="none" stroke="#2a1a0a" stroke-width="5" 
-          filter="url(#sketchyBold)" opacity="0.9"/>
-    <path d="M 2080,1302 Q 2520,1327 2960,1302" 
-          fill="none" stroke="#3a2512" stroke-width="2" 
-          filter="url(#sketchyFine)" opacity="0.6"/>
+    <!-- PORTE MÉDIÉVALE -->
+    <path d="M 2380,1670 L 2380,1420 Q 2380,1340 2520,1340 Q 2660,1340 2660,1420 L 2660,1670 Z" 
+          fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="6" 
+          filter="url(#sketchyHeavy)" opacity="0.9"/>
+    
+    <path d="M 2360,1340 Q 2520,1300 2680,1340" 
+          fill="none" stroke="#1a0f05" stroke-width="5" 
+          filter="url(#sketchyMedium)" opacity="0.85"/>
+
+    <path d="M 2510,1330 L 2520,1310 L 2530,1330" 
+          fill="none" stroke="#1a0f05" stroke-width="4" 
+          filter="url(#sketchyMedium)" opacity="0.9"/>
+
+    <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.85">
+      <line x1="2520" y1="1350" x2="2520" y2="1670"/>
+      <line x1="2400" y1="1400" x2="2500" y2="1400"/>
+      <line x1="2400" y1="1500" x2="2500" y2="1500"/>
+      <line x1="2400" y1="1600" x2="2500" y2="1600"/>
+      <line x1="2540" y1="1400" x2="2640" y2="1400"/>
+      <line x1="2540" y1="1500" x2="2640" y2="1500"/>
+      <line x1="2540" y1="1600" x2="2640" y2="1600"/>
+    </g>
+
+    <circle cx="2510" cy="1520" r="8" fill="none" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
+    <circle cx="2530" cy="1520" r="8" fill="none" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
 
     <!-- Petites fenêtres latérales -->
-    <g fill="url(#hatchDeepShadow)" stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyFine)" opacity="0.9">
-      <path d="M 2190,1430 L 2190,1490 Q 2190,1500 2205,1500 L 2215,1500 Q 2230,1500 2230,1490 L 2230,1430 Q 2230,1420 2210,1415 Q 2190,1420 2190,1430 Z"/>
-      <path d="M 2810,1430 L 2810,1490 Q 2810,1500 2825,1500 L 2835,1500 Q 2850,1500 2850,1490 L 2850,1430 Q 2850,1420 2830,1415 Q 2810,1420 2810,1430 Z"/>
+    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.95">
+      <path d="M 2150,1420 L 2150,1500 Q 2150,1515 2170,1515 L 2190,1515 Q 2210,1515 2210,1500 L 2210,1420 Q 2210,1405 2180,1400 Q 2150,1405 2150,1420 Z"/>
+      <path d="M 2830,1420 L 2830,1500 Q 2830,1515 2850,1515 L 2870,1515 Q 2890,1515 2890,1500 L 2890,1420 Q 2890,1405 2860,1400 Q 2830,1405 2830,1420 Z"/>
     </g>
 
-    <!-- Joints de pierre (Appareillage) -->
-    <g stroke="#4a3d30" stroke-width="1.5" opacity="0.4" filter="url(#sketchyFine)">
-      <path d="M 2120,1360 Q 2520,1380 2920,1360"/>
-      <path d="M 2110,1420 Q 2520,1440 2930,1420"/>
-      <path d="M 2105,1480 Q 2520,1500 2935,1480"/>
-      <path d="M 2100,1540 Q 2520,1560 2940,1540"/>
-      <path d="M 2100,1600 Q 2520,1620 2940,1600"/>
+    <!-- CRÉNEAUX (au sommet de la base) -->
+    <rect x="2050" y="1200" width="940" height="50" 
+          fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" 
+          filter="url(#sketchyHeavy)" opacity="0.95"/>
+
+    <g fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.95">
+      <rect x="2070" y="1150" width="80" height="50"/>
+      <rect x="2190" y="1150" width="80" height="50"/>
+      <rect x="2310" y="1150" width="80" height="50"/>
+      <rect x="2430" y="1150" width="80" height="50"/>
+      <rect x="2550" y="1150" width="80" height="50"/>
+      <rect x="2670" y="1150" width="80" height="50"/>
+      <rect x="2790" y="1150" width="80" height="50"/>
+      <rect x="2910" y="1150" width="80" height="50"/>
+    </g>
+
+    <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+      <line x1="2110" y1="1155" x2="2110" y2="1195"/>
+      <line x1="2230" y1="1155" x2="2230" y2="1195"/>
+      <line x1="2350" y1="1155" x2="2350" y2="1195"/>
+      <line x1="2470" y1="1155" x2="2470" y2="1195"/>
+      <line x1="2590" y1="1155" x2="2590" y2="1195"/>
+      <line x1="2710" y1="1155" x2="2710" y2="1195"/>
+      <line x1="2830" y1="1155" x2="2830" y2="1195"/>
+      <line x1="2950" y1="1155" x2="2950" y2="1195"/>
     </g>
   </g>
 
   <!-- ======================================================= -->
-  <!-- 2. CORPS CARRÉ CENTRAL (Avec emplacement horloge) -->
+  <!-- 2. CORPS CARRÉ (TOUR) - COMMENCE À y=1250 (sommet base) -->
   <!-- ======================================================= -->
   <g id="corps-carre">
-    <!-- Face principale -->
-    <polygon points="2360,700 2360,1290 2680,1290 2680,700" 
-             fill="url(#hatchLight)" stroke="#2a1a0a" stroke-width="3" 
-             filter="url(#sketchyBold)" opacity="0.85"/>
-    
-    <!-- Face gauche (perspective, plus sombre) -->
-    <polygon points="2320,720 2360,700 2360,1290 2320,1300" 
-             fill="url(#hatchDense)" stroke="#2a1a0a" stroke-width="2.5" 
-             filter="url(#sketchyBold)" opacity="0.85"/>
-    
-    <!-- Face droite (perspective, plus sombre) -->
-    <polygon points="2680,700 2720,720 2720,1300 2680,1290" 
-             fill="url(#hatchDense)" stroke="#2a1a0a" stroke-width="2.5" 
-             filter="url(#sketchyBold)" opacity="0.85"/>
-    
-    <!-- Corniche de transition (Base -> Corps carré) -->
-    <polygon points="2300,1280 2740,1280 2740,1300 2300,1300" 
-             fill="url(#hatchMedium)" stroke="#2a1a0a" stroke-width="3" 
-             filter="url(#sketchyBold)" opacity="0.85"/>
-    
-    <!-- Corbeaux sous la corniche -->
-    <g fill="url(#hatchLight)" stroke="#3a2512" stroke-width="1.5" filter="url(#sketchyFine)" opacity="0.8">
-      <rect x="2320" y="1280" width="14" height="22"/>
-      <rect x="2360" y="1280" width="14" height="22"/>
-      <rect x="2400" y="1280" width="14" height="22"/>
-      <rect x="2440" y="1280" width="14" height="22"/>
-      <rect x="2480" y="1280" width="14" height="22"/>
-      <rect x="2520" y="1280" width="14" height="22"/>
-      <rect x="2560" y="1280" width="14" height="22"/>
-      <rect x="2600" y="1280" width="14" height="22"/>
-      <rect x="2640" y="1280" width="14" height="22"/>
-      <rect x="2680" y="1280" width="14" height="22"/>
-      <rect x="2710" y="1280" width="14" height="22"/>
-    </g>
+    <!-- Face principale - descend jusqu'à y=1250 -->
+    <rect x="2320" y="700" width="400" height="550" 
+          fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="6" 
+          filter="url(#sketchyHeavy)" opacity="0.95"/>
 
-    <!-- Cadran de l'horloge (Contour esquissé pour guider le calque suivant) -->
-    <circle cx="2520" cy="810" r="115" fill="none" stroke="#2a1a0a" stroke-width="2" stroke-dasharray="8,4" filter="url(#sketchyFine)" opacity="0.4"/>
-    <circle cx="2520" cy="810" r="105" fill="none" stroke="#3a2512" stroke-width="1" filter="url(#sketchyFine)" opacity="0.3"/>
-    
-    <!-- Fenêtres gothiques - Niveau inférieur (sous l'horloge) -->
-    <g fill="url(#hatchDeepShadow)" stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyFine)" opacity="0.9">
-      <path d="M 2400,1100 L 2400,1180 Q 2400,1195 2420,1195 L 2440,1195 Q 2460,1195 2460,1180 L 2460,1100 Q 2460,1085 2430,1075 Q 2400,1085 2400,1100 Z"/>
-      <path d="M 2580,1100 L 2580,1180 Q 2580,1195 2600,1195 L 2620,1195 Q 2640,1195 2640,1180 L 2640,1100 Q 2640,1085 2610,1075 Q 2580,1085 2580,1100 Z"/>
-    </g>
-    
-    <!-- Fenêtres gothiques - Niveau supérieur (de chaque côté de l'horloge) -->
-    <g fill="url(#hatchDense)" stroke="#2a1a0a" stroke-width="2" filter="url(#sketchyFine)" opacity="0.85">
-      <path d="M 2390,820 L 2390,880 Q 2390,890 2405,890 L 2415,890 Q 2430,890 2430,880 L 2430,820 Q 2430,810 2410,805 Q 2390,810 2390,820 Z"/>
-      <path d="M 2610,820 L 2610,880 Q 2610,890 2625,890 L 2635,890 Q 2650,890 2650,880 L 2650,820 Q 2650,810 2630,805 Q 2610,810 2610,820 Z"/>
-    </g>
-    
     <!-- Joints de pierre horizontaux -->
-    <g stroke="#4a3d30" stroke-width="1.5" opacity="0.35" filter="url(#sketchyFine)">
-      <path d="M 2360,800 L 2680,800"/>
-      <path d="M 2360,900 L 2680,900"/>
-      <path d="M 2360,1000 L 2680,1000"/>
-      <path d="M 2360,1100 L 2680,1100"/>
-      <path d="M 2360,1200 L 2680,1200"/>
+    <g stroke="#2a1a0a" stroke-width="2.5" opacity="0.65" filter="url(#sketchyMedium)">
+      <line x1="2320" y1="780" x2="2720" y2="780"/>
+      <line x1="2320" y1="860" x2="2720" y2="860"/>
+      <line x1="2320" y1="940" x2="2720" y2="940"/>
+      <line x1="2320" y1="1020" x2="2720" y2="1020"/>
+      <line x1="2320" y1="1100" x2="2720" y2="1100"/>
+      <line x1="2320" y1="1180" x2="2720" y2="1180"/>
     </g>
     
     <!-- Joints verticaux -->
-    <g stroke="#4a3d30" stroke-width="1.5" opacity="0.3" filter="url(#sketchyFine)">
-      <path d="M 2450,700 L 2450,1290"/>
-      <path d="M 2520,700 L 2520,1290"/>
-      <path d="M 2590,700 L 2590,1290"/>
+    <g stroke="#2a1a0a" stroke-width="2.5" opacity="0.6" filter="url(#sketchyMedium)">
+      <line x1="2420" y1="700" x2="2420" y2="1250"/>
+      <line x1="2520" y1="700" x2="2520" y2="1250"/>
+      <line x1="2620" y1="700" x2="2620" y2="1250"/>
+    </g>
+
+    <!-- EMPLACEMENT HORLOGE -->
+    <circle cx="2520" cy="950" r="95" 
+            fill="url(#hatchLedge)" stroke="#1a0f05" stroke-width="5" 
+            filter="url(#sketchyHeavy)" opacity="0.9"/>
+    <circle cx="2520" cy="950" r="80" 
+            fill="#d4ba82" stroke="#1a0f05" stroke-width="3" 
+            filter="url(#sketchyMedium)" opacity="0.95"/>
+    <g stroke="#1a0f05" stroke-width="3" opacity="0.7" filter="url(#sketchyMedium)">
+      <line x1="2520" y1="875" x2="2520" y2="885"/>
+      <line x1="2595" y1="950" x2="2585" y2="950"/>
+      <line x1="2520" y1="1025" x2="2520" y2="1015"/>
+      <line x1="2445" y1="950" x2="2455" y2="950"/>
+    </g>
+    <circle cx="2520" cy="950" r="6" fill="#1a0f05" opacity="0.8"/>
+
+    <!-- Fenêtres gothiques - Niveau supérieur -->
+    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="3.5" filter="url(#sketchyMedium)" opacity="0.95">
+      <path d="M 2370,750 L 2370,820 Q 2370,835 2390,835 L 2410,835 Q 2430,835 2430,820 L 2430,750 Q 2430,735 2400,730 Q 2370,735 2370,750 Z"/>
+      <path d="M 2610,750 L 2610,820 Q 2610,835 2630,835 L 2650,835 Q 2670,835 2670,820 L 2670,750 Q 2670,735 2640,730 Q 2610,735 2610,750 Z"/>
+    </g>
+
+    <!-- Fenêtres gothiques - Niveau inférieur -->
+    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.95">
+      <path d="M 2380,1070 L 2380,1150 Q 2380,1170 2410,1170 L 2430,1170 Q 2460,1170 2460,1150 L 2460,1070 Q 2460,1050 2420,1040 Q 2380,1050 2380,1070 Z"/>
+      <path d="M 2580,1070 L 2580,1150 Q 2580,1170 2610,1170 L 2630,1170 Q 2660,1170 2660,1150 L 2660,1070 Q 2660,1050 2620,1040 Q 2580,1050 2580,1070 Z"/>
     </g>
   </g>
 
   <!-- ======================================================= -->
-  <!-- 3. TOIT EN POIVRIÈRE (Pyramide à 4 faces) -->
+  <!-- 3. TOIT -->
   <!-- ======================================================= -->
-  <g id="toit-poivriere">
-    <!-- Face avant avec hachures d'ardoise -->
-    <polygon points="2340,700 2520,420 2700,700" 
-             fill="url(#hatchHorizontal)" stroke="#2a1a0a" stroke-width="3" 
-             filter="url(#sketchyBold)" opacity="0.9"/>
-    
-    <!-- Face gauche (perspective) -->
-    <polygon points="2320,710 2340,700 2520,420 2500,430" 
-             fill="url(#hatchDense)" stroke="#2a1a0a" stroke-width="2.5" 
-             filter="url(#sketchyBold)" opacity="0.9"/>
-    
-    <!-- Face droite (perspective, très sombre) -->
-    <polygon points="2700,700 2720,710 2540,430 2520,420" 
-             fill="url(#hatchVeryDense)" stroke="#2a1a0a" stroke-width="2.5" 
-             filter="url(#sketchyBold)" opacity="0.9"/>
-    
-    <!-- Arêtes du toit -->
-    <g fill="none" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyBold)" opacity="0.85">
-      <path d="M 2340,700 L 2520,420"/>
-      <path d="M 2700,700 L 2520,420"/>
-      <path d="M 2320,710 L 2500,430"/>
-      <path d="M 2720,710 L 2540,430"/>
+  <g id="toit">
+    <polygon points="2280,700 2380,470 2660,470 2760,700" 
+             fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="6" 
+             filter="url(#sketchyHeavy)" opacity="0.95"/>
+
+    <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+      <line x1="2300" y1="500" x2="2740" y2="500"/>
+      <line x1="2320" y1="530" x2="2720" y2="530"/>
+      <line x1="2340" y1="560" x2="2700" y2="560"/>
+      <line x1="2360" y1="590" x2="2680" y2="590"/>
+      <line x1="2380" y1="620" x2="2660" y2="620"/>
+      <line x1="2400" y1="650" x2="2640" y2="650"/>
+      <line x1="2420" y1="680" x2="2620" y2="680"/>
+    </g>
+
+    <g fill="none" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.95">
+      <line x1="2280" y1="700" x2="2380" y2="470"/>
+      <line x1="2760" y1="700" x2="2660" y2="470"/>
+    </g>
+
+    <line x1="2380" y1="470" x2="2660" y2="470" 
+          stroke="#1a0f05" stroke-width="6" 
+          filter="url(#sketchyHeavy)" opacity="0.95"/>
+
+    <g filter="url(#sketchyMedium)">
+      <rect x="2490" y="530" width="60" height="70" 
+            fill="#1a0f05" stroke="#1a0f05" stroke-width="3" opacity="0.9"/>
+      <polygon points="2485,530 2520,500 2555,530" 
+               fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="3" opacity="0.95"/>
+    </g>
+
+    <g stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.9">
+      <line x1="2380" y1="470" x2="2380" y2="440"/>
+      <circle cx="2380" cy="435" r="5" fill="#2a1a0a"/>
+      <line x1="2660" y1="470" x2="2660" y2="440"/>
+      <circle cx="2660" cy="435" r="5" fill="#2a1a0a"/>
     </g>
     
-    <!-- Lanterne au sommet -->
-    <g filter="url(#sketchyFine)">
-      <!-- Base de la lanterne -->
-      <polygon points="2490,430 2550,430 2550,380 2490,380" 
-               fill="url(#hatchMedium)" stroke="#2a1a0a" stroke-width="2.5" opacity="0.85"/>
-      <!-- Toit de la lanterne -->
-      <polygon points="2485,380 2520,340 2555,380" 
-               fill="url(#hatchDense)" stroke="#2a1a0a" stroke-width="2" opacity="0.85"/>
-      <!-- Épi / girouette -->
-      <line x1="2520" y1="340" x2="2520" y2="310" 
-            stroke="#2a1a0a" stroke-width="3" opacity="0.8"/>
-      <circle cx="2520" cy="308" r="4" fill="#3a2512" stroke="#2a1a0a" stroke-width="1.5" opacity="0.8"/>
-    </g>
-    
-    <!-- Corniche sous le toit -->
-    <polygon points="2330,695 2710,695 2710,710 2330,710" 
-             fill="url(#hatchMedium)" stroke="#2a1a0a" stroke-width="3" 
-             filter="url(#sketchyBold)" opacity="0.85"/>
+    <rect x="2260" y="690" width="520" height="12"
+          fill="url(#hatchLedge)" stroke="#1a0f05" stroke-width="3"
+          filter="url(#sketchyMedium)" opacity="0.9"/>
   </g>
 
-  <!-- ======================================================= -->
-  <!-- 4. TRAITS DE CONSTRUCTION / AMBIANCE -->
-  <!-- ======================================================= -->
-  <g stroke="#5a4d40" stroke-width="0.8" opacity="0.25" filter="url(#sketchyFine)">
-    <!-- Quelques traits de construction légers pour l'ambiance croquis -->
-    <line x1="2100" y1="1300" x2="2100" y2="1650"/>
-    <line x1="2940" y1="1300" x2="2940" y2="1650"/>
-    <line x1="2320" y1="720" x2="2320" y2="1300"/>
-    <line x1="2720" y1="720" x2="2720" y2="1300"/>
-  </g>
-  
-  <!-- Hachures diagonales supplémentaires pour le volume de la base -->
-  <g stroke="#4a3d30" stroke-width="0.8" opacity="0.2" filter="url(#sketchyFine)">
-    <line x1="2150" y1="1350" x2="2200" y2="1600"/>
-    <line x1="2250" y1="1350" x2="2300" y2="1600"/>
-    <line x1="2750" y1="1350" x2="2800" y2="1600"/>
-    <line x1="2850" y1="1350" x2="2900" y2="1600"/>
   </g>
 
 </svg>
