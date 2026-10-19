@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Forge améliorée (détaillée, suie, outils, étincelles). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
+      <rect x="0" y="0" width="7" height="7" fill="#b5a481"/>
+      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
+    </pattern>
+    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
+      <rect x="0" y="0" width="10" height="12" fill="#8c6b45"/>
+      <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
+      <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+    <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect x="0" y="0" width="8" height="8" fill="#6b4a2e"/>
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+    <!-- Hachures très sombres pour la suie -->
+    <pattern id="hatchSoot" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="#1a0f05" stroke-width="2" opacity="0.4"/>
+      <line x1="0" y1="0" x2="5" y2="5" stroke="#1a0f05" stroke-width="1.5" opacity="0.3"/>
+    </pattern>
+
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <g id="forge-amelioree" transform="translate(2858, 1250) scale(0.5)">
+    
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 1 : STRUCTURES DE BASE -->
+    <!-- ======================================================= -->
+    
+    <!-- Mur principal (Fond uni + hachures) -->
+    <rect x="0" y="0" width="280" height="180" fill="#d4ba82" opacity="1"/>
+    <rect x="0" y="0" width="280" height="180" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Toit -->
+    <polygon points="-15,0 140,-120 295,0" fill="#d4ba82" opacity="1"/>
+    <polygon points="-15,0 140,-120 295,0" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Poutres de soutien du toit (débord) -->
+    <g fill="#2a1a0a" filter="url(#sketchyMedium)">
+      <path d="M 40,0 L 30,-15 L 50,-15 L 50,0 Z"/>
+      <path d="M 120,0 L 110,-15 L 130,-15 L 130,0 Z"/>
+      <path d="M 200,0 L 190,-15 L 210,-15 L 210,0 Z"/>
+      <path d="M 260,0 L 250,-15 L 270,-15 L 270,0 Z"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 2 : CHEMINÉE ET SUIE -->
+    <!-- ======================================================= -->
+    
+    <!-- Cheminée massive et irrégulière -->
+    <path d="M 200,-180 L 200,0 L 260,0 L 260,-180 Q 250,-190 230,-190 Q 210,-190 200,-180 Z" 
+          fill="#d4ba82" opacity="1"/>
+    <path d="M 200,-180 L 200,0 L 260,0 L 260,-180 Q 250,-190 230,-190 Q 210,-190 200,-180 Z" 
+          fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.9"/>
+    
+    <!-- Linteau de la cheminée -->
+    <rect x="195" y="-180" width="70" height="15" fill="#2a1a0a" filter="url(#sketchyMedium)"/>
+
+    <!-- Traces de suie sur le mur et le toit -->
+    <path d="M 200,-180 Q 180,-100 150,0 L 260,0 L 260,-180 Z" fill="url(#hatchSoot)" opacity="0.8"/>
+    <path d="M 200,-180 Q 160,-140 120,-120 L 140,-120 Q 180,-150 200,-180 Z" fill="url(#hatchSoot)" opacity="0.6"/>
+
+    <!-- Fumee et etincelles : version animee (voir "forge-smoke") placee en inline dans -->
+    <!-- ville-medievale-croquis.svg, au point d'origine (230,-190) de ce calque transforme -->
+    <!-- par translate(2858,1250) scale(0.5) ; un <image> ne peut pas animer de SVG embarque, -->
+    <!-- d'ou le meme choix que pour les aiguilles de l'horloge-live. -->
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 3 : OUVERTURE ET INTÉRIEUR -->
+    <!-- ======================================================= -->
+    
+    <!-- Cadre en pierre de l'ouverture -->
+    <path d="M 30,180 L 30,70 Q 30,30 100,30 Q 170,30 170,70 L 170,180 Z" 
+          fill="#d4ba82" stroke="#1a0f05" stroke-width="6" filter="url(#sketchyHeavy)" opacity="0.95"/>
+    <path d="M 30,180 L 30,70 Q 30,30 100,30 Q 170,30 170,70 L 170,180 Z" 
+          fill="url(#hatchStone)" opacity="0.8"/>
+
+    <!-- Intérieur sombre de la forge -->
+    <path d="M 45,180 L 45,80 Q 45,45 100,45 Q 155,45 155,80 L 155,180 Z" 
+          fill="#1a0f05" opacity="0.95"/>
+          
+    <!-- Le foyer (feu qui brûle) -->
+    <path d="M 70,180 L 70,130 Q 70,110 100,110 Q 130,110 130,130 L 130,180 Z" 
+          fill="#8b4513" opacity="0.7" filter="url(#sketchyMedium)"/>
+    <!-- Braises brillantes -->
+    <circle cx="100" cy="150" r="15" fill="#d4ba82" opacity="0.4" filter="url(#sketchyMedium)"/>
+    <circle cx="85" cy="160" r="8" fill="#d4ba82" opacity="0.3"/>
+    <circle cx="115" cy="155" r="10" fill="#d4ba82" opacity="0.3"/>
+
+    <!-- Soufflet (à gauche dans l'ombre) -->
+    <path d="M 50,140 L 70,130 L 70,170 L 50,180 Z" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2" filter="url(#sketchyMedium)"/>
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 4 : DÉTAILS EXTÉRIEURS (Outils, Baquet, Enseigne) -->
+    <!-- ======================================================= -->
+    
+    <!-- Râtelier d'outils sur le mur droit -->
+    <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
+      <!-- Barre horizontale -->
+      <line x1="190" y1="80" x2="270" y2="80" stroke-width="4"/>
+      <!-- Marteau -->
+      <line x1="210" y1="80" x2="210" y2="130"/>
+      <rect x="200" y="125" width="20" height="10" rx="2" fill="#2a1a0a"/>
+      <!-- Épée / Tige de métal -->
+      <line x1="230" y1="80" x2="230" y2="140" stroke-width="2"/>
+      <line x1="220" y1="110" x2="240" y2="110" stroke-width="2"/>
+      <!-- Fer à cheval suspendu -->
+      <path d="M 250,80 L 250,100 Q 250,115 265,115 Q 280,115 280,100 L 280,80" fill="none" stroke-width="3"/>
+    </g>
+
+    <!-- Baquet d'eau pour tremper (devant la forge) -->
+    <g filter="url(#sketchyMedium)">
+      <!-- Demi-tonneau -->
+      <path d="M 180,180 L 180,150 Q 180,140 210,140 Q 240,140 240,150 L 240,180 Z" 
+            fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="3"/>
+      <!-- Cercles de fer -->
+      <line x1="180" y1="155" x2="240" y2="155" stroke="#1a0f05" stroke-width="2"/>
+      <line x1="180" y1="170" x2="240" y2="170" stroke="#1a0f05" stroke-width="2"/>
+      <!-- Eau à l'intérieur -->
+      <ellipse cx="210" cy="145" rx="28" ry="6" fill="#1a0f05" opacity="0.8"/>
+      <!-- Vapeur au-dessus du baquet -->
+      <path d="M 200,140 Q 195,120 205,110" fill="none" stroke="#3a2a1a" stroke-width="1.5" opacity="0.5"/>
+      <path d="M 220,140 Q 225,125 215,115" fill="none" stroke="#3a2a1a" stroke-width="1.5" opacity="0.5"/>
+    </g>
+
+    <!-- Petite fenêtre haute (à gauche) -->
+    <rect x="220" y="30" width="40" height="50" fill="#1a0f05" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
+    <!-- Barreaux -->
+    <line x1="230" y1="30" x2="230" y2="80" stroke="#1a0f05" stroke-width="2"/>
+    <line x1="240" y1="30" x2="240" y2="80" stroke="#1a0f05" stroke-width="2"/>
+    <line x1="250" y1="30" x2="250" y2="80" stroke="#1a0f05" stroke-width="2"/>
+
+  </g>
+</svg>

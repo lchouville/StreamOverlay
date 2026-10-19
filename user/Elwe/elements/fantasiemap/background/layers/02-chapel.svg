@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Chapelle améliorée (détails gothiques, vitraux, cloche, cimetière). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
+      <rect x="0" y="0" width="7" height="7" fill="#b5a481"/>
+      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
+    </pattern>
+    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
+      <rect x="0" y="0" width="10" height="12" fill="#8c6b45"/>
+      <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
+      <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+    <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect x="0" y="0" width="8" height="8" fill="#6b4a2e"/>
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+    <!-- Motif de vitrail coloré -->
+    <pattern id="stainedGlass" patternUnits="userSpaceOnUse" width="20" height="20">
+      <rect width="20" height="20" fill="#4a2a6a" opacity="0.6"/>
+      <circle cx="10" cy="10" r="6" fill="#8b4513" opacity="0.5"/>
+      <path d="M 0,0 L 20,20 M 20,0 L 0,20" stroke="#1a0f05" stroke-width="1.5" opacity="0.7"/>
+    </pattern>
+
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <g id="chapelle-amelioree" transform="translate(2862, 257) scale(0.4)">
+    
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 1 : STRUCTURE PRINCIPALE -->
+    <!-- ======================================================= -->
+    
+    <!-- Nef principale -->
+    <rect x="0" y="0" width="220" height="250" fill="#d4ba82" opacity="1"/>
+    <rect x="0" y="0" width="220" height="250" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Contreforts (renforts de pierre sur les côtés) -->
+    <rect x="-10" y="50" width="20" height="200" fill="#d4ba82" opacity="1"/>
+    <rect x="-10" y="50" width="20" height="200" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.9"/>
+    <rect x="210" y="50" width="20" height="200" fill="#d4ba82" opacity="1"/>
+    <rect x="210" y="50" width="20" height="200" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.9"/>
+    
+    <!-- Toit de la nef -->
+    <polygon points="-15,0 110,-150 235,0" fill="#d4ba82" opacity="1"/>
+    <polygon points="-15,0 110,-150 235,0" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Faîtage du toit -->
+    <line x1="110" y1="-150" x2="110" y2="0" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.7"/>
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 2 : CLOCHER DÉTAILLÉ -->
+    <!-- ======================================================= -->
+    
+    <!-- Base du clocher -->
+    <rect x="-60" y="-100" width="100" height="350" fill="#d4ba82" opacity="1"/>
+    <rect x="-60" y="-100" width="100" height="350" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Toit pointu du clocher -->
+    <polygon points="-70,-100 -10,-250 50,-100" fill="#d4ba82" opacity="1"/>
+    <polygon points="-70,-100 -10,-250 50,-100" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
+    
+    <!-- Croix ornée au sommet -->
+    <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)">
+      <line x1="-10" y1="-250" x2="-10" y2="-285"/>
+      <line x1="-28" y1="-265" x2="8" y2="-265"/>
+      <circle cx="-10" cy="-285" r="4" fill="#d4ba82" stroke="#1a0f05" stroke-width="2"/>
+    </g>
+    
+    <!-- Cloche visible dans le clocher -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M -40,-60 Q -40,-20 -10,-20 Q 20,-20 20,-60 L 20,-80 Q 20,-90 -10,-90 Q -40,-90 -40,-80 Z" 
+            fill="#2a1a0a" stroke="#1a0f05" stroke-width="3"/>
+      <!-- Battant de la cloche -->
+      <line x1="-10" y1="-60" x2="-10" y2="-75" stroke="#1a0f05" stroke-width="2"/>
+      <circle cx="-10" cy="-77" r="3" fill="#1a0f05"/>
+    </g>
+    
+    <!-- Ouverture du clocher (abat-son) -->
+    <g fill="#1a0f05" opacity="0.8" filter="url(#sketchyMedium)">
+      <rect x="-30" y="-50" width="20" height="40"/>
+      <rect x="10" y="-50" width="20" height="40"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 3 : PORCHE D'ENTRÉE -->
+    <!-- ======================================================= -->
+    
+    <!-- Porche en saillie -->
+    <path d="M 50,250 L 50,180 Q 50,150 110,150 Q 170,150 170,180 L 170,250 Z" 
+          fill="#d4ba82" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.95"/>
+    <path d="M 50,250 L 50,180 Q 50,150 110,150 Q 170,150 170,180 L 170,250 Z" 
+          fill="url(#hatchStone)" opacity="0.8"/>
+    
+    <!-- Toit du porche -->
+    <polygon points="40,180 110,130 180,180" fill="#d4ba82" opacity="1"/>
+    <polygon points="40,180 110,130 180,180" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.9"/>
+    
+    <!-- Porte en bois massive -->
+    <path d="M 75,250 L 75,190 Q 75,170 110,170 Q 145,170 145,190 L 145,250 Z" 
+          fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyHeavy)" opacity="0.95"/>
+    
+    <!-- Détails de la porte : croix et ferrures -->
+    <g stroke="#1a0f05" stroke-width="2.5" filter="url(#sketchyMedium)">
+      <line x1="110" y1="180" x2="110" y2="240"/>
+      <line x1="85" y1="200" x2="135" y2="200"/>
+      <line x1="85" y1="230" x2="135" y2="230"/>
+    </g>
+    <!-- Heurtoir -->
+    <circle cx="130" cy="215" r="5" fill="#1a0f05"/>
+    
+    <!-- Marches d'entrée -->
+    <g fill="#d4ba82" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)">
+      <rect x="60" y="250" width="100" height="15"/>
+      <rect x="55" y="265" width="110" height="15"/>
+      <rect x="50" y="280" width="120" height="15"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 4 : VITRAUX ET FENÊTRES -->
+    <!-- ======================================================= -->
+    
+    <!-- Grande fenêtre en ogive (style gothique) avec vitrail -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M 80,50 L 80,120 Q 80,135 110,135 Q 140,135 140,120 L 140,50 Q 140,35 110,30 Q 80,35 80,50 Z" 
+            fill="url(#stainedGlass)" stroke="#1a0f05" stroke-width="4"/>
+      <!-- Croisillons du vitrail -->
+      <line x1="110" y1="45" x2="110" y2="125" stroke="#1a0f05" stroke-width="3"/>
+      <line x1="80" y1="85" x2="140" y2="85" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 85,65 Q 110,55 135,65" stroke="#1a0f05" stroke-width="2"/>
+    </g>
+    
+    <!-- Petite fenêtre du clocher -->
+    <path d="M -30,-50 L -30,-10 Q -30,0 -10,0 Q 10,0 10,-10 L 10,-50 Q 10,-60 -10,-65 Q -30,-60 -30,-50 Z" 
+          fill="#1a0f05" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
+    <!-- Croisillon -->
+    <line x1="-10" y1="-55" x2="-10" y2="-15" stroke="#d4ba82" stroke-width="2"/>
+    <line x1="-25" y1="-35" x2="5" y2="-35" stroke="#d4ba82" stroke-width="2"/>
+
+    <!-- ======================================================= -->
+    <!-- ÉTAPE 5 : CIMETIÈRE ET DÉTAILS EXTÉRIEURS -->
+    <!-- ======================================================= -->
+    
+    <!-- Petites croix de cimetière devant la chapelle -->
+    <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.8">
+      <!-- Croix 1 -->
+      <line x1="-30" y1="280" x2="-30" y2="250"/>
+      <line x1="-42" y1="260" x2="-18" y2="260"/>
+      <!-- Croix 2 -->
+      <line x1="250" y1="290" x2="250" y2="260"/>
+      <line x1="238" y1="275" x2="262" y2="275"/>
+    </g>
+    
+    <!-- Pierre tombale simple -->
+    <path d="M -50,295 L -50,275 Q -50,265 -35,265 Q -20,265 -20,275 L -20,295 Z" 
+          fill="#d4ba82" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
+    
+    <!-- Lanterne suspendue sous le porche -->
+    <g filter="url(#sketchyMedium)">
+      <line x1="110" y1="170" x2="110" y2="155" stroke="#1a0f05" stroke-width="2"/>
+      <polygon points="102,155 118,155 120,175 100,175" fill="#d4ba82" stroke="#1a0f05" stroke-width="2" opacity="0.8"/>
+      <polygon points="100,155 110,148 120,155" fill="#2a1a0a" stroke="#1a0f05" stroke-width="1.5"/>
+      <!-- Flamme -->
+      <path d="M 107,165 Q 110,160 113,165 Q 110,170 107,165" fill="#8b4513" opacity="0.7"/>
+    </g>
+
+    <!-- Joints de pierre détaillés sur la nef -->
+    <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+      <line x1="0" y1="60" x2="220" y2="60"/>
+      <line x1="0" y1="120" x2="220" y2="120"/>
+      <line x1="0" y1="180" x2="220" y2="180"/>
+      <line x1="55" y1="0" x2="55" y2="60"/>
+      <line x1="165" y1="60" x2="165" y2="120"/>
+      <line x1="110" y1="120" x2="110" y2="180"/>
+    </g>
+
+  </g>
+</svg>

@@ -5,13 +5,62 @@
 <!-- pour le masquer/reordonner dans la composition, commenter/deplacer sa ligne <image> ci-dessous. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160"
      preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Ovale qui decoupe le coin haut-droit (vue du dessus, batiments miniatures) du reste de -->
+    <!-- la scene. Memes cx/cy/rx/ry que l'ellipse encre de 05-bordure.svg : si l'un change, -->
+    <!-- reporter la modification sur l'autre. Applique a chaque batiment du coin pour effacer -->
+    <!-- ce qui en depasse. -->
+    <clipPath id="clip-coin-ovale" clipPathUnits="userSpaceOnUse">
+      <ellipse cx="3750" cy="-220" rx="2860" ry="1840" transform="rotate(15 3750 -220)"/>
+    </clipPath>
+  </defs>
+
+  <style>
+    .forge-puff {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: forge-rise 4.2s ease-out infinite;
+    }
+    .forge-puff.p2 { animation-delay: 1.4s; }
+    .forge-puff.p3 { animation-delay: 2.8s; }
+    @keyframes forge-rise {
+      0%   { transform: translate(0,0) scale(0.5); opacity: 0; }
+      12%  { opacity: 0.5; }
+      100% { transform: translate(-16px,-175px) scale(1.9); opacity: 0; }
+    }
+    .forge-spark {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation-duration: 1.6s;
+      animation-timing-function: ease-out;
+      animation-iteration-count: infinite;
+    }
+    .forge-spark.s1 { animation-name: forge-spark-1; }
+    .forge-spark.s2 { animation-name: forge-spark-2; animation-delay: 0.5s; }
+    .forge-spark.s3 { animation-name: forge-spark-3; animation-delay: 1.0s; }
+    @keyframes forge-spark-1 {
+      0%   { transform: translate(0,0); opacity: 1; }
+      100% { transform: translate(-10px,-62px); opacity: 0; }
+    }
+    @keyframes forge-spark-2 {
+      0%   { transform: translate(0,0); opacity: 1; }
+      100% { transform: translate(12px,-58px); opacity: 0; }
+    }
+    @keyframes forge-spark-3 {
+      0%   { transform: translate(0,0); opacity: 1; }
+      100% { transform: translate(2px,-66px); opacity: 0; }
+    }
+  </style>
   <image href="layers/01-papier.svg" x="0" y="0" width="3840" height="2160"/>
   <image href="layers/02-taches.svg" x="0" y="0" width="3840" height="2160"/>
   <image href="layers/03-plis.svg" x="0" y="0" width="3840" height="2160"/>
   <image href="layers/04-coins.svg" x="0" y="0" width="3840" height="2160"/>
-  <image href="layers/02-tour-horloge.svg" x="0" y="0" width="3840" height="2160"/>
-  <image href="layers/02-taverne.svg" x="0" y="0" width="3840" height="2160"/>
-  <image href="layers/02-auberge.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/02-tour-horloge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+  <image href="layers/02-taverne.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+  <image href="layers/02-auberge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+  <image href="layers/02-guild-av.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+  <image href="layers/02-chapel.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+  <image href="layers/02-forge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
 
   <!-- Horloge vivante : aiguilles synchronisees sur l'heure reelle du navigateur. -->
   <!-- Centre du cadran = centre original (2520,950) passe par la transform de la tour (translate(1522.5,140.75) scale(0.55)). -->
@@ -32,6 +81,18 @@
       <circle cx="0" cy="10" r="2.2" fill="#8b1a1a"/>
     </g>
     <circle cx="0" cy="0" r="3.4" fill="#1a0f05" stroke="#0d0802" stroke-width="0.5"/>
+  </g>
+
+  <!-- Fumee de forge vivante : sommet de cheminee (230,-190) du calque forge, passe par sa -->
+  <!-- transform (translate(2858,1250) scale(0.5)) -> (2973,1155). Un <image> ne peut pas animer -->
+  <!-- de SVG embarque, d'ou l'inline ici (meme raison que l'horloge-live ci-dessus). -->
+  <g id="forge-smoke" transform="translate(2973,1155)">
+    <ellipse class="forge-puff p1" cx="0" cy="0" rx="13" ry="10" fill="#3a2a1a"/>
+    <ellipse class="forge-puff p2" cx="5" cy="2" rx="11" ry="9" fill="#4a3826"/>
+    <ellipse class="forge-puff p3" cx="-6" cy="1" rx="12" ry="9" fill="#3a2a1a"/>
+    <circle class="forge-spark s1" cx="-4" cy="-6" r="2" fill="#d98a3d"/>
+    <circle class="forge-spark s2" cx="6" cy="-4" r="1.6" fill="#e0984a"/>
+    <circle class="forge-spark s3" cx="0" cy="-8" r="1.8" fill="#d98a3d"/>
   </g>
 
   <image href="layers/05-bordure.svg" x="0" y="0" width="3840" height="2160"/>
