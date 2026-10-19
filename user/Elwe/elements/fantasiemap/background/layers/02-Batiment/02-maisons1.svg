@@ -186,6 +186,18 @@
       <path d="M 26.7,222 L 26.7,272 M 12.7,247 L 40.7,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="9.7" y1="274" x2="43.7" y2="274" stroke="#2a1a0a" stroke-width="3"/>
       <g filter="url(#sketchyMedium)">
+        <path d="M 7.9,277.2 Q 17.3,262.8 26.7,270.8 Q 36.1,261.2 45.5,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="15.3" cy="268" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="15.3" cy="268" r="1.4" fill="#e8c860"/>
+        <circle cx="26.2" cy="264.6" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="26.2" cy="264.6" r="1.4" fill="#e8c860"/>
+        <circle cx="37.9" cy="264.8" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="37.9" cy="264.8" r="1.4" fill="#e8c860"/>
+        <path d="M 11.1,288.4 Q 4.7,298 9.5,304.4 M 42.3,288.4 Q 48.7,296.4 43.9,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="7.9" y="274" width="37.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="7.9" y1="281.2" x2="45.5" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
         <path d="M 66,222 L 57,227 L 57,272 L 66,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
         <path d="M 94,222 L 103,227 L 103,272 L 94,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
       </g>
@@ -199,6 +211,18 @@
       <rect x="119.3" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 133.3,222 L 133.3,272 M 119.3,247 L 147.3,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="116.3" y1="274" x2="150.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 114.5,277.2 Q 123.9,262.8 133.3,270.8 Q 142.7,261.2 152.1,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="119.6" cy="265.1" r="4.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="119.6" cy="265.1" r="1.4" fill="#e8c860"/>
+        <circle cx="134.4" cy="263.6" r="4.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="134.4" cy="263.6" r="1.4" fill="#e8c860"/>
+        <circle cx="145.2" cy="268" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="145.2" cy="268" r="1.4" fill="#e8c860"/>
+        <path d="M 117.7,288.4 Q 111.3,298 116.1,304.4 M 148.9,288.4 Q 155.3,296.4 150.5,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="114.5" y="274" width="37.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="114.5" y1="281.2" x2="152.1" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
       <!-- Etage 2 (grenier) -->
       <rect x="0" y="100" width="160" height="100" fill="#c4a060" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
       <g stroke="#5a3a1a" stroke-width="4" filter="url(#sketchyMedium)">
@@ -275,6 +299,18 @@
       <path d="M 33.3,222 L 33.3,272 M 19.3,247 L 47.3,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="16.3" y1="274" x2="50.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>
       <g filter="url(#sketchyMedium)">
+        <path d="M 14.5,277.2 Q 23.9,262.8 33.3,270.8 Q 42.7,261.2 52.1,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="22" cy="262.9" r="4.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="22" cy="262.9" r="1.4" fill="#e8c860"/>
+        <circle cx="33.8" cy="264.2" r="4.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="33.8" cy="264.2" r="1.4" fill="#e8c860"/>
+        <circle cx="45.8" cy="265.4" r="4.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="45.8" cy="265.4" r="1.4" fill="#e8c860"/>
+        <path d="M 17.7,288.4 Q 11.3,298 16.1,304.4 M 48.9,288.4 Q 55.3,296.4 50.5,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="14.5" y="274" width="37.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="14.5" y1="281.2" x2="52.1" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
         <path d="M 86,222 L 77,227 L 77,272 L 86,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
         <path d="M 114,222 L 123,227 L 123,272 L 114,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
       </g>
@@ -288,6 +324,18 @@
       <rect x="152.7" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 166.7,222 L 166.7,272 M 152.7,247 L 180.7,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="149.7" y1="274" x2="183.7" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 147.9,277.2 Q 157.3,262.8 166.7,270.8 Q 176.1,261.2 185.5,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="152.8" cy="262.8" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="152.8" cy="262.8" r="1.4" fill="#e8c860"/>
+        <circle cx="165.1" cy="266.4" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="165.1" cy="266.4" r="1.4" fill="#e8c860"/>
+        <circle cx="180.3" cy="265.9" r="4.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="180.3" cy="265.9" r="1.4" fill="#e8c860"/>
+        <path d="M 151.1,288.4 Q 144.7,298 149.5,304.4 M 182.3,288.4 Q 188.7,296.4 183.9,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="147.9" y="274" width="37.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="147.9" y1="281.2" x2="185.5" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
       <!-- Etage 2 -->
       <rect x="0" y="100" width="200" height="100" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
       <g stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
@@ -435,6 +483,18 @@
       <path d="M 21.3,222 L 21.3,272 M 9.8,247 L 32.8,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="6.8" y1="274" x2="35.8" y2="274" stroke="#2a1a0a" stroke-width="3"/>
       <g filter="url(#sketchyMedium)">
+        <path d="M 4.9,277.2 Q 13.1,262.8 21.3,270.8 Q 29.4,261.2 37.6,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="11.9" cy="263.1" r="4.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="11.9" cy="263.1" r="1.4" fill="#e8c860"/>
+        <circle cx="21.1" cy="266.8" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="21.1" cy="266.8" r="1.4" fill="#e8c860"/>
+        <circle cx="31.4" cy="263.2" r="4.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="31.4" cy="263.2" r="1.4" fill="#e8c860"/>
+        <path d="M 8.1,288.4 Q 1.7,298 6.5,304.4 M 34.3,288.4 Q 40.8,296.4 35.9,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="4.9" y="274" width="32.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="4.9" y1="281.2" x2="37.6" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
         <path d="M 52.3,222 L 45.3,227 L 45.3,272 L 52.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
         <path d="M 75.3,222 L 82.3,227 L 82.3,272 L 75.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
       </g>
@@ -448,6 +508,18 @@
       <rect x="94.8" y="222" width="23" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 106.3,222 L 106.3,272 M 94.8,247 L 117.8,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="91.8" y1="274" x2="120.8" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 90,277.2 Q 98.1,262.8 106.3,270.8 Q 114.4,261.2 122.6,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="96.3" cy="267.5" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="96.3" cy="267.5" r="1.4" fill="#e8c860"/>
+        <circle cx="105.9" cy="267.8" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="105.9" cy="267.8" r="1.4" fill="#e8c860"/>
+        <circle cx="118.6" cy="263.6" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="118.6" cy="263.6" r="1.4" fill="#e8c860"/>
+        <path d="M 93.2,288.4 Q 86.8,298 91.6,304.4 M 119.4,288.4 Q 125.8,296.4 121,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="90" y="274" width="32.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="90" y1="281.2" x2="122.6" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
       <g filter="url(#sketchyMedium)">
         <path d="M 137.3,222 L 130.3,227 L 130.3,272 L 137.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
         <path d="M 160.3,222 L 167.3,227 L 167.3,272 L 160.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>

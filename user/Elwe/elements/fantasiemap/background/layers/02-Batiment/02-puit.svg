@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Calque : Puits médiéval en pierre avec toit en bois. -->
 <!-- Style croquis avec hachures pierre/bois. -->
+<!-- Pierre grise (plus froide que les paves ocre) pour se detacher du sol. -->
 <!-- Place en bas a droite de la place, a 75% : pied (y=225) en (3600,1550), hauteur coherente -->
 <!-- avec la distance (margelle ~1.2 m). Couleurs accordees au papier (pierre chaude, mousse brune). -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
   <defs>
     <!-- Texture pierre -->
     <pattern id="stoneTexture" patternUnits="userSpaceOnUse" width="40" height="30">
-      <rect width="40" height="30" fill="#c9b48a"/>
-      <rect x="2" y="2" width="36" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
-      <rect x="2" y="16" width="17" height="12" fill="#b89f72" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
-      <rect x="21" y="16" width="17" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect width="40" height="30" fill="#9c968a"/>
+      <rect x="2" y="2" width="36" height="12" fill="#b2ab9c" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="2" y="16" width="17" height="12" fill="#857e70" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="21" y="16" width="17" height="12" fill="#b2ab9c" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
     </pattern>
 
     <!-- Hachures bois -->
@@ -46,7 +47,7 @@
     <ellipse cx="0" cy="200" rx="80" ry="25" fill="#3a2a1a" opacity="0.3" filter="url(#sketchyMedium)"/>
     
     <path d="M -80,80 L -80,200 Q -80,225 0,225 Q 80,225 80,200 L 80,80 Q 80,55 0,55 Q -80,55 -80,80 Z" 
-          fill="#c9b48a" stroke="#2a1a0a" stroke-width="4" 
+          fill="#9c968a" stroke="#2a1a0a" stroke-width="4" 
           filter="url(#sketchyHeavy)" opacity="0.95"/>
     <path d="M -80,80 L -80,200 Q -80,225 0,225 Q 80,225 80,200 L 80,80 Q 80,55 0,55 Q -80,55 -80,80 Z" 
           fill="url(#stoneTexture)" opacity="0.8"/>
@@ -71,9 +72,9 @@
     <ellipse cx="0" cy="85" rx="40" ry="12" fill="#4a6a8a" opacity="0.3" filter="url(#sketchyMedium)"/>
 
     <!-- Margelle (rebord du puits) : face avant epaisse -->
-    <path d="M -82,75 L -82,88 Q -82,108 0,108 Q 82,108 82,88 L 82,75 Z" fill="#b89f72" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+    <path d="M -82,75 L -82,88 Q -82,108 0,108 Q 82,108 82,88 L 82,75 Z" fill="#857e70" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
     <ellipse cx="0" cy="80" rx="80" ry="25" fill="none" stroke="#2a1a0a" stroke-width="5" filter="url(#sketchyMedium)"/>
-    <ellipse cx="0" cy="75" rx="80" ry="25" fill="#d4c098" stroke="#2a1a0a" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.9"/>
+    <ellipse cx="0" cy="75" rx="80" ry="25" fill="#b2ab9c" stroke="#2a1a0a" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.9"/>
     <ellipse cx="0" cy="75" rx="80" ry="25" fill="url(#stoneTexture)" opacity="0.7"/>
     <!-- Ouverture visible au-dessus de la margelle (le seau y descend) -->
     <ellipse cx="0" cy="77" rx="60" ry="17" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyMedium)"/>

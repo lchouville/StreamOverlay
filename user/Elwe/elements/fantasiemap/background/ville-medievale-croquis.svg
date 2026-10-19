@@ -60,6 +60,45 @@
     <clipPath id="clip-ouverture-puits" clipPathUnits="userSpaceOnUse">
       <path d="M -200,-300 L 200,-300 L 200,75 L 60,75 A 60,20 0 0 1 -60,75 L -200,75 Z"/>
     </clipPath>
+    <!-- Rayures des auvents de tentes (#tentes-auvents) -->
+    <pattern id="stripesRed" patternUnits="userSpaceOnUse" width="30" height="30">
+      <rect width="15" height="30" fill="#a04030"/><rect x="15" width="15" height="30" fill="#d4ba82"/>
+    </pattern>
+    <pattern id="stripesGreen" patternUnits="userSpaceOnUse" width="30" height="30">
+      <rect width="15" height="30" fill="#5a6b4a"/><rect x="15" width="15" height="30" fill="#d4ba82"/>
+    </pattern>
+    <!-- Lumiere ambiante : lueur du soleil (chaude) / de la lune (froide), vignettage nocturne -->
+    <radialGradient id="lueur-soleil">
+      <stop offset="0" stop-color="#ffe2a0" stop-opacity="0.5"/>
+      <stop offset="0.35" stop-color="#e8b060" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#a06020" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lueur-lune">
+      <stop offset="0" stop-color="#c8d4e8" stop-opacity="0.35"/>
+      <stop offset="0.4" stop-color="#8a9cc0" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#506080" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette-grad" gradientUnits="userSpaceOnUse" cx="2750" cy="900" r="1500">
+      <stop offset="0.45" stop-color="#14182e" stop-opacity="0"/>
+      <stop offset="1" stop-color="#14182e" stop-opacity="0.85"/>
+    </radialGradient>
+    <!-- Lumieres de fenetres/lanternes : coeur chaud degrade et halo diffus (mode screen). -->
+    <radialGradient id="lum-coeur">
+      <stop offset="0" stop-color="#ffe6b0" stop-opacity="0.6"/>
+      <stop offset="0.35" stop-color="#f0be6a" stop-opacity="0.45"/>
+      <stop offset="0.75" stop-color="#d8883a" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#c8701e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lum-lanterne">
+      <stop offset="0" stop-color="#ffc070" stop-opacity="0.6"/>
+      <stop offset="0.35" stop-color="#f0a050" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#d07a30" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lum-halo">
+      <stop offset="0" stop-color="#ffb860" stop-opacity="0.3"/>
+      <stop offset="0.5" stop-color="#e88a30" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#c06a20" stop-opacity="0"/>
+    </radialGradient>
     <!-- Idem pour la porte de la guilde (coordonnees locales du calque guilde). -->
     <clipPath id="clip-embrasure-guilde" clipPathUnits="userSpaceOnUse">
       <path d="M 122,478 L 122,340 Q 122,302 190,302 Q 258,302 258,340 L 258,478 Z"/>
@@ -201,6 +240,30 @@
        un moment, s'eteint" (win-light) combine a un scintillement rapide type flamme -->
        (flame-glow, imbrique). Duree/delai varies par instance via style= inline pour que les -->
        lumieres ne se synchronisent pas entre elles. */
+    /* Lumieres : eclaircissent le decor (screen) au lieu de le recouvrir ; halo discret le jour, -->
+       ample la nuit. */
+    .lum-halo { opacity: 0.35; transition: opacity 3s; }
+    .nuit .lum-halo { opacity: 1; }
+    .flame-glow.lanterne { filter: hue-rotate(-12deg) saturate(1.3); }
+    /* Lanternes et torches exterieures (.exterieur, marquees par le script) : eteintes le jour, -->
+       allumees en continu la nuit avec une flamme qui vacille ; leur halo eclaire les murs et le -->
+       sol autour (flaque de lumiere). */
+    .win-light.exterieur { animation: none; opacity: 0; transition: opacity 4s; }
+    .nuit .win-light.exterieur { opacity: 1; }
+    .exterieur .flame-glow { animation: lanterneVacille 0.9s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 80%; }
+    @keyframes lanterneVacille {
+      0%, 100% { opacity: 1; transform: scale(1, 1); }
+      20%      { opacity: 0.82; transform: scale(0.94, 1.06); }
+      45%      { opacity: 0.95; transform: scale(1.05, 0.96); }
+      70%      { opacity: 0.78; transform: scale(0.97, 1.08); }
+    }
+    .exterieur .lum-halo { transform-box: fill-box; transform-origin: center; animation: lanterneHalo 1.7s ease-in-out infinite; }
+    .nuit .exterieur .lum-halo { opacity: 1; }
+    @keyframes lanterneHalo {
+      0%, 100% { transform: scale(3.6); }
+      40%      { transform: scale(3.25); }
+      70%      { transform: scale(3.8); }
+    }
     .win-light {
       animation-name: winCycle;
       animation-iteration-count: infinite;
@@ -209,10 +272,17 @@
     @keyframes winCycle {
       0%, 40%   { opacity: 0; }
       55%       { opacity: 0.18; }
-      65%       { opacity: 0.4; }
-      80%       { opacity: 0.4; }
+      65%       { opacity: 0.3; }
+      80%       { opacity: 0.3; }
       88%       { opacity: 0.15; }
       95%, 100% { opacity: 0; }
+    }
+    /* La nuit (classe .nuit sur la racine) : les fenetres sont allumees plus souvent et plus fort. */
+    .nuit .win-light { animation-name: winCycleNuit; }
+    @keyframes winCycleNuit {
+      0%, 40%   { opacity: 0; }
+      48%, 88%  { opacity: 0.7; }
+      96%, 100% { opacity: 0; }
     }
     .flame-glow {
       animation-name: flameFlicker;
@@ -238,6 +308,13 @@
     <g clip-path="url(#clip-ciel)">
       <image href="layers/02-sol-pave.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     </g>
+    <!-- CIEL : nuages et oiseaux crees au hasard par le script ("Ciel"), passent derriere les -->
+    <!-- collines et les batiments. -->
+    <g id="ciel" clip-path="url(#clip-coin-ovale)">
+      <g id="nuages" filter="url(#sketchyMedium)">
+      </g>
+      <g id="oiseaux" fill="none" stroke="#3a2a1a" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
     <!-- Sol de la ville entierement pave de petits paves ronds (recouvre les dalles ci-dessus). -->
     <!-- Version PNG (rendu de layers/02-sol-paves-ronds.svg) : ~19 000 paves statiques, bien plus -->
     <!-- leger a afficher sous les animations. Regenerer le PNG apres modification du SVG. -->
@@ -252,9 +329,13 @@
       <g class="foret" stroke="#3a2a14" stroke-linejoin="round" filter="url(#sketchyMedium)"/>
     </g>
     <!-- Cabane de bucheron dans la clairiere a l'oree de la foret -->
-    <image href="layers/02-cabane-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-Batiment/02-cabane-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maison paysanne pres du moulin -->
+    <image href="layers/02-Batiment/02-maison-paysanne.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maison de hobbit sur la colline lointaine, a droite -->
+    <image href="layers/02-Batiment/02-maison-hobbit.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <!-- Moulin a vent sur la crete de la colline -->
-    <image href="layers/02-moulin-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-Batiment/02-moulin-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <!-- Ailes du moulin : meme transform que #moulin-a-vent du calque, moyeu en (100,95). Une aile -->
     <!-- (pointant vers le haut) est dessinee une fois puis repetee a 90/180/270 deg ; le groupe -->
     <!-- .ailes tourne autour du moyeu (symetrie d'ordre 4 : centre de sa boite = moyeu). -->
@@ -290,7 +371,7 @@
     </g>
     </g>
     <!-- Rempart de la ville en arriere-plan (sur l'horizon, derriere tous les batiments) -->
-    <image href="layers/02-muraille-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-Batiment/02-muraille-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <!-- Maisons a colombages en retrait, entre la taverne et la tour (derriere les deux) -->
     <image href="layers/02-Batiment/02-maisons1.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <image href="layers/02-Batiment/02-tour-horloge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
@@ -391,6 +472,59 @@
 
     <!-- Tentes de marchands sur la place (apres la guilde, avant le puits) -->
     <image href="layers/02-Batiment/02-tentes.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Auvents des tentes (ondulent au vent) et enseignes : sortis du calque 02-tentes.svg -->
+    <g id="tentes-auvents" clip-path="url(#clip-coin-ovale)">
+      <g transform="translate(3540, 1020.2) scale(0.59)">
+    <!-- Auvent rayé (Toit de la tente) -->
+    <!-- Forme drapée avec bordure festonnée -->
+    <path class="auvent" data-geo="140,30,70,20" d="M -140,20 Q 0,-33.7 140,20 L 157.3,70 Q 121.8,90 86.4,70 Q 45.9,93.1 5.3,71.6 Q -25.2,93.9 -55.8,71.9 Q -86.2,91.7 -116.6,70.9 Q -131.9,88.2 -147.1,69.1 Z"
+          fill="url(#stripesRed)" stroke="#2a1a0a" stroke-width="4"
+          filter="url(#sketchyMedium)"/>
+
+    <!-- Pliures de l'auvent -->
+    <g class="auvent-plis" stroke="#2a1a0a" stroke-width="2" opacity="0.5" fill="none" filter="url(#sketchyMedium)">
+      <path d="M -70,25 Q -70,50 -90,70"/>
+      <path d="M 0,10 Q 0,50 -10,70"/>
+      <path d="M 70,25 Q 70,50 70,70"/>
+    </g>
+
+    <!-- Enseigne suspendue -->
+    <g filter="url(#sketchyMedium)">
+      <line x1="-120" y1="20" x2="-120" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="-120" y1="-10" x2="-80" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <rect x="-80" y="-10" width="40" height="50" rx="3" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Symbole : Aiguille et fil -->
+      <line x1="-60" y1="5" x2="-60" y2="30" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -60,15 Q -50,10 -50,20 Q -50,30 -60,25" fill="none" stroke="#a04030" stroke-width="2"/>
+    </g>
+
+      </g>
+      <g transform="translate(3660, 1095) scale(-0.825, 0.825)">
+    <!-- Auvent rayé vert -->
+    <path class="auvent" data-geo="130,25,65,20" d="M -130,20 Q 0,-28.7 130,20 L 147.3,65 Q 114.3,85 81.4,65 Q 43,88.1 4.6,66.6 Q -23.8,88.9 -52.2,66.9 Q -80.1,86.7 -108,65.9 Q -122.6,83.2 -137.1,64.1 Z"
+          fill="url(#stripesGreen)" stroke="#2a1a0a" stroke-width="4"
+          filter="url(#sketchyMedium)"/>
+
+    <!-- Pliures -->
+    <g class="auvent-plis" stroke="#2a1a0a" stroke-width="2" opacity="0.5" fill="none" filter="url(#sketchyMedium)">
+      <path d="M -60,22 Q -60,45 -100,65"/>
+      <path d="M 0,10 Q 0,45 -20,65"/>
+      <path d="M 60,22 Q 60,45 60,65"/>
+    </g>
+
+    <!-- Enseigne suspendue -->
+    <g filter="url(#sketchyMedium)">
+      <line x1="110" y1="20" x2="110" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="110" y1="-10" x2="150" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M 150,-10 L 190,-10 L 180,30 L 160,30 Z" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Symbole : Épi de blé -->
+      <line x1="170" y1="5" x2="170" y2="25" stroke="#c4a040" stroke-width="2"/>
+      <path d="M 170,10 Q 165,5 170,0 Q 175,5 170,10" fill="#c4a040"/>
+      <path d="M 170,15 Q 175,10 170,5" fill="#c4a040"/>
+    </g>
+
+      </g>
+    </g>
 
     <!-- Puits, en bas a droite de la place (premier plan) -->
     <image href="layers/02-Batiment/02-puit.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
@@ -421,6 +555,135 @@
       </g>
     </g>
 
+    <!-- Longs fanions en haut des tours a toit, ondulant au vent (vers la droite, comme le ble). -->
+    <!-- Formes animees par <animate> sur d (10 poses par cycle). -->
+    <g id="fanions" filter="url(#sketchyMedium)">
+      <!-- tour de l'horloge, epi gauche -->
+      <line x1="2831.5" y1="372" x2="2831.5" y2="298" stroke="#2a1a0a" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="2831.5" cy="297" r="3.5" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
+      <path class="fanion" data-px="2831.5" data-py="372" data-hp="70" data-l="120" data-h="22" d="M 2831.5,302 L 2839,302.5 L 2846.5,303.4 L 2854,304.6 L 2861.5,305.4 L 2869,305.5 L 2876.5,304.6 L 2884,302.8 L 2891.5,300.3 L 2899,297.7 L 2906.5,295.8 L 2914,295.3 L 2921.5,296.6 L 2929,299.7 L 2936.5,304.2 L 2944,309.2 L 2951.5,313.8 L 2951.5,315.5 L 2944,312.2 L 2936.5,308.5 L 2929,305.2 L 2921.5,303.4 L 2914,303.4 L 2906.5,305.2 L 2899,308.3 L 2891.5,312.1 L 2884,315.9 L 2876.5,319.1 L 2869,321.2 L 2861.5,322.4 L 2854,322.8 L 2846.5,322.9 L 2839,323.2 L 2831.5,324 Z" fill="#a04030" stroke="#2a1a0a" stroke-width="2.5" stroke-linejoin="round"/>
+      <path class="fanion-bande" d="M 2831.5,313 L 2838.8,312.8 L 2846.1,313.2 L 2853.3,313.7 L 2860.6,313.9 L 2867.9,313.4 L 2875.2,311.9 L 2882.4,309.3 L 2889.7,306.2 L 2897,303 L 2904.3,300.5 L 2911.5,299.4 L 2918.8,300 L 2926.1,302.5 L 2933.4,306.3 L 2940.6,310.7 L 2947.9,314.7" fill="none" stroke="#d4ba82" stroke-width="4.8" stroke-linecap="round"/>
+      <!-- tour de l'horloge, epi droit -->
+      <line x1="2985.5" y1="372" x2="2985.5" y2="298" stroke="#2a1a0a" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="2985.5" cy="297" r="3.5" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
+      <path class="fanion" data-px="2985.5" data-py="372" data-hp="70" data-l="120" data-h="22" d="M 2985.5,302 L 2993,302.5 L 3000.5,303.4 L 3008,304.6 L 3015.5,305.4 L 3023,305.5 L 3030.5,304.6 L 3038,302.8 L 3045.5,300.3 L 3053,297.7 L 3060.5,295.8 L 3068,295.3 L 3075.5,296.6 L 3083,299.7 L 3090.5,304.2 L 3098,309.2 L 3105.5,313.8 L 3105.5,315.5 L 3098,312.2 L 3090.5,308.5 L 3083,305.2 L 3075.5,303.4 L 3068,303.4 L 3060.5,305.2 L 3053,308.3 L 3045.5,312.1 L 3038,315.9 L 3030.5,319.1 L 3023,321.2 L 3015.5,322.4 L 3008,322.8 L 3000.5,322.9 L 2993,323.2 L 2985.5,324 Z" fill="#a04030" stroke="#2a1a0a" stroke-width="2.5" stroke-linejoin="round"/>
+      <path class="fanion-bande" d="M 2985.5,313 L 2992.8,312.8 L 3000.1,313.2 L 3007.3,313.7 L 3014.6,313.9 L 3021.9,313.4 L 3029.2,311.9 L 3036.4,309.3 L 3043.7,306.2 L 3051,303 L 3058.3,300.5 L 3065.5,299.4 L 3072.8,300 L 3080.1,302.5 L 3087.4,306.3 L 3094.6,310.7 L 3101.9,314.7" fill="none" stroke="#d4ba82" stroke-width="4.8" stroke-linecap="round"/>
+      <!-- tour du rempart (toit conique) x=2150 -->
+      <line x1="2150" y1="628" x2="2150" y2="598" stroke="#2a1a0a" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="2150" cy="597" r="2.4" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
+      <path class="fanion" data-px="2150" data-py="628" data-hp="26" data-l="44" data-h="8" d="M 2150,602 L 2152.8,602.2 L 2155.5,602.7 L 2158.3,603.2 L 2161,603.6 L 2163.8,603.7 L 2166.5,603.4 L 2169.3,602.8 L 2172,602 L 2174.8,601.2 L 2177.5,600.6 L 2180.3,600.4 L 2183,601 L 2185.8,602.2 L 2188.5,603.9 L 2191.3,605.8 L 2194,607.6 L 2194,608.2 L 2191.3,606.9 L 2188.5,605.5 L 2185.8,604.2 L 2183,603.5 L 2180.3,603.4 L 2177.5,604 L 2174.8,605 L 2172,606.3 L 2169.3,607.6 L 2166.5,608.7 L 2163.8,609.4 L 2161,609.7 L 2158.3,609.8 L 2155.5,609.8 L 2152.8,609.8 L 2150,610 Z" fill="#8a3a2a" stroke="#2a1a0a" stroke-width="1.4" stroke-linejoin="round"/>
+      <path class="fanion-bande" d="M 2150,606 L 2152.7,606 L 2155.3,606.2 L 2158,606.5 L 2160.7,606.6 L 2163.3,606.5 L 2166,606.1 L 2168.7,605.2 L 2171.3,604.2 L 2174,603.1 L 2176.7,602.3 L 2179.3,601.9 L 2182,602.2 L 2184.7,603.2 L 2187.3,604.7 L 2190,606.4 L 2192.7,607.9" fill="none" stroke="#c9b48a" stroke-width="1.8" stroke-linecap="round"/>
+      <!-- tour du rempart (toit conique) x=3420 -->
+      <line x1="3420" y1="628" x2="3420" y2="598" stroke="#2a1a0a" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="3420" cy="597" r="2.4" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
+      <path class="fanion" data-px="3420" data-py="628" data-hp="26" data-l="44" data-h="8" d="M 3420,602 L 3422.8,602.2 L 3425.5,602.7 L 3428.3,603.2 L 3431,603.6 L 3433.8,603.7 L 3436.5,603.4 L 3439.3,602.8 L 3442,602 L 3444.8,601.2 L 3447.5,600.6 L 3450.3,600.4 L 3453,601 L 3455.8,602.2 L 3458.5,603.9 L 3461.3,605.8 L 3464,607.6 L 3464,608.2 L 3461.3,606.9 L 3458.5,605.5 L 3455.8,604.2 L 3453,603.5 L 3450.3,603.4 L 3447.5,604 L 3444.8,605 L 3442,606.3 L 3439.3,607.6 L 3436.5,608.7 L 3433.8,609.4 L 3431,609.7 L 3428.3,609.8 L 3425.5,609.8 L 3422.8,609.8 L 3420,610 Z" fill="#8a3a2a" stroke="#2a1a0a" stroke-width="1.4" stroke-linejoin="round"/>
+      <path class="fanion-bande" d="M 3420,606 L 3422.7,606 L 3425.3,606.2 L 3428,606.5 L 3430.7,606.6 L 3433.3,606.5 L 3436,606.1 L 3438.7,605.2 L 3441.3,604.2 L 3444,603.1 L 3446.7,602.3 L 3449.3,601.9 L 3452,602.2 L 3454.7,603.2 L 3457.3,604.7 L 3460,606.4 L 3462.7,607.9" fill="none" stroke="#c9b48a" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+
+    <!-- Eclairage jour/nuit : voile bleu nuit (multiply) + teinte chaude d'aube/crepuscule, sous -->
+    <!-- les lumieres des fenetres pour qu'elles restent vives la nuit. Pilote par le script. -->
+    <g id="eclairage" style="pointer-events:none">
+      <!-- Assombrissement (transparence simple : les modes de fusion sur de grands groupes se -->
+      <!-- rendaient partiellement) : nuit bleue, teinte de crepuscule, vignettage nocturne -->
+      <g clip-path="url(#clip-coin-ovale)">
+        <rect id="voile-nuit" x="0" y="0" width="3840" height="2160" fill="#24305a" opacity="0"/>
+        <rect id="voile-crepuscule" x="0" y="0" width="3840" height="2160" fill="#c86a28" opacity="0"/>
+        <rect id="vignette-nuit" x="0" y="0" width="3840" height="2160" fill="url(#vignette-grad)" opacity="0"/>
+      </g>
+      <!-- Lumiere ambiante : lueur emise par le soleil ou la lune autour de l'astre -->
+      <g clip-path="url(#clip-coin-ovale)">
+        <ellipse id="lueur-astre" cx="2700" cy="300" rx="1500" ry="1100" fill="url(#lueur-soleil)" opacity="0"/>
+      </g>
+    </g>
+
+    <!-- Astres au-dessus du voile de nuit (restent lumineux), mais devant les nuages : les nuages -->
+    <!-- de nuit passent donc derriere la lune (acceptable a cette distance). -->
+    <g id="astres" clip-path="url(#clip-coin-ovale)">
+      <!-- Cycle jour/nuit (script "Jour et nuit") : etoiles, soleil, lune -->
+      <g id="etoiles" fill="#f4ecd4" opacity="0">
+        <circle cx="2163.3" cy="153.6" r="2.6"/>
+        <circle cx="3108.9" cy="306.5" r="1.7"/>
+        <circle cx="3473.8" cy="355.5" r="1.6"/>
+        <circle cx="3280.2" cy="496.3" r="2.1"/>
+        <circle cx="2613.6" cy="316.4" r="1.4"/>
+        <circle cx="2454.7" cy="130.4" r="1.3"/>
+        <circle cx="3523.9" cy="427.6" r="2.6"/>
+        <circle cx="2677.4" cy="393.6" r="1.9"/>
+        <circle cx="2502.6" cy="170.3" r="2.6"/>
+        <circle cx="3030.7" cy="143.1" r="1.9"/>
+        <circle cx="1809.6" cy="322.2" r="1.6"/>
+        <circle cx="2004.9" cy="307.4" r="1.9"/>
+        <circle cx="3182.4" cy="379.1" r="1.4"/>
+        <circle cx="2374.5" cy="182.4" r="1.4"/>
+        <circle cx="2086.6" cy="169.9" r="1.6"/>
+        <circle cx="3243.3" cy="332.7" r="1.7"/>
+        <circle cx="2163.9" cy="295.1" r="1.5"/>
+        <circle cx="2796.3" cy="108.8" r="2"/>
+        <circle cx="2524.9" cy="116.7" r="1.5"/>
+        <circle cx="3436.9" cy="175.1" r="1.6"/>
+        <circle cx="2674.1" cy="242.5" r="2.1"/>
+        <circle cx="1687.4" cy="330.9" r="1.4"/>
+        <circle cx="3061.6" cy="269.2" r="2"/>
+        <circle cx="1809.2" cy="445.9" r="2.1"/>
+        <circle cx="2424.6" cy="132.8" r="1.3"/>
+        <circle cx="2227.7" cy="114.8" r="1.1"/>
+        <circle cx="3097.3" cy="245.9" r="1.8"/>
+        <circle cx="2529.6" cy="256.5" r="1.5"/>
+        <circle cx="2558.7" cy="457.7" r="2"/>
+        <circle cx="3483.7" cy="460.7" r="1.6"/>
+        <circle cx="1780.3" cy="375.4" r="2.6"/>
+        <circle cx="2437.8" cy="242.6" r="1.5"/>
+        <circle cx="2224" cy="502.2" r="2.6"/>
+        <circle cx="3614.6" cy="291.7" r="1.5"/>
+        <circle cx="3498.8" cy="356.7" r="1"/>
+        <circle cx="3663.8" cy="407.2" r="1.1"/>
+        <circle cx="1911.7" cy="413.6" r="1.7"/>
+        <circle cx="3283.6" cy="388.9" r="2.6"/>
+        <circle cx="2538.7" cy="258.6" r="2.2"/>
+        <circle cx="3709.5" cy="460.8" r="2"/>
+        <circle cx="2633.4" cy="417.4" r="2"/>
+        <circle cx="1632.3" cy="403.3" r="1.3"/>
+        <circle cx="2798.5" cy="410.3" r="1.2"/>
+        <circle cx="2583.9" cy="452.6" r="1.6"/>
+        <circle cx="3149.9" cy="386.5" r="1.5"/>
+        <circle cx="1965.2" cy="170.6" r="2.6"/>
+        <circle cx="2821.3" cy="400.1" r="2.6"/>
+        <circle cx="2746.5" cy="230.8" r="2.6"/>
+        <circle cx="3585.3" cy="349.6" r="2.6"/>
+        <circle cx="2305.2" cy="177.4" r="2.1"/>
+        <circle cx="1677" cy="500.6" r="2.1"/>
+        <circle cx="3454.1" cy="133.7" r="2.6"/>
+        <circle cx="3467.5" cy="407.2" r="1.2"/>
+        <circle cx="2090.9" cy="211.6" r="2.6"/>
+        <circle cx="2959.8" cy="272.2" r="2.6"/>
+        <circle cx="3000.3" cy="226.4" r="1.1"/>
+        <circle cx="2998.5" cy="175.3" r="1.6"/>
+        <circle cx="2113.2" cy="151.7" r="1.1"/>
+        <circle cx="1851.1" cy="476.6" r="1.6"/>
+        <circle cx="3789.9" cy="262.6" r="2.6"/>
+        <circle cx="1758.1" cy="499.3" r="1.4"/>
+        <circle cx="1745.5" cy="134.2" r="1.6"/>
+        <circle cx="1628.8" cy="464" r="1.8"/>
+        <circle cx="3403.3" cy="489.7" r="1.9"/>
+        <circle cx="2214.4" cy="269.6" r="2.1"/>
+        <circle cx="2428.6" cy="187.3" r="1.9"/>
+        <circle cx="3538.4" cy="326.8" r="1.4"/>
+        <circle cx="2285" cy="221.1" r="2.6"/>
+        <circle cx="3588.2" cy="238.3" r="1.4"/>
+        <circle cx="2246.3" cy="507.6" r="1"/>
+      </g>
+      <g id="soleil" filter="url(#sketchyMedium)" opacity="0">
+        <circle r="92" fill="#f0c860" opacity="0.18"/>
+        <path d="M 48,0 L 74,0 M 41.6,24 L 53.7,31 M 24,41.6 L 37,64.1 M 0,48 L 0,62 M -24,41.6 L -37,64.1 M -41.6,24 L -53.7,31 M -48,0 L -74,0 M -41.6,-24 L -53.7,-31 M -24,-41.6 L -37,-64.1 M 0,-48 L 0,-62 M 24,-41.6 L 37,-64.1 M 41.6,-24 L 53.7,-31 " stroke="#c88a30" stroke-width="5" stroke-linecap="round"/>
+        <circle r="40" fill="#efc458" stroke="#8a5a20" stroke-width="4"/>
+        <path d="M -20,-18 Q -6,-30 12,-26" fill="none" stroke="#fae3a0" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <g id="lune" filter="url(#sketchyMedium)" opacity="0">
+        <path d="M 10,-36 A 36,36 0 1 0 10,36 A 46,46 0 0 1 10,-36 Z" fill="#ece4c8" stroke="#5a4a30" stroke-width="3.5"/>
+        <circle cx="-14" cy="-6" r="5" fill="#d0c6a4"/><circle cx="-8" cy="14" r="3.5" fill="#d0c6a4"/>
+      </g>
+    </g>
+
     <!-- Lumieres de fenetres/lanternes : coordonnees calculees depuis la position locale de -->
     <!-- chaque ouverture x la transform actuelle de son batiment (tour, taverne, auberge, -->
     <!-- guilde, forge, chapelle). Si un batiment est redeplace/redimensionne, ces points doivent -->
@@ -429,130 +692,147 @@
     <!-- Maisons a colombages (02-maisons1.svg) : fenetres de grenier (la maison 1, cachee -->
     <!-- derriere la taverne, n'en a pas : sa lueur passerait par-dessus le toit de la taverne). -->
     <g class="win-light" style="animation-duration:29s; animation-delay:-13s;" transform="translate(2381.8,757.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.4s;" rx="15" ry="11.5" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="36.0" ry="23.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.4s;" rx="17.3" ry="12.7" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(2475.4,653.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.60s; animation-delay:-0.5s;" rx="19" ry="11.5" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="45.6" ry="23.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.60s; animation-delay:-0.5s;" rx="21.8" ry="12.7" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:33s; animation-delay:-19s;" transform="translate(2571.6,757.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.6s;" rx="16" ry="11.5" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="38.4" ry="23.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.6s;" rx="18.4" ry="12.7" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:19s; animation-delay:-2s;" transform="translate(2381.8,810.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.30s; animation-delay:-0.1s;" rx="8" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="19.2" ry="24.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.30s; animation-delay:-0.1s;" rx="9.2" ry="13.2" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:22s; animation-delay:-7s;" transform="translate(2475.4,810.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.40s; animation-delay:-0.2s;" rx="8" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="19.2" ry="24.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.40s; animation-delay:-0.2s;" rx="9.2" ry="13.2" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:25s; animation-delay:-12s;" transform="translate(2475.4,758.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.50s; animation-delay:-0.3s;" rx="8" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="19.2" ry="24.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.50s; animation-delay:-0.3s;" rx="9.2" ry="13.2" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:28s; animation-delay:-0s;" transform="translate(2475.4,706.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.60s; animation-delay:-0.4s;" rx="8" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="19.2" ry="24.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.60s; animation-delay:-0.4s;" rx="9.2" ry="13.2" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:31s; animation-delay:-5s;" transform="translate(2582.7,810.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.70s; animation-delay:-0.5s;" rx="7" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="16.8" ry="24.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.70s; animation-delay:-0.5s;" rx="8.0" ry="13.2" fill="url(#lum-coeur)"/>
+    </g>
+    <!-- Maison de hobbit : fenetres rondes -->
+    <g class="win-light" style="animation-duration:27s; animation-delay:-5s;" transform="translate(3555,617.4)">
+      <ellipse class="lum-halo" rx="14.4" ry="12.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.5s; animation-delay:-0.4s;" rx="6.9" ry="6.6" fill="url(#lum-coeur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:31s; animation-delay:-17s;" transform="translate(3605,617.4)">
+      <ellipse class="lum-halo" rx="14.4" ry="12.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.5s; animation-delay:-0.4s;" rx="6.9" ry="6.6" fill="url(#lum-coeur)"/>
+    </g>
+    <!-- Maison paysanne pres du moulin : deux fenetres et la lucarne -->
+    <g class="win-light" style="animation-duration:24s; animation-delay:-4s;" transform="translate(2106,552.4)">
+      <ellipse class="lum-halo" rx="14.4" ry="10.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.5s; animation-delay:-0.3s;" rx="6.9" ry="5.5" fill="url(#lum-coeur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:29s; animation-delay:-11s;" transform="translate(2166,552.4)">
+      <ellipse class="lum-halo" rx="14.4" ry="10.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.5s; animation-delay:-0.4s;" rx="6.9" ry="5.5" fill="url(#lum-coeur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:34s; animation-delay:-18s;" transform="translate(2140,531)">
+      <ellipse class="lum-halo" rx="7.2" ry="5.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.5s; animation-delay:-0.5s;" rx="3.4" ry="2.8" fill="url(#lum-coeur)"/>
     </g>
     <!-- Taverne elargie : fenetre droite etage 1, fenetre gauche etage 2, lucarne -->
     <g class="win-light" style="animation-duration:31s; animation-delay:-16s;" transform="translate(2248.1,846.7)">
-      <ellipse class="flame-glow" style="animation-duration:1.7s; animation-delay:-0.3s;" rx="15" ry="19" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="36.0" ry="38.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.7s; animation-delay:-0.3s;" rx="17.3" ry="20.9" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:19s; animation-delay:-4s;" transform="translate(2174.6,764.8)">
-      <ellipse class="flame-glow" style="animation-duration:1.4s; animation-delay:-0.9s;" rx="13" ry="17" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="31.2" ry="34.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.4s; animation-delay:-0.9s;" rx="14.9" ry="18.7" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:35s; animation-delay:-21s;" transform="translate(2208.2,702.6)">
-      <ellipse class="flame-glow" style="animation-duration:1.8s; animation-delay:-0.5s;" rx="13" ry="13" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="31.2" ry="26.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.8s; animation-delay:-0.5s;" rx="14.9" ry="14.3" fill="url(#lum-coeur)"/>
     </g>
     <!-- Maisons normandes (02-maisons2.svg, etage 2) et cabane du bucheron -->
     <g class="win-light" style="animation-duration:22s; animation-delay:-3s;" transform="translate(3463.1,747.3)">
-      <ellipse class="flame-glow" style="animation-duration:1.35s; animation-delay:-0.2s;" rx="9" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="21.6" ry="30.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.35s; animation-delay:-0.2s;" rx="10.3" ry="16.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:26s; animation-delay:-10s;" transform="translate(3497.9,747.3)">
-      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.3s;" rx="9" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="21.6" ry="30.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.3s;" rx="10.3" ry="16.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:30s; animation-delay:-17s;" transform="translate(3558.8,747.3)">
-      <ellipse class="flame-glow" style="animation-duration:1.55s; animation-delay:-0.4s;" rx="23" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="55.2" ry="30.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.55s; animation-delay:-0.4s;" rx="26.4" ry="16.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:34s; animation-delay:-5s;" transform="translate(3657.4,750.2)">
-      <ellipse class="flame-glow" style="animation-duration:1.65s; animation-delay:-0.5s;" rx="12" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="28.8" ry="30.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.65s; animation-delay:-0.5s;" rx="13.8" ry="16.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:38s; animation-delay:-12s;" transform="translate(3703.8,750.2)">
-      <ellipse class="flame-glow" style="animation-duration:1.35s; animation-delay:-0.6s;" rx="12" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="28.8" ry="30.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.35s; animation-delay:-0.6s;" rx="13.8" ry="16.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:42s; animation-delay:-0s;" transform="translate(3750.2,750.2)">
-      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.7s;" rx="12" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="28.8" ry="30.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.7s;" rx="13.8" ry="16.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:46s; animation-delay:-7s;" transform="translate(2673.2,627.7)">
-      <ellipse class="flame-glow" style="animation-duration:1.55s; animation-delay:-0.8s;" rx="4" ry="5" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="9.6" ry="10.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.55s; animation-delay:-0.8s;" rx="4.6" ry="5.5" fill="url(#lum-coeur)"/>
     </g>
     <!-- Fenetre de l'extension de la taverne -->
     <g class="win-light" style="animation-duration:26s; animation-delay:-7s;" transform="translate(2323.7,952.1)">
-      <ellipse class="flame-glow" style="animation-duration:1.55s; animation-delay:-0.6s;" rx="13" ry="11" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="31.2" ry="22.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.55s; animation-delay:-0.6s;" rx="14.9" ry="12.1" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(2842.5,571.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="18" ry="26" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="43.2" ry="52.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="20.7" ry="28.6" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:25s; animation-delay:-9s;" transform="translate(2974.5,571.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="18" ry="26" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="43.2" ry="52.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="20.7" ry="28.6" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(2853.5,748.5)">
-      <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="22" ry="30" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="52.8" ry="60.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="25.3" ry="33.0" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(2963.5,748.5)">
-      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="22" ry="30" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="52.8" ry="60.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="25.3" ry="33.0" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(2168.3,846.7)">
-      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="15" ry="19" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="36.0" ry="38.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="17.3" ry="20.9" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(2241.8,764.8)">
-      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="13" ry="17" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="31.2" ry="34.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="14.9" ry="18.7" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(2340.5,813.1)">
-      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="8" ry="9" fill="#ff8c3d" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="19.2" ry="18.0" fill="url(#lum-halo)"/><ellipse class="flame-glow lanterne" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="9.2" ry="9.9" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(2498,1045.25)">
-      <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="50" ry="34" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="120.0" ry="68.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="57.5" ry="37.4" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:25s; animation-delay:-9s;" transform="translate(2732,970.25)">
-      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="8" ry="9" fill="#ff8c3d" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="19.2" ry="18.0" fill="url(#lum-halo)"/><ellipse class="flame-glow lanterne" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="9.2" ry="9.9" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(3115,1039)">
-      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="36" ry="42" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="86.4" ry="84.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="41.4" ry="46.2" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(3355,1039)">
-      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="36" ry="42" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="86.4" ry="84.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="41.4" ry="46.2" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(3100,906.5)">
-      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="32" ry="35" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="76.8" ry="70.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="36.8" ry="38.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(3235,906.5)">
-      <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="32" ry="35" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="76.8" ry="70.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="36.8" ry="38.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(3370,906.5)">
-      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="32" ry="35" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="76.8" ry="70.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="36.8" ry="38.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(3235,811.5)">
-      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="27" ry="25" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="64.8" ry="50.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="31.0" ry="27.5" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:25s; animation-delay:-9s;" transform="translate(2970,1063)">
-      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="9" ry="10" fill="#ff8c3d" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="21.6" ry="20.0" fill="url(#lum-halo)"/><ellipse class="flame-glow lanterne" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="10.3" ry="11.0" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(3145,1166)">
-      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="10" ry="14" fill="#ff8c3d" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="24.0" ry="28.0" fill="url(#lum-halo)"/><ellipse class="flame-glow lanterne" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="11.5" ry="15.4" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(3325,1166)">
-      <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="10" ry="14" fill="#ff8c3d" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="24.0" ry="28.0" fill="url(#lum-halo)"/><ellipse class="flame-glow lanterne" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="11.5" ry="15.4" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(3608,880)">
-      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="15" ry="18" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="36.0" ry="36.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="17.3" ry="19.8" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(1954,934.8)">
-      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="38" ry="66" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="91.2" ry="132.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="43.7" ry="72.6" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(1786,794.8)">
-      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="25" ry="41" fill="#ffcf8a" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="60.0" ry="82.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="28.7" ry="45.1" fill="url(#lum-coeur)"/>
     </g>
     <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(1954,1052.4)">
-      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="9" ry="10" fill="#ff8c3d" filter="url(#glowBlur)"/>
+      <ellipse class="lum-halo" rx="21.6" ry="20.0" fill="url(#lum-halo)"/><ellipse class="flame-glow lanterne" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="10.3" ry="11.0" fill="url(#lum-coeur)"/>
     </g>
     </g>
   </g>
@@ -603,6 +883,16 @@
 
   <!-- Fumee de la cabane du bucheron : sommet de cheminee (160,30) du calque cabane, passe par -->
   <!-- sa transform (translate(2660.6,583.6) scale(0.28)) -> (2705.4,592) ; bouffees reduites (lointain). -->
+  <!-- Fumee de la maison paysanne (cheminee (200,70) du calque -> (2180,519)) -->
+  <g id="paysan-smoke" transform="translate(2180,519) scale(0.3)">
+    <g class="puffs"/>
+  </g>
+
+  <!-- Fumee de la maison de hobbit (cheminee (110,22) du calque -> (3607.5,580.5)) -->
+  <g id="hobbit-smoke" transform="translate(3602,589.4) scale(0.22)">
+    <g class="puffs"/>
+  </g>
+
   <g id="cabane-smoke" transform="translate(2705.4,592) scale(0.35)">
     <g class="puffs"/>
   </g>
@@ -628,6 +918,9 @@
       return v * 1000;
     }
     var rootStyle = document.documentElement.style;
+    // ~1/3 des fenetres restent eteintes (decale au hasard a chaque chargement)
+    Array.prototype.forEach.call(document.querySelectorAll('.win-light'), function (e) { if (!e.querySelector('.lanterne') && Math.random() < cfg('lumieres.eteintes', 0.35)) e.style.display = 'none'; });
+    Array.prototype.forEach.call(document.querySelectorAll('.flame-glow.lanterne'), function (e) { e.parentNode.classList.add('exterieur'); var h = e.parentNode.querySelector('.lum-halo'); if (h) h.setAttribute('fill', 'url(#lum-lanterne)'); e.style.animationDelay = (-Math.random()).toFixed(2) + 's'; });
     rootStyle.setProperty('--ble-balancement', cfg('ble.balancement', 3.4) + 's');
     rootStyle.setProperty('--ble-rafale', cfg('ble.rafale', 11) + 's');
     rootStyle.setProperty('--ble-force-balancement', cfg('ble.forceBalancement', 5));
@@ -975,6 +1268,8 @@
       if (cfg('fumee.actives.forge', true)) smoke('forge-smoke', 0);
       if (cfg('fumee.actives.boulangerie', true)) smoke('boulangerie-smoke', 0);
       if (cfg('fumee.actives.cabane', true)) smoke('cabane-smoke', 0);
+      if (cfg('fumee.actives.paysan', true)) smoke('paysan-smoke', 0);
+      if (cfg('fumee.actives.hobbit', true)) smoke('hobbit-smoke', 0);
     })();
 
     (function () {
@@ -1012,7 +1307,7 @@
 
     (function () {
       // Champs de ble sur les collines (calque 02-colline-fond.svg), herbe, forets et chemin du moulin
-      // (calque 02-moulin-fond.svg, porte en (1990,560)). Les epis sont plantes en rangs qui
+      // (calque 02-Batiment/02-moulin-fond.svg, porte en (1990,560)). Les epis sont plantes en rangs qui
       // suivent la crete (perspective : rangs et epis de plus en plus espaces/grands vers le
       // bas), avec la teinte de la parcelle dessinee dans le calque ; parcelles labourees et
       // chemin laisses nus. Generation deterministe (PRNG fixe). Chaque segment de rang
@@ -1135,7 +1430,7 @@
                'M' + b + 'L' + r1(x + 0.8 * s) + ',' + r1(y - 11 * s) +
                'M' + b + 'Q' + r1(x + 2 * s) + ',' + r1(y - 5 * s) + ' ' + r1(x + 4.5 * s) + ',' + r1(y - 8 * s);
       }
-      // Clairiere de la cabane du bucheron (calque 02-cabane-fond.svg) : ni arbre ni herbe
+      // Clairiere de la cabane du bucheron (calque 02-Batiment/02-cabane-fond.svg) : ni arbre ni herbe
       // devant elle (les arbres plus loin, pieds au-dessus de y0, restent derriere elle).
       var CLAIRIERE = [2640, 2755, 630, 812];
       function inClearing(x, y) { return x > CLAIRIERE[0] && x < CLAIRIERE[1] && y > CLAIRIERE[2] && y < CLAIRIERE[3]; }
@@ -1173,9 +1468,9 @@
       Object.keys(segs).forEach(function (k) {
         var g = segs[k];
         var gust = el('g', { 'class': 'wheat-gust' }, epis);
-        gust.style.animationDelay = ((g.x / 450) % GUST - GUST).toFixed(2) + 's';
+        gust.style.animationDelay = (-(GUST - (g.x / 450) % GUST)).toFixed(2) + 's';   // phase = t - x/450
         var sway = el('g', { 'class': 'wheat-sway' }, gust);
-        sway.style.animationDelay = ((g.x / 900) % SWAY - SWAY + (rnd() - 0.5) * 0.4).toFixed(2) + 's';
+        sway.style.animationDelay = (-(SWAY - (g.x / 900) % SWAY) + (rnd() - 0.5) * 0.4).toFixed(2) + 's';
         el('path', { d: g.d, stroke: COLORS[g.kind], 'stroke-width': r1(0.9 + 0.5 * g.s) }, sway);
       });
 
@@ -1216,9 +1511,9 @@
         var fill = FILLS[Math.floor(rnd() * FILLS.length)], sw = r1(0.8 + 0.6 * s);
         // Vent : meme phase que le ble a cette abscisse (la vague traverse aussi la foret)
         var tg = el('g', { 'class': 'tree-gust' }, foret);
-        tg.style.animationDelay = ((x / 450) % GUST - GUST).toFixed(2) + 's';
+        tg.style.animationDelay = (-(GUST - (x / 450) % GUST)).toFixed(2) + 's';
         var tree = el('g', { 'class': 'tree-sway' }, tg);
-        tree.style.animationDelay = ((x / 900) % SWAY - SWAY + (rnd() - 0.5) * 0.6).toFixed(2) + 's';
+        tree.style.animationDelay = (-(SWAY - (x / 900) % SWAY) + (rnd() - 0.5) * 0.6).toFixed(2) + 's';
         el('path', { d: 'M' + r1(x) + ',' + r1(y) + 'L' + r1(x) + ',' + r1(y - 12 * s), fill: 'none',
                      stroke: '#3a2a14', 'stroke-width': r1(1.2 + 1.5 * s) }, tree);
         if (rnd() < 0.3) {
@@ -1286,6 +1581,209 @@
         setTimeout(cycle, total + cfgMs('puits.intervalle', [40, 90]));
       }
       setTimeout(cycle, cfgMs('puits.premiere', [10, 30]));
+    })();
+
+    (function () {
+      // Vent commun : force du vent (0..1) a l'abscisse x, au meme instant et avec les memes
+      // cycles que le ble (rafale 'ble.rafale', balancement 'ble.balancement'), vague qui
+      // traverse de gauche a droite. Pilote les fanions et les auvents des tentes.
+      var GUSTD = cfg('ble.rafale', 11), SWAYD = cfg('ble.balancement', 3.4);
+      var PUISSANCE = cfg('vent.puissance', 1);
+      function now() { return (document.timeline ? document.timeline.currentTime : performance.now()) / 1000; }
+      function gustAt(x, t) {
+        var p = (((t - x / 450) % GUSTD) + GUSTD) % GUSTD / GUSTD;
+        if (p < 0.55) return 0;
+        if (p < 0.70) return (p - 0.55) / 0.15;
+        if (p < 0.82) return 1 - 0.625 * (p - 0.70) / 0.12;
+        return 0.375 * (1 - (p - 0.82) / 0.18);
+      }
+      function windAt(x, t) {
+        var sway = 0.5 + 0.5 * Math.sin(2 * Math.PI * (t - x / 900) / SWAYD);
+        return Math.min(1, PUISSANCE * (0.25 + 0.15 * sway + 0.6 * gustAt(x, t)));
+      }
+      function r1(v) { return Math.round(v * 10) / 10; }
+
+      // --- Fanions : angle de chute (pend quand le vent tombe), ondulation plus ample et plus
+      // rapide pendant les rafales.
+      var flags = Array.prototype.map.call(document.querySelectorAll('#fanions .fanion'), function (e) {
+        return { e: e, band: e.nextElementSibling && e.nextElementSibling.classList.contains('fanion-bande') ? e.nextElementSibling : null,
+                 px: +e.dataset.px, py: +e.dataset.py, hp: +e.dataset.hp, L: +e.dataset.l, h: +e.dataset.h, ph: Math.random() * 6 };
+      });
+      var N = 16;
+      function drawFlag(f, w) {
+        var top = f.py - f.hp, a = (1 - w) * 0.85;               // 0 = horizontal, ~50 deg quand calme
+        var ca = Math.cos(a), sa = Math.sin(a), amp = (0.2 + 0.6 * w) * f.h;
+        var T = [], B = [], M = [];
+        for (var i = 0; i <= N; i++) {
+          var u = i / N, al = f.L * u * (0.85 + 0.15 * w);
+          var off = amp * Math.sin(2 * Math.PI * 1.15 * u - f.ph) * u;
+          var bx = f.px + al * ca, by = top + al * sa;
+          var hw = f.h * (1 - u * 0.92);
+          // perpendiculaire a la direction du fanion
+          T.push([bx - sa * off, by + ca * off]);
+          B.push([bx - sa * (off + hw), by + ca * (off + hw)]);
+          M.push([bx - sa * (off + hw / 2), by + ca * (off + hw / 2)]);
+        }
+        var d = 'M ' + T.map(function (p) { return r1(p[0]) + ',' + r1(p[1]); }).join(' L ') + ' L ' +
+                B.reverse().map(function (p) { return r1(p[0]) + ',' + r1(p[1]); }).join(' L ') + ' Z';
+        f.e.setAttribute('d', d);
+        if (f.band) f.band.setAttribute('d', 'M ' + M.slice(0, N).map(function (p) { return r1(p[0]) + ',' + r1(p[1]); }).join(' L '));
+      }
+
+      // --- Auvents : le bord festonne est souleve et pousse vers la droite selon le vent.
+      var awnings = Array.prototype.map.call(document.querySelectorAll('#tentes-auvents .auvent'), function (e) {
+        var g = e.dataset.geo.split(',').map(Number);
+        var box = e.parentNode.getBoundingClientRect();
+        return { e: e, W: g[0], T: g[1], B: g[2], dip: g[3], x: box.left + box.width / 2, ph: Math.random() * 6,
+                 plis: e.parentNode.querySelector('.auvent-plis') };
+      });
+      function drawAwning(a, w) {
+        var K = cfg('vent.tentes', 0.4);   // les toiles, lourdes et tendues, bougent peu
+        var lift = K * (1.5 + 6 * w) * Math.sin(a.ph), dx = K * (2 + 9 * w + (1 + 2 * w) * Math.sin(a.ph + 0.6));
+        var puff = -a.T - K * (1 + 4 * w) * Math.sin(a.ph + 1.2), W = a.W, B = a.B;
+        var xs = [W + 10, W * 0.5 + 10, W * 0.07 - 10, -W * 0.36 - 10, -W * 0.86, -W - 10];
+        var d = 'M ' + (-W) + ',20 Q 0,' + r1(puff) + ' ' + W + ',20 L ' + r1(xs[0] + dx) + ',' + r1(B + lift);
+        for (var i = 0; i < 5; i++) {
+          var p = xs[i] + dx * (1 - i * 0.12), q = xs[i + 1] + dx * (1 - (i + 1) * 0.12);
+          var wv = K * (1 + 3 * w) * Math.sin(a.ph + i * 0.9);
+          d += ' Q ' + r1((p + q) / 2) + ',' + r1(B + a.dip + lift + wv) + ' ' + r1(q) + ',' + r1(B + lift + wv * 0.5);
+        }
+        a.e.setAttribute('d', d + ' Z');
+        if (a.plis) a.plis.setAttribute('transform', 'translate(' + r1(dx * 0.5) + ',' + r1(lift * 0.5) + ')');
+      }
+
+      var last = performance.now();
+      function frame(t) {
+        var dt = Math.min(0.1, (t - last) / 1000); last = t;
+        var tn = now();
+        flags.forEach(function (f) { var w = windAt(f.px, tn); f.ph += dt * 2 * Math.PI * (0.5 + 1.3 * w); drawFlag(f, w); });
+        awnings.forEach(function (a) { var w = windAt(a.x, tn); a.ph += dt * 2 * Math.PI * (0.18 + 0.35 * w); drawAwning(a, w); });
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+
+    (function () {
+      // Ciel : nuages et vols d'oiseaux apparaissent au hasard.
+      var NS = 'http://www.w3.org/2000/svg';
+      function rand(a, b) { return a + Math.random() * (b - a); }
+      function el(tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; }
+      var X0 = 1350, X1 = 3950;   // couloir de vol / de derive (le coin ovale coupe le reste)
+
+      // ---- Nuages : forme festonnee aleatoire, derive vers la droite (sens du vent)
+      var nuages = document.getElementById('nuages');
+      function cloudPath(w, h) {
+        var n = Math.max(3, Math.round(w / rand(45, 70))), d = 'M 0,0';
+        for (var i = 0; i < n; i++) {
+          var hh = h * (0.45 + 0.55 * Math.sin(Math.PI * (i + 0.5) / n)) * rand(0.75, 1.15);
+          d += ' Q ' + (w * (i + 0.5) / n).toFixed(1) + ',' + (-hh * 1.25).toFixed(1) + ' ' + (w * (i + 1) / n).toFixed(1) + ',' + (i === n - 1 ? 0 : -hh * rand(0.2, 0.45)).toFixed(1);
+        }
+        return d + ' Q ' + (w / 2).toFixed(1) + ',' + (h * rand(0.1, 0.25)).toFixed(1) + ' 0,0 Z';
+      }
+      var CROSS = cfg('ciel.traverseeNuages', 240);   // secondes pour traverser (moyenne)
+      function spawnCloud(startFrac) {
+        var w = rand(160, 480), h = rand(40, 95), y = rand(110, 470), sc = rand(0.55, 1.2);
+        var g = el('g', {}, nuages);
+        var inner = el('g', { transform: 'translate(0,' + y.toFixed(1) + ') scale(' + sc.toFixed(2) + ')' }, g);
+        el('path', { d: cloudPath(w, h), fill: '#efe4c6', stroke: '#6a5030', 'stroke-width': 2.5, 'stroke-linejoin': 'round', opacity: rand(0.8, 0.95).toFixed(2) }, inner);
+        el('path', { d: 'M ' + (w * 0.12).toFixed(1) + ',-6 Q ' + (w / 2).toFixed(1) + ',4 ' + (w * 0.88).toFixed(1) + ',-6', fill: 'none', stroke: '#b8a070', 'stroke-width': 5, opacity: 0.5, 'stroke-linecap': 'round' }, inner);
+        var from = X0 - w * sc - 50, to = X1 + 50, dur = CROSS * rand(0.7, 1.4) * 1000;
+        var anim = g.animate([{ transform: 'translateX(' + from + 'px)' }, { transform: 'translateX(' + to + 'px)' }], { duration: dur, easing: 'linear' });
+        if (startFrac) anim.currentTime = dur * startFrac;   // nuages deja en place au demarrage
+        anim.onfinish = function () { g.remove(); };
+      }
+      var nInit = Math.round(rand(3, 6));
+      for (var i = 0; i < nInit; i++) spawnCloud(rand(0.05, 0.95));
+      (function nextCloud() { spawnCloud(0); setTimeout(nextCloud, cfgMs('ciel.nuages', [25, 70])); })();
+
+      // ---- Oiseaux : vol lent, formation lache qui se deforme, aile lointaine plus petite
+      var root = document.getElementById('oiseaux');
+      function flock() {
+        var n = Math.floor(rand(3, 8)), dir = Math.random() < 0.7 ? 1 : -1;
+        var yBase = rand(120, 430), speed = rand(40, 75) * dir, birds = [];
+        var x0 = dir > 0 ? X0 - 80 : X1 + 80;
+        for (var i = 0; i < n; i++) {
+          var s0 = rand(5, 12), e = el('path', { 'stroke-width': (s0 / 5).toFixed(1) }, root);
+          birds.push({
+            e: e, s: s0,
+            dx: -dir * (i * rand(14, 34)) + rand(-12, 12),      // ecart variable, pas de V parfait
+            dy: rand(-45, 45),                                  // altitude propre a chaque oiseau
+            v: speed * rand(0.9, 1.1),                          // vitesses legerement differentes
+            far: rand(0.45, 0.75),                              // aile lointaine plus petite
+            curve: rand(0.15, 0.4), ph: rand(0, 6), f: rand(3, 5), bob: rand(5, 16), bobF: rand(0.25, 0.6), glide: rand(0, 10)
+          });
+        }
+        var start = performance.now(), life = ((X1 - X0 + 400) / Math.abs(speed)) * 1000;
+        function frame(now) {
+          var t = (now - start) / 1000;
+          birds.forEach(function (b) {
+            // plane de temps en temps (ailes immobiles, legerement relevees)
+            var gliding = Math.sin(t * 0.35 + b.glide) > 0.75;
+            var flap = gliding ? 0.25 : Math.sin(b.ph + t * b.f);
+            var x = x0 + b.dx + b.v * t, y = yBase + b.dy + b.bob * Math.sin(t * b.bobF + b.ph) + 6 * Math.sin(t * 0.17 + b.glide);
+            var wy = -b.s * (0.15 + 0.55 * flap), near = b.s, farW = b.s * b.far;
+            // aile proche (dans le sens de vol) plus grande, aile lointaine plus petite et plus courte
+            var nx = dir, fx = -dir;
+            b.e.setAttribute('d',
+              'M ' + (x + fx * farW).toFixed(1) + ',' + (y + wy * b.far).toFixed(1) +
+              ' Q ' + (x + fx * farW * 0.4).toFixed(1) + ',' + (y + wy * 0.2 * b.far - farW * b.curve).toFixed(1) + ' ' + x.toFixed(1) + ',' + y.toFixed(1) +
+              ' Q ' + (x + nx * near * 0.4).toFixed(1) + ',' + (y + wy * 0.2 - near * b.curve).toFixed(1) + ' ' + (x + nx * near).toFixed(1) + ',' + (y + wy).toFixed(1));
+          });
+          if (t * 1000 < life) requestAnimationFrame(frame);
+          else birds.forEach(function (b) { b.e.remove(); });
+        }
+        requestAnimationFrame(frame);
+        setTimeout(flock, cfgMs('ciel.oiseaux', [20, 60]));   // un vol peut en croiser un autre
+      }
+      setTimeout(flock, cfgMs('ciel.premierVol', [3, 10]));
+    })();
+
+    (function () {
+      // Jour et nuit. Mode 'reel' : suit l'heure de l'ordinateur (comme l'horloge). Mode
+      // 'accelere' : une journee complete en 'jourNuit.dureeCycle' minutes.
+      var mode = cfg('jourNuit.mode', 'reel'), cycleMin = cfg('jourNuit.dureeCycle', 20);
+      var LEVER = cfg('jourNuit.lever', 7), COUCHER = cfg('jourNuit.coucher', 20), NUIT = cfg('jourNuit.obscurite', 0.6);
+      var soleil = document.getElementById('soleil'), lune = document.getElementById('lune');
+      var etoiles = document.getElementById('etoiles');
+      var voile = document.getElementById('voile-nuit'), crep = document.getElementById('voile-crepuscule');
+      var lueur = document.getElementById('lueur-astre'), vign = document.getElementById('vignette-nuit');
+      var AMB = cfg('jourNuit.lumiereAmbiante', 1);
+      var t0 = performance.now(), startHour = new Date().getHours() + new Date().getMinutes() / 60;
+      function hourNow() {
+        if (mode === 'accelere') return (startHour + (performance.now() - t0) / 60000 / cycleMin * 24) % 24;
+        var d = new Date(); return d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600;
+      }
+      function smooth(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+      // Position sur l'arc du ciel (p : 0 lever -> 1 coucher), cache par les collines aux extremites
+      function arc(p) { return [1650 + p * 2100, 640 - 470 * Math.sin(Math.PI * p)]; }
+      function update() {
+        var h = hourNow(), dayLen = COUCHER - LEVER;
+        var pd = (h - LEVER) / dayLen;                                   // soleil
+        var pn = ((h - COUCHER + 24) % 24) / (24 - dayLen);              // lune
+        var sunUp = pd > -0.05 && pd < 1.05, moonUp = pn > -0.05 && pn < 1.05;
+        if (sunUp) { var a = arc(pd); soleil.setAttribute('transform', 'translate(' + a[0].toFixed(1) + ',' + a[1].toFixed(1) + ')'); }
+        if (moonUp) { var m = arc(pn); lune.setAttribute('transform', 'translate(' + m[0].toFixed(1) + ',' + m[1].toFixed(1) + ')'); }
+        soleil.setAttribute('opacity', sunUp ? 1 : 0);
+        lune.setAttribute('opacity', moonUp ? 1 : 0);
+        // obscurite : 0 le jour, 1 la nuit, transitions d'environ 1 h autour du lever et du coucher
+        var dark = 1 - smooth(LEVER - 0.5, LEVER + 0.75, h) * (1 - smooth(COUCHER - 0.75, COUCHER + 0.5, h));
+        // teinte chaude : pic au lever et au coucher
+        var warm = Math.max(Math.exp(-Math.pow((h - LEVER) / 0.7, 2)), Math.exp(-Math.pow((h - COUCHER) / 0.7, 2)));
+        voile.setAttribute('opacity', (dark * NUIT).toFixed(3));
+        crep.setAttribute('opacity', (warm * 0.22).toFixed(3));
+        // Lueur ambiante : centree sur le soleil le jour, sur la lune la nuit ; plus forte quand
+        // l'astre est haut, chaude et rasante au lever/coucher.
+        var src = null, amb = 0;
+        if (sunUp && dark < 0.6) { src = arc(pd); amb = (1 - dark) * (0.55 + 0.45 * Math.sin(Math.PI * Math.min(1, Math.max(0, pd)))); lueur.setAttribute('fill', 'url(#lueur-soleil)'); }
+        else if (moonUp) { src = arc(pn); amb = dark * 0.25 * Math.sin(Math.PI * Math.min(1, Math.max(0, pn))); lueur.setAttribute('fill', 'url(#lueur-lune)'); }
+        if (src) { lueur.setAttribute('cx', src[0].toFixed(1)); lueur.setAttribute('cy', src[1].toFixed(1)); }
+        lueur.setAttribute('opacity', (AMB * amb).toFixed(3));
+        vign.setAttribute('opacity', (dark * 0.7).toFixed(3));
+        etoiles.setAttribute('opacity', Math.max(0, (dark - 0.4) / 0.6).toFixed(2));
+        document.documentElement.classList.toggle('nuit', dark > 0.5);
+      }
+      update();
+      setInterval(update, mode === 'accelere' ? 100 : 5000);
     })();
     });
   ]]></script>

@@ -174,6 +174,32 @@
       <path d="M 521,1156 L 521,1228 M 599,1156 L 599,1228" stroke="#3a2a1a" stroke-width="1.7999999999999998"/>
     </g>
 
+    <!-- Jardinieres fleuries sous les fenetres de l'etage 2 -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M 358,1240 Q 379,1204 400,1224 Q 421,1200 442,1240 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="4.8"/>
+      <circle cx="370.3" cy="1205.1" r="10.4" fill="#c8642e" stroke="#2a1a0a" stroke-width="3.2"/>
+      <circle cx="370.3" cy="1205.1" r="3.6" fill="#e8c860"/>
+      <circle cx="402.2" cy="1215.9" r="10.4" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="3.2"/>
+      <circle cx="402.2" cy="1215.9" r="3.6" fill="#e8c860"/>
+      <circle cx="427" cy="1216.4" r="10.4" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="3.2"/>
+      <circle cx="427" cy="1216.4" r="3.6" fill="#e8c860"/>
+      <path d="M 366,1268 Q 350,1292 362,1308 M 434,1268 Q 450,1288 438,1304" fill="none" stroke="#5e6440" stroke-width="8" stroke-linecap="round"/>
+      <rect x="358" y="1232" width="84" height="36" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="6.4"/>
+      <line x1="358" y1="1250" x2="442" y2="1250" stroke="#2a1a0a" stroke-width="3.2" opacity="0.6"/>
+    </g>
+    <g filter="url(#sketchyMedium)">
+      <path d="M 518,1240 Q 539,1204 560,1224 Q 581,1200 602,1240 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="4.8"/>
+      <circle cx="535.8" cy="1206" r="10.4" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="3.2"/>
+      <circle cx="535.8" cy="1206" r="3.6" fill="#e8c860"/>
+      <circle cx="563.8" cy="1215.8" r="10.4" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="3.2"/>
+      <circle cx="563.8" cy="1215.8" r="3.6" fill="#e8c860"/>
+      <circle cx="585.2" cy="1212" r="10.4" fill="#a04030" stroke="#2a1a0a" stroke-width="3.2"/>
+      <circle cx="585.2" cy="1212" r="3.6" fill="#e8c860"/>
+      <path d="M 526,1268 Q 510,1292 522,1308 M 594,1268 Q 610,1288 598,1304" fill="none" stroke="#5e6440" stroke-width="8" stroke-linecap="round"/>
+      <rect x="518" y="1232" width="84" height="36" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="6.4"/>
+      <line x1="518" y1="1250" x2="602" y2="1250" stroke="#2a1a0a" stroke-width="3.2" opacity="0.6"/>
+    </g>
+
     <!-- LUCARNE centrale dans le toit (comme la guilde) -->
     <g filter="url(#sketchyMedium)">
       <polygon points="436,1012 480,950 524,1012" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="4"/>

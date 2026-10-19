@@ -188,6 +188,48 @@
       <path d="M 281,30.8 L 281,98 M 369,30.8 L 369,98" stroke="#3a2a1a" stroke-width="1.7999999999999998"/>
     </g>
 
+    <!-- Jardinieres fleuries sous les fenetres de l'etage 1 -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M 24,244 Q 47,226 70,236 Q 93,224 116,244 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="2.4"/>
+      <circle cx="32.1" cy="232.5" r="5.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="32.1" cy="232.5" r="1.8" fill="#e8c860"/>
+      <circle cx="43.1" cy="228.2" r="5.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="43.1" cy="228.2" r="1.8" fill="#e8c860"/>
+      <circle cx="55.3" cy="228.5" r="5.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="55.3" cy="228.5" r="1.8" fill="#e8c860"/>
+      <circle cx="68.5" cy="228.9" r="5.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="68.5" cy="228.9" r="1.8" fill="#e8c860"/>
+      <circle cx="84.5" cy="227" r="5.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="84.5" cy="227" r="1.8" fill="#e8c860"/>
+      <circle cx="95.5" cy="232.5" r="5.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="95.5" cy="232.5" r="1.8" fill="#e8c860"/>
+      <circle cx="111" cy="226.2" r="5.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="111" cy="226.2" r="1.8" fill="#e8c860"/>
+      <path d="M 28,258 Q 20,270 26,278 M 112,258 Q 120,268 114,276" fill="none" stroke="#5e6440" stroke-width="4" stroke-linecap="round"/>
+      <rect x="24" y="240" width="92" height="18" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3.2"/>
+      <line x1="24" y1="249" x2="116" y2="249" stroke="#2a1a0a" stroke-width="1.6" opacity="0.6"/>
+    </g>
+    <g filter="url(#sketchyMedium)">
+      <path d="M 264,244 Q 287,226 310,236 Q 333,224 356,244 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="2.4"/>
+      <circle cx="271.2" cy="227.7" r="5.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="271.2" cy="227.7" r="1.8" fill="#e8c860"/>
+      <circle cx="283.6" cy="229.2" r="5.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="283.6" cy="229.2" r="1.8" fill="#e8c860"/>
+      <circle cx="295.1" cy="226" r="5.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="295.1" cy="226" r="1.8" fill="#e8c860"/>
+      <circle cx="308" cy="230.5" r="5.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="308" cy="230.5" r="1.8" fill="#e8c860"/>
+      <circle cx="324.5" cy="229.9" r="5.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="324.5" cy="229.9" r="1.8" fill="#e8c860"/>
+      <circle cx="338.2" cy="226.3" r="5.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="338.2" cy="226.3" r="1.8" fill="#e8c860"/>
+      <circle cx="349.2" cy="231" r="5.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.6"/>
+      <circle cx="349.2" cy="231" r="1.8" fill="#e8c860"/>
+      <path d="M 268,258 Q 260,270 266,278 M 352,258 Q 360,268 354,276" fill="none" stroke="#5e6440" stroke-width="4" stroke-linecap="round"/>
+      <rect x="264" y="240" width="92" height="18" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3.2"/>
+      <line x1="264" y1="249" x2="356" y2="249" stroke="#2a1a0a" stroke-width="1.6" opacity="0.6"/>
+    </g>
+
     <!-- Lucarne centrale dans le toit -->
     <g filter="url(#sketchyMedium)">
       <polygon points="150,-60 190,-110 230,-60" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="3"/>

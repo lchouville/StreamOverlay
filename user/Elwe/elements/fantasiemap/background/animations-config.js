@@ -36,12 +36,20 @@ window.ANIM_CONFIG = {
 
   // ---------------------------------------------------------------- FUMEES
   fumee: {
-    actives: { forge: true, boulangerie: true, cabane: true },  // false = pas de fumee
+    actives: { forge: true, boulangerie: true, cabane: true, paysan: true, hobbit: true },  // false = pas de fumee
     changement: [4, 14],   // toutes les combien de secondes l'intensite change
     probaForte: 0.2,       // chance (0 a 1) de passer en grosses bouffees
     probaCalme: 0.3,       // chance (0 a 1) de passer presque eteint (le reste = normal)
     densite: 1,            // multiplicateur du nombre de bouffees (2 = deux fois plus)
     vent: 1                // force avec laquelle le vent couche la fumee (0 = fumee droite)
+  },
+
+  // ---------------------------------------------------------------- VENT (commun)
+  // Le ble, l'herbe, les arbres, les fumees, les fanions et les auvents suivent le meme vent :
+  // memes rafales (cycle 'ble.rafale'), meme sens, meme vague qui traverse de gauche a droite.
+  vent: {
+    puissance: 1,          // force du vent pour les fanions et les auvents (0.5 = brise, 1.5 = fort)
+    tentes: 0.4            // amplitude du mouvement des toiles de tente (1 = autant que les fanions)
   },
 
   // ---------------------------------------------------------------- BLE / HERBE (vent)
@@ -62,6 +70,24 @@ window.ANIM_CONFIG = {
     vidage:     7          // le seau remonte plein puis se vide par en dessous en tant de secondes
   },
 
+  // ---------------------------------------------------------------- JOUR / NUIT
+  jourNuit: {
+    mode: 'reel',          // 'reel' = suit l'heure de l'ordinateur ; 'accelere' = cycle rapide
+    dureeCycle: 20,        // (mode 'accelere') duree d'une journee complete, en minutes
+    lever: 7,              // heure du lever du soleil
+    coucher: 20,           // heure du coucher du soleil
+    obscurite: 0.6,        // force de l'assombrissement la nuit (0 = aucun, 1 = tres sombre)
+    lumiereAmbiante: 1     // force de la lueur du soleil / de la lune sur la scene (0 = aucune)
+  },
+
+  // ---------------------------------------------------------------- CIEL
+  ciel: {
+    traverseeNuages: 240,  // duree moyenne pour qu'un nuage traverse le ciel (plus grand = plus lent)
+    nuages: [25, 70],      // attente entre l'apparition de deux nuages
+    premierVol: [3, 10],   // delai avant le premier vol d'oiseaux
+    oiseaux: [20, 60]      // attente entre deux vols d'oiseaux
+  },
+
   // ---------------------------------------------------------------- MOULIN
   moulin: {
     tour: 16               // duree d'un tour complet des ailes (plus grand = plus lent)
@@ -77,6 +103,7 @@ window.ANIM_CONFIG = {
 
   // ---------------------------------------------------------------- LUMIERES DES FENETRES
   lumieres: {
+    eteintes: 0.35,        // part des fenetres qui restent eteintes (0 = toutes vivantes)
     duree: 1               // multiplie la duree des cycles allume/eteint
                            // (2 = deux fois plus lent, 0.5 = deux fois plus rapide)
   }

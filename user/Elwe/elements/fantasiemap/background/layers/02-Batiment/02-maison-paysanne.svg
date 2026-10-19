@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Maison paysanne a colombages avec toit de chaume, pres du moulin. -->
+<!-- Placee sur le flanc de la colline, a droite du moulin, a 20 % (porte ~20 px comme celle du -->
+<!-- moulin) : sol local y=350 -> y=575. Pelouse verte retiree (la colline a deja son ble/herbe), -->
+<!-- tons accordes au papier. Ajouts : soubassement de pierre, rive de chaume, mousse, meule de -->
+<!-- foin, bois de chauffage, potager, jardinieres, seuil ; lumieres des fenetres en inline. Fumee animee en inline (#paysan-smoke), sommet (200,70) -> (2180,519). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <pattern id="torchisTexture" patternUnits="userSpaceOnUse" width="30" height="20">
+      <rect width="30" height="20" fill="#d4c4a4"/>
+      <circle cx="5" cy="5" r="2" fill="#c4b494" opacity="0.6"/>
+      <circle cx="20" cy="12" r="2.5" fill="#c4b494" opacity="0.5"/>
+      <circle cx="12" cy="16" r="1.5" fill="#b4a484" opacity="0.4"/>
+    </pattern>
+    <pattern id="thatchTexture" patternUnits="userSpaceOnUse" width="15" height="10">
+      <rect width="15" height="10" fill="#8c6b45"/>
+      <path d="M 0,5 Q 7.5,7 15,5" fill="none" stroke="#5a4a2a" stroke-width="1" opacity="0.7"/>
+      <line x1="7.5" y1="0" x2="7.5" y2="10" stroke="#5a4a2a" stroke-width="0.5" opacity="0.5"/>
+    </pattern>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <g id="maison-paysanne" transform="translate(2140, 505) scale(0.2)">
+    <!-- Ombre portee -->
+    <ellipse cx="0" cy="355" rx="460" ry="22" fill="#3a2a1a" opacity="0.25"/>
+
+    <!-- Pommiers en fleurs (derriere la maison) -->
+    <g filter="url(#sketchyMedium)">
+      <g transform="translate(-450, 150)">
+        <path d="M 0,300 Q -10,250 5,200 Q 15,150 0,100 Q -10,80 5,70 Q 20,80 15,100 Q 20,150 10,200 Q 25,250 20,300 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3"/>
+        <path d="M 10,200 Q 40,180 60,160 M 5,150 Q 30,130 50,110 M 0,100 Q -20,80 -35,60 M 15,70 Q 30,50 45,35" fill="none" stroke="#6b4a2e" stroke-width="4"/>
+        <g fill="#f4ead6" stroke="#c9b48a" stroke-width="1.5">
+          <circle cx="60" cy="160" r="16"/><circle cx="68" cy="170" r="13"/><circle cx="50" cy="168" r="13"/>
+          <circle cx="50" cy="110" r="17"/><circle cx="60" cy="120" r="14"/><circle cx="40" cy="116" r="13"/>
+          <circle cx="-35" cy="60" r="18"/><circle cx="-26" cy="70" r="14"/><circle cx="-44" cy="68" r="13"/>
+          <circle cx="45" cy="35" r="15"/><circle cx="54" cy="44" r="12"/><circle cx="8" cy="62" r="15"/>
+        </g>
+      </g>
+      <g transform="translate(550, 180)">
+        <path d="M 0,270 Q -8,220 8,170 Q 18,120 5,70 Q -2,50 12,40 Q 25,50 20,70 Q 28,120 15,170 Q 32,220 25,270 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3"/>
+        <path d="M 15,170 Q 45,150 65,130 M 8,120 Q 35,100 55,80 M 5,70 Q -15,50 -30,30 M 20,40 Q 40,20 55,5" fill="none" stroke="#6b4a2e" stroke-width="4"/>
+        <g fill="#f4ead6" stroke="#c9b48a" stroke-width="1.5">
+          <circle cx="65" cy="130" r="17"/><circle cx="74" cy="140" r="13"/><circle cx="56" cy="140" r="13"/>
+          <circle cx="55" cy="80" r="18"/><circle cx="64" cy="90" r="14"/><circle cx="46" cy="88" r="13"/>
+          <circle cx="-30" cy="30" r="16"/><circle cx="-22" cy="40" r="12"/><circle cx="12" cy="36" r="15"/>
+          <circle cx="55" cy="5" r="15"/><circle cx="62" cy="14" r="12"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Meule de foin (a gauche, derriere la cloture) -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M -560,340 Q -575,250 -500,210 Q -440,180 -400,240 Q -380,290 -390,340 Z" fill="#c4a060" stroke="#2a1a0a" stroke-width="4"/>
+      <g fill="none" stroke="#8a6a3a" stroke-width="2.5" opacity="0.7">
+        <path d="M -545,320 Q -540,260 -500,230"/><path d="M -500,330 Q -495,260 -470,215"/>
+        <path d="M -450,330 Q -450,270 -430,230"/><path d="M -410,325 Q -405,290 -400,250"/>
+      </g>
+      <line x1="-480" y1="205" x2="-472" y2="170" stroke="#5a3a1a" stroke-width="5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Appentis (cote droit), sous son toit en chaume -->
+    <g filter="url(#sketchyMedium)">
+      <rect x="250" y="210" width="160" height="140" fill="url(#torchisTexture)" stroke="#2a1a0a" stroke-width="3"/>
+      <g stroke="#5a3a1a" stroke-width="5">
+        <line x1="290" y1="210" x2="290" y2="350"/><line x1="330" y1="210" x2="330" y2="350"/>
+        <line x1="370" y1="210" x2="370" y2="350"/><line x1="250" y1="280" x2="410" y2="280"/>
+        <line x1="290" y1="210" x2="330" y2="280"/><line x1="370" y1="280" x2="410" y2="350"/>
+      </g>
+      <path d="M 330,350 L 330,292 Q 330,282 350,282 Q 370,282 370,292 L 370,350 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3"/>
+      <polygon points="240,150 430,206 430,224 240,170" fill="url(#thatchTexture)" stroke="#2a1a0a" stroke-width="4"/>
+    </g>
+
+    <!-- Cheminee en brique (derriere le toit, seul le haut depasse) -->
+    <g filter="url(#sketchyMedium)">
+      <rect x="180" y="80" width="40" height="80" fill="#9a5f3c" stroke="#2a1a0a" stroke-width="3"/>
+      <rect x="175" y="70" width="50" height="15" fill="#7a4a2e" stroke="#2a1a0a" stroke-width="3"/>
+    </g>
+
+    <!-- Facade a colombages -->
+    <g filter="url(#sketchyMedium)">
+      <rect x="-250" y="180" width="500" height="170" fill="url(#torchisTexture)" stroke="#2a1a0a" stroke-width="3"/>
+      <g stroke="#5a3a1a" stroke-width="6">
+        <line x1="-250" y1="180" x2="-250" y2="350"/><line x1="-170" y1="180" x2="-170" y2="350"/>
+        <line x1="-90" y1="180" x2="-90" y2="350"/><line x1="-10" y1="180" x2="-10" y2="350"/>
+        <line x1="70" y1="180" x2="70" y2="350"/><line x1="150" y1="180" x2="150" y2="350"/>
+        <line x1="250" y1="180" x2="250" y2="350"/>
+        <line x1="-250" y1="265" x2="250" y2="265"/><line x1="-250" y1="350" x2="250" y2="350"/>
+        <line x1="-250" y1="180" x2="-170" y2="265"/><line x1="-170" y1="180" x2="-250" y2="265"/>
+        <line x1="70" y1="180" x2="150" y2="265"/><line x1="150" y1="180" x2="70" y2="265"/>
+        <line x1="-170" y1="265" x2="-90" y2="350"/><line x1="150" y1="265" x2="250" y2="350"/>
+      </g>
+    </g>
+
+    <!-- Soubassement de pierres seches -->
+    <g filter="url(#sketchyMedium)">
+      <rect x="-258" y="322" width="676" height="30" fill="#b89f72" stroke="#2a1a0a" stroke-width="3"/>
+      <g stroke="#3a2a1a" stroke-width="2" opacity="0.7">
+        <path d="M -258,337 L 418,337"/>
+        <path d="M -220,322 L -220,337 M -150,322 L -150,337 M -70,322 L -70,337 M 30,322 L 30,337 M 110,322 L 110,337 M 200,322 L 200,337 M 300,322 L 300,337 M 380,322 L 380,337"/>
+        <path d="M -185,337 L -185,352 M -110,337 L -110,352 M -20,337 L -20,352 M 70,337 L 70,352 M 160,337 L 160,352 M 250,337 L 250,352 M 340,337 L 340,352"/>
+      </g>
+    </g>
+
+    <!-- Toit de chaume : epais, bord arrondi, faitage -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M -290,196 Q -300,178 -270,170 L -10,34 Q 0,28 10,34 L 270,170 Q 300,178 290,196 Q 0,182 -290,196 Z" fill="#8c6b45" stroke="#2a1a0a" stroke-width="5"/>
+      <path d="M -290,196 Q -300,178 -270,170 L -10,34 Q 0,28 10,34 L 270,170 Q 300,178 290,196 Q 0,182 -290,196 Z" fill="url(#thatchTexture)" opacity="0.8"/>
+      <g fill="none" stroke="#5a4a2a" stroke-width="2.5" opacity="0.6">
+        <path d="M -230,160 Q 0,150 230,160"/><path d="M -170,128 Q 0,118 170,128"/>
+        <path d="M -110,96 Q 0,88 110,96"/><path d="M -55,66 Q 0,60 55,66"/>
+      </g>
+      <path d="M -20,38 Q 0,22 20,38" fill="none" stroke="#5a4a2a" stroke-width="8" stroke-linecap="round"/>
+      <!-- Bord du chaume taille net, en epaisseur -->
+      <path d="M -290,196 Q 0,182 290,196 L 284,210 Q 0,196 -284,210 Z" fill="#6e5232" stroke="#2a1a0a" stroke-width="3"/>
+      <g fill="#5e6440" opacity="0.55">
+        <ellipse cx="-160" cy="150" rx="26" ry="9"/><ellipse cx="120" cy="120" rx="20" ry="7"/><ellipse cx="200" cy="176" rx="22" ry="7"/>
+      </g>
+      <!-- Lucarne -->
+      <path d="M -30,110 L -30,146 L 30,146 L 30,110 Q 0,86 -30,110 Z" fill="#d4c4a4" stroke="#2a1a0a" stroke-width="3"/>
+      <rect x="-15" y="120" width="30" height="20" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+    </g>
+
+    <!-- Porte et fenetres (volets) -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M -50,350 L -50,262 Q -50,250 -30,250 Q -10,250 -10,262 L -10,350 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M -30,250 L -30,350 M -45,280 L -15,280 M -45,320 L -15,320" stroke="#2a1a0a" stroke-width="2"/>
+      <circle cx="-18" cy="300" r="3" fill="#2a1a0a"/>
+      <rect x="-200" y="215" width="60" height="45" fill="#1a0f05" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M -170,215 L -170,260 M -200,237 L -140,237" stroke="#d4ba82" stroke-width="3"/>
+      <path d="M -200,215 L -220,220 L -220,260 L -200,260 Z M -140,215 L -120,220 L -120,260 L -140,260 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.5"/>
+      <rect x="100" y="215" width="60" height="45" fill="#1a0f05" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M 130,215 L 130,260 M 100,237 L 160,237" stroke="#d4ba82" stroke-width="3"/>
+      <path d="M 100,215 L 80,220 L 80,260 L 100,260 Z M 160,215 L 180,220 L 180,260 L 160,260 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.5"/>
+    </g>
+
+    <!-- Jardinieres fleuries et seuil de pierre -->
+    <g filter="url(#sketchyMedium)">
+      <g fill="#a04030" stroke="#2a1a0a" stroke-width="1.5">
+        <circle cx="-190" cy="258" r="6"/><circle cx="-172" cy="255" r="6" fill="#d8c060"/><circle cx="-154" cy="258" r="6"/>
+        <circle cx="110" cy="258" r="6" fill="#e8dcc0"/><circle cx="128" cy="255" r="6"/><circle cx="146" cy="258" r="6" fill="#d8c060"/>
+      </g>
+      <rect x="-206" y="262" width="72" height="14" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.5"/>
+      <rect x="94" y="262" width="72" height="14" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.5"/>
+      <rect x="-62" y="348" width="64" height="10" fill="#c9b48a" stroke="#2a1a0a" stroke-width="2.5"/>
+    </g>
+
+    <!-- Bois de chauffage empile contre l'appentis -->
+    <g filter="url(#sketchyMedium)" stroke="#2a1a0a" stroke-width="2">
+      <rect x="250" y="300" width="70" height="50" fill="#5a3d24"/>
+      <g fill="#a08060">
+        <circle cx="262" cy="340" r="7"/><circle cx="278" cy="340" r="7"/><circle cx="294" cy="340" r="7"/><circle cx="310" cy="340" r="7"/>
+        <circle cx="270" cy="326" r="7"/><circle cx="286" cy="326" r="7"/><circle cx="302" cy="326" r="7"/>
+        <circle cx="278" cy="312" r="7"/><circle cx="294" cy="312" r="7"/>
+      </g>
+    </g>
+
+    <!-- Potager (rangs de choux) a droite -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M 470,372 L 700,372 L 690,392 L 480,392 Z" fill="#8a6a40" stroke="#2a1a0a" stroke-width="2.5"/>
+      <g fill="#5e6440" stroke="#2a1a0a" stroke-width="1.5">
+        <circle cx="500" cy="370" r="9"/><circle cx="535" cy="368" r="10"/><circle cx="570" cy="370" r="9"/>
+        <circle cx="605" cy="368" r="10"/><circle cx="640" cy="370" r="9"/><circle cx="672" cy="369" r="9"/>
+      </g>
+    </g>
+
+    <!-- Banc, tonneau, cloture -->
+    <g filter="url(#sketchyMedium)">
+      <rect x="-320" y="330" width="60" height="10" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -310,340 L -310,358 M -270,340 L -270,358" stroke="#5a3a1a" stroke-width="4"/>
+      <ellipse cx="440" cy="332" rx="20" ry="24" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="2.5"/>
+      <path d="M 420,322 L 460,322 M 420,342 L 460,342" stroke="#2a1a0a" stroke-width="2"/>
+      <g stroke="#6b4a2e" stroke-width="5" stroke-linecap="round">
+        <path d="M -620,330 L -380,330 M -620,348 L -380,348"/>
+        <path d="M -600,320 L -600,358 M -540,320 L -540,358 M -480,320 L -480,358 M -420,320 L -420,358"/>
+        <path d="M 500,330 L 680,330 M 500,348 L 680,348"/>
+        <path d="M 520,320 L 520,358 M 580,320 L 580,358 M 640,320 L 640,358"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Calque : Fontaine de la place (pierre), vue de face comme les batiments. -->
 <!-- Bassin rond (~3 m), colonne centrale, vasque haute, pomme de pin au sommet. Echelle de sa -->
+<!-- Pierre legerement grisee (plus froide que les paves ocre) pour se detacher du sol. -->
 <!-- distance : pied (y=1400) -> 1 m ~ 85 px. Coordonnees directes de la scene (centre x=2870). -->
 <!-- L'eau (jets, filets, rides du bassin) est animee en inline dans ville-medievale-croquis.svg -->
 <!-- (#fontaine-eau). -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
   <defs>
     <pattern id="stoneTexture" patternUnits="userSpaceOnUse" width="40" height="30">
-      <rect width="40" height="30" fill="#c9b48a"/>
-      <rect x="2" y="2" width="36" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
-      <rect x="2" y="16" width="17" height="12" fill="#b89f72" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
-      <rect x="21" y="16" width="17" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect width="40" height="30" fill="#b5ad98"/>
+      <rect x="2" y="2" width="36" height="12" fill="#c4bca8" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="2" y="16" width="17" height="12" fill="#a39a86" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="21" y="16" width="17" height="12" fill="#c4bca8" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
     </pattern>
     <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
       <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
@@ -30,7 +31,7 @@
     <!-- ===== BASSIN ===== -->
     <!-- Paroi avant (face), bas arrondi -->
     <path d="M 2740,1352 L 2740,1386 A 130,20 0 0 0 3000,1386 L 3000,1352 Z"
-          fill="#c9b48a" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyHeavy)"/>
+          fill="#b5ad98" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyHeavy)"/>
     <path d="M 2740,1352 L 2740,1386 A 130,20 0 0 0 3000,1386 L 3000,1352 Z" fill="url(#stoneTexture)" opacity="0.8"/>
     <!-- Ombre a droite du bassin (volume) -->
     <path d="M 2950,1356 L 2950,1402 A 130,20 0 0 0 3000,1386 L 3000,1352 Z" fill="#3a2a1a" opacity="0.15"/>
@@ -42,30 +43,30 @@
       <line x1="2955" y1="1358" x2="2955" y2="1400"/>
     </g>
     <!-- Margelle (dessus du bassin, vu legerement de dessus) -->
-    <ellipse cx="2870" cy="1350" rx="134" ry="24" fill="#d4c098" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
+    <ellipse cx="2870" cy="1350" rx="134" ry="24" fill="#c4bca8" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
     <!-- Eau du bassin -->
     <ellipse cx="2870" cy="1350" rx="116" ry="17" fill="#7d8a86" stroke="#2a1a0a" stroke-width="2.5"/>
     <ellipse cx="2850" cy="1347" rx="60" ry="6" fill="#a8b4ac" opacity="0.5"/>
 
     <!-- ===== COLONNE CENTRALE ===== -->
     <!-- Socle de la colonne (dans l'eau) -->
-    <rect x="2850" y="1330" width="40" height="22" fill="#c9b48a" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
+    <rect x="2850" y="1330" width="40" height="22" fill="#b5ad98" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
     <!-- Fut -->
-    <rect x="2858" y="1262" width="24" height="70" fill="#c9b48a" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
+    <rect x="2858" y="1262" width="24" height="70" fill="#b5ad98" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
     <rect x="2872" y="1264" width="10" height="66" fill="#3a2a1a" opacity="0.15"/>
     <!-- Bagues decoratives -->
-    <rect x="2854" y="1296" width="32" height="7" fill="#d4c098" stroke="#1a0f05" stroke-width="2"/>
+    <rect x="2854" y="1296" width="32" height="7" fill="#c4bca8" stroke="#1a0f05" stroke-width="2"/>
 
     <!-- ===== VASQUE HAUTE ===== -->
-    <path d="M 2818,1258 Q 2826,1286 2870,1290 Q 2914,1286 2922,1258 Z" fill="#c9b48a" stroke="#1a0f05" stroke-width="3.5" filter="url(#sketchyMedium)"/>
+    <path d="M 2818,1258 Q 2826,1286 2870,1290 Q 2914,1286 2922,1258 Z" fill="#b5ad98" stroke="#1a0f05" stroke-width="3.5" filter="url(#sketchyMedium)"/>
     <path d="M 2880,1288 Q 2914,1284 2922,1258 L 2900,1258 Q 2896,1280 2880,1288 Z" fill="#3a2a1a" opacity="0.15"/>
     <path d="M 2836,1272 Q 2870,1280 2904,1272" fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.6"/>
-    <ellipse cx="2870" cy="1257" rx="54" ry="9" fill="#d4c098" stroke="#1a0f05" stroke-width="3"/>
+    <ellipse cx="2870" cy="1257" rx="54" ry="9" fill="#c4bca8" stroke="#1a0f05" stroke-width="3"/>
     <ellipse cx="2870" cy="1257" rx="44" ry="6" fill="#7d8a86" stroke="#2a1a0a" stroke-width="1.5"/>
 
     <!-- ===== POMME DE PIN (jet) ===== -->
-    <rect x="2864" y="1226" width="12" height="30" fill="#c9b48a" stroke="#1a0f05" stroke-width="2.5"/>
-    <path d="M 2860,1228 Q 2860,1210 2870,1204 Q 2880,1210 2880,1228 Z" fill="#b89f72" stroke="#1a0f05" stroke-width="2.5"/>
+    <rect x="2864" y="1226" width="12" height="30" fill="#b5ad98" stroke="#1a0f05" stroke-width="2.5"/>
+    <path d="M 2860,1228 Q 2860,1210 2870,1204 Q 2880,1210 2880,1228 Z" fill="#a39a86" stroke="#1a0f05" stroke-width="2.5"/>
     <path d="M 2862,1220 L 2878,1214 M 2862,1214 L 2878,1222" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
 
     <!-- Mousse au pied du bassin -->
