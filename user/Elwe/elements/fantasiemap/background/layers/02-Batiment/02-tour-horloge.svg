@@ -4,10 +4,12 @@
 <!-- 3840x2160 (16:9). -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
   <defs>
-    <!-- Hachures verticales (texture pierre) -->
-    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
-      <rect x="0" y="0" width="7" height="7" fill="#b5a481"/>
-      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
+    <!-- Hachures verticales (texture pierre) : meme pierre que la taverne. La taverne est a -->
+    <!-- l'echelle 0.42 et la tour a 0.55, donc le motif (7u, trait 1.6) est reduit d'un facteur -->
+    <!-- 0.42/0.55 pour donner la meme densite de hachures a l'ecran. -->
+    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="5.35" height="5.35">
+      <rect x="0" y="0" width="5.35" height="5.35" fill="#b5a481"/>
+      <line x1="2.67" y1="0" x2="2.67" y2="5.35" stroke="#3a2a1a" stroke-width="1.22" opacity="0.8"/>
     </pattern>
 
     <!-- Hachures moyennes croisées -->
@@ -63,13 +65,67 @@
           fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="7" 
           filter="url(#sketchyHeavy)"/>
 
-    <!-- Joints de pierre horizontaux -->
-    <g stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyMedium)">
-      <line x1="2050" y1="1330" x2="2990" y2="1330"/>
-      <line x1="2050" y1="1410" x2="2990" y2="1410"/>
+    <!-- Joints de pierre en quinconce (appareil de la taverne : blocs 160x80 a l'echelle 0.42, -->
+    <!-- soit ~120x60 ici ; trait 2 -> 1.5) -->
+    <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
+      <line x1="2050" y1="1310" x2="2990" y2="1310"/>
+      <line x1="2050" y1="1370" x2="2990" y2="1370"/>
+      <line x1="2050" y1="1430" x2="2990" y2="1430"/>
       <line x1="2050" y1="1490" x2="2990" y2="1490"/>
-      <line x1="2050" y1="1570" x2="2990" y2="1570"/>
-      <line x1="2050" y1="1640" x2="2990" y2="1640"/>
+      <line x1="2050" y1="1550" x2="2990" y2="1550"/>
+      <line x1="2050" y1="1610" x2="2990" y2="1610"/>
+      <line x1="2170" y1="1250" x2="2170" y2="1310"/>
+      <line x1="2290" y1="1250" x2="2290" y2="1310"/>
+      <line x1="2410" y1="1250" x2="2410" y2="1310"/>
+      <line x1="2530" y1="1250" x2="2530" y2="1310"/>
+      <line x1="2650" y1="1250" x2="2650" y2="1310"/>
+      <line x1="2770" y1="1250" x2="2770" y2="1310"/>
+      <line x1="2890" y1="1250" x2="2890" y2="1310"/>
+      <line x1="2110" y1="1310" x2="2110" y2="1370"/>
+      <line x1="2230" y1="1310" x2="2230" y2="1370"/>
+      <line x1="2350" y1="1310" x2="2350" y2="1370"/>
+      <line x1="2470" y1="1310" x2="2470" y2="1370"/>
+      <line x1="2590" y1="1310" x2="2590" y2="1370"/>
+      <line x1="2710" y1="1310" x2="2710" y2="1370"/>
+      <line x1="2830" y1="1310" x2="2830" y2="1370"/>
+      <line x1="2950" y1="1310" x2="2950" y2="1370"/>
+      <line x1="2170" y1="1370" x2="2170" y2="1430"/>
+      <line x1="2290" y1="1370" x2="2290" y2="1430"/>
+      <line x1="2410" y1="1370" x2="2410" y2="1430"/>
+      <line x1="2530" y1="1370" x2="2530" y2="1430"/>
+      <line x1="2650" y1="1370" x2="2650" y2="1430"/>
+      <line x1="2770" y1="1370" x2="2770" y2="1430"/>
+      <line x1="2890" y1="1370" x2="2890" y2="1430"/>
+      <line x1="2110" y1="1430" x2="2110" y2="1490"/>
+      <line x1="2230" y1="1430" x2="2230" y2="1490"/>
+      <line x1="2350" y1="1430" x2="2350" y2="1490"/>
+      <line x1="2470" y1="1430" x2="2470" y2="1490"/>
+      <line x1="2590" y1="1430" x2="2590" y2="1490"/>
+      <line x1="2710" y1="1430" x2="2710" y2="1490"/>
+      <line x1="2830" y1="1430" x2="2830" y2="1490"/>
+      <line x1="2950" y1="1430" x2="2950" y2="1490"/>
+      <line x1="2170" y1="1490" x2="2170" y2="1550"/>
+      <line x1="2290" y1="1490" x2="2290" y2="1550"/>
+      <line x1="2410" y1="1490" x2="2410" y2="1550"/>
+      <line x1="2530" y1="1490" x2="2530" y2="1550"/>
+      <line x1="2650" y1="1490" x2="2650" y2="1550"/>
+      <line x1="2770" y1="1490" x2="2770" y2="1550"/>
+      <line x1="2890" y1="1490" x2="2890" y2="1550"/>
+      <line x1="2110" y1="1550" x2="2110" y2="1610"/>
+      <line x1="2230" y1="1550" x2="2230" y2="1610"/>
+      <line x1="2350" y1="1550" x2="2350" y2="1610"/>
+      <line x1="2470" y1="1550" x2="2470" y2="1610"/>
+      <line x1="2590" y1="1550" x2="2590" y2="1610"/>
+      <line x1="2710" y1="1550" x2="2710" y2="1610"/>
+      <line x1="2830" y1="1550" x2="2830" y2="1610"/>
+      <line x1="2950" y1="1550" x2="2950" y2="1610"/>
+      <line x1="2170" y1="1610" x2="2170" y2="1670"/>
+      <line x1="2290" y1="1610" x2="2290" y2="1670"/>
+      <line x1="2410" y1="1610" x2="2410" y2="1670"/>
+      <line x1="2530" y1="1610" x2="2530" y2="1670"/>
+      <line x1="2650" y1="1610" x2="2650" y2="1670"/>
+      <line x1="2770" y1="1610" x2="2770" y2="1670"/>
+      <line x1="2890" y1="1610" x2="2890" y2="1670"/>
     </g>
 
     <!-- PORTE MÉDIÉVALE -->
@@ -109,26 +165,24 @@
           fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" 
           filter="url(#sketchyHeavy)"/>
 
+    <!-- Merlons : 3 de chaque cote du corps de la tour (2320-2720), symetriques par rapport a -->
+    <!-- l'axe x=2520, affleurant les angles de la base et le corps (70 de large, 30 d'ecart). -->
     <g fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
-      <rect x="2070" y="1150" width="80" height="50"/>
-      <rect x="2190" y="1150" width="80" height="50"/>
-      <rect x="2310" y="1150" width="80" height="50"/>
-      <rect x="2430" y="1150" width="80" height="50"/>
-      <rect x="2550" y="1150" width="80" height="50"/>
-      <rect x="2670" y="1150" width="80" height="50"/>
-      <rect x="2790" y="1150" width="80" height="50"/>
-      <rect x="2910" y="1150" width="80" height="50"/>
+      <rect x="2050" y="1150" width="70" height="50"/>
+      <rect x="2150" y="1150" width="70" height="50"/>
+      <rect x="2250" y="1150" width="70" height="50"/>
+      <rect x="2720" y="1150" width="70" height="50"/>
+      <rect x="2820" y="1150" width="70" height="50"/>
+      <rect x="2920" y="1150" width="70" height="50"/>
     </g>
 
     <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
-      <line x1="2110" y1="1155" x2="2110" y2="1195"/>
-      <line x1="2230" y1="1155" x2="2230" y2="1195"/>
-      <line x1="2350" y1="1155" x2="2350" y2="1195"/>
-      <line x1="2470" y1="1155" x2="2470" y2="1195"/>
-      <line x1="2590" y1="1155" x2="2590" y2="1195"/>
-      <line x1="2710" y1="1155" x2="2710" y2="1195"/>
-      <line x1="2830" y1="1155" x2="2830" y2="1195"/>
-      <line x1="2950" y1="1155" x2="2950" y2="1195"/>
+      <line x1="2085" y1="1155" x2="2085" y2="1195"/>
+      <line x1="2185" y1="1155" x2="2185" y2="1195"/>
+      <line x1="2285" y1="1155" x2="2285" y2="1195"/>
+      <line x1="2755" y1="1155" x2="2755" y2="1195"/>
+      <line x1="2855" y1="1155" x2="2855" y2="1195"/>
+      <line x1="2955" y1="1155" x2="2955" y2="1195"/>
     </g>
   </g>
 
@@ -141,21 +195,43 @@
           fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="6" 
           filter="url(#sketchyHeavy)"/>
 
-    <!-- Joints de pierre horizontaux -->
-    <g stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyMedium)">
-      <line x1="2320" y1="780" x2="2720" y2="780"/>
-      <line x1="2320" y1="860" x2="2720" y2="860"/>
-      <line x1="2320" y1="940" x2="2720" y2="940"/>
-      <line x1="2320" y1="1020" x2="2720" y2="1020"/>
-      <line x1="2320" y1="1100" x2="2720" y2="1100"/>
-      <line x1="2320" y1="1180" x2="2720" y2="1180"/>
-    </g>
-    
-    <!-- Joints verticaux -->
-    <g stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyMedium)">
-      <line x1="2420" y1="700" x2="2420" y2="1250"/>
-      <line x1="2520" y1="700" x2="2520" y2="1250"/>
-      <line x1="2620" y1="700" x2="2620" y2="1250"/>
+    <!-- Joints de pierre en quinconce (meme appareil que la base / la taverne) -->
+    <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
+      <line x1="2320" y1="761.1" x2="2720" y2="761.1"/>
+      <line x1="2320" y1="822.2" x2="2720" y2="822.2"/>
+      <line x1="2320" y1="883.3" x2="2720" y2="883.3"/>
+      <line x1="2320" y1="944.4" x2="2720" y2="944.4"/>
+      <line x1="2320" y1="1005.6" x2="2720" y2="1005.6"/>
+      <line x1="2320" y1="1066.7" x2="2720" y2="1066.7"/>
+      <line x1="2320" y1="1127.8" x2="2720" y2="1127.8"/>
+      <line x1="2320" y1="1188.9" x2="2720" y2="1188.9"/>
+      <line x1="2440" y1="700" x2="2440" y2="761.1"/>
+      <line x1="2560" y1="700" x2="2560" y2="761.1"/>
+      <line x1="2680" y1="700" x2="2680" y2="761.1"/>
+      <line x1="2380" y1="761.1" x2="2380" y2="822.2"/>
+      <line x1="2500" y1="761.1" x2="2500" y2="822.2"/>
+      <line x1="2620" y1="761.1" x2="2620" y2="822.2"/>
+      <line x1="2440" y1="822.2" x2="2440" y2="883.3"/>
+      <line x1="2560" y1="822.2" x2="2560" y2="883.3"/>
+      <line x1="2680" y1="822.2" x2="2680" y2="883.3"/>
+      <line x1="2380" y1="883.3" x2="2380" y2="944.4"/>
+      <line x1="2500" y1="883.3" x2="2500" y2="944.4"/>
+      <line x1="2620" y1="883.3" x2="2620" y2="944.4"/>
+      <line x1="2440" y1="944.4" x2="2440" y2="1005.6"/>
+      <line x1="2560" y1="944.4" x2="2560" y2="1005.6"/>
+      <line x1="2680" y1="944.4" x2="2680" y2="1005.6"/>
+      <line x1="2380" y1="1005.6" x2="2380" y2="1066.7"/>
+      <line x1="2500" y1="1005.6" x2="2500" y2="1066.7"/>
+      <line x1="2620" y1="1005.6" x2="2620" y2="1066.7"/>
+      <line x1="2440" y1="1066.7" x2="2440" y2="1127.8"/>
+      <line x1="2560" y1="1066.7" x2="2560" y2="1127.8"/>
+      <line x1="2680" y1="1066.7" x2="2680" y2="1127.8"/>
+      <line x1="2380" y1="1127.8" x2="2380" y2="1188.9"/>
+      <line x1="2500" y1="1127.8" x2="2500" y2="1188.9"/>
+      <line x1="2620" y1="1127.8" x2="2620" y2="1188.9"/>
+      <line x1="2440" y1="1188.9" x2="2440" y2="1250"/>
+      <line x1="2560" y1="1188.9" x2="2560" y2="1250"/>
+      <line x1="2680" y1="1188.9" x2="2680" y2="1250"/>
     </g>
 
     <!-- EMPLACEMENT HORLOGE -->

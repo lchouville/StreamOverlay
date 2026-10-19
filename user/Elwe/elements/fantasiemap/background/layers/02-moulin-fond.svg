@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Moulin à vent médiéval sur la colline. -->
+<!-- Style croquis avec hachures pierre/bois. -->
+<!-- Pose sur la crete de la colline proche (02-colline-fond.svg, crete y~560 vers x=1990), dans -->
+<!-- le creux de ciel entre la chapelle et la taverne, et reduit a 33% (derriere le rempart : porte <= ~21 px) : le -->
+<!-- pied (100,280) du dessin tombe en (1990,560). Dessine avant le rempart (02-muraille-fond). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- Texture pierre -->
+    <pattern id="stoneTexture" patternUnits="userSpaceOnUse" width="40" height="30">
+      <rect width="40" height="30" fill="#c9b48a"/>
+      <rect x="2" y="2" width="36" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="2" y="16" width="17" height="12" fill="#b89f72" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="21" y="16" width="17" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+    </pattern>
+
+    <!-- Hachures bois (pour les pales) -->
+    <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+
+    <!-- Hachures toit -->
+    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
+      <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
+      <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- ======================================================= -->
+  <!-- MOULIN À VENT (positionné sur la crête de la colline) -->
+  <!-- ======================================================= -->
+  <g id="moulin-a-vent" transform="translate(1957, 467.6) scale(0.33)" opacity="0.9">
+
+    <!-- ===== CORPS DU MOULIN (tour cylindrique en pierre) ===== -->
+    <!-- Base élargie (trapèze pour simuler le volume) -->
+    <polygon points="30,280 170,280 150,100 50,100"
+             fill="#c9b48a" stroke="#2a1a0a" stroke-width="4"
+             filter="url(#sketchyHeavy)" opacity="0.95"/>
+    <polygon points="30,280 170,280 150,100 50,100"
+             fill="url(#stoneTexture)" opacity="0.8"/>
+    <!-- Ombre du cote droit (volume du fut) -->
+    <polygon points="118,280 170,280 150,100 112,100" fill="#3a2a1a" opacity="0.18"/>
+
+    <!-- Blocs de pierre visibles -->
+    <g stroke="#3a2a1a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+      <line x1="40" y1="250" x2="160" y2="250"/>
+      <line x1="45" y1="220" x2="155" y2="220"/>
+      <line x1="48" y1="190" x2="152" y2="190"/>
+      <line x1="50" y1="160" x2="150" y2="160"/>
+      <line x1="52" y1="130" x2="148" y2="130"/>
+      <!-- Joints verticaux décalés -->
+      <line x1="80" y1="250" x2="80" y2="280"/>
+      <line x1="120" y1="250" x2="120" y2="280"/>
+      <line x1="70" y1="220" x2="70" y2="250"/>
+      <line x1="110" y1="220" x2="110" y2="250"/>
+      <line x1="140" y1="220" x2="140" y2="250"/>
+      <line x1="90" y1="190" x2="90" y2="220"/>
+      <line x1="130" y1="190" x2="130" y2="220"/>
+    </g>
+
+    <!-- Porte en bois au pied du moulin -->
+    <path d="M 85,280 L 85,230 Q 85,220 100,220 Q 115,220 115,230 L 115,280 Z"
+          fill="url(#hatchWood)" stroke="#2a1a0a" stroke-width="3"
+          filter="url(#sketchyMedium)" opacity="0.9"/>
+    <!-- Détail porte : ferrures -->
+    <line x1="90" y1="240" x2="110" y2="240" stroke="#1a0f05" stroke-width="2"/>
+    <line x1="90" y1="260" x2="110" y2="260" stroke="#1a0f05" stroke-width="2"/>
+    <circle cx="108" cy="250" r="2" fill="#1a0f05"/>
+
+    <!-- Fenêtre haute (côté droit) -->
+    <path d="M 125,150 L 125,180 Q 125,188 135,188 Q 145,188 145,180 L 145,150 Q 145,142 135,140 Q 125,142 125,150 Z"
+          fill="#1a0f05" stroke="#2a1a0a" stroke-width="2.5" filter="url(#sketchyMedium)" opacity="0.9"/>
+
+    <!-- ===== GALERIE / BALCON (plateforme autour du moulin) ===== -->
+    <!-- Support de la galerie -->
+    <polygon points="20,110 180,110 175,100 25,100"
+             fill="#8a7050" stroke="#2a1a0a" stroke-width="3"
+             filter="url(#sketchyMedium)" opacity="0.9"/>
+    <!-- Garde-corps (petits poteaux) -->
+    <g stroke="#2a1a0a" stroke-width="2" filter="url(#sketchyMedium)" opacity="0.8">
+      <line x1="30" y1="100" x2="30" y2="85"/>
+      <line x1="50" y1="100" x2="50" y2="85"/>
+      <line x1="70" y1="100" x2="70" y2="85"/>
+      <line x1="90" y1="100" x2="90" y2="85"/>
+      <line x1="110" y1="100" x2="110" y2="85"/>
+      <line x1="130" y1="100" x2="130" y2="85"/>
+      <line x1="150" y1="100" x2="150" y2="85"/>
+      <line x1="170" y1="100" x2="170" y2="85"/>
+      <!-- Barre horizontale -->
+      <line x1="25" y1="85" x2="175" y2="85" stroke-width="2.5"/>
+    </g>
+
+    <!-- ===== TOIT CONIQUE ===== -->
+    <polygon points="20,100 100,20 180,100"
+             fill="url(#hatchRoof)" stroke="#2a1a0a" stroke-width="4"
+             filter="url(#sketchyMedium)" opacity="0.95"/>
+    <!-- Lignes de texture sur le toit -->
+    <g stroke="#2a1a0a" stroke-width="1" opacity="0.5" filter="url(#sketchyMedium)">
+      <line x1="50" y1="100" x2="100" y2="20"/>
+      <line x1="100" y1="100" x2="100" y2="20"/>
+      <line x1="150" y1="100" x2="100" y2="20"/>
+    </g>
+
+    <!-- ===== AXE ET AILES : dessines et animes (rotation) en inline dans -->
+    <!-- ville-medievale-croquis.svg (#moulin-ailes), moyeu en (100,95) de ce dessin. ===== -->
+
+    <!-- ===== DÉTAILS SUPPLÉMENTAIRES ===== -->
+
+    <!-- Fissures sur le corps -->
+    <path d="M 60,200 L 70,220 L 65,240"
+          fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.5" filter="url(#sketchyMedium)"/>
+    <path d="M 130,170 L 135,190 L 132,210"
+          fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.5" filter="url(#sketchyMedium)"/>
+
+    <!-- Ombre portée au sol -->
+    <ellipse cx="100" cy="285" rx="80" ry="12" fill="#3a2a1a" opacity="0.25" filter="url(#sketchyMedium)"/>
+
+    <!-- Herbe au pied (brun, comme les buissons de la colline) -->
+    <g fill="#7a6238" opacity="0.5" filter="url(#sketchyMedium)">
+      <ellipse cx="20" cy="280" rx="15" ry="8"/>
+      <ellipse cx="180" cy="280" rx="18" ry="9"/>
+      <ellipse cx="100" cy="285" rx="25" ry="6"/>
+    </g>
+
+  </g>
+</svg>

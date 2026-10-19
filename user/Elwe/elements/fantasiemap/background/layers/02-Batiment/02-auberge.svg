@@ -25,6 +25,10 @@
       <rect x="0" y="0" width="6" height="6" fill="#6b4a2e"/>
       <line x1="0" y1="3" x2="6" y2="3" stroke="#2a1a0a" stroke-width="1" opacity="0.7"/>
     </pattern>
+    <pattern id="hatchBrick" patternUnits="userSpaceOnUse" width="7" height="7">
+      <rect x="0" y="0" width="7" height="7" fill="#9a5f3c"/>
+      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a1a0a" stroke-width="1.6" opacity="0.8"/>
+    </pattern>
     <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
       <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
       <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
@@ -45,9 +49,14 @@
     <rect x="850" y="1450" width="500" height="300" 
           fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="6" 
           filter="url(#sketchyHeavy)"/>
-    <polygon points="830,1450 1100,1200 1370,1450" 
+    <!-- Toit vu de face, perpendiculaire a la pente (pignons sur les cotes) : on voit le pan -->
+    <!-- de tuiles entier, faitage horizontal presque aussi large que l'egout, rangs de tuiles -->
+    <!-- paralleles au faitage. Petites croupes en biais aux extremites. -->
+    <polygon points="830,1450 870,1310 1330,1310 1370,1450" 
              fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="6" 
              filter="url(#sketchyHeavy)"/>
+    <!-- Zone plate au sommet (terrasse vue legerement de dessus) -->
+    <rect x="864" y="1298" width="472" height="12" fill="#b5a481" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
 
     <!-- DÉTAILS DU BÂTIMENT -->
     <g stroke="#2a1a0a" stroke-width="2" filter="url(#sketchyMedium)">
@@ -60,11 +69,34 @@
       <line x1="1250" y1="1660" x2="1250" y2="1750"/>
     </g>
     <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
-      <line x1="880" y1="1400" x2="1320" y2="1400"/>
-      <line x1="920" y1="1350" x2="1280" y2="1350"/>
-      <line x1="960" y1="1300" x2="1240" y2="1300"/>
-      <line x1="1000" y1="1250" x2="1200" y2="1250"/>
+      <!-- Rangs de tuiles (bords suivant les aretiers : x = 830 + (1450-y)*40/140) -->
+      <line x1="864" y1="1340" x2="1336" y2="1340"/>
+      <line x1="856" y1="1370" x2="1344" y2="1370"/>
+      <line x1="847" y1="1400" x2="1353" y2="1400"/>
+      <line x1="839" y1="1430" x2="1361" y2="1430"/>
     </g>
+
+    <!-- CHEMINÉE en brique (four à pain) qui sort du pan de toit (base a y=1360). Fumee animee placee en inline dans -->
+    <!-- ville-medievale-croquis.svg (#boulangerie-smoke), au sommet (1235,1168) de ce calque -->
+    <!-- passe par sa transform -> (2633,780). -->
+    <path d="M 1210,1360 L 1210,1180 L 1260,1180 L 1260,1360 Z"
+          fill="url(#hatchBrick)" stroke="#1a0f05" stroke-width="4"
+          filter="url(#sketchyMedium)"/>
+    <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
+      <line x1="1210" y1="1215" x2="1260" y2="1215"/>
+      <line x1="1210" y1="1250" x2="1260" y2="1250"/>
+      <line x1="1210" y1="1285" x2="1260" y2="1285"/>
+      <line x1="1235" y1="1180" x2="1235" y2="1215"/>
+      <line x1="1222" y1="1215" x2="1222" y2="1250"/>
+      <line x1="1248" y1="1215" x2="1248" y2="1250"/>
+      <line x1="1235" y1="1250" x2="1235" y2="1285"/>
+      <line x1="1210" y1="1320" x2="1260" y2="1320"/>
+      <line x1="1222" y1="1285" x2="1222" y2="1320"/>
+      <line x1="1248" y1="1285" x2="1248" y2="1320"/>
+      <line x1="1235" y1="1320" x2="1235" y2="1358"/>
+    </g>
+    <rect x="1203" y="1168" width="64" height="14"
+          fill="#2a1a0a" stroke="#1a0f05" stroke-width="2" filter="url(#sketchyMedium)"/>
 
     <!-- OUVERTURES -->
     <path d="M 1200,1750 L 1200,1600 Q 1200,1570 1250,1570 Q 1300,1570 1300,1600 L 1300,1750 Z" 
@@ -123,20 +155,19 @@
       <path d="M 1000,1680 Q 1000,1655 1015,1655 Q 1030,1655 1030,1680 Z" fill="#8b7355" stroke="#1a0f05" stroke-width="2.5"/>
       <path d="M 1040,1680 Q 1040,1660 1055,1660 Q 1070,1660 1070,1680 Z" fill="#8b7355" stroke="#1a0f05" stroke-width="2.5"/>
     </g>
-    <g filter="url(#sketchyMedium)">
+    <!-- Tonneaux : contre le mur exterieur droit (x=1350), pour degager la porte (qui s'ouvre -->
+    <!-- vers la rue, cf. #porte-auberge). Le gauche est remonte (en retrait), le droit passe -->
+    <!-- devant en le chevauchant un peu. Le chat assis dessus est anime en inline dans -->
+    <!-- ville-medievale-croquis.svg (#chat-boulangerie). -->
+    <g filter="url(#sketchyMedium)" transform="translate(215,-18)">
       <ellipse cx="1180" cy="1720" rx="25" ry="30" fill="url(#hatchBarrel)" stroke="#1a0f05" stroke-width="3"/>
       <line x1="1155" y1="1700" x2="1205" y2="1700" stroke="#1a0f05" stroke-width="2"/>
       <line x1="1155" y1="1740" x2="1205" y2="1740" stroke="#1a0f05" stroke-width="2"/>
+    </g>
+    <g filter="url(#sketchyMedium)" transform="translate(200,0)">
       <ellipse cx="1230" cy="1730" rx="20" ry="25" fill="url(#hatchBarrel)" stroke="#1a0f05" stroke-width="3"/>
       <line x1="1210" y1="1715" x2="1250" y2="1715" stroke="#1a0f05" stroke-width="2"/>
       <line x1="1210" y1="1745" x2="1250" y2="1745" stroke="#1a0f05" stroke-width="2"/>
-    </g>
-    <g filter="url(#sketchyMedium)">
-      <ellipse cx="1230" cy="1700" rx="15" ry="12" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
-      <circle cx="1230" cy="1685" r="10" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
-      <path d="M 1225,1680 L 1222,1670 L 1228,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
-      <path d="M 1235,1680 L 1238,1670 L 1232,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
-      <path d="M 1245,1700 Q 1260,1695 1255,1680" fill="none" stroke="#1a0f05" stroke-width="2.5"/>
     </g>
 
     <!-- PETITE ENSEIGNE SUSPENDUE À DROITE -->
@@ -170,13 +201,20 @@
         <path d="M 1415,1400 Q 1410,1415 1415,1430"/>
       </g>
 
-      <!-- Symbole : Mortier et Pilon (miniaturisé) -->
-      <g stroke="#1a0f05" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
-        <path d="M 1385,1420 L 1388,1435 Q 1388,1442 1400,1442 Q 1412,1442 1412,1435 L 1415,1420 Z" fill="#8b7355"/>
-        <line x1="1390" y1="1425" x2="1405" y2="1410" stroke-width="3"/>
-        <circle cx="1406" cy="1409" r="2.5" fill="#1a0f05"/>
-        <path d="M 1393,1420 Q 1390,1412 1395,1408" stroke-width="1.5"/>
-        <path d="M 1398,1420 Q 1402,1412 1400,1406" stroke-width="1.5"/>
+      <!-- Symbole : fourchette à 3 dents et couteau, resserrés au centre et raccourcis pour -->
+      <!-- tenir dans la bordure intérieure (pointe basse de la bordure à y~1445 vers x=1390-1410) -->
+      <g stroke="#1a0f05" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Fourchette -->
+        <g fill="none" stroke-width="1.8">
+          <line x1="1390" y1="1401" x2="1390" y2="1410"/>
+          <line x1="1394" y1="1401" x2="1394" y2="1410"/>
+          <line x1="1398" y1="1401" x2="1398" y2="1410"/>
+          <path d="M 1389,1409 Q 1394,1415 1399,1409"/>
+        </g>
+        <line x1="1394" y1="1413" x2="1394" y2="1438" stroke-width="2.8"/>
+        <!-- Couteau : lame a dos droit, tranchant arrondi -->
+        <path d="M 1405,1401 Q 1412,1406 1411,1423 L 1405,1423 Z" fill="#b9b1a0" stroke-width="1.6"/>
+        <line x1="1407" y1="1424" x2="1407" y2="1438" stroke-width="3.2"/>
       </g>
 
       <!-- Petite lanterne sous l'enseigne -->

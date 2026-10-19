@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Collines avec champs de blé en arrière-plan, derrière le rempart -->
+<!-- (02-muraille-fond.svg, courtine y=735-805). Style croquis médiéval, hachures dorées. -->
+<!-- Deux collines superposees : une lointaine (plus claire, haute a droite) et une plus -->
+<!-- proche (plus foncee, haute a gauche). Remplissage ocre plus soutenu que le ciel (#d4ba82) -->
+<!-- pour que la silhouette se lise. Parcelles et sillons decoupes a l'interieur de chaque -->
+<!-- colline. Rien sous y=800 (masque par le rempart, ne doit pas deborder sur les paves). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- Texture blé (hachures dorées) -->
+    <pattern id="wheatField" patternUnits="userSpaceOnUse" width="30" height="30" patternTransform="rotate(15)">
+      <rect width="30" height="30" fill="#d0b072"/>
+      <line x1="0" y1="10" x2="30" y2="10" stroke="#b89050" stroke-width="1.5" opacity="0.6"/>
+      <line x1="0" y1="20" x2="30" y2="20" stroke="#a88040" stroke-width="1" opacity="0.5"/>
+      <line x1="15" y1="0" x2="15" y2="30" stroke="#b89050" stroke-width="0.8" opacity="0.4"/>
+    </pattern>
+
+    <!-- Texture blé plus foncée (pour variation) -->
+    <pattern id="wheatFieldDark" patternUnits="userSpaceOnUse" width="25" height="25" patternTransform="rotate(-10)">
+      <rect width="25" height="25" fill="#bf9a58"/>
+      <line x1="0" y1="8" x2="25" y2="8" stroke="#a07838" stroke-width="1.5" opacity="0.7"/>
+      <line x1="0" y1="16" x2="25" y2="16" stroke="#8e6a30" stroke-width="1" opacity="0.6"/>
+    </pattern>
+
+    <!-- Terre labouree (parcelles en jachere) -->
+    <pattern id="hatchEarth" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(-4)">
+      <rect width="10" height="10" fill="#a98454"/>
+      <line x1="0" y1="5" x2="10" y2="5" stroke="#6a5030" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="sketchyLight" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.08 0.1" numOctaves="2" seed="73" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Silhouettes des collines (reutilisees pour le remplissage, la decoupe et le contour) -->
+    <path id="colline-loin" d="M -20,800 L -20,690 Q 600,650 1300,625 Q 2100,600 2650,565 Q 3250,525 3860,610 L 3860,800 Z"/>
+    <path id="colline-pres" d="M -20,800 L -20,660 Q 700,565 1500,545 Q 2100,535 2500,600 Q 2900,665 3300,688 Q 3600,700 3860,712 L 3860,800 Z"/>
+    <clipPath id="clip-loin" clipPathUnits="userSpaceOnUse"><use href="#colline-loin"/></clipPath>
+    <clipPath id="clip-pres" clipPathUnits="userSpaceOnUse"><use href="#colline-pres"/></clipPath>
+  </defs>
+
+  <g id="collines" opacity="0.85">
+
+    <!-- ======================================================= -->
+    <!-- COLLINE LOINTAINE (haute a droite, plus claire) -->
+    <!-- ======================================================= -->
+    <use href="#colline-loin" fill="#cbac6e"/>
+    <!-- Pas de champs sur la colline lointaine : simple prairie (+ foret generee en inline). -->
+    <use href="#colline-loin" fill="none" stroke="#6a5030" stroke-width="2.5" opacity="0.7" filter="url(#sketchyMedium)"/>
+
+    <!-- ======================================================= -->
+    <!-- COLLINE PROCHE (haute a gauche, plus foncee) -->
+    <!-- ======================================================= -->
+    <use href="#colline-pres" fill="#c09c5c"/>
+    <g clip-path="url(#clip-pres)" opacity="0.6" filter="url(#sketchyMedium)">
+      <!-- Parcelles en bandes, limites un peu penchees -->
+      <polygon points="-20,500 520,500 470,800 -20,800" fill="url(#wheatFieldDark)"/>
+      <polygon points="520,500 1050,500 1010,800 470,800" fill="url(#wheatField)"/>
+      <polygon points="1050,500 1450,500 1430,800 1010,800" fill="url(#hatchEarth)"/>
+      <polygon points="1450,500 2000,500 2010,800 1430,800" fill="url(#wheatFieldDark)"/>
+      <polygon points="2000,500 2550,500 2580,800 2010,800" fill="url(#wheatField)"/>
+      <polygon points="2550,500 3100,500 3150,800 2580,800" fill="url(#wheatFieldDark)"/>
+      <polygon points="3100,500 3860,500 3860,800 3150,800" fill="url(#hatchEarth)"/>
+    </g>
+    <!-- Limites de parcelles -->
+    <g clip-path="url(#clip-pres)" stroke="#6a5030" stroke-width="1.5" opacity="0.5" filter="url(#sketchyLight)">
+      <line x1="520" y1="500" x2="470" y2="800"/>
+      <line x1="1050" y1="500" x2="1010" y2="800"/>
+      <line x1="1450" y1="500" x2="1430" y2="800"/>
+      <line x1="2000" y1="500" x2="2010" y2="800"/>
+      <line x1="2550" y1="500" x2="2580" y2="800"/>
+      <line x1="3100" y1="500" x2="3150" y2="800"/>
+    </g>
+    <!-- Sillons qui suivent le relief -->
+    <g clip-path="url(#clip-pres)" fill="none" stroke="#8a6a3a" stroke-width="1.3" opacity="0.5" filter="url(#sketchyLight)">
+      <use href="#colline-pres" transform="translate(0,25)"/>
+      <use href="#colline-pres" transform="translate(0,50)"/>
+      <use href="#colline-pres" transform="translate(0,75)"/>
+      <use href="#colline-pres" transform="translate(0,100)"/>
+    </g>
+    <use href="#colline-pres" fill="none" stroke="#5a4028" stroke-width="3" opacity="0.8" filter="url(#sketchyMedium)"/>
+
+    <!-- Champ de ble, chemin du moulin : generes et animes (vent) en inline dans -->
+    <!-- ville-medievale-croquis.svg (#champs-ble), un <image> ne pouvant pas etre anime. -->
+  </g>
+</svg>

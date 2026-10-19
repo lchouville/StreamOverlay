@@ -28,20 +28,113 @@
     <filter id="glowBlur" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur stdDeviation="4"/>
     </filter>
+
+    <!-- Portes vivantes (voir #porte-tour / #porte-auberge) : copies exactes des filtres des -->
+    <!-- calques batiments (memes seeds) pour que la porte superposee se confonde avec celle -->
+    <!-- dessinee dans le calque <image>. -->
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- Embrasure de la porte de la tour (coordonnees locales du calque tour), un peu elargie -->
+    <!-- pour ne pas rogner le trait crayonne : les battants qui partent vers l'interieur -->
+    <!-- passent derriere le mur et l'arc. -->
+    <clipPath id="clip-embrasure-tour" clipPathUnits="userSpaceOnUse">
+      <path d="M 2370,1685 L 2370,1420 Q 2370,1330 2520,1330 Q 2670,1330 2670,1420 L 2670,1685 Z"/>
+    </clipPath>
+    <!-- Baie du clocher de la chapelle (coordonnees locales du calque chapelle) : la cloche -->
+    <!-- qui se balance reste dans l'ouverture. -->
+    <clipPath id="clip-baie-chapelle" clipPathUnits="userSpaceOnUse">
+      <path d="M -38,-71 L -38,-115 Q -38,-142 -10,-142 Q 18,-142 18,-115 L 18,-71 Z"/>
+    </clipPath>
+    <!-- Idem pour la porte de la guilde (coordonnees locales du calque guilde). -->
+    <clipPath id="clip-embrasure-guilde" clipPathUnits="userSpaceOnUse">
+      <path d="M 122,478 L 122,340 Q 122,302 190,302 Q 258,302 258,340 L 258,478 Z"/>
+    </clipPath>
   </defs>
 
   <style>
-    .forge-puff {
+    /* Ble au vent (#champs-ble) : chaque segment de rang penche autour du pied de ses epis. -->
+       Balancement permanent (wheatSway) + rafales plus fortes et plus rares (wheatGust, groupe -->
+       parent). Les delais, calcules par le script selon x, font traverser les vagues de -->
+       gauche a droite. */
+    .wheat-gust, .wheat-sway {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+    .wheat-sway { animation-name: wheatSway; animation-duration: var(--ble-balancement, 3.4s); }
+    .wheat-gust { animation-name: wheatGust; animation-duration: var(--ble-rafale, 11s); }
+    @keyframes wheatSway {
+      0%, 100% { transform: skewX(calc(var(--ble-force-balancement, 5) * -0.3deg)); }
+      50%      { transform: skewX(calc(var(--ble-force-balancement, 5) * -1deg)); }
+    }
+    @keyframes wheatGust {
+      0%, 55%, 100% { transform: skewX(0deg); }
+      70%           { transform: skewX(calc(var(--ble-force-rafale, 8) * -1deg)); }
+      82%           { transform: skewX(calc(var(--ble-force-rafale, 8) * -0.375deg)); }
+    }
+    /* Ailes du moulin (#moulin-ailes) : rotation continue, sens anti-horaire vu de face. */
+    .ailes {
+      transform-box: fill-box;
+      transform-origin: 50% 50%;
+      animation: moulinTourne var(--moulin-tour, 16s) linear infinite;
+    }
+    @keyframes moulinTourne {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(-360deg); }
+    }
+    /* Bouffees de fumee (forge, boulangerie) : creees et animees par le script en bas de fichier. */
+    .smoke-puff {
       transform-box: fill-box;
       transform-origin: center;
-      animation: forge-rise 4.2s ease-out infinite;
     }
-    .forge-puff.p2 { animation-delay: 1.4s; }
-    .forge-puff.p3 { animation-delay: 2.8s; }
-    @keyframes forge-rise {
-      0%   { transform: translate(0,0) scale(0.5); opacity: 0; }
-      12%  { opacity: 0.5; }
-      100% { transform: translate(-16px,-175px) scale(1.9); opacity: 0; }
+    /* Chat de la boulangerie (#chat-boulangerie) : queue qui balance, respiration, tete qui -->
+       penche de temps en temps, oreille qui fremit. Durees premieres entre elles pour que les -->
+       mouvements ne se repetent pas a l'identique. */
+    .cat-tail, .cat-body, .cat-head, .cat-ear { transform-box: fill-box; }
+    .cat-tail {
+      transform-origin: 0% 100%;
+      animation: catTail var(--chat-queue, 3.7s) ease-in-out infinite;
+    }
+    @keyframes catTail {
+      0%, 100% { transform: rotate(-10deg); }
+      30%      { transform: rotate(16deg); }
+      55%      { transform: rotate(4deg); }
+      75%      { transform: rotate(20deg); }
+    }
+    .cat-body {
+      transform-origin: 50% 100%;
+      animation: catBreath var(--chat-respiration, 2.9s) ease-in-out infinite;
+    }
+    @keyframes catBreath {
+      0%, 100% { transform: scale(1, 1); }
+      50%      { transform: scale(1.03, 1.07); }
+    }
+    .cat-head {
+      transform-origin: 50% 100%;
+      animation: catHead var(--chat-tete, 11s) ease-in-out infinite;
+    }
+    @keyframes catHead {
+      0%, 55%   { transform: rotate(0deg); }
+      62%, 74%  { transform: rotate(-14deg); }
+      80%, 100% { transform: rotate(0deg); }
+    }
+    .cat-ear {
+      transform-origin: 20% 100%;
+      animation: catEar var(--chat-oreille, 7.3s) linear infinite;
+    }
+    @keyframes catEar {
+      0%, 88%, 100% { transform: rotate(0deg); }
+      90%           { transform: rotate(25deg); }
+      92%           { transform: rotate(0deg); }
+      94%           { transform: rotate(20deg); }
+      96%           { transform: rotate(0deg); }
     }
     .forge-spark {
       transform-box: fill-box;
@@ -103,18 +196,161 @@
   <image href="layers/01-papier.svg" x="0" y="0" width="3840" height="2160"/>
   <g clip-path="url(#clip-cadre)">
     <image href="layers/02-sol-pave.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Colline de champs de ble, derriere le rempart -->
+    <image href="layers/02-colline-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Champs de ble et chemin du moulin sur les collines : generes par le script en bas de -->
+    <!-- fichier (rangs d'epis par parcelle, ondulation au vent). Entre la colline et le moulin. -->
+    <g id="champs-ble" clip-path="url(#clip-coin-ovale)">
+      <g class="chemin"/>
+      <g class="epis" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="foret" stroke="#3a2a14" stroke-linejoin="round" filter="url(#sketchyMedium)"/>
+    </g>
+    <!-- Cabane de bucheron dans la clairiere a l'oree de la foret -->
+    <image href="layers/02-cabane-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Moulin a vent sur la crete de la colline -->
+    <image href="layers/02-moulin-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Ailes du moulin : meme transform que #moulin-a-vent du calque, moyeu en (100,95). Une aile -->
+    <!-- (pointant vers le haut) est dessinee une fois puis repetee a 90/180/270 deg ; le groupe -->
+    <!-- .ailes tourne autour du moyeu (symetrie d'ordre 4 : centre de sa boite = moyeu). -->
+    <g clip-path="url(#clip-coin-ovale)">
+    <g id="moulin-ailes" transform="translate(1957,467.6) scale(0.33)" opacity="0.9">
+      <g class="ailes">
+        <g id="aile" filter="url(#sketchyMedium)">
+          <!-- Toile tendue sur le cadre, d'un cote du bras -->
+          <rect x="103" y="-80" width="30" height="128" fill="#e3d2a6" stroke="#2a1a0a" stroke-width="2"/>
+          <!-- Lattes transversales et longeron du cadre -->
+          <g stroke="#3a2a14" stroke-width="1.4">
+            <line x1="100" y1="-64" x2="133" y2="-64"/>
+            <line x1="100" y1="-48" x2="133" y2="-48"/>
+            <line x1="100" y1="-32" x2="133" y2="-32"/>
+            <line x1="100" y1="-16" x2="133" y2="-16"/>
+            <line x1="100" y1="0" x2="133" y2="0"/>
+            <line x1="100" y1="16" x2="133" y2="16"/>
+            <line x1="100" y1="32" x2="133" y2="32"/>
+            <line x1="118" y1="-80" x2="118" y2="48"/>
+          </g>
+          <!-- Planche de bord d'attaque (cote oppose) -->
+          <rect x="91" y="-80" width="6" height="128" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="1.5"/>
+          <!-- Bras (vergue) -->
+          <line x1="100" y1="95" x2="100" y2="-85" stroke="#4a3420" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <use href="#aile" transform="rotate(90 100 95)"/>
+        <use href="#aile" transform="rotate(180 100 95)"/>
+        <use href="#aile" transform="rotate(270 100 95)"/>
+      </g>
+      <!-- Moyeu (fixe) -->
+      <circle cx="100" cy="95" r="11" fill="#5a4a3a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <circle cx="100" cy="95" r="4" fill="#2a1a0a"/>
+    </g>
+    </g>
+    <!-- Rempart de la ville en arriere-plan (sur l'horizon, derriere tous les batiments) -->
+    <image href="layers/02-muraille-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maisons a colombages en retrait, entre la taverne et la tour (derriere les deux) -->
+    <image href="layers/02-Batiment/02-maisons1.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <image href="layers/02-Batiment/02-tour-horloge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Porte de la tour (double battant) : meme transform que #tour-horloge du calque. Masquee -->
+    <!-- tant que la porte est fermee (on voit alors celle du calque) ; pendant une ouverture, le -->
+    <!-- fond sombre recouvre la porte peinte et les battants (generes par le script en bas de -->
+    <!-- fichier) pivotent en perspective. L'arc au-dessus est redessine par-dessus le fond. -->
+    <g id="porte-tour" transform="translate(1522.5,140.75) scale(0.55)" display="none">
+      <path d="M 2380,1670 L 2380,1420 Q 2380,1340 2520,1340 Q 2660,1340 2660,1420 L 2660,1670 Z"
+            fill="#1a0f05" stroke="#1a0f05" stroke-width="6" filter="url(#sketchyHeavy)"/>
+      <g class="battants" clip-path="url(#clip-embrasure-tour)"/>
+      <path d="M 2360,1340 Q 2520,1300 2680,1340"
+            fill="none" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyMedium)"/>
+      <path d="M 2510,1330 L 2520,1310 L 2530,1330"
+            fill="none" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
+    </g>
     <image href="layers/02-Batiment/02-taverne.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <image href="layers/02-Batiment/02-forge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <image href="layers/02-Batiment/02-auberge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Porte de l'auberge : meme transform que #echoppe-apothicaire du calque, meme principe que -->
+    <!-- #porte-tour. Heurtoir a gauche donc charniere a droite ; s'ouvre vers la rue. -->
+    <g id="porte-auberge" transform="translate(1892,79.25) scale(0.6)" display="none">
+      <path d="M 1200,1750 L 1200,1600 Q 1200,1570 1250,1570 Q 1300,1570 1300,1600 L 1300,1750 Z"
+            fill="#1a0f05" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)"/>
+      <g class="battants"/>
+    </g>
+    <!-- Chat assis sur le tonneau de droite de la boulangerie : dessin d'origine du calque -->
+    <!-- auberge (coordonnees locales), meme transform + decalage translate(200,0) du tonneau. -->
+    <g id="chat-boulangerie" transform="translate(1892,79.25) scale(0.6) translate(200,0)" filter="url(#sketchyMedium)">
+      <path class="cat-tail" d="M 1245,1700 Q 1260,1695 1255,1680" fill="none" stroke="#1a0f05" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse class="cat-body" cx="1230" cy="1700" rx="15" ry="12" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
+      <g class="cat-head">
+        <circle cx="1230" cy="1685" r="10" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 1225,1680 L 1222,1670 L 1228,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+        <path class="cat-ear" d="M 1235,1680 L 1238,1670 L 1232,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+      </g>
+    </g>
     <image href="layers/02-Batiment/02-guild-av.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Porte de la guilde (double battant) : meme transform que #guilde-aventuriers du calque, -->
+    <!-- meme principe que #porte-tour. La banniere, devant la porte dans le calque, est -->
+    <!-- redessinee par-dessus. -->
+    <g id="porte-guilde" transform="translate(3045,844)" display="none">
+      <path d="M 130,470 L 130,340 Q 130,310 190,310 Q 250,310 250,340 L 250,470 Z"
+            fill="#1a0f05" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)"/>
+      <g class="battants" clip-path="url(#clip-embrasure-guilde)"/>
+      <g filter="url(#sketchyMedium)">
+        <line x1="100" y1="290" x2="280" y2="290" stroke="#1a0f05" stroke-width="4"/>
+        <path d="M 150,290 L 230,290 L 230,340 L 190,360 L 150,340 Z"
+              fill="#8b4513" stroke="#1a0f05" stroke-width="3" opacity="0.9"/>
+        <circle cx="190" cy="320" r="12" fill="none" stroke="#d4ba82" stroke-width="2"/>
+        <line x1="190" y1="308" x2="190" y2="332" stroke="#d4ba82" stroke-width="2"/>
+        <line x1="178" y1="320" x2="202" y2="320" stroke="#d4ba82" stroke-width="2"/>
+        <line x1="182" y1="312" x2="198" y2="328" stroke="#d4ba82" stroke-width="1.5"/>
+        <line x1="198" y1="312" x2="182" y2="328" stroke="#d4ba82" stroke-width="1.5"/>
+      </g>
+    </g>
     <image href="layers/02-Batiment/02-chapel.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Cloche de la chapelle : meme transform que #chapelle-amelioree du calque, suspendue a -->
+    <!-- la poutre de la baie (pivot de l'anse en (-10,-125)). Sonne de temps en temps (script). -->
+    <g id="cloche-chapelle" transform="translate(1800,820) scale(1.4)" clip-path="url(#clip-baie-chapelle)" filter="url(#sketchyMedium)">
+      <g class="robe">
+        <!-- Battant : dessine avant la robe, seul le bas depasse sous la levre -->
+        <g class="battant">
+          <line x1="-10" y1="-112" x2="-10" y2="-77" stroke="#1a0f05" stroke-width="2"/>
+          <circle cx="-10" cy="-74.5" r="3" fill="#8a6a30" stroke="#1a0f05" stroke-width="1.5"/>
+        </g>
+        <!-- Anse -->
+        <rect x="-14.5" y="-128" width="9" height="7" fill="#8a6a30" stroke="#1a0f05" stroke-width="1.5"/>
+        <!-- Robe : couronne etroite, evasement, levre large -->
+        <path d="M -10,-122 C -22,-122 -22,-106 -23,-95 Q -24,-86 -31,-80 L 11,-80 Q 4,-86 3,-95 C 2,-106 2,-122 -10,-122 Z"
+              fill="#b08a4a" stroke="#1a0f05" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M -17,-113 Q -18,-100 -21,-89" fill="none" stroke="#e0c48a" stroke-width="2" stroke-linecap="round"/>
+        <line x1="-32" y1="-80" x2="12" y2="-80" stroke="#1a0f05" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </g>
 
     <!-- Lumieres de fenetres/lanternes : coordonnees calculees depuis la position locale de -->
     <!-- chaque ouverture x la transform actuelle de son batiment (tour, taverne, auberge, -->
     <!-- guilde, forge, chapelle). Si un batiment est redeplace/redimensionne, ces points doivent -->
     <!-- etre recalcules en consequence. -->
     <g id="building-lights" clip-path="url(#clip-coin-ovale)">
+    <!-- Maisons a colombages (02-maisons1.svg) : fenetres de grenier (la maison 1, cachee -->
+    <!-- derriere la taverne, n'en a pas : sa lueur passerait par-dessus le toit de la taverne). -->
+    <g class="win-light" style="animation-duration:29s; animation-delay:-13s;" transform="translate(2381.8,757.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.4s;" rx="15" ry="11.5" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(2475.4,653.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.60s; animation-delay:-0.5s;" rx="19" ry="11.5" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:33s; animation-delay:-19s;" transform="translate(2571.6,757.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.6s;" rx="16" ry="11.5" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <!-- Taverne elargie : fenetre droite etage 1, fenetre gauche etage 2, lucarne -->
+    <g class="win-light" style="animation-duration:31s; animation-delay:-16s;" transform="translate(2248.1,846.7)">
+      <ellipse class="flame-glow" style="animation-duration:1.7s; animation-delay:-0.3s;" rx="15" ry="19" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:19s; animation-delay:-4s;" transform="translate(2174.6,764.8)">
+      <ellipse class="flame-glow" style="animation-duration:1.4s; animation-delay:-0.9s;" rx="13" ry="17" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:35s; animation-delay:-21s;" transform="translate(2208.2,702.6)">
+      <ellipse class="flame-glow" style="animation-duration:1.8s; animation-delay:-0.5s;" rx="13" ry="13" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <!-- Fenetre de l'extension de la taverne -->
+    <g class="win-light" style="animation-duration:26s; animation-delay:-7s;" transform="translate(2323.7,952.1)">
+      <ellipse class="flame-glow" style="animation-duration:1.55s; animation-delay:-0.6s;" rx="13" ry="11" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
     <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(2842.5,571.4)">
       <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="18" ry="26" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
@@ -133,7 +369,7 @@
     <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(2241.8,764.8)">
       <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="13" ry="17" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(2315.3,813.1)">
+    <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(2340.5,813.1)">
       <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="8" ry="9" fill="#ff8c3d" filter="url(#glowBlur)"/>
     </g>
     <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(2498,1045.25)">
@@ -142,40 +378,40 @@
     <g class="win-light" style="animation-duration:25s; animation-delay:-9s;" transform="translate(2732,970.25)">
       <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="8" ry="9" fill="#ff8c3d" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(3240,1039)">
+    <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(3115,1039)">
       <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="36" ry="42" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(3480,1039)">
+    <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(3355,1039)">
       <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="36" ry="42" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(3225,906.5)">
+    <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(3100,906.5)">
       <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="32" ry="35" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(3360,906.5)">
+    <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(3235,906.5)">
       <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="32" ry="35" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(3495,906.5)">
+    <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(3370,906.5)">
       <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="32" ry="35" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(3360,811.5)">
+    <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(3235,811.5)">
       <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="27" ry="25" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:25s; animation-delay:-9s;" transform="translate(3625,1063)">
+    <g class="win-light" style="animation-duration:25s; animation-delay:-9s;" transform="translate(2970,1063)">
       <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="9" ry="10" fill="#ff8c3d" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(3270,1166)">
+    <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(3145,1166)">
       <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="10" ry="14" fill="#ff8c3d" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(3450,1166)">
+    <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(3325,1166)">
       <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="10" ry="14" fill="#ff8c3d" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(2572,765)">
-      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="14" ry="18" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(3608,880)">
+      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="15" ry="18" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
     <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(1954,934.8)">
       <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="38" ry="66" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
-    <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(1786,775.2)">
+    <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(1786,794.8)">
       <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="25" ry="41" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
     <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(1954,1052.4)">
@@ -211,21 +447,68 @@
     <circle cx="0" cy="0" r="3.4" fill="#1a0f05" stroke="#0d0802" stroke-width="0.5"/>
   </g>
 
-  <!-- Fumee de forge vivante : sommet de cheminee (230,-190) du calque forge, passe par sa -->
-  <!-- transform (translate(2380,721) scale(0.8)) -> (2564,569). Un <image> ne peut pas animer -->
+  <!-- Fumee de forge vivante : sommet de cheminee (165,-70) du calque forge, passe par sa -->
+  <!-- transform (translate(3701,772) scale(-0.6,0.6), en miroir) -> (3602,730). Un <image> ne peut pas animer -->
   <!-- de SVG embarque, d'ou l'inline ici (meme raison que l'horloge-live ci-dessus). -->
-  <g id="forge-smoke" transform="translate(2564,569)">
-    <ellipse class="forge-puff p1" cx="0" cy="0" rx="13" ry="10" fill="#3a2a1a"/>
-    <ellipse class="forge-puff p2" cx="5" cy="2" rx="11" ry="9" fill="#4a3826"/>
-    <ellipse class="forge-puff p3" cx="-6" cy="1" rx="12" ry="9" fill="#3a2a1a"/>
+  <!-- Les bouffees sont ajoutees dans .puffs par le script (intensite variable). -->
+  <g id="forge-smoke" transform="translate(3602,730) scale(0.8)">
+    <g class="puffs"/>
     <circle class="forge-spark s1" cx="-4" cy="-6" r="2" fill="#d98a3d"/>
     <circle class="forge-spark s2" cx="6" cy="-4" r="1.6" fill="#e0984a"/>
     <circle class="forge-spark s3" cx="0" cy="-8" r="1.8" fill="#d98a3d"/>
   </g>
 
+  <!-- Fumee du four de la boulangerie : sommet de cheminee (1235,1168) du calque auberge, passe -->
+  <!-- par sa transform (translate(1892,79.25) scale(0.6)) -> (2633,780). -->
+  <g id="boulangerie-smoke" transform="translate(2633,780)">
+    <g class="puffs"/>
+  </g>
+
+  <!-- Fumee de la cabane du bucheron : sommet de cheminee (160,30) du calque cabane, passe par -->
+  <!-- sa transform (translate(2660.6,583.6) scale(0.28)) -> (2705.4,592) ; bouffees reduites (lointain). -->
+  <g id="cabane-smoke" transform="translate(2705.4,592) scale(0.35)">
+    <g class="puffs"/>
+  </g>
+
   <image href="layers/05-bordure.svg" x="0" y="0" width="3840" height="2160"/>
 
+  <!-- Reglages des animations (frequences, durees, forces) : voir animations-config.js. -->
+  <script href="animations-config.js"/>
   <script><![CDATA[
+    // Tout demarre au chargement complet, apres animations-config.js (window.ANIM_CONFIG).
+    window.addEventListener('load', function () {
+    var CFG = window.ANIM_CONFIG || {};
+    // Valeur de reglage par chemin 'a.b.c', ou def si absente.
+    function cfg(path, def) {
+      var v = CFG, parts = path.split('.');
+      for (var i = 0; i < parts.length; i++) { if (v == null) return def; v = v[parts[i]]; }
+      return v === undefined || v === null ? def : v;
+    }
+    // Duree en ms depuis un reglage en secondes : nombre fixe ou [min, max] tire au hasard.
+    function cfgMs(path, def) {
+      var v = cfg(path, def);
+      if (Array.isArray(v)) return (v[0] + Math.random() * (v[1] - v[0])) * 1000;
+      return v * 1000;
+    }
+    var rootStyle = document.documentElement.style;
+    rootStyle.setProperty('--ble-balancement', cfg('ble.balancement', 3.4) + 's');
+    rootStyle.setProperty('--ble-rafale', cfg('ble.rafale', 11) + 's');
+    rootStyle.setProperty('--ble-force-balancement', cfg('ble.forceBalancement', 5));
+    rootStyle.setProperty('--ble-force-rafale', cfg('ble.forceRafale', 8));
+    rootStyle.setProperty('--moulin-tour', cfg('moulin.tour', 16) + 's');
+    rootStyle.setProperty('--chat-queue', cfg('chat.queue', 3.7) + 's');
+    rootStyle.setProperty('--chat-respiration', cfg('chat.respiration', 2.9) + 's');
+    rootStyle.setProperty('--chat-tete', cfg('chat.tete', 11) + 's');
+    rootStyle.setProperty('--chat-oreille', cfg('chat.oreille', 7.3) + 's');
+    // Lumieres des fenetres : multiplicateur des durees/delais inline.
+    var lightK = cfg('lumieres.duree', 1);
+    if (lightK !== 1) {
+      Array.prototype.forEach.call(document.querySelectorAll('.win-light'), function (e) {
+        e.style.animationDuration = (parseFloat(e.style.animationDuration) * lightK) + 's';
+        e.style.animationDelay = (parseFloat(e.style.animationDelay) * lightK) + 's';
+      });
+    }
+
     (function () {
       // Mouvement "a l'ancienne" : l'aiguille des secondes avance par a-coups
       // (un tic par seconde), comme une horloge mecanique a echappement,
@@ -252,5 +535,546 @@
       update();
       setInterval(update, 1000);
     })();
+
+    (function () {
+      // Portes : ouvertures aleatoires (quand, quel battant, de combien, a quelle vitesse).
+      // Chaque battant est redessine a chaque image : ses points (contour, hachures du bois,
+      // traverses, heurtoir) sont tournes en 3D autour de la charniere puis projetes en
+      // perspective (oeil au centre de la porte, a la distance eye.d). Les hachures suivent
+      // donc le battant au lieu d'etre etirees comme une image.
+      var NS = 'http://www.w3.org/2000/svg';
+      var defs = document.querySelector('defs');
+      var clipCount = 0;
+
+      function rand(a, b) { return a + Math.random() * (b - a); }
+      function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+      function el(tag, attrs, parent) {
+        var e = document.createElementNS(NS, tag);
+        for (var k in attrs) e.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(e);
+        return e;
+      }
+      function quad(p0, c, p1, n) {
+        var out = [];
+        for (var i = 1; i <= n; i++) {
+          var t = i / n, a = (1 - t) * (1 - t), b = 2 * (1 - t) * t, d = t * t;
+          out.push([a * p0[0] + b * c[0] + d * p1[0], a * p0[1] + b * c[1] + d * p1[1]]);
+        }
+        return out;
+      }
+      function r2(v) { return Math.round(v * 100) / 100; }
+
+      // Rotation autour de l'axe vertical x = hinge, puis projection perspective.
+      // Renvoie [x, y, facteur d'echelle].
+      function project(c, ang, x, y) {
+        var u = x - c.hinge;
+        var X = c.hinge + u * Math.cos(ang);
+        var Z = (c.outward ? 1 : -1) * Math.abs(u) * Math.sin(ang);
+        var s = c.eye.d / (c.eye.d - Z);
+        return [c.eye.x + (X - c.eye.x) * s, c.eye.y + (y - c.eye.y) * s, s];
+      }
+      function setLine(e, p, q) {
+        e.setAttribute('x1', r2(p[0])); e.setAttribute('y1', r2(p[1]));
+        e.setAttribute('x2', r2(q[0])); e.setAttribute('y2', r2(q[1]));
+      }
+
+      function makeLeaf(parent, c) {
+        var leaf = { c: c, angle: -1, tl: null };
+        var id = 'battant-clip-' + (clipCount++);
+        leaf.clip = el('path', {}, el('clipPath', { id: id, clipPathUnits: 'userSpaceOnUse' }, defs));
+
+        // Corps du battant : meme rendu que le motif hatchWood + sketchyHeavy du calque.
+        var g = el('g', { filter: 'url(#sketchyHeavy)' }, parent);
+        leaf.fill = el('path', { fill: '#6b4a2e' }, g);
+        var hatch = el('g', { 'clip-path': 'url(#' + id + ')', stroke: '#2a1a0a' }, g);
+        var xmin = Math.min(c.hinge, c.free), xmax = Math.max(c.hinge, c.free);
+        leaf.hLines = []; leaf.vLines = [];
+        for (var y = Math.floor(c.top / 8) * 8 + 4; y <= c.bottom; y += 8)
+          leaf.hLines.push({ y: y, e: el('line', { 'stroke-width': 1.5, opacity: 0.7 }, hatch) });
+        for (var x = Math.floor(xmin / 8) * 8 + 4; x <= xmax; x += 8)
+          leaf.vLines.push({ x: x, e: el('line', { opacity: 0.5 }, hatch) });
+        leaf.shade = el('path', { fill: '#000', opacity: 0 }, g);
+        leaf.edge = el('path', { fill: 'none', stroke: '#1a0f05', 'stroke-width': c.stroke }, g);
+
+        // Traverses et anneaux/heurtoir (sketchyMedium, comme dans le calque).
+        var det = el('g', { filter: 'url(#sketchyMedium)', stroke: '#1a0f05' }, parent);
+        leaf.planks = c.planks.map(function (p) {
+          return { p: p, e: el('line', { 'stroke-width': 3 }, det) };
+        });
+        leaf.rings = c.rings.map(function (r) {
+          return { r: r, e: el('ellipse', r.fill ? { fill: '#1a0f05', stroke: 'none' }
+                                                 : { fill: 'none', 'stroke-width': r.w }, det) };
+        });
+        return leaf;
+      }
+
+      function render(leaf, ang) {
+        if (ang === leaf.angle) return;
+        leaf.angle = ang;
+        var c = leaf.c;
+        var d = 'M ' + c.outline.map(function (p) {
+          var q = project(c, ang, p[0], p[1]);
+          return r2(q[0]) + ',' + r2(q[1]);
+        }).join(' L ') + ' Z';
+        leaf.fill.setAttribute('d', d);
+        leaf.clip.setAttribute('d', d);
+        leaf.shade.setAttribute('d', d);
+        leaf.edge.setAttribute('d', d);
+        // Le battant s'assombrit en tournant (il quitte la lumiere de la rue).
+        leaf.shade.setAttribute('opacity', r2((c.outward ? 0.2 : 0.45) * Math.sin(ang)));
+
+        leaf.hLines.forEach(function (h) {
+          setLine(h.e, project(c, ang, c.hinge, h.y), project(c, ang, c.free, h.y));
+        });
+        var vw = r2(Math.max(0.35, Math.cos(ang)));
+        leaf.vLines.forEach(function (v) {
+          setLine(v.e, project(c, ang, v.x, c.top), project(c, ang, v.x, c.bottom));
+          v.e.setAttribute('stroke-width', vw);
+        });
+        leaf.planks.forEach(function (pl) {
+          setLine(pl.e, project(c, ang, pl.p[0], pl.p[1]), project(c, ang, pl.p[2], pl.p[3]));
+        });
+        leaf.rings.forEach(function (rg) {
+          var q = project(c, ang, rg.r.x, rg.r.y);
+          rg.e.setAttribute('cx', r2(q[0])); rg.e.setAttribute('cy', r2(q[1]));
+          rg.e.setAttribute('rx', r2(Math.max(0.5, rg.r.r * Math.cos(ang) * q[2])));
+          rg.e.setAttribute('ry', r2(rg.r.r * q[2]));
+        });
+      }
+
+      // Angle courant d'un battant selon sa sequence ouverture / pause / fermeture.
+      function angleAt(leaf, now) {
+        var tl = leaf.tl;
+        if (!tl) return 0;
+        var t = now - tl.start;
+        if (t < 0) return 0;
+        if (t < tl.open) return tl.max * ease(t / tl.open);
+        t -= tl.open;
+        if (t < tl.hold) return tl.max;
+        t -= tl.hold;
+        if (t < tl.close) return tl.max * (1 - ease(t / tl.close));
+        leaf.tl = null;
+        return 0;
+      }
+
+      var doors = [];
+      var running = false;
+      function tick(now) {
+        var active = false;
+        doors.forEach(function (door) {
+          var any = false;
+          door.leaves.forEach(function (leaf) {
+            render(leaf, angleAt(leaf, now));
+            if (leaf.tl) any = true;
+          });
+          // Porte fermee : on masque l'overlay et c'est la porte du calque qui s'affiche.
+          door.group.setAttribute('display', any ? 'inline' : 'none');
+          if (any) active = true;
+        });
+        running = active;
+        if (active) requestAnimationFrame(tick);
+      }
+
+      // amount : 0..1 (fraction de l'ouverture maxi c.maxDeg). Renvoie la duree totale (ms).
+      function swing(leaf, amount, delay) {
+        leaf.tl = {
+          start: performance.now() + delay,
+          max: amount * leaf.c.maxDeg * Math.PI / 180,
+          open: cfgMs('portes.ouverture', [2.2, 4]), hold: cfgMs('portes.ouverte', [1.2, 4.5]),
+          close: cfgMs('portes.fermeture', [2.2, 4.5])
+        };
+        if (!running) { running = true; requestAnimationFrame(tick); }
+        return delay + leaf.tl.open + leaf.tl.hold + leaf.tl.close;
+      }
+
+      // --- Tour : double battant, s'ouvre vers l'interieur ---
+      var tourGroup = document.getElementById('porte-tour');
+      var tourEye = { x: 2520, y: 1505, d: 900 };
+      var tourParent = tourGroup.querySelector('.battants');
+      var tourG = makeLeaf(tourParent, {
+        hinge: 2380, free: 2520, top: 1340, bottom: 1670, stroke: 6, maxDeg: 85, outward: false, eye: tourEye,
+        outline: [[2380, 1670], [2380, 1420]]
+          .concat(quad([2380, 1420], [2380, 1340], [2520, 1340], 10)).concat([[2520, 1670]]),
+        planks: [[2400, 1400, 2500, 1400], [2400, 1500, 2500, 1500], [2400, 1600, 2500, 1600]],
+        rings: [{ x: 2510, y: 1520, r: 8, w: 3 }]
+      });
+      var tourD = makeLeaf(tourParent, {
+        hinge: 2660, free: 2520, top: 1340, bottom: 1670, stroke: 6, maxDeg: 85, outward: false, eye: tourEye,
+        outline: [[2660, 1670], [2660, 1420]]
+          .concat(quad([2660, 1420], [2660, 1340], [2520, 1340], 10)).concat([[2520, 1670]]),
+        planks: [[2540, 1400, 2640, 1400], [2540, 1500, 2640, 1500], [2540, 1600, 2640, 1600]],
+        rings: [{ x: 2530, y: 1520, r: 8, w: 3 }]
+      });
+      doors.push({ group: tourGroup, leaves: [tourG, tourD] });
+
+      // --- Auberge : battant unique, charniere a droite, pousse depuis l'interieur (vers la rue) ---
+      var aubGroup = document.getElementById('porte-auberge');
+      var auberge = makeLeaf(aubGroup.querySelector('.battants'), {
+        hinge: 1300, free: 1200, top: 1570, bottom: 1750, stroke: 5, maxDeg: 70, outward: true,
+        eye: { x: 1250, y: 1660, d: 450 },
+        outline: [[1200, 1750], [1200, 1600]]
+          .concat(quad([1200, 1600], [1200, 1570], [1250, 1570], 6))
+          .concat(quad([1250, 1570], [1300, 1570], [1300, 1600], 6)).concat([[1300, 1750]]),
+        planks: [],
+        rings: [{ x: 1220, y: 1660, r: 6, w: 2.5 }, { x: 1220, y: 1660, r: 3, fill: true }]
+      });
+      doors.push({ group: aubGroup, leaves: [auberge] });
+
+      // --- Guilde : double battant, s'ouvre vers l'interieur (comme la tour) ---
+      var guildeGroup = document.getElementById('porte-guilde');
+      var guildeEye = { x: 190, y: 390, d: 400 };
+      var guildeParent = guildeGroup.querySelector('.battants');
+      var guildeG = makeLeaf(guildeParent, {
+        hinge: 130, free: 190, top: 310, bottom: 470, stroke: 5, maxDeg: 85, outward: false, eye: guildeEye,
+        outline: [[130, 470], [130, 340]]
+          .concat(quad([130, 340], [130, 310], [190, 310], 8)).concat([[190, 470]]),
+        planks: [[150, 340, 190, 340], [150, 400, 190, 400], [150, 450, 190, 450]],
+        rings: [{ x: 170, y: 390, r: 7, w: 3 }]
+      });
+      var guildeD = makeLeaf(guildeParent, {
+        hinge: 250, free: 190, top: 310, bottom: 470, stroke: 5, maxDeg: 85, outward: false, eye: guildeEye,
+        outline: [[250, 470], [250, 340]]
+          .concat(quad([250, 340], [250, 310], [190, 310], 8)).concat([[190, 470]]),
+        planks: [[190, 340, 230, 340], [190, 400, 230, 400], [190, 450, 230, 450]],
+        rings: [{ x: 210, y: 390, r: 7, w: 3 }]
+      });
+      doors.push({ group: guildeGroup, leaves: [guildeG, guildeD] });
+
+      // Double porte (tour, guilde) : un battant, l'autre, les deux ensemble ou les deux en
+      // decale, chacun ouvert plus ou moins (pas toujours completement).
+      function cycleDouble(g, d, pauseKey, pauseDef) {
+        var mode = Math.floor(Math.random() * 4);
+        var end = 0;
+        function go(leaf, delay) { end = Math.max(end, swing(leaf, rand(0.3, 1), delay)); }
+        if (mode === 0) go(g, 0);
+        else if (mode === 1) go(d, 0);
+        else if (mode === 2) { go(g, 0); go(d, rand(0, 300)); }
+        else {
+          var first = Math.random() < 0.5 ? g : d;
+          go(first, 0);
+          go(first === g ? d : g, rand(800, 3000));
+        }
+        setTimeout(function () { cycleDouble(g, d, pauseKey, pauseDef); }, end + cfgMs(pauseKey, pauseDef));
+      }
+      function cycleTour() { cycleDouble(tourG, tourD, 'portes.tour.pause', [15, 45]); }
+      function cycleGuilde() { cycleDouble(guildeG, guildeD, 'portes.guilde.pause', [15, 40]); }
+
+      function cycleAuberge() {
+        var end = swing(auberge, rand(0.4, 1), 0);
+        setTimeout(cycleAuberge, end + cfgMs('portes.auberge.pause', [18, 50]));
+      }
+
+      setTimeout(cycleTour, cfgMs('portes.tour.premiere', [4, 15]));
+      setTimeout(cycleAuberge, cfgMs('portes.auberge.premiere', [8, 25]));
+      setTimeout(cycleGuilde, cfgMs('portes.guilde.premiere', [6, 20]));
+    })();
+
+    (function () {
+      // Fumees de cheminee a intensite variable : un niveau (0..1) derive lentement vers une
+      // cible tiree au hasard toutes les 4-14 s (moments calmes, fumee normale, grosses
+      // bouffees). Plus le niveau est haut, plus les bouffees sont frequentes, grosses,
+      // opaques et montent haut.
+      var NS = 'http://www.w3.org/2000/svg';
+      function rand(a, b) { return a + Math.random() * (b - a); }
+
+      function smoke(id, wind) {
+        var g = document.querySelector('#' + id + ' .puffs');
+        var level = rand(0.3, 0.6), target = level, nextChange = 0;
+
+        function retarget(now) {
+          var r = Math.random();
+          var pForte = cfg('fumee.probaForte', 0.2), pCalme = cfg('fumee.probaCalme', 0.3);
+          if (r < pForte) target = rand(0.85, 1);                 // grosse bouffee
+          else if (r < pForte + pCalme) target = rand(0.05, 0.25); // presque eteint
+          else target = rand(0.3, 0.6);                // normal
+          nextChange = now + cfgMs('fumee.changement', [4, 14]);
+        }
+
+        function puff() {
+          var I = level, k = 0.8 + 0.5 * I;
+          var e = document.createElementNS(NS, 'ellipse');
+          e.setAttribute('class', 'smoke-puff');
+          e.setAttribute('cx', rand(-4, 4).toFixed(1));
+          e.setAttribute('rx', (rand(9, 13) * k).toFixed(1));
+          e.setAttribute('ry', (rand(7, 10) * k).toFixed(1));
+          e.setAttribute('fill', Math.random() < 0.5 ? '#3a2a1a' : '#4a3826');
+          e.setAttribute('opacity', 0);
+          g.appendChild(e);
+          var dx = wind + rand(-12, 12), dy = -rand(140, 190) * k;
+          var a = e.animate([
+            { transform: 'translate(0px,0px) scale(0.5)', opacity: 0 },
+            { opacity: 0.15 + 0.45 * I, offset: 0.12 },
+            { transform: 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + (1.5 + I).toFixed(2) + ')', opacity: 0 }
+          ], { duration: rand(3800, 5200) * (1 + 0.3 * I), easing: 'ease-out' });
+          a.onfinish = function () { e.remove(); };
+        }
+
+        function step() {
+          var now = performance.now();
+          if (now > nextChange) retarget(now);
+          level += (target - level) * 0.25;
+          puff();
+          setTimeout(step, (1800 - 1500 * level) * rand(0.8, 1.2) / Math.max(0.1, cfg('fumee.densite', 1)));
+        }
+        step();
+      }
+
+      if (cfg('fumee.actives.forge', true)) smoke('forge-smoke', -16);
+      if (cfg('fumee.actives.boulangerie', true)) smoke('boulangerie-smoke', -10);
+      if (cfg('fumee.actives.cabane', true)) smoke('cabane-smoke', -14);
+    })();
+
+    (function () {
+      // Cloche de la chapelle : une volee environ toutes les 2 minutes. Balancement amorti
+      // autour de l'anse (montee ~1 s, ~4 s de volee, extinction ~3 s), amplitude limitee pour
+      // rester dans la baie ; le battant suit avec un retard, ce qui le fait frapper la robe.
+      var robe = document.querySelector('#cloche-chapelle .robe');
+      var battant = document.querySelector('#cloche-chapelle .battant');
+      var A = cfg('cloche.amplitude', 10), T = cfg('cloche.balancement', 1.5) * 1000;
+      var DUR = cfg('cloche.duree', 8) * 1000, LAG = 180;
+      // Enveloppe : montee 1/8, volee jusqu'a 5/8, extinction sur le reste.
+      function env(t) {
+        if (t < 0 || t > DUR) return 0;
+        if (t < DUR / 8) return t / (DUR / 8);
+        if (t < DUR * 5 / 8) return 1;
+        return 1 - (t - DUR * 5 / 8) / (DUR * 3 / 8);
+      }
+      function angle(t) { return A * env(t) * Math.sin(2 * Math.PI * t / T); }
+      var start = 0;
+      function frame(now) {
+        var t = now - start;
+        var a = angle(t);
+        robe.setAttribute('transform', 'rotate(' + a.toFixed(2) + ' -10 -125)');
+        battant.setAttribute('transform', 'rotate(' + (1.6 * (angle(t - LAG) - a)).toFixed(2) + ' -10 -114)');
+        if (t < DUR + LAG) requestAnimationFrame(frame);
+        else { robe.removeAttribute('transform'); battant.removeAttribute('transform'); }
+      }
+      function ring() {
+        start = performance.now();
+        requestAnimationFrame(frame);
+        setTimeout(ring, DUR + cfgMs('cloche.intervalle', [105, 135]));
+      }
+      setTimeout(ring, cfgMs('cloche.premiere', [20, 60]));
+    })();
+
+    (function () {
+      // Champs de ble sur les collines (calque 02-colline-fond.svg), herbe, forets et chemin du moulin
+      // (calque 02-moulin-fond.svg, porte en (1990,560)). Les epis sont plantes en rangs qui
+      // suivent la crete (perspective : rangs et epis de plus en plus espaces/grands vers le
+      // bas), avec la teinte de la parcelle dessinee dans le calque ; parcelles labourees et
+      // chemin laisses nus. Generation deterministe (PRNG fixe). Chaque segment de rang
+      // (~220u) est un seul <path>, anime par wheat-sway / wheat-gust (voir <style>).
+      var NS = 'http://www.w3.org/2000/svg';
+      var root = document.getElementById('champs-ble');
+      var seed = 4242;
+      function rnd() { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }
+      function r1(v) { return Math.round(v * 10) / 10; }
+
+      // Cretes : memes beziers quadratiques que #colline-pres / #colline-loin du calque.
+      var NEAR = [[[-20, 660], [700, 565], [1500, 545]], [[1500, 545], [2100, 535], [2500, 600]],
+                  [[2500, 600], [2900, 665], [3300, 688]], [[3300, 688], [3600, 700], [3860, 712]]];
+      var FAR = [[[-20, 690], [600, 650], [1300, 625]], [[1300, 625], [2100, 600], [2650, 565]],
+                 [[2650, 565], [3250, 525], [3860, 610]]];
+      function crest(segs, x) {
+        for (var i = 0; i < segs.length; i++) {
+          var a = segs[i][0], c = segs[i][1], b = segs[i][2];
+          if (x < a[0] || x > b[0]) continue;
+          var lo = 0, hi = 1;
+          for (var k = 0; k < 24; k++) {
+            var t = (lo + hi) / 2, xt = (1 - t) * (1 - t) * a[0] + 2 * t * (1 - t) * c[0] + t * t * b[0];
+            if (xt < x) lo = t; else hi = t;
+          }
+          return (1 - lo) * (1 - lo) * a[1] + 2 * lo * (1 - lo) * c[1] + lo * lo * b[1];
+        }
+        return null;
+      }
+
+      // Parcelles de la colline proche (limites penchees : x en haut y=500 / en bas y=800).
+      var PARCELS = [[-20, -20, 'dark'], [520, 470, 'light'], [1050, 1010, 'earth'], [1450, 1430, 'dark'],
+                     [2000, 2010, 'light'], [2550, 2580, 'forest'], [3100, 3150, 'earth'], [3860, 3860, null]];
+      function nearKind(x, y) {
+        var t = (y - 500) / 300;
+        for (var i = 0; i < PARCELS.length - 1; i++) {
+          var xr = PARCELS[i + 1][0] + (PARCELS[i + 1][1] - PARCELS[i + 1][0]) * t;
+          if (x < xr) return PARCELS[i][2];
+        }
+        return null;
+      }
+      function farKind(x) {
+        return x < 2680 ? 'light' : x < 3000 ? 'earth' : x < 3420 ? 'forest' : 'light';
+      }
+      var COLORS = { dark: '#6a5030', light: '#8a6a3a', grass: '#7d6c3c' };
+
+      // Chemin du moulin : ligne centrale [x, y, demi-largeur], du pied du rempart a la porte.
+      var PATH = [[2075, 810, 30], [2030, 770, 25], [1955, 738, 19], [1925, 705, 15],
+                  [1975, 672, 12], [2035, 640, 10], [2025, 606, 8], [1995, 580, 6], [1990, 562, 5]];
+      // Echantillonnage lisse (Catmull-Rom) de la ligne centrale.
+      var pts = [];
+      for (var i = 0; i < PATH.length - 1; i++) {
+        var p0 = PATH[Math.max(0, i - 1)], p1 = PATH[i], p2 = PATH[i + 1], p3 = PATH[Math.min(PATH.length - 1, i + 2)];
+        for (var s = 0; s < 8; s++) {
+          var t = s / 8, t2 = t * t, t3 = t2 * t, q = [];
+          for (var k = 0; k < 3; k++)
+            q.push(0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * t + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * t2 +
+                          (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * t3));
+          pts.push(q);
+        }
+      }
+      pts.push(PATH[PATH.length - 1]);
+      function onPath(x, y, margin) {
+        for (var i = 0; i < pts.length; i++) {
+          var dx = x - pts[i][0], dy = y - pts[i][1], r = pts[i][2] + margin;
+          if (dx * dx + dy * dy < r * r) return true;
+        }
+        return false;
+      }
+      function offsetLine(f) {
+        var left = [], right = [];
+        for (var i = 0; i < pts.length; i++) {
+          var a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
+          var tx = b[0] - a[0], ty = b[1] - a[1], n = Math.sqrt(tx * tx + ty * ty) || 1;
+          var nx = -ty / n, ny = tx / n, w = pts[i][2] * f;
+          left.push(r1(pts[i][0] + nx * w) + ',' + r1(pts[i][1] + ny * w));
+          right.push(r1(pts[i][0] - nx * w) + ',' + r1(pts[i][1] - ny * w));
+        }
+        return [left, right];
+      }
+      function el(tag, attrs, parent) {
+        var e = document.createElementNS(NS, tag);
+        for (var k in attrs) e.setAttribute(k, attrs[k]);
+        parent.appendChild(e);
+        return e;
+      }
+      var chemin = root.querySelector('.chemin');
+      var edge = offsetLine(1);
+      el('path', { d: 'M ' + edge[0].join(' L ') + ' L ' + edge[1].reverse().join(' L ') + ' Z',
+                   fill: '#b08a56', stroke: '#5a4028', 'stroke-width': 1.8, 'stroke-linejoin': 'round',
+                   filter: 'url(#sketchyMedium)' }, chemin);
+      var ruts = offsetLine(0.4);
+      el('path', { d: 'M ' + ruts[0].join(' L ') + ' M ' + ruts[1].join(' L '), fill: 'none',
+                   stroke: '#7a5a32', 'stroke-width': 1.3, opacity: 0.7 }, chemin);
+
+      // Epi au pied (x,y), hauteur ~30*s, legere inclinaison l.
+      function ear(x, y, s, l) {
+        function px(h) { return r1(x + l * h / 30); }
+        var d = 'M' + r1(x) + ',' + r1(y) + 'Q' + r1(x + 1.5 * s) + ',' + r1(y - 14 * s) + ' ' + px(30 * s) + ',' + r1(y - 30 * s);
+        [26, 21, 16].forEach(function (h) {
+          var cx = px(h * s), cy = y - h * s;
+          d += 'M' + r1(cx - 4 * s) + ',' + r1(cy) + 'L' + r1(cx) + ',' + r1(cy - 3 * s) + 'L' + r1(cx + 4 * s) + ',' + r1(cy);
+        });
+        var tx = px(26 * s), ty = y - 26 * s;
+        d += 'M' + r1(tx - 4 * s) + ',' + r1(ty) + 'L' + r1(tx - 7 * s) + ',' + r1(ty - 7 * s) +
+             'M' + r1(tx + 4 * s) + ',' + r1(ty) + 'L' + r1(tx + 7 * s) + ',' + r1(ty - 7 * s);
+        return d;
+      }
+
+      // Rangs -> segments {cle: {d, x, s, kind}}
+      var X0 = 1300, X1 = 3860, CHUNK = 220, segs = {};
+      function plant(key, kind, x, y, s) {
+        var g = segs[key] || (segs[key] = { d: '', x: x, s: s, kind: kind });
+        if (kind === 'grass') g.d += tuft(x + (rnd() - 0.5) * 4, y + (rnd() - 0.5) * 2, s * (0.8 + rnd() * 0.4));
+        else g.d += ear(x + (rnd() - 0.5) * 3, y + (rnd() - 0.5) * 2, s * (0.85 + rnd() * 0.3), (rnd() - 0.3) * 4 * s);
+      }
+      // Touffe d'herbe au pied (x,y), hauteur ~11*s : trois brins.
+      function tuft(x, y, s) {
+        var b = r1(x) + ',' + r1(y);
+        return 'M' + b + 'Q' + r1(x - 2 * s) + ',' + r1(y - 5 * s) + ' ' + r1(x - 4.5 * s) + ',' + r1(y - 9 * s) +
+               'M' + b + 'L' + r1(x + 0.8 * s) + ',' + r1(y - 11 * s) +
+               'M' + b + 'Q' + r1(x + 2 * s) + ',' + r1(y - 5 * s) + ' ' + r1(x + 4.5 * s) + ',' + r1(y - 8 * s);
+      }
+      // Clairiere de la cabane du bucheron (calque 02-cabane-fond.svg) : ni arbre ni herbe
+      // devant elle (les arbres plus loin, pieds au-dessus de y0, restent derriere elle).
+      var CLAIRIERE = [2640, 2755, 630, 812];
+      function inClearing(x, y) { return x > CLAIRIERE[0] && x < CLAIRIERE[1] && y > CLAIRIERE[2] && y < CLAIRIERE[3]; }
+
+      // Colline lointaine : pas de ble ; herbe hors de la foret.
+      for (var d = 4, row = 0; d < 120; d += 5 + 0.05 * d, row++) {
+        for (var x = X0; x < X1; x += 8 + rnd() * 5) {
+          var cf = crest(FAR, x), cn = crest(NEAR, x);
+          if (cf === null || cn === null) continue;
+          var y = cf + d;
+          if (y > cn + 2 || farKind(x) === 'forest') continue;
+          plant('f' + row + '_' + Math.floor(x / CHUNK), 'grass', x, y, 0.4 + 0.005 * d);
+        }
+      }
+      // Colline proche : de la crete jusque sous le rempart (y=805).
+      for (var d2 = 5, row2 = 0; d2 < 280; d2 += 6 + 0.07 * d2, row2++) {
+        for (var x2 = X0; x2 < X1; x2 += 7 + 0.05 * d2 + rnd() * 3) {
+          var c2 = crest(NEAR, x2);
+          if (c2 === null) continue;
+          var y2 = c2 + d2;
+          if (y2 > 805) continue;
+          var kind2 = nearKind(x2, y2);
+          if (!kind2 || kind2 === 'forest' || onPath(x2, y2, 4)) continue;
+          // Parcelles sans ble (anciennes jacheres) : herbe.
+          if (kind2 === 'earth') kind2 = 'grass';
+          if (kind2 === 'grass' && inClearing(x2, y2)) continue;
+          plant('n' + row2 + '_' + Math.floor(x2 / CHUNK) + kind2, kind2, x2, y2, (kind2 === 'grass' ? 0.6 : 0.38) + 0.0032 * d2);
+        }
+      }
+
+      // Un <path> par segment, dans deux groupes animes (rafale > balancement). Delais negatifs
+      // croissants avec x : la vague traverse le champ de gauche a droite.
+      var epis = root.querySelector('.epis');
+      var GUST = cfg('ble.rafale', 11), SWAY = cfg('ble.balancement', 3.4);
+      Object.keys(segs).forEach(function (k) {
+        var g = segs[k];
+        var gust = el('g', { 'class': 'wheat-gust' }, epis);
+        gust.style.animationDelay = ((g.x / 450) % GUST - GUST).toFixed(2) + 's';
+        var sway = el('g', { 'class': 'wheat-sway' }, gust);
+        sway.style.animationDelay = ((g.x / 900) % SWAY - SWAY + (rnd() - 0.5) * 0.4).toFixed(2) + 's';
+        el('path', { d: g.d, stroke: COLORS[g.kind], 'stroke-width': r1(0.9 + 0.5 * g.s) }, sway);
+      });
+
+      // Forets : parcelles 'forest' (colline proche x~2550-3150, colline lointaine x~3000-3420).
+      // Feuillus (houppier en 3 boules) et conifères (2 etages), plantes en rangs comme le ble,
+      // tries par y pour que les arbres proches passent devant.
+      var trees = [];
+      // Lisiere : de moins en moins d'arbres a moins de 'w' unites du bord de la parcelle.
+      function edgeKeep(dist, w) { return rnd() < Math.min(1, 0.15 + dist / w); }
+      for (var fd = 6; fd < 120; fd += 17) {
+        for (var fx = X0; fx < X1; fx += 33 + rnd() * 16) {
+          var fcf = crest(FAR, fx), fcn = crest(NEAR, fx);
+          if (fcf === null || fcn === null || farKind(fx) !== 'forest') continue;
+          var fy = fcf + fd;
+          if (fy > fcn + 4 || !edgeKeep(Math.min(fx - 3000, 3420 - fx), 140)) continue;
+          trees.push([fx, fy, 1.0 + 0.01 * fd]);
+        }
+      }
+      for (var nd = 10; nd < 280; nd += 25 + 0.18 * nd) {
+        for (var nx = X0; nx < X1; nx += 42 + 0.25 * nd + rnd() * 18) {
+          var ncn = crest(NEAR, nx);
+          if (ncn === null) continue;
+          var ny = ncn + nd;
+          if (ny > 812 || nearKind(nx, ny) !== 'forest' || inClearing(nx, ny)) continue;
+          var nt = (ny - 500) / 300, nl0 = 2550 + 30 * nt, nr0 = 3100 + 50 * nt;
+          if (!edgeKeep(Math.min(nx - nl0, nr0 - nx), 110)) continue;
+          trees.push([nx, ny, 1.4 + 0.009 * nd]);
+        }
+      }
+      var FILLS = ['#6e5a34', '#7d6a3e', '#5e4c2c', '#857246'];
+      function circle(cx, cy, r) {
+        return 'M' + r1(cx - r) + ',' + r1(cy) + 'a' + r1(r) + ',' + r1(r) + ' 0 1,0 ' + r1(2 * r) + ',0' +
+               'a' + r1(r) + ',' + r1(r) + ' 0 1,0 ' + r1(-2 * r) + ',0';
+      }
+      var foret = root.querySelector('.foret');
+      trees.sort(function (a, b) { return a[1] - b[1]; }).forEach(function (t) {
+        var x = t[0] + (rnd() - 0.5) * 4, y = t[1] + (rnd() - 0.5) * 3, s = t[2] * (0.85 + rnd() * 0.35);
+        var fill = FILLS[Math.floor(rnd() * FILLS.length)], sw = r1(0.8 + 0.6 * s);
+        el('path', { d: 'M' + r1(x) + ',' + r1(y) + 'L' + r1(x) + ',' + r1(y - 12 * s), fill: 'none',
+                     stroke: '#3a2a14', 'stroke-width': r1(1.2 + 1.5 * s) }, foret);
+        if (rnd() < 0.3) {
+          // Conifere
+          el('path', { d: 'M' + r1(x - 9 * s) + ',' + r1(y - 7 * s) + 'L' + r1(x) + ',' + r1(y - 26 * s) + 'L' + r1(x + 9 * s) + ',' + r1(y - 7 * s) + 'Z' +
+                          'M' + r1(x - 7 * s) + ',' + r1(y - 19 * s) + 'L' + r1(x) + ',' + r1(y - 38 * s) + 'L' + r1(x + 7 * s) + ',' + r1(y - 19 * s) + 'Z',
+                       fill: fill, 'stroke-width': sw }, foret);
+        } else {
+          // Feuillu
+          el('path', { d: circle(x - 6 * s, y - 16 * s, 8 * s) + circle(x + 6 * s, y - 17 * s, 8 * s) + circle(x, y - 25 * s, 9 * s),
+                       fill: fill, 'stroke-width': sw }, foret);
+        }
+      });
+    })();
+    });
   ]]></script>
 </svg>

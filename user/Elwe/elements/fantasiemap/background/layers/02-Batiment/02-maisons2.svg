@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Maisons à colombages normandes avec passage voûté. -->
+<!-- Inspiré de l'architecture traditionnelle française. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- Texture brique rouge -->
+    <pattern id="brickTexture" patternUnits="userSpaceOnUse" width="30" height="15">
+      <rect width="30" height="15" fill="#a04030"/>
+      <rect x="2" y="2" width="12" height="5" fill="#b05040" stroke="#602020" stroke-width="0.8" opacity="0.7"/>
+      <rect x="16" y="2" width="12" height="5" fill="#b05040" stroke="#602020" stroke-width="0.8" opacity="0.7"/>
+      <rect x="9" y="9" width="12" height="5" fill="#b05040" stroke="#602020" stroke-width="0.8" opacity="0.7"/>
+    </pattern>
+
+    <!-- Texture pierre de taille -->
+    <pattern id="stoneTexture" patternUnits="userSpaceOnUse" width="50" height="40">
+      <rect width="50" height="40" fill="#c4b59a"/>
+      <path d="M 5,10 Q 25,8 45,10" fill="none" stroke="#8a7a6a" stroke-width="1.5" opacity="0.6"/>
+      <path d="M 5,25 Q 25,23 45,25" fill="none" stroke="#8a7a6a" stroke-width="1.5" opacity="0.6"/>
+      <line x1="25" y1="0" x2="25" y2="10" stroke="#8a7a6a" stroke-width="1" opacity="0.5"/>
+      <line x1="15" y1="10" x2="15" y2="25" stroke="#8a7a6a" stroke-width="1" opacity="0.5"/>
+      <line x1="35" y1="10" x2="35" y2="25" stroke="#8a7a6a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+
+    <!-- Hachures toit (tuiles) -->
+    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="15" height="10">
+      <rect width="15" height="10" fill="#8c6b45"/>
+      <path d="M 0,5 Q 7.5,8 15,5" fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="7.5" y1="0" x2="7.5" y2="10" stroke="#2a1a0a" stroke-width="0.8" opacity="0.5"/>
+    </pattern>
+
+    <!-- Hachures bois (colombages) -->
+    <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- ======================================================= -->
+  <!-- MAISONS À COLOMBAGES NORMANDES -->
+  <!-- ======================================================= -->
+  <g id="maisons-normandes" transform="translate(200, 900)" opacity="0.9">
+    
+    <!-- ======================================================= -->
+    <!-- MAISON GAUCHE (briques + colombages en X) -->
+    <!-- ======================================================= -->
+    <g id="maison-brique">
+      <!-- Rez-de-chaussée en briques -->
+      <rect x="0" y="300" width="280" height="120" 
+            fill="#a04030" stroke="#2a1a0a" stroke-width="4" 
+            filter="url(#sketchyHeavy)" opacity="0.95"/>
+      <rect x="0" y="300" width="280" height="120" 
+            fill="url(#brickTexture)" opacity="0.8"/>
+      
+      <!-- Porte en bois -->
+      <path d="M 100,420 L 100,340 Q 100,330 120,330 Q 140,330 140,340 L 140,420 Z" 
+            fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3" 
+            filter="url(#sketchyMedium)" opacity="0.9"/>
+      <!-- Panneaux de la porte -->
+      <line x1="120" y1="330" x2="120" y2="420" stroke="#2a1a0a" stroke-width="2"/>
+      <line x1="100" y1="370" x2="140" y2="370" stroke="#2a1a0a" stroke-width="2"/>
+      
+      <!-- Fenêtres du RDC (petits carreaux) -->
+      <g fill="#1a0f05" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
+        <rect x="30" y="350" width="50" height="60"/>
+        <rect x="170" y="350" width="80" height="60"/>
+      </g>
+      <!-- Carreaux -->
+      <g stroke="#3a2a1a" stroke-width="1.5" opacity="0.7">
+        <line x1="45" y1="350" x2="45" y2="410"/>
+        <line x1="60" y1="350" x2="60" y2="410"/>
+        <line x1="30" y1="370" x2="80" y2="370"/>
+        <line x1="30" y1="390" x2="80" y2="390"/>
+        <line x1="190" y1="350" x2="190" y2="410"/>
+        <line x1="210" y1="350" x2="210" y2="410"/>
+        <line x1="230" y1="350" x2="230" y2="410"/>
+        <line x1="170" y1="370" x2="250" y2="370"/>
+        <line x1="170" y1="390" x2="250" y2="390"/>
+      </g>
+      
+      <!-- Étage 1 (colombages en X) -->
+      <rect x="0" y="180" width="280" height="120" 
+            fill="#d4ba82" stroke="#2a1a0a" stroke-width="4" 
+            filter="url(#sketchyHeavy)" opacity="0.95"/>
+      <!-- Colombages -->
+      <g stroke="#3a2a1a" stroke-width="5" opacity="0.9" filter="url(#sketchyMedium)">
+        <!-- Poteaux verticaux -->
+        <line x1="0" y1="180" x2="0" y2="300"/>
+        <line x1="70" y1="180" x2="70" y2="300"/>
+        <line x1="140" y1="180" x2="140" y2="300"/>
+        <line x1="210" y1="180" x2="210" y2="300"/>
+        <line x1="280" y1="180" x2="280" y2="300"/>
+        <!-- Poutres horizontales -->
+        <line x1="0" y1="180" x2="280" y2="180"/>
+        <line x1="0" y1="240" x2="280" y2="240"/>
+        <line x1="0" y1="300" x2="280" y2="300"/>
+        <!-- Croix de Saint-André (X) -->
+        <line x1="0" y1="180" x2="70" y2="240"/>
+        <line x1="70" y1="180" x2="0" y2="240"/>
+        <line x1="70" y1="180" x2="140" y2="240"/>
+        <line x1="140" y1="180" x2="70" y2="240"/>
+        <line x1="140" y1="180" x2="210" y2="240"/>
+        <line x1="210" y1="180" x2="140" y2="240"/>
+        <line x1="210" y1="180" x2="280" y2="240"/>
+        <line x1="280" y1="180" x2="210" y2="240"/>
+        <line x1="0" y1="240" x2="70" y2="300"/>
+        <line x1="70" y1="240" x2="0" y2="300"/>
+        <line x1="70" y1="240" x2="140" y2="300"/>
+        <line x1="140" y1="240" x2="70" y2="300"/>
+        <line x1="140" y1="240" x2="210" y2="300"/>
+        <line x1="210" y1="240" x2="140" y2="300"/>
+        <line x1="210" y1="240" x2="280" y2="300"/>
+        <line x1="280" y1="240" x2="210" y2="300"/>
+      </g>
+      <!-- Fenêtres -->
+      <g fill="#1a0f05" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
+        <rect x="30" y="200" width="30" height="50"/>
+        <rect x="90" y="200" width="30" height="50"/>
+        <rect x="170" y="200" width="80" height="50"/>
+      </g>
+      
+      <!-- Étage 2 (colombages en X) -->
+      <rect x="0" y="60" width="280" height="120" 
+            fill="#d4ba82" stroke="#2a1a0a" stroke-width="4" 
+            filter="url(#sketchyHeavy)" opacity="0.95"/>
+      <g stroke="#3a2a1a" stroke-width="5" opacity="0.9" filter="url(#sketchyMedium)">
+        <line x1="0" y1="60" x2="0" y2="180"/>
+        <line x1="70" y1="60" x2="70" y2="180"/>
+        <line x1="140" y1="60" x2="140" y2="180"/>
+        <line x1="210" y1="60" x2="210" y2="180"/>
+        <line x1="280" y1="60" x2="280" y2="180"/>
+        <line x1="0" y1="60" x2="280" y2="60"/>
+        <line x1="0" y1="120" x2="280" y2="120"/>
+        <line x1="0" y1="180" x2="280" y2="180"/>
+        <line x1="0" y1="60" x2="70" y2="120"/>
+        <line x1="70" y1="60" x2="0" y2="120"/>
+        <line x1="70" y1="60" x2="140" y2="120"/>
+        <line x1="140" y1="60" x2="70" y2="120"/>
+        <line x1="140" y1="60" x2="210" y2="120"/>
+        <line x1="210" y1="60" x2="140" y2="120"/>
+        <line x1="210" y1="60" x2="280" y2="120"/>
+        <line x1="280" y1="60" x2="210" y2="120"/>
+        <line x1="0" y1="120" x2="70" y2="180"/>
+        <line x1="70" y1="120" x2="0" y2="180"/>
+        <line x1="70" y1="120" x2="140" y2="180"/>
+        <line x1="140" y1="120" x2="70" y2="180"/>
+        <line x1="140" y1="120" x2="210" y2="180"/>
+        <line x1="210" y1="120" x2="140" y2="180"/>
+        <line x1="210" y1="120" x2="280" y2="180"/>
+        <line x1="280" y1="120" x2="210" y2="180"/>
+      </g>
+      <g fill="#1a0f05" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
+        <rect x="30" y="80" width="30" height="50"/>
+        <rect x="90" y="80" width="30" height="50"/>
+        <rect x="170" y="80" width="80" height="50"/>
+      </g>
+      
+      <!-- Toit -->
+      <polygon points="-10,60 140,-40 290,60" 
+               fill="#8c6b45" stroke="#2a1a0a" stroke-width="4" 
+               filter="url(#sketchyMedium)" opacity="0.95"/>
+      <polygon points="-10,60 140,-40 290,60" 
+               fill="url(#hatchRoof)" opacity="0.7"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- MAISON DROITE (pierre + passage voûté + colombages) -->
+    <!-- ======================================================= -->
+    <g id="maison-pierre-passage" transform="translate(280, 0)">
+      <!-- Rez-de-chaussée en pierre -->
+      <rect x="0" y="300" width="320" height="120" 
+            fill="#c4b59a" stroke="#2a1a0a" stroke-width="4" 
+            filter="url(#sketchyHeavy)" opacity="0.95"/>
+      <rect x="0" y="300" width="320" height="120" 
+            fill="url(#stoneTexture)" opacity="0.8"/>
+      
+      <!-- PASSAGE VOÛTÉ (porte cochère) -->
+      <path d="M 100,420 L 100,350 Q 100,320 160,320 Q 220,320 220,350 L 220,420 Z" 
+            fill="#1a0f05" stroke="#2a1a0a" stroke-width="4" 
+            filter="url(#sketchyHeavy)" opacity="0.95"/>
+      <!-- Intérieur du passage (sombre) -->
+      <path d="M 110,420 L 110,360 Q 110,335 160,335 Q 210,335 210,360 L 210,420 Z" 
+            fill="#0a0502" opacity="0.9"/>
+      <!-- Clé de voûte -->
+      <path d="M 155,325 L 160,315 L 165,325" 
+            fill="none" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      
+      <!-- Fenêtre droite du RDC avec jardinière -->
+      <rect x="240" y="350" width="60" height="70" 
+            fill="#1a0f05" stroke="#2a1a0a" stroke-width="3" 
+            filter="url(#sketchyMedium)" opacity="0.9"/>
+      <!-- Carreaux -->
+      <g stroke="#3a2a1a" stroke-width="1.5" opacity="0.7">
+        <line x1="260" y1="350" x2="260" y2="420"/>
+        <line x1="280" y1="350" x2="280" y2="420"/>
+        <line x1="240" y1="373" x2="300" y2="373"/>
+        <line x1="240" y1="396" x2="300" y2="396"/>
+      </g>
+      <!-- Jardinière de fleurs -->
+      <rect x="235" y="415" width="70" height="15" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
+      <g fill="#c04040" opacity="0.8">
+        <circle cx="250" cy="410" r="4"/>
+        <circle cx="265" cy="408" r="4"/>
+        <circle cx="280" cy="410" r="4"/>
+        <circle cx="295" cy="408" r="4"/>
+      </g>
+      <g fill="#5a8a4a" opacity="0.7">
+        <circle cx="255" cy="412" r="3"/>
+        <circle cx="270" cy="410" r="3"/>
+        <circle cx="285" cy="412" r="3"/>
+      </g>
+      
+      <!-- Étage 1 (colombages en X) -->
+      <rect x="0" y="180" width="320" height="120" 
+            fill="#d4ba82" stroke="#2a1a0a" stroke-width="4" 
+            filter="url(#sketchyHeavy)" opacity="0.95"/>
+      <g stroke="#3a2a1a" stroke-width="5" opacity="0.9" filter="url(#sketchyMedium)">
+        <line x1="0" y1="180" x2="0" y2="300"/>
+        <line x1="80" y1="180" x2="80" y2="300"/>
+        <line x1="160" y1="180" x2="160" y2="300"/>
+        <line x1="240" y1="180" x2="240" y2="300"/>
+        <line x1="320" y1="180" x2="320" y2="300"/>
+        <line x1="0" y1="180" x2="320" y2="180"/>
+        <line x1="0" y1="240" x2="320" y2="240"/>
+        <line x1="0" y1="300" x2="320" y2="300"/>
+        <line x1="0" y1="180" x2="80" y2="240"/>
+        <line x1="80" y1="180" x2="0" y2="240"/>
+        <line x1="80" y1="180" x2="160" y2="240"/>
+        <line x1="160" y1="180" x2="80" y2="240"/>
+        <line x1="160" y1="180" x2="240" y2="240"/>
+        <line x1="240" y1="180" x2="160" y2="240"/>
+        <line x1="240" y1="180" x2="320" y2="240"/>
+        <line x1="320" y1="180" x2="240" y2="240"/>
+        <line x1="0" y1="240" x2="80" y2="300"/>
+        <line x1="80" y1="240" x2="0" y2="300"/>
+        <line x1="80" y1="240" x2="160" y2="300"/>
+        <line x1="160" y1="240" x2="80" y2="300"/>
+        <line x1="160" y1="240" x2="240" y2="300"/>
+        <line x1="240" y1="240" x2="160" y2="300"/>
+        <line x1="240" y1="240" x2="320" y2="300"/>
+        <line x1="320" y1="240" x2="240" y2="300"/>
+      </g>
+      <!-- Fenêtres avec jardinières -->
+      <g fill="#1a0f05" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
+        <rect x="100" y="200" width="40" height="60"/>
+        <rect x="180" y="200" width="40" height="60"/>
+        <rect x="260" y="200" width="40" height="60"/>
+      </g>
+      <!-- Jardinières -->
+      <g>
+        <rect x="95" y="255" width="50" height="12" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
+        <circle cx="110" cy="250" r="3" fill="#c04040" opacity="0.8"/>
+        <circle cx="125" cy="248" r="3" fill="#c04040" opacity="0.8"/>
+        <circle cx="135" cy="250" r="3" fill="#c04040" opacity="0.8"/>
+        
+        <rect x="175" y="255" width="50" height="12" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
+        <circle cx="190" cy="250" r="3" fill="#c04040" opacity="0.8"/>
+        <circle cx="205" cy="248" r="3" fill="#c04040" opacity="0.8"/>
+        <circle cx="215" cy="250" r="3" fill="#c04040" opacity="0.8"/>
+      </g>
+      
+      <!-- Étage 2 (colombages) -->
+      <rect x="0" y="60" width="320" height="120" 
+            fill="#d4ba82" stroke="#2a1a0a" stroke-width="4" 
+            filter="url(#sketchyHeavy)" opacity="0.95"/>
+      <g stroke="#3a2a1a" stroke-width="5" opacity="0.9" filter="url(#sketchyMedium)">
+        <line x1="0" y1="60" x2="0" y2="180"/>
+        <line x1="80" y1="60" x2="80" y2="180"/>
+        <line x1="160" y1="60" x2="160" y2="180"/>
+        <line x1="240" y1="60" x2="240" y2="180"/>
+        <line x1="320" y1="60" x2="320" y2="180"/>
+        <line x1="0" y1="60" x2="320" y2="60"/>
+        <line x1="0" y1="120" x2="320" y2="120"/>
+        <line x1="0" y1="180" x2="320" y2="180"/>
+        <line x1="0" y1="60" x2="80" y2="120"/>
+        <line x1="80" y1="60" x2="0" y2="120"/>
+        <line x1="80" y1="60" x2="160" y2="120"/>
+        <line x1="160" y1="60" x2="80" y2="120"/>
+        <line x1="160" y1="60" x2="240" y2="120"/>
+        <line x1="240" y1="60" x2="160" y2="120"/>
+        <line x1="240" y1="60" x2="320" y2="120"/>
+        <line x1="320" y1="60" x2="240" y2="120"/>
+        <line x1="0" y1="120" x2="80" y2="180"/>
+        <line x1="80" y1="120" x2="0" y2="180"/>
+        <line x1="80" y1="120" x2="160" y2="180"/>
+        <line x1="160" y1="120" x2="80" y2="180"/>
+        <line x1="160" y1="120" x2="240" y2="180"/>
+        <line x1="240" y1="120" x2="160" y2="180"/>
+        <line x1="240" y1="120" x2="320" y2="180"/>
+        <line x1="320" y1="120" x2="240" y2="180"/>
+      </g>
+      <g fill="#1a0f05" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
+        <rect x="100" y="80" width="40" height="60"/>
+        <rect x="180" y="80" width="40" height="60"/>
+        <rect x="260" y="80" width="40" height="60"/>
+      </g>
+      
+      <!-- Toit -->
+      <polygon points="-10,60 160,-50 330,60" 
+               fill="#8c6b45" stroke="#2a1a0a" stroke-width="4" 
+               filter="url(#sketchyMedium)" opacity="0.95"/>
+      <polygon points="-10,60 160,-50 330,60" 
+               fill="url(#hatchRoof)" opacity="0.7"/>
+    </g>
+
+  </g>
+</svg>

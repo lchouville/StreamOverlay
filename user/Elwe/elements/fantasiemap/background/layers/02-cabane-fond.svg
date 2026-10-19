@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Cabane de bûcheron médiévale. -->
+<!-- Style croquis avec hachures bois et pierre. -->
+<!-- Posee dans une clairiere a l'oree gauche de la foret de la colline proche (entre la forge -->
+<!-- et la tour), reduite a 28% (derriere le rempart : porte ~22 px) ; sol local y=255 -> y=655, sous la crete, -->
+<!-- au-dessus des toits des maisons (02-maisons1.svg). La clairiere (pas d'arbre devant) est reservee dans le script #champs-ble -->
+<!-- (CLAIRIERE). Fumee animee en inline dans ville-medievale-croquis.svg (#cabane-smoke), au -->
+<!-- sommet de cheminee (160,30) -> (2705.4,592). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- Hachures bois (rondins) -->
+    <pattern id="hatchLogs" patternUnits="userSpaceOnUse" width="40" height="20">
+      <rect width="40" height="20" fill="#8a6a4a"/>
+      <line x1="0" y1="10" x2="40" y2="10" stroke="#5a3a1a" stroke-width="2" opacity="0.7"/>
+      <line x1="0" y1="0" x2="40" y2="0" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
+      <line x1="0" y1="20" x2="40" y2="20" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+
+    <!-- Hachures toit (chaume) -->
+    <pattern id="hatchThatch" patternUnits="userSpaceOnUse" width="15" height="15" patternTransform="rotate(20)">
+      <line x1="0" y1="7" x2="15" y2="7" stroke="#6a5a3a" stroke-width="2" opacity="0.7"/>
+      <line x1="7" y1="0" x2="7" y2="15" stroke="#6a5a3a" stroke-width="1.5" opacity="0.6"/>
+    </pattern>
+
+    <!-- Hachures pierre (cheminée) -->
+    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
+      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
+    </pattern>
+
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- ======================================================= -->
+  <!-- CABANE DE BÛCHERON -->
+  <!-- ======================================================= -->
+  <!-- Opaque : sinon les arbres derriere transparaissent a travers les murs. -->
+  <g id="cabane-bucheron" transform="translate(2660.6, 583.6) scale(0.28)">
+
+    <!-- ===== CHEMINÉE EN PIERRE (derrière le toit : dessinée avant, seul le haut dépasse) ===== -->
+    <rect x="140" y="30" width="40" height="90" 
+          fill="#b8a888" stroke="#2a1a0a" stroke-width="3" 
+          filter="url(#sketchyMedium)" opacity="0.9"/>
+    <rect x="140" y="30" width="40" height="90" 
+          fill="url(#hatchStone)" opacity="0.7"/>
+
+    <!-- ===== CORPS DE LA CABANE (en rondins) ===== -->
+    <!-- Toit en appentis : le mur de facade monte jusque sous la pente -->
+    <!-- (dessous du toit : y = 45 + 0.25*x, de y=45 a gauche a y=95 a droite). -->
+    <polygon points="0,250 200,250 200,95 0,45" 
+             fill="#8a6a4a" stroke="#2a1a0a" stroke-width="4" 
+             filter="url(#sketchyHeavy)" opacity="0.95"/>
+    <polygon points="0,250 200,250 200,95 0,45" 
+             fill="url(#hatchLogs)" opacity="0.8"/>
+
+    <!-- Rondins horizontaux visibles (arretes sous la pente) -->
+    <g stroke="#3a2a1a" stroke-width="2" opacity="0.7" filter="url(#sketchyMedium)">
+      <line x1="0" y1="60" x2="60" y2="60"/>
+      <line x1="0" y1="80" x2="140" y2="80"/>
+      <line x1="0" y1="100" x2="200" y2="100"/>
+      <line x1="0" y1="120" x2="200" y2="120"/>
+      <line x1="0" y1="140" x2="200" y2="140"/>
+      <line x1="0" y1="160" x2="200" y2="160"/>
+      <line x1="0" y1="180" x2="200" y2="180"/>
+      <line x1="0" y1="200" x2="200" y2="200"/>
+      <line x1="0" y1="220" x2="200" y2="220"/>
+      <line x1="0" y1="240" x2="200" y2="240"/>
+    </g>
+
+    <!-- ===== TOIT EN CHAUME, SIMPLE PENTE (haut à gauche, bas à droite) ===== -->
+    <!-- Bande de 14u d'épaisseur posée sur la façade, débord de 20u de chaque côté. -->
+    <polygon points="-20,26 220,86 220,100 -20,40" 
+             fill="#6a5a3a" stroke="#2a1a0a" stroke-width="4" 
+             filter="url(#sketchyHeavy)" opacity="0.95"/>
+    <polygon points="-20,26 220,86 220,100 -20,40" 
+             fill="url(#hatchThatch)" opacity="0.8"/>
+
+    <!-- Lignes de chaume parallèles à la pente -->
+    <g stroke="#5a4a2a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+      <line x1="-15" y1="32" x2="215" y2="90"/>
+      <line x1="-15" y1="37" x2="215" y2="95"/>
+    </g>
+
+    <!-- Fumée de la cheminée : animee en inline (#cabane-smoke), comme la forge et la -->
+    <!-- boulangerie. -->
+
+    <!-- ===== PORTE ===== -->
+    <path d="M 70,250 L 70,180 Q 70,170 100,170 Q 130,170 130,180 L 130,250 Z"
+          fill="#5a3a1a" stroke="#2a1a0a" stroke-width="3"
+          filter="url(#sketchyMedium)" opacity="0.9"/>
+    <!-- Planche de la porte -->
+    <line x1="100" y1="170" x2="100" y2="250" stroke="#2a1a0a" stroke-width="2"/>
+    <!-- Poignée -->
+    <circle cx="115" cy="210" r="3" fill="#2a1a0a"/>
+
+    <!-- ===== FENÊTRE ===== -->
+    <rect x="30" y="140" width="30" height="35"
+          fill="#1a0f05" stroke="#2a1a0a" stroke-width="2.5"
+          filter="url(#sketchyMedium)" opacity="0.9"/>
+    <!-- Croisillon -->
+    <line x1="45" y1="140" x2="45" y2="175" stroke="#5a3a1a" stroke-width="2"/>
+    <line x1="30" y1="157" x2="60" y2="157" stroke="#5a3a1a" stroke-width="2"/>
+
+    <!-- ===== TAS DE BÛCHES (à droite de la cabane) ===== -->
+    <g id="tas-buches" filter="url(#sketchyMedium)">
+      <!-- Bûches empilées -->
+      <ellipse cx="240" cy="240" rx="15" ry="12" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="2"/>
+      <ellipse cx="270" cy="240" rx="15" ry="12" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="2"/>
+      <ellipse cx="300" cy="240" rx="15" ry="12" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="2"/>
+      <ellipse cx="255" cy="225" rx="15" ry="12" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="2"/>
+      <ellipse cx="285" cy="225" rx="15" ry="12" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="2"/>
+      <ellipse cx="270" cy="210" rx="15" ry="12" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Cercles intérieurs (cernes du bois) -->
+      <circle cx="240" cy="240" r="8" fill="none" stroke="#5a3a1a" stroke-width="1.5"/>
+      <circle cx="270" cy="240" r="8" fill="none" stroke="#5a3a1a" stroke-width="1.5"/>
+      <circle cx="300" cy="240" r="8" fill="none" stroke="#5a3a1a" stroke-width="1.5"/>
+      <circle cx="255" cy="225" r="8" fill="none" stroke="#5a3a1a" stroke-width="1.5"/>
+      <circle cx="285" cy="225" r="8" fill="none" stroke="#5a3a1a" stroke-width="1.5"/>
+      <circle cx="270" cy="210" r="8" fill="none" stroke="#5a3a1a" stroke-width="1.5"/>
+    </g>
+
+    <!-- ===== BILLOT ET HACHE ===== -->
+    <g id="billot-hache" filter="url(#sketchyMedium)">
+      <!-- Billot (tronc coupé) -->
+      <ellipse cx="-30" cy="245" rx="25" ry="15" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="3"/>
+      <ellipse cx="-30" cy="240" rx="25" ry="15" fill="#a08060" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Cernes du billot -->
+      <circle cx="-30" cy="240" r="15" fill="none" stroke="#5a3a1a" stroke-width="1.5"/>
+      <circle cx="-30" cy="240" r="8" fill="none" stroke="#5a3a1a" stroke-width="1"/>
+
+      <!-- Hache plantée dans le billot -->
+      <line x1="-30" y1="240" x2="-30" y2="200" stroke="#5a4a3a" stroke-width="4"/>
+      <path d="M -40,200 L -20,200 L -25,215 L -35,215 Z" fill="#8a8a8a" stroke="#2a1a0a" stroke-width="2"/>
+    </g>
+
+    <!-- ===== SCIE (au sol) ===== -->
+    <g id="scie" filter="url(#sketchyMedium)">
+      <line x1="180" y1="255" x2="220" y2="255" stroke="#8a8a8a" stroke-width="3"/>
+      <!-- Dents de la scie -->
+      <path d="M 180,255 L 185,260 L 190,255 L 195,260 L 200,255 L 205,260 L 210,255 L 215,260 L 220,255"
+            fill="none" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Manche -->
+      <rect x="170" y="250" width="15" height="8" fill="#5a3a1a" stroke="#2a1a0a" stroke-width="2" rx="2"/>
+    </g>
+
+    <!-- ===== DÉTAILS SUPPLÉMENTAIRES ===== -->
+
+    <!-- Ombre portée -->
+    <ellipse cx="100" cy="255" rx="120" ry="15" fill="#3a2a1a" opacity="0.25" filter="url(#sketchyMedium)"/>
+
+    <!-- Herbe au pied (brun, palette du papier) -->
+    <g fill="#7a6238" opacity="0.45" filter="url(#sketchyMedium)">
+      <ellipse cx="0" cy="250" rx="20" ry="10"/>
+      <ellipse cx="200" cy="250" rx="25" ry="12"/>
+      <ellipse cx="100" cy="255" rx="30" ry="8"/>
+    </g>
+
+    <!-- Petit tabouret en bois -->
+    <g id="tabouret" filter="url(#sketchyMedium)">
+      <rect x="160" y="230" width="25" height="8" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="2"/>
+      <line x1="165" y1="238" x2="165" y2="255" stroke="#2a1a0a" stroke-width="2"/>
+      <line x1="180" y1="238" x2="180" y2="255" stroke="#2a1a0a" stroke-width="2"/>
+    </g>
+
+  </g>
+</svg>

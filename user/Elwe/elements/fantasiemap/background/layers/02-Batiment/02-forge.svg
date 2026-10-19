@@ -1,22 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Calque : Forge améliorée (détaillée, suie, outils, étincelles). -->
+<!-- Calque : Forge médiévale - forme L avec toit à deux pentes + appentis. -->
+<!-- Inspiré de l'image de référence : terrasse surélevée, four extérieur, tonneau, banc. -->
+<!-- Placee tout a droite, contre la bordure, derriere la guilde, a 60% et en MIROIR -->
+<!-- (scale(-0.6,0.6)) : le batiment principal et sa cheminee cote bordure restent visibles, -->
+<!-- l'appentis passe derriere la guilde ; l'escalier (x=-90) touche la bordure (x~3755). -->
+<!-- Sommet de cheminee (165,-70) -> (3602,730) : point d'origine de la fumee/etincelles -->
+<!-- animees (#forge-smoke dans ville-medievale-croquis.svg). Fenetre (155,180) -> (3608,880) : -->
+<!-- lumiere #building-lights correspondante. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
   <defs>
-    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
-      <rect x="0" y="0" width="7" height="7" fill="#b5a481"/>
-      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.8"/>
+    <!-- Texture pierre (murs) - tons chauds du papier -->
+    <pattern id="stoneTexture" patternUnits="userSpaceOnUse" width="40" height="30">
+      <rect width="40" height="30" fill="#c9b48a"/>
+      <rect x="2" y="2" width="36" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="2" y="16" width="17" height="12" fill="#b89f72" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="21" y="16" width="17" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
     </pattern>
-    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
-      <rect x="0" y="0" width="10" height="12" fill="#8c6b45"/>
-      <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
-      <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
+
+    <!-- Texture tuiles (toit) -->
+    <pattern id="tileRoof" patternUnits="userSpaceOnUse" width="20" height="15">
+      <rect width="20" height="15" fill="#8c6b45"/>
+      <path d="M 0,7 Q 10,12 20,7" fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <path d="M 0,15 Q 10,10 20,15" fill="none" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+      <line x1="10" y1="0" x2="10" y2="15" stroke="#2a1a0a" stroke-width="0.8" opacity="0.4"/>
     </pattern>
+
+    <!-- Hachures bois (colombages) -->
     <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
       <rect x="0" y="0" width="8" height="8" fill="#6b4a2e"/>
       <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
       <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
     </pattern>
-    <!-- Hachures très sombres pour la suie -->
+
+    <!-- Texture pavé (terrasse) - tons chauds -->
+    <pattern id="hatchPave" patternUnits="userSpaceOnUse" width="25" height="25">
+      <rect width="25" height="25" fill="#b8a07a"/>
+      <rect x="2" y="2" width="21" height="21" fill="#a88f68" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+    </pattern>
+
+    <!-- Hachures suie -->
     <pattern id="hatchSoot" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
       <line x1="0" y1="0" x2="0" y2="5" stroke="#1a0f05" stroke-width="2" opacity="0.4"/>
       <line x1="0" y1="0" x2="5" y2="5" stroke="#1a0f05" stroke-width="1.5" opacity="0.3"/>
@@ -26,120 +48,219 @@
       <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
       <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
+
     <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
       <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
       <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
   </defs>
 
-  <g id="forge-amelioree" transform="translate(2380, 721) scale(0.8)">
-    
+  <!-- ======================================================= -->
+  <!-- FORGE - FORME EN L (bâtiment principal + appentis) -->
+  <!-- ======================================================= -->
+  <!-- Opaque : sinon ce qui est derriere transparait. -->
+  <g id="forge-forme-L" transform="translate(3701, 772) scale(-0.6, 0.6)">
+
     <!-- ======================================================= -->
-    <!-- ÉTAPE 1 : STRUCTURES DE BASE -->
+    <!-- PARTIE 1 : BÂTIMENT PRINCIPAL (gauche, toit haut) -->
     <!-- ======================================================= -->
-    
-    <!-- Mur principal (Fond uni + hachures) -->
-    <rect x="0" y="0" width="280" height="180" fill="#d4ba82" opacity="1"/>
-    <rect x="0" y="0" width="280" height="180" fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
-    
-    <!-- Toit -->
-    <polygon points="-15,0 140,-120 295,0" fill="#d4ba82" opacity="1"/>
-    <polygon points="-15,0 140,-120 295,0" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)" opacity="0.8"/>
-    
-    <!-- Poutres de soutien du toit (débord) -->
-    <g fill="#2a1a0a" filter="url(#sketchyMedium)">
-      <path d="M 40,0 L 30,-15 L 50,-15 L 50,0 Z"/>
-      <path d="M 120,0 L 110,-15 L 130,-15 L 130,0 Z"/>
-      <path d="M 200,0 L 190,-15 L 210,-15 L 210,0 Z"/>
-      <path d="M 260,0 L 250,-15 L 270,-15 L 270,0 Z"/>
+    <g id="batiment-principal">
+
+      <!-- Cheminée : dessinée avant le toit, qui en cache le pied (elle descend dans le toit) -->
+      <rect x="150" y="-60" width="30" height="100"
+            fill="#c9b48a" stroke="#2a1a0a" stroke-width="3"
+            filter="url(#sketchyMedium)"/>
+      <rect x="150" y="-60" width="30" height="100" fill="url(#stoneTexture)" opacity="0.6"/>
+
+      <!-- Mur principal (face avant) -->
+      <rect x="0" y="100" width="220" height="200"
+            fill="#c9b48a" stroke="#2a1a0a" stroke-width="4"
+            filter="url(#sketchyHeavy)"/>
+      <rect x="0" y="100" width="220" height="200"
+            fill="url(#stoneTexture)" opacity="0.8"/>
+
+      <!-- Colombages (poutres en bois apparentes) -->
+      <g stroke="#3a2a1a" stroke-width="4" opacity="0.7" filter="url(#sketchyMedium)">
+        <!-- Poutres verticales -->
+        <line x1="0" y1="100" x2="0" y2="300"/>
+        <line x1="70" y1="100" x2="70" y2="300"/>
+        <line x1="150" y1="100" x2="150" y2="300"/>
+        <line x1="220" y1="100" x2="220" y2="300"/>
+        <!-- Poutres horizontales -->
+        <line x1="0" y1="100" x2="220" y2="100"/>
+        <line x1="0" y1="200" x2="220" y2="200"/>
+        <line x1="0" y1="300" x2="220" y2="300"/>
+        <!-- Diagonales (croix de Saint-André) -->
+        <line x1="0" y1="100" x2="70" y2="200"/>
+        <line x1="70" y1="100" x2="0" y2="200"/>
+        <line x1="150" y1="200" x2="220" y2="300"/>
+        <line x1="220" y1="200" x2="150" y2="300"/>
+      </g>
+
+      <!-- Toit à deux pentes (triangle) -->
+      <polygon points="-20,100 110,-30 240,100"
+               fill="#8c6b45" stroke="#2a1a0a" stroke-width="5"
+               filter="url(#sketchyHeavy)"/>
+      <polygon points="-20,100 110,-30 240,100"
+               fill="url(#tileRoof)" opacity="0.8"/>
+
+      <!-- Rangs de tuiles parallèles à l'égout (bords : pentes du toit) -->
+      <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.5" filter="url(#sketchyMedium)">
+        <line x1="-5" y1="85" x2="225" y2="85"/>
+        <line x1="15" y1="65" x2="205" y2="65"/>
+        <line x1="35" y1="45" x2="185" y2="45"/>
+        <line x1="55" y1="25" x2="165" y2="25"/>
+        <line x1="75" y1="5" x2="145" y2="5"/>
+      </g>
+
+      <!-- Couronnement de la cheminée (au-dessus du toit) -->
+      <rect x="145" y="-70" width="40" height="15"
+            fill="#a88f68" stroke="#2a1a0a" stroke-width="3"
+            filter="url(#sketchyMedium)"/>
+      <!-- Suie au sommet -->
+      <rect x="150" y="-55" width="30" height="20" fill="url(#hatchSoot)" opacity="0.7"/>
+      <!-- Fumée : animée en inline (#forge-smoke), au sommet (165,-70). -->
+
+      <!-- Porte principale (avec ferrures) -->
+      <path d="M 60,300 L 60,200 Q 60,190 80,190 Q 100,190 100,200 L 100,300 Z"
+            fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3"
+            filter="url(#sketchyMedium)"/>
+      <!-- Planche centrale -->
+      <line x1="80" y1="190" x2="80" y2="300" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Ferrures en T -->
+      <line x1="65" y1="220" x2="95" y2="220" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="65" y1="260" x2="95" y2="260" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Poignée -->
+      <circle cx="90" cy="240" r="3" fill="#2a1a0a"/>
+
+      <!-- Fenêtre avec volets -->
+      <rect x="130" y="150" width="50" height="60"
+            fill="#1a0f05" stroke="#2a1a0a" stroke-width="3"
+            filter="url(#sketchyMedium)"/>
+      <!-- Croisillon -->
+      <line x1="155" y1="150" x2="155" y2="210" stroke="#3a2a1a" stroke-width="2"/>
+      <line x1="130" y1="180" x2="180" y2="180" stroke="#3a2a1a" stroke-width="2"/>
+      <!-- Volets (ouverts) -->
+      <rect x="115" y="150" width="15" height="60" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
+      <rect x="180" y="150" width="15" height="60" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
     </g>
 
     <!-- ======================================================= -->
-    <!-- ÉTAPE 2 : CHEMINÉE ET SUIE -->
+    <!-- PARTIE 2 : APPENTIS (droite, toit plus bas en simple pente) -->
     <!-- ======================================================= -->
-    
-    <!-- Cheminée massive et irrégulière -->
-    <path d="M 200,-180 L 200,0 L 260,0 L 260,-180 Q 250,-190 230,-190 Q 210,-190 200,-180 Z" 
-          fill="#d4ba82" opacity="1"/>
-    <path d="M 200,-180 L 200,0 L 260,0 L 260,-180 Q 250,-190 230,-190 Q 210,-190 200,-180 Z" 
-          fill="url(#hatchStone)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)" opacity="0.9"/>
-    
-    <!-- Linteau de la cheminée -->
-    <rect x="195" y="-180" width="70" height="15" fill="#2a1a0a" filter="url(#sketchyMedium)"/>
+    <g id="appentis">
 
-    <!-- Traces de suie sur le mur et le toit -->
-    <path d="M 200,-180 Q 180,-100 150,0 L 260,0 L 260,-180 Z" fill="url(#hatchSoot)" opacity="0.8"/>
-    <path d="M 200,-180 Q 160,-140 120,-120 L 140,-120 Q 180,-150 200,-180 Z" fill="url(#hatchSoot)" opacity="0.6"/>
+      <!-- Mur du fond de l'appentis : son haut suit la pente du toit -->
+      <!-- (dessous du toit : de y=112 contre le batiment a y=158 au bout, x=220 -> 400). -->
+      <polygon points="220,300 400,300 400,158 220,112"
+               fill="#c9b48a" stroke="#2a1a0a" stroke-width="4"
+               filter="url(#sketchyHeavy)"/>
+      <polygon points="220,300 400,300 400,158 220,112"
+               fill="url(#stoneTexture)" opacity="0.8"/>
+      <!-- Ombre sous l'appentis -->
+      <polygon points="220,300 400,300 400,158 220,112" fill="#3a2a1a" opacity="0.2"/>
 
-    <!-- Fumee et etincelles : version animee (voir "forge-smoke") placee en inline dans -->
-    <!-- ville-medievale-croquis.svg, au point d'origine (230,-190) de ce calque transforme -->
-    <!-- par translate(2858,1250) scale(0.5) ; un <image> ne peut pas animer de SVG embarque, -->
-    <!-- d'ou le meme choix que pour les aiguilles de l'horloge-live. -->
+      <!-- Toit de l'appentis : pente simple, haut contre le bâtiment, bas vers la droite -->
+      <polygon points="205,96 420,150 420,164 205,110"
+               fill="#8c6b45" stroke="#2a1a0a" stroke-width="4"
+               filter="url(#sketchyMedium)"/>
+      <polygon points="205,96 420,150 420,164 205,110"
+               fill="url(#tileRoof)" opacity="0.8"/>
 
-    <!-- ======================================================= -->
-    <!-- ÉTAPE 3 : OUVERTURE ET INTÉRIEUR -->
-    <!-- ======================================================= -->
-    
-    <!-- Cadre en pierre de l'ouverture -->
-    <path d="M 30,180 L 30,70 Q 30,30 100,30 Q 170,30 170,70 L 170,180 Z" 
-          fill="#d4ba82" stroke="#1a0f05" stroke-width="6" filter="url(#sketchyHeavy)" opacity="0.95"/>
-    <path d="M 30,180 L 30,70 Q 30,30 100,30 Q 170,30 170,70 L 170,180 Z" 
-          fill="url(#hatchStone)" opacity="0.8"/>
+      <!-- Poteaux de soutien de l'appentis -->
+      <g stroke="#3a2a1a" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="400" y1="160" x2="400" y2="300"/>
+        <line x1="310" y1="137" x2="310" y2="160"/>
+      </g>
 
-    <!-- Intérieur sombre de la forge -->
-    <path d="M 45,180 L 45,80 Q 45,45 100,45 Q 155,45 155,80 L 155,180 Z" 
-          fill="#1a0f05" opacity="0.95"/>
-          
-    <!-- Le foyer (feu qui brûle) -->
-    <path d="M 70,180 L 70,130 Q 70,110 100,110 Q 130,110 130,130 L 130,180 Z" 
-          fill="#8b4513" opacity="0.7" filter="url(#sketchyMedium)"/>
-    <!-- Braises brillantes -->
-    <circle cx="100" cy="150" r="15" fill="#d4ba82" opacity="0.4" filter="url(#sketchyMedium)"/>
-    <circle cx="85" cy="160" r="8" fill="#d4ba82" opacity="0.3"/>
-    <circle cx="115" cy="155" r="10" fill="#d4ba82" opacity="0.3"/>
+      <!-- Four en brique sous l'appentis -->
+      <g id="four-brique" filter="url(#sketchyMedium)">
+        <!-- Dôme du four -->
+        <path d="M 280,220 Q 280,180 320,180 Q 360,180 360,220 L 360,300 L 280,300 Z"
+              fill="#c4a060" stroke="#2a1a0a" stroke-width="3"/>
+        <!-- Joints de brique -->
+        <g stroke="#7a5a32" stroke-width="1.2" opacity="0.7">
+          <line x1="281" y1="240" x2="359" y2="240"/>
+          <line x1="280" y1="260" x2="300" y2="260"/>
+          <line x1="340" y1="260" x2="360" y2="260"/>
+          <line x1="280" y1="280" x2="300" y2="280"/>
+          <line x1="340" y1="280" x2="360" y2="280"/>
+        </g>
+        <!-- Ouverture du four (arche) -->
+        <path d="M 300,260 Q 300,240 320,240 Q 340,240 340,260 L 340,300 L 300,300 Z"
+              fill="#1a0f05"/>
+        <!-- Braises -->
+        <ellipse cx="320" cy="290" rx="14" ry="6" fill="#c8641e" opacity="0.85"/>
+        <ellipse cx="320" cy="292" rx="8" ry="3" fill="#f0a040" opacity="0.9"/>
+        <!-- Conduit du four, qui monte jusque sous le toit de l'appentis -->
+        <rect x="312" y="140" width="16" height="42"
+              fill="#b89050" stroke="#2a1a0a" stroke-width="2"/>
+      </g>
 
-    <!-- Soufflet (à gauche dans l'ombre) -->
-    <path d="M 50,140 L 70,130 L 70,170 L 50,180 Z" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2" filter="url(#sketchyMedium)"/>
+      <!-- Tonneau -->
+      <g filter="url(#sketchyMedium)">
+        <ellipse cx="250" cy="275" rx="20" ry="25" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3"/>
+        <line x1="230" y1="265" x2="270" y2="265" stroke="#2a1a0a" stroke-width="2"/>
+        <line x1="230" y1="285" x2="270" y2="285" stroke="#2a1a0a" stroke-width="2"/>
+      </g>
 
-    <!-- ======================================================= -->
-    <!-- ÉTAPE 4 : DÉTAILS EXTÉRIEURS (Outils, Baquet, Enseigne) -->
-    <!-- ======================================================= -->
-    
-    <!-- Râtelier d'outils sur le mur droit -->
-    <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9">
-      <!-- Barre horizontale -->
-      <line x1="190" y1="80" x2="270" y2="80" stroke-width="4"/>
-      <!-- Marteau -->
-      <line x1="210" y1="80" x2="210" y2="130"/>
-      <rect x="200" y="125" width="20" height="10" rx="2" fill="#2a1a0a"/>
-      <!-- Épée / Tige de métal -->
-      <line x1="230" y1="80" x2="230" y2="140" stroke-width="2"/>
-      <line x1="220" y1="110" x2="240" y2="110" stroke-width="2"/>
-      <!-- Fer à cheval suspendu -->
-      <path d="M 250,80 L 250,100 Q 250,115 265,115 Q 280,115 280,100 L 280,80" fill="none" stroke-width="3"/>
+      <!-- Banc en bois -->
+      <g filter="url(#sketchyMedium)">
+        <rect x="362" y="270" width="34" height="8" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
+        <line x1="367" y1="278" x2="367" y2="300" stroke="#2a1a0a" stroke-width="2"/>
+        <line x1="391" y1="278" x2="391" y2="300" stroke="#2a1a0a" stroke-width="2"/>
+      </g>
     </g>
 
-    <!-- Baquet d'eau pour tremper (devant la forge) -->
-    <g filter="url(#sketchyMedium)">
-      <!-- Demi-tonneau -->
-      <path d="M 180,180 L 180,150 Q 180,140 210,140 Q 240,140 240,150 L 240,180 Z" 
-            fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="3"/>
-      <!-- Cercles de fer -->
-      <line x1="180" y1="155" x2="240" y2="155" stroke="#1a0f05" stroke-width="2"/>
-      <line x1="180" y1="170" x2="240" y2="170" stroke="#1a0f05" stroke-width="2"/>
-      <!-- Eau à l'intérieur -->
-      <ellipse cx="210" cy="145" rx="28" ry="6" fill="#1a0f05" opacity="0.8"/>
-      <!-- Vapeur au-dessus du baquet -->
-      <path d="M 200,140 Q 195,120 205,110" fill="none" stroke="#3a2a1a" stroke-width="1.5" opacity="0.5"/>
-      <path d="M 220,140 Q 225,125 215,115" fill="none" stroke="#3a2a1a" stroke-width="1.5" opacity="0.5"/>
+    <!-- ======================================================= -->
+    <!-- PARTIE 3 : TERRASSE SURÉLEVÉE + ESCALIER -->
+    <!-- ======================================================= -->
+    <g id="terrasse-escalier">
+
+      <!-- Terrasse pavée (surélevée), du pied des murs (y=300) au sol (y=380) -->
+      <rect x="-30" y="300" width="460" height="80"
+            fill="#b8a07a" stroke="#2a1a0a" stroke-width="3"
+            filter="url(#sketchyMedium)"/>
+      <rect x="-30" y="300" width="460" height="80"
+            fill="url(#hatchPave)" opacity="0.7"/>
+
+      <!-- Détails des pavés -->
+      <g stroke="#3a2a1a" stroke-width="1" opacity="0.5" filter="url(#sketchyMedium)">
+        <line x1="40" y1="320" x2="410" y2="320"/>
+        <line x1="40" y1="340" x2="410" y2="340"/>
+        <line x1="40" y1="360" x2="410" y2="360"/>
+      </g>
+
+      <!-- Escalier : 4 marches de 20u, du haut de la terrasse (300) jusqu'au sol (380) -->
+      <g filter="url(#sketchyMedium)">
+        <rect x="-30" y="300" width="60" height="20" fill="#a88f68" stroke="#2a1a0a" stroke-width="2"/>
+        <rect x="-50" y="320" width="80" height="20" fill="#a88f68" stroke="#2a1a0a" stroke-width="2"/>
+        <rect x="-70" y="340" width="100" height="20" fill="#a88f68" stroke="#2a1a0a" stroke-width="2"/>
+        <rect x="-90" y="360" width="120" height="20" fill="#a88f68" stroke="#2a1a0a" stroke-width="2"/>
+      </g>
+
+      <!-- Rampe parallèle aux nez de marches, poteaux posés sur les marches -->
+      <g stroke="#3a2a1a" stroke-width="3" stroke-linecap="round" filter="url(#sketchyMedium)">
+        <line x1="-26" y1="272" x2="-86" y2="332"/>
+        <line x1="-26" y1="272" x2="-26" y2="300"/>
+        <line x1="-46" y1="292" x2="-46" y2="320"/>
+        <line x1="-66" y1="312" x2="-66" y2="340"/>
+        <line x1="-86" y1="332" x2="-86" y2="360"/>
+      </g>
     </g>
 
-    <!-- Petite fenêtre haute (à gauche) -->
-    <rect x="220" y="30" width="40" height="50" fill="#1a0f05" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)" opacity="0.9"/>
-    <!-- Barreaux -->
-    <line x1="230" y1="30" x2="230" y2="80" stroke="#1a0f05" stroke-width="2"/>
-    <line x1="240" y1="30" x2="240" y2="80" stroke="#1a0f05" stroke-width="2"/>
-    <line x1="250" y1="30" x2="250" y2="80" stroke="#1a0f05" stroke-width="2"/>
+    <!-- ======================================================= -->
+    <!-- PARTIE 4 : DÉTAILS SUPPLÉMENTAIRES -->
+    <!-- ======================================================= -->
+
+    <!-- Ombre portée -->
+    <ellipse cx="190" cy="385" rx="240" ry="16" fill="#3a2a1a" opacity="0.25" filter="url(#sketchyMedium)"/>
+
+    <!-- Herbe au pied (brun, palette du papier) -->
+    <g fill="#7a6238" opacity="0.45" filter="url(#sketchyMedium)">
+      <ellipse cx="-100" cy="378" rx="22" ry="10"/>
+      <ellipse cx="440" cy="376" rx="28" ry="12"/>
+    </g>
 
   </g>
 </svg>
