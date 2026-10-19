@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Tentes de marchands médiévaux (Tissus et Provisions). -->
+<!-- Style croquis avec auvents rayés et étalages détaillés. -->
+<!-- Placees sur la place, a l'echelle de leur distance (poteaux ~2.2 m) : -->
+<!--  - tissus : pied (y=220) en (3540,1150), a 59 %, a droite de la guilde, devant la forge ; -->
+<!--  - provisions : pied (y=200) en (3660,1260), a 82.5 % et en miroir (enseigne cote gauche), contre -->
+<!--    la bordure droite, juste derriere le puits. Dessinees apres la guilde, avant le puits. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- Hachures bois -->
+    <pattern id="hatchWood" patternUnits="userSpaceOnUse" width="8" height="8">
+      <line x1="0" y1="4" x2="8" y2="4" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
+      <line x1="4" y1="0" x2="4" y2="8" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </pattern>
+
+    <!-- Rayures rouges (Tissus) -->
+    <pattern id="stripesRed" patternUnits="userSpaceOnUse" width="30" height="30">
+      <rect width="15" height="30" fill="#a04030"/>
+      <rect x="15" width="15" height="30" fill="#d4ba82"/>
+    </pattern>
+
+    <!-- Rayures vertes (Provisions) -->
+    <pattern id="stripesGreen" patternUnits="userSpaceOnUse" width="30" height="30">
+      <rect width="15" height="30" fill="#5a6b4a"/>
+      <rect x="15" width="15" height="30" fill="#d4ba82"/>
+    </pattern>
+
+    <!-- Texture toile de jute (sacs) -->
+    <pattern id="hatchSack" patternUnits="userSpaceOnUse" width="10" height="10">
+      <line x1="0" y1="5" x2="10" y2="5" stroke="#8a7050" stroke-width="1.5" opacity="0.6"/>
+      <line x1="5" y1="0" x2="5" y2="10" stroke="#8a7050" stroke-width="1.5" opacity="0.6"/>
+    </pattern>
+
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- ======================================================= -->
+  <!-- TENTE 1 : MARCHAND DE TISSUS (Rayures Rouges) -->
+  <!-- ======================================================= -->
+  <g id="tente-tissus" transform="translate(3540, 1020.2) scale(0.59)">
+
+    <!-- Ombre au sol -->
+    <ellipse cx="0" cy="220" rx="160" ry="25" fill="#3a2a1a" opacity="0.3" filter="url(#sketchyMedium)"/>
+
+    <!-- Structure en bois (Poteaux et traverse) -->
+    <g stroke="#5a3a1a" stroke-width="8" stroke-linecap="round" filter="url(#sketchyHeavy)">
+      <line x1="-120" y1="220" x2="-120" y2="20"/>
+      <line x1="120" y1="220" x2="120" y2="20"/>
+      <line x1="-130" y1="20" x2="130" y2="20"/>
+      <!-- Renforts diagonaux -->
+      <line x1="-120" y1="120" x2="-90" y2="20" stroke-width="5"/>
+      <line x1="120" y1="120" x2="90" y2="20" stroke-width="5"/>
+    </g>
+
+    <!-- Auvent rayé (Toit de la tente) -->
+    <!-- Forme drapée avec bordure festonnée -->
+    <path d="M -140,20 Q 0,-30 140,20 L 150,70 Q 110,90 70,70 Q 30,90 -10,70 Q -50,90 -90,70 Q -120,90 -150,70 Z"
+          fill="url(#stripesRed)" stroke="#2a1a0a" stroke-width="4"
+          filter="url(#sketchyMedium)"/>
+
+    <!-- Pliures de l'auvent -->
+    <g stroke="#2a1a0a" stroke-width="2" opacity="0.5" fill="none" filter="url(#sketchyMedium)">
+      <path d="M -70,25 Q -70,50 -90,70"/>
+      <path d="M 0,10 Q 0,50 -10,70"/>
+      <path d="M 70,25 Q 70,50 70,70"/>
+    </g>
+
+    <!-- Table/Étal en bois -->
+    <rect x="-130" y="120" width="260" height="15" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="4" filter="url(#sketchyMedium)"/>
+    <rect x="-130" y="120" width="260" height="15" fill="url(#hatchWood)" opacity="0.8"/>
+    <!-- Pieds de la table -->
+    <line x1="-110" y1="135" x2="-110" y2="220" stroke="#5a3a1a" stroke-width="6" filter="url(#sketchyMedium)"/>
+    <line x1="110" y1="135" x2="110" y2="220" stroke="#5a3a1a" stroke-width="6" filter="url(#sketchyMedium)"/>
+    <line x1="0" y1="135" x2="0" y2="220" stroke="#5a3a1a" stroke-width="6" filter="url(#sketchyMedium)"/>
+
+    <!-- Marchandises : Rouleaux de tissus -->
+    <g filter="url(#sketchyMedium)">
+      <!-- Rouleau 1 (Bleu) -->
+      <rect x="-110" y="80" width="40" height="40" rx="5" fill="#4a6a8a" stroke="#2a1a0a" stroke-width="3"/>
+      <ellipse cx="-90" cy="100" rx="8" ry="20" fill="#3a5a7a" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Rouleau 2 (Or) -->
+      <rect x="-60" y="90" width="35" height="30" rx="5" fill="#c4a040" stroke="#2a1a0a" stroke-width="3"/>
+      <ellipse cx="-42" cy="105" rx="6" ry="15" fill="#a48020" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Rouleau 3 (Rouge) -->
+      <rect x="-10" y="75" width="45" height="45" rx="5" fill="#a04030" stroke="#2a1a0a" stroke-width="3"/>
+      <ellipse cx="12" cy="97" rx="9" ry="22" fill="#802010" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Rouleau 4 (Vert) -->
+      <rect x="40" y="85" width="30" height="35" rx="5" fill="#5a6b4a" stroke="#2a1a0a" stroke-width="3"/>
+      <ellipse cx="55" cy="102" rx="6" ry="17" fill="#3a4b2a" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Rouleau 5 (Blanc/Crème) -->
+      <rect x="80" y="95" width="35" height="25" rx="5" fill="#e4d4b4" stroke="#2a1a0a" stroke-width="3"/>
+      <ellipse cx="97" cy="107" rx="5" ry="12" fill="#c4b494" stroke="#2a1a0a" stroke-width="2"/>
+    </g>
+
+    <!-- Tissus suspendus sur le côté -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M 120,20 L 160,20 L 150,150 L 130,150 Z" fill="#a04030" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M 130,20 L 140,20 L 140,140 L 135,140 Z" fill="none" stroke="#2a1a0a" stroke-width="1" opacity="0.5"/>
+    </g>
+
+    <!-- Enseigne suspendue -->
+    <g filter="url(#sketchyMedium)">
+      <line x1="-120" y1="20" x2="-120" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="-120" y1="-10" x2="-80" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <rect x="-80" y="-10" width="40" height="50" rx="3" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Symbole : Aiguille et fil -->
+      <line x1="-60" y1="5" x2="-60" y2="30" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -60,15 Q -50,10 -50,20 Q -50,30 -60,25" fill="none" stroke="#a04030" stroke-width="2"/>
+    </g>
+
+    <!-- Tabouret du marchand -->
+    <g filter="url(#sketchyMedium)">
+      <rect x="-140" y="180" width="30" height="8" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
+      <line x1="-135" y1="188" x2="-135" y2="215" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="-115" y1="188" x2="-115" y2="215" stroke="#2a1a0a" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ======================================================= -->
+  <!-- TENTE 2 : MARCHAND DE PROVISIONS (Rayures Vertes) -->
+  <!-- ======================================================= -->
+  <!-- En miroir : enseigne a gauche, pour ne pas passer devant la guilde. -->
+  <g id="tente-provisions" transform="translate(3660, 1095) scale(-0.825, 0.825)">
+
+    <!-- Ombre au sol -->
+    <ellipse cx="0" cy="200" rx="150" ry="22" fill="#3a2a1a" opacity="0.3" filter="url(#sketchyMedium)"/>
+
+    <!-- Structure en bois -->
+    <g stroke="#5a3a1a" stroke-width="8" stroke-linecap="round" filter="url(#sketchyHeavy)">
+      <line x1="-110" y1="200" x2="-110" y2="20"/>
+      <line x1="110" y1="200" x2="110" y2="20"/>
+      <line x1="-120" y1="20" x2="120" y2="20"/>
+      <line x1="-110" y1="100" x2="-80" y2="20" stroke-width="5"/>
+      <line x1="110" y1="100" x2="80" y2="20" stroke-width="5"/>
+    </g>
+
+    <!-- Auvent rayé vert -->
+    <path d="M -130,20 Q 0,-25 130,20 L 140,65 Q 100,85 60,65 Q 20,85 -20,65 Q -60,85 -100,65 Q -120,85 -140,65 Z"
+          fill="url(#stripesGreen)" stroke="#2a1a0a" stroke-width="4"
+          filter="url(#sketchyMedium)"/>
+
+    <!-- Pliures -->
+    <g stroke="#2a1a0a" stroke-width="2" opacity="0.5" fill="none" filter="url(#sketchyMedium)">
+      <path d="M -60,22 Q -60,45 -100,65"/>
+      <path d="M 0,10 Q 0,45 -20,65"/>
+      <path d="M 60,22 Q 60,45 60,65"/>
+    </g>
+
+    <!-- Cagettes et tonneaux (Étalage) -->
+    <g filter="url(#sketchyMedium)">
+      <!-- Tonneau gauche -->
+      <path d="M -100,120 L -100,190 Q -100,200 -70,200 Q -40,200 -40,190 L -40,120 Z"
+            fill="#8a6a4a" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M -100,120 L -100,190 Q -100,200 -70,200 Q -40,200 -40,190 L -40,120 Z"
+            fill="url(#hatchWood)" opacity="0.7"/>
+      <line x1="-100" y1="140" x2="-40" y2="140" stroke="#2a1a0a" stroke-width="2"/>
+      <line x1="-100" y1="170" x2="-40" y2="170" stroke="#2a1a0a" stroke-width="2"/>
+
+      <!-- Cagette centrale (pommes/choux) -->
+      <rect x="-30" y="150" width="60" height="40" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="-30" y1="165" x2="30" y2="165" stroke="#2a1a0a" stroke-width="2"/>
+      <line x1="-30" y1="180" x2="30" y2="180" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Fruits/Légumes (cercles colorés) -->
+      <circle cx="-15" cy="145" r="8" fill="#a04030" stroke="#2a1a0a" stroke-width="2"/>
+      <circle cx="5" cy="142" r="9" fill="#a04030" stroke="#2a1a0a" stroke-width="2"/>
+      <circle cx="20" cy="146" r="7" fill="#a04030" stroke="#2a1a0a" stroke-width="2"/>
+      <circle cx="-5" cy="132" r="8" fill="#a04030" stroke="#2a1a0a" stroke-width="2"/>
+      <circle cx="12" cy="130" r="7" fill="#a04030" stroke="#2a1a0a" stroke-width="2"/>
+
+      <!-- Sacs de grain à droite -->
+      <path d="M 50,190 Q 40,140 70,140 Q 100,140 90,190 Z" fill="#c4a060" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M 50,190 Q 40,140 70,140 Q 100,140 90,190 Z" fill="url(#hatchSack)" opacity="0.8"/>
+      <path d="M 80,190 Q 70,150 95,150 Q 120,150 110,190 Z" fill="#b89050" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M 80,190 Q 70,150 95,150 Q 120,150 110,190 Z" fill="url(#hatchSack)" opacity="0.8"/>
+      <!-- Ficelle des sacs -->
+      <path d="M 65,140 Q 70,130 75,140" fill="none" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 90,150 Q 95,140 100,150" fill="none" stroke="#2a1a0a" stroke-width="2"/>
+    </g>
+
+    <!-- Balancier avec seaux (suspendu à la traverse) -->
+    <g filter="url(#sketchyMedium)">
+      <line x1="0" y1="20" x2="0" y2="60" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="-40" y1="60" x2="40" y2="60" stroke="#5a3a1a" stroke-width="4"/>
+      <!-- Seau gauche -->
+      <line x1="-40" y1="60" x2="-40" y2="90" stroke="#8a7a6a" stroke-width="2"/>
+      <path d="M -50,90 L -48,110 Q -48,115 -40,115 Q -32,115 -30,110 L -28,90 Z" fill="#8a8a8a" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Seau droit -->
+      <line x1="40" y1="60" x2="40" y2="85" stroke="#8a7a6a" stroke-width="2"/>
+      <path d="M 30,85 L 32,105 Q 32,110 40,110 Q 48,110 50,105 L 52,85 Z" fill="#8a8a8a" stroke="#2a1a0a" stroke-width="2"/>
+    </g>
+
+    <!-- Enseigne suspendue -->
+    <g filter="url(#sketchyMedium)">
+      <line x1="110" y1="20" x2="110" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="110" y1="-10" x2="150" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M 150,-10 L 190,-10 L 180,30 L 160,30 Z" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Symbole : Épi de blé -->
+      <line x1="170" y1="5" x2="170" y2="25" stroke="#c4a040" stroke-width="2"/>
+      <path d="M 170,10 Q 165,5 170,0 Q 175,5 170,10" fill="#c4a040"/>
+      <path d="M 170,15 Q 175,10 170,5" fill="#c4a040"/>
+    </g>
+
+    <!-- Paille au sol -->
+    <g stroke="#c4a060" stroke-width="2" opacity="0.6" filter="url(#sketchyMedium)">
+      <line x1="-130" y1="210" x2="-110" y2="205"/>
+      <line x1="-120" y1="215" x2="-100" y2="212"/>
+      <line x1="100" y1="208" x2="120" y2="205"/>
+      <line x1="110" y1="212" x2="130" y2="210"/>
+    </g>
+  </g>
+
+</svg>

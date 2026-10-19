@@ -117,6 +117,16 @@
       from { transform: rotate(0deg); }
       to   { transform: rotate(-360deg); }
     }
+    /* Fontaine (#fontaine-eau) : l'eau defile le long des filets (pointilles qui avancent), -->
+       les rides s'elargissent puis s'effacent dans le bassin. */
+    .eau-jet, .eau-filet { stroke-dasharray: 7 6; animation: eauCoule 0.9s linear infinite; }
+    .eau-filet { stroke-dasharray: 10 6; animation-duration: 0.8s; }
+    @keyframes eauCoule { from { stroke-dashoffset: 26; } to { stroke-dashoffset: 0; } }
+    .eau-ride { transform-box: fill-box; transform-origin: center; animation: eauRide 1.6s ease-out infinite; }
+    @keyframes eauRide {
+      0%   { transform: scale(0.3); opacity: 0.9; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
     /* Bouffees de fumee (forge, boulangerie) : creees et animees par le script en bas de fichier. */
     .smoke-puff {
       transform-box: fill-box;
@@ -287,15 +297,11 @@
     <!-- Porte de la tour (double battant) : meme transform que #tour-horloge du calque. Masquee -->
     <!-- tant que la porte est fermee (on voit alors celle du calque) ; pendant une ouverture, le -->
     <!-- fond sombre recouvre la porte peinte et les battants (generes par le script en bas de -->
-    <!-- fichier) pivotent en perspective. L'arc au-dessus est redessine par-dessus le fond. -->
+    <!-- fichier) pivotent en perspective. L'arc en claveaux reste visible (hors du fond). -->
     <g id="porte-tour" transform="translate(1522.5,140.75) scale(0.55)" display="none">
       <path d="M 2380,1670 L 2380,1420 Q 2380,1340 2520,1340 Q 2660,1340 2660,1420 L 2660,1670 Z"
             fill="#1a0f05" stroke="#1a0f05" stroke-width="6" filter="url(#sketchyHeavy)"/>
       <g class="battants" clip-path="url(#clip-embrasure-tour)"/>
-      <path d="M 2360,1340 Q 2520,1300 2680,1340"
-            fill="none" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyMedium)"/>
-      <path d="M 2510,1330 L 2520,1310 L 2530,1330"
-            fill="none" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
     </g>
     <image href="layers/02-Batiment/02-taverne.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <!-- Maisons normandes, au fond derriere la forge -->
@@ -358,6 +364,33 @@
         <line x1="-32" y1="-80" x2="12" y2="-80" stroke="#1a0f05" stroke-width="3" stroke-linecap="round"/>
       </g>
     </g>
+
+    <!-- Fontaine au milieu de la place, devant la porte de la tour -->
+    <image href="layers/02-Batiment/02-fontaine.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Eau de la fontaine (animee) : jet de la pomme de pin, filets qui tombent de la vasque, -->
+    <!-- rides concentriques dans le bassin. -->
+    <g id="fontaine-eau" transform="translate(-160,-100)" fill="none" stroke-linecap="round">
+      <g stroke="#c4d0cc" stroke-width="3" opacity="0.85">
+        <path class="eau-jet" d="M 2870,1206 Q 2852,1196 2840,1252"/>
+        <path class="eau-jet" d="M 2870,1206 Q 2888,1196 2900,1252" style="animation-delay:-0.3s"/>
+        <path class="eau-jet" d="M 2870,1206 Q 2870,1192 2870,1248" style="animation-delay:-0.15s"/>
+      </g>
+      <g stroke="#b4c2be" stroke-width="3.5" opacity="0.8">
+        <path class="eau-filet" d="M 2818,1258 Q 2796,1268 2790,1348"/>
+        <path class="eau-filet" d="M 2922,1258 Q 2944,1268 2950,1348" style="animation-delay:-0.4s"/>
+        <path class="eau-filet" d="M 2840,1264 Q 2830,1290 2828,1350" style="animation-delay:-0.2s"/>
+        <path class="eau-filet" d="M 2900,1264 Q 2910,1290 2912,1350" style="animation-delay:-0.6s"/>
+      </g>
+      <g stroke="#d8e0dc" stroke-width="1.6">
+        <ellipse class="eau-ride" cx="2790" cy="1350" rx="14" ry="3"/>
+        <ellipse class="eau-ride" cx="2950" cy="1350" rx="14" ry="3" style="animation-delay:-0.8s"/>
+        <ellipse class="eau-ride" cx="2828" cy="1352" rx="12" ry="2.6" style="animation-delay:-0.4s"/>
+        <ellipse class="eau-ride" cx="2912" cy="1352" rx="12" ry="2.6" style="animation-delay:-1.2s"/>
+      </g>
+    </g>
+
+    <!-- Tentes de marchands sur la place (apres la guilde, avant le puits) -->
+    <image href="layers/02-Batiment/02-tentes.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
 
     <!-- Puits, en bas a droite de la place (premier plan) -->
     <image href="layers/02-Batiment/02-puit.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Statue équestre d'un chevalier en bronze patiné, sur piédestal de pierre. -->
+<!-- Formes inspirées des statues équestres classiques (cheval au trot, jambe avant levée). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- Patine bronze/verdigris -->
+    <pattern id="bronzePatina" patternUnits="userSpaceOnUse" width="10" height="10">
+      <rect width="10" height="10" fill="#6a7254"/>
+      <circle cx="3" cy="4" r="1.5" fill="#5a644a" opacity="0.6"/>
+      <circle cx="7" cy="8" r="1" fill="#7e8462" opacity="0.5"/>
+      <circle cx="2" cy="7" r="0.8" fill="#4a5038" opacity="0.4"/>
+    </pattern>
+    <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#848a66"/>
+      <stop offset="50%" stop-color="#626a4e"/>
+      <stop offset="100%" stop-color="#4a5038"/>
+    </linearGradient>
+    <!-- Reflet de lumière -->
+    <linearGradient id="bronzeLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c8c69a" stop-opacity="0.45"/>
+      <stop offset="0.5" stop-color="#c8c69a" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Texture pierre -->
+    <pattern id="stoneTexture" patternUnits="userSpaceOnUse" width="40" height="30">
+      <rect width="40" height="30" fill="#c9b48a"/>
+      <rect x="2" y="2" width="36" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="2" y="16" width="17" height="12" fill="#b89f72" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="21" y="16" width="17" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+    </pattern>
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <g id="statue-equestre" transform="translate(2835, 1144.4) scale(0.68)">
+
+    <!-- Ombre portée au sol -->
+    <ellipse cx="0" cy="426" rx="200" ry="26" fill="#3a2a1a" opacity="0.35" filter="url(#sketchyMedium)"/>
+
+    <!-- ======================================================= -->
+    <!-- PIÉDESTAL -->
+    <!-- ======================================================= -->
+    <g filter="url(#sketchyMedium)">
+      <!-- Socle inférieur -->
+      <rect x="-170" y="380" width="340" height="40" fill="#c9b48a" stroke="#2a1a0a" stroke-width="4"/>
+      <rect x="-170" y="380" width="340" height="40" fill="url(#stoneTexture)" opacity="0.8"/>
+      
+      <!-- Corps du piédestal -->
+      <rect x="-150" y="270" width="300" height="110" fill="#c9b48a" stroke="#2a1a0a" stroke-width="4"/>
+      <rect x="-150" y="270" width="300" height="110" fill="url(#stoneTexture)" opacity="0.8"/>
+      
+      <!-- Corniche supérieure -->
+      <rect x="-162" y="244" width="324" height="26" fill="#d4c098" stroke="#2a1a0a" stroke-width="4"/>
+      <line x1="-162" y1="256" x2="162" y2="256" stroke="#2a1a0a" stroke-width="2" opacity="0.6"/>
+      
+      <!-- Bas-relief décoratif sur le piédestal -->
+      <rect x="-120" y="290" width="240" height="70" fill="#8a8a6a" stroke="#2a1a0a" stroke-width="3" rx="3"/>
+      <!-- Scène de bataille stylisée -->
+      <g stroke="#3a2a1a" stroke-width="2" fill="none" opacity="0.7">
+        <path d="M -100,310 L -80,330 L -60,320"/>
+        <path d="M -50,315 L -30,335"/>
+        <circle cx="-40" cy="325" r="8"/>
+        <path d="M -20,310 L 0,330 L 20,320"/>
+        <path d="M 30,315 L 50,335 L 70,325"/>
+        <path d="M 80,310 L 100,330"/>
+      </g>
+      
+      <!-- Degré au pied -->
+      <rect x="-188" y="412" width="376" height="14" fill="#bfa878" stroke="#2a1a0a" stroke-width="3"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- CHEVAL (forme réaliste inspirée de la référence) -->
+    <!-- ======================================================= -->
+    <g id="cheval" filter="url(#sketchyMedium)">
+      
+      <!-- Corps musclé du cheval (profil réaliste) -->
+      <path d="M -160,120 Q -140,80 -100,75 Q -60,70 -20,85 Q 40,95 100,100 Q 140,105 150,130 Q 155,160 130,175 Q 100,185 40,185 Q -40,188 -100,180 Q -140,172 -160,140 Z" 
+            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="4" filter="url(#sketchyHeavy)" opacity="0.95"/>
+      <path d="M -160,120 Q -140,80 -100,75 Q -60,70 -20,85 Q 40,95 100,100 Q 140,105 150,130 Q 155,160 130,175 Q 100,185 40,185 Q -40,188 -100,180 Q -140,172 -160,140 Z" 
+            fill="url(#bronzePatina)" opacity="0.5"/>
+      
+      <!-- Encolure puissante -->
+      <path d="M -160,120 Q -180,90 -190,60 Q -195,40 -185,30 Q -175,20 -165,35 Q -155,55 -145,90 Q -140,105 -135,115 Z" 
+            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="4"/>
+      
+      <!-- Tête du cheval (profil classique) -->
+      <path d="M -185,30 Q -195,25 -200,35 Q -205,50 -200,65 Q -195,75 -185,70 Q -180,65 -178,55 Q -176,45 -180,38 Z" 
+            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Naseau -->
+      <ellipse cx="-198" cy="58" rx="3" ry="2" fill="#1a0f05"/>
+      <!-- Oeil -->
+      <ellipse cx="-188" cy="42" rx="2.5" ry="2" fill="#1a0f05"/>
+      <!-- Oreilles -->
+      <path d="M -175,32 L -178,20 L -170,28 Z" fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -165,35 L -165,23 L -160,32 Z" fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="2"/>
+      
+      <!-- Crinière -->
+      <g fill="#4e5440" stroke="#2a1a0a" stroke-width="2">
+        <path d="M -170,35 Q -165,40 -162,50 Q -168,48 -170,38 Z"/>
+        <path d="M -165,45 Q -160,50 -157,60 Q -163,58 -165,48 Z"/>
+        <path d="M -160,55 Q -155,60 -152,70 Q -158,68 -160,58 Z"/>
+        <path d="M -155,65 Q -150,70 -147,80 Q -153,78 -155,68 Z"/>
+      </g>
+
+      <!-- Queue (touffue, tombante) -->
+      <path d="M 145,115 Q 165,130 160,180 Q 155,210 145,220 Q 140,225 138,215 Q 142,185 142,150 Q 142,130 145,115 Z" 
+            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M 148,140 Q 155,165 150,200" fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.6"/>
+
+      <!-- Jambes arrière (côté éloigné) -->
+      <line x1="110" y1="155" x2="130" y2="195" stroke="#2a1a0a" stroke-width="20" stroke-linecap="round"/>
+      <line x1="130" y1="195" x2="125" y2="225" stroke="#2a1a0a" stroke-width="14" stroke-linecap="round"/>
+      <line x1="110" y1="155" x2="130" y2="195" stroke="#4e5440" stroke-width="14" stroke-linecap="round"/>
+      <line x1="130" y1="195" x2="125" y2="225" stroke="#4e5440" stroke-width="8" stroke-linecap="round"/>
+      <ellipse cx="130" cy="195" rx="6" ry="5" fill="#4e5440" stroke="#2a1a0a" stroke-width="2"/>
+      <circle cx="125" cy="225" r="5" fill="#4e5440" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 118,223 L 132,223 L 135,232 L 115,232 Z" fill="#3e4434" stroke="#2a1a0a" stroke-width="2"/>
+
+      <!-- Jambes arrière (côté proche) -->
+      <line x1="95" y1="155" x2="115" y2="195" stroke="#2a1a0a" stroke-width="22" stroke-linecap="round"/>
+      <line x1="115" y1="195" x2="110" y2="225" stroke="#2a1a0a" stroke-width="16" stroke-linecap="round"/>
+      <line x1="95" y1="155" x2="115" y2="195" stroke="#6a7254" stroke-width="16" stroke-linecap="round"/>
+      <line x1="115" y1="195" x2="110" y2="225" stroke="#6a7254" stroke-width="10" stroke-linecap="round"/>
+      <ellipse cx="115" cy="195" rx="7" ry="6" fill="#6a7254" stroke="#2a1a0a" stroke-width="2"/>
+      <circle cx="110" cy="225" r="6" fill="#6a7254" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 103,223 L 117,223 L 120,232 L 100,232 Z" fill="#3e4434" stroke="#2a1a0a" stroke-width="2"/>
+
+      <!-- Jambes avant (côté éloigné) -->
+      <line x1="-90" y1="150" x2="-95" y2="190" stroke="#2a1a0a" stroke-width="19" stroke-linecap="round"/>
+      <line x1="-95" y1="190" x2="-93" y2="218" stroke="#2a1a0a" stroke-width="13" stroke-linecap="round"/>
+      <line x1="-90" y1="150" x2="-95" y2="190" stroke="#4e5440" stroke-width="13" stroke-linecap="round"/>
+      <line x1="-95" y1="190" x2="-93" y2="218" stroke="#4e5440" stroke-width="7" stroke-linecap="round"/>
+      <ellipse cx="-95" cy="190" rx="6" ry="5" fill="#4e5440" stroke="#2a1a0a" stroke-width="2"/>
+      <circle cx="-93" cy="218" r="5" fill="#4e5440" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -102,216 L -86,216 L -83,225 L -105,225 Z" fill="#3e4434" stroke="#2a1a0a" stroke-width="2"/>
+
+      <!-- Jambes avant (côté proche) - LEVÉE (pose classique) -->
+      <line x1="-75" y1="150" x2="-60" y2="185" stroke="#2a1a0a" stroke-width="21" stroke-linecap="round"/>
+      <line x1="-60" y1="185" x2="-75" y2="205" stroke="#2a1a0a" stroke-width="15" stroke-linecap="round"/>
+      <line x1="-75" y1="150" x2="-60" y2="185" stroke="#6a7254" stroke-width="15" stroke-linecap="round"/>
+      <line x1="-60" y1="185" x2="-75" y2="205" stroke="#6a7254" stroke-width="9" stroke-linecap="round"/>
+      <ellipse cx="-60" cy="185" rx="7" ry="6" fill="#6a7254" stroke="#2a1a0a" stroke-width="2"/>
+      <circle cx="-75" cy="205" r="6" fill="#6a7254" stroke="#2a1a0a" stroke-width="2"/>
+      <line x1="-75" y1="205" x2="-85" y2="208" stroke="#2a1a0a" stroke-width="12" stroke-linecap="round"/>
+      <line x1="-75" y1="205" x2="-85" y2="208" stroke="#6a7254" stroke-width="6" stroke-linecap="round"/>
+      <path d="M -94,206 L -77,206 L -74,215 L -97,215 Z" fill="#3e4434" stroke="#2a1a0a" stroke-width="2"/>
+
+      <!-- Caparaçon (housse décorative) -->
+      <path d="M -60,90 Q 0,85 60,92 L 68,145 Q 55,158 42,145 Q 29,158 16,145 Q 3,158 -10,145 Q -23,158 -36,145 Q -49,158 -62,145 Z" 
+            fill="#55603f" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M -55,135 Q 5,128 65,135" fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.6"/>
+      <!-- Croix décorative -->
+      <path d="M 8,102 L 8,132 M -6,116 L 22,116" stroke="#8a8a62" stroke-width="4"/>
+
+      <!-- Bride et rênes -->
+      <g fill="none" stroke="#2a1a0a" stroke-width="2.5">
+        <path d="M -195,38 L -170,35 L -165,15"/>
+        <path d="M -197,52 L -172,46"/>
+        <path d="M -190,54 Q -115,90 -55,72"/>
+      </g>
+
+      <!-- Reflets musculaires -->
+      <g fill="none" stroke="#d2cfa2" stroke-width="2" opacity="0.5">
+        <path d="M -140,85 Q -120,95 -100,100"/>
+        <path d="M -80,160 Q -70,175 -75,190"/>
+        <path d="M 100,160 Q 115,175 110,190"/>
+      </g>
+    </g>
+
+    <!-- Selle -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M -35,90 Q -38,75 -28,73 L -22,88 Z" fill="#3e4434" stroke="#2a1a0a" stroke-width="2.5"/>
+      <path d="M 22,92 Q 26,68 36,65 Q 42,70 35,94 Z" fill="#3e4434" stroke="#2a1a0a" stroke-width="2.5"/>
+      <path d="M -32,90 Q 0,95 32,92 L 30,102 Q 0,106 -30,102 Z" fill="#4e5440" stroke="#2a1a0a" stroke-width="2.5"/>
+      <path d="M 2,102 L 0,165" stroke="#2a1a0a" stroke-width="4"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- CHEVALIER (posture réaliste) -->
+    <!-- ======================================================= -->
+    <g id="chevalier" filter="url(#sketchyMedium)">
+      
+      <!-- Cape flottante derrière -->
+      <path d="M 6,18 Q 55,35 85,88 Q 65,95 48,86 Q 38,102 20,94 Q 18,58 2,38 Z" 
+            fill="#55603f" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M 18,38 Q 45,58 60,86" fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.6"/>
+
+      <!-- Torse (cuirasse) -->
+      <path d="M -24,20 Q -4,10 16,20 L 18,78 Q 0,88 -22,82 Z" 
+            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3.5"/>
+      <path d="M -24,20 Q -4,10 16,20 L 18,78 Q 0,88 -22,82 Z" 
+            fill="url(#bronzeLight)"/>
+      <path d="M -22,48 Q -4,44 16,48 M -4,18 L -4,82" fill="none" stroke="#2a1a0a" stroke-width="1.6" opacity="0.6"/>
+
+      <!-- Cuisse et jambe -->
+      <path d="M -8,84 L -28,120 L -22,162" fill="none" stroke="#2a1a0a" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M -8,84 L -28,120 L -22,162" fill="none" stroke="#6a7254" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="-28" cy="120" rx="8" ry="6" fill="#55603f" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -36,162 L -12,162 L -10,170 L -38,170 Z" fill="#3e4434" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -24,148 L -24,172 M -32,172 L -16,172" stroke="#2a1a0a" stroke-width="2"/>
+
+      <!-- Épaule et bras tenant les rênes -->
+      <path d="M -28,20 Q -38,28 -34,44 Q -24,48 -16,40 L -16,22 Z" 
+            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="2.5"/>
+      <path d="M -26,36 L -38,60 L -52,70" fill="none" stroke="#2a1a0a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M -26,36 L -38,60 L -52,70" fill="none" stroke="#6a7254" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="-52" cy="71" r="5" fill="#3e4434" stroke="#2a1a0a" stroke-width="2"/>
+
+      <!-- BOUCLIER (écu) -->
+      <path d="M -48,38 L -24,38 L -22,60 Q -34,76 -36,78 Q -48,68 -50,60 Z" 
+            fill="#626a4e" stroke="#2a1a0a" stroke-width="2.5"/>
+      <path d="M -36,42 L -36,70 M -46,54 L -26,54" stroke="#8a8a62" stroke-width="3"/>
+
+      <!-- Heaume -->
+      <path d="M -20,18 L -20,-8 Q -20,-26 -2,-26 Q 16,-26 16,-8 L 16,18 Q -2,24 -20,18 Z" 
+            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3.5"/>
+      <path d="M -20,18 L -20,-8 Q -20,-26 -2,-26 Q 16,-26 16,-8 L 16,18 Q -2,24 -20,18 Z" 
+            fill="url(#bronzeLight)"/>
+      <path d="M -20,0 L 2,0" stroke="#1a0f05" stroke-width="3.5"/>
+      <!-- Cimier/plumet -->
+      <path d="M -2,-26 Q 12,-42 32,-36 Q 18,-32 12,-24" fill="#55603f" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -2,-26 Q 22,-56 58,-48 Q 42,-42 32,-34 Q 50,-32 62,-22 Q 36,-20 16,-26 Z" 
+            fill="#626a4e" stroke="#2a1a0a" stroke-width="2.5"/>
+      <path d="M 8,-32 Q 28,-44 52,-42 M 14,-28 Q 36,-30 56,-24" fill="none" stroke="#2a1a0a" stroke-width="1.4" opacity="0.6"/>
+      <!-- Fentes de visière -->
+      <g stroke="#1a0f05" stroke-width="1.5">
+        <line x1="-14" y1="4" x2="-14" y2="12"/>
+        <line x1="-8" y1="4" x2="-8" y2="12"/>
+        <line x1="-2" y1="4" x2="-2" y2="12"/>
+      </g>
+
+      <!-- Reflets -->
+      <path d="M -16,-8 Q -16,-22 -4,-23" fill="none" stroke="#d2cfa2" stroke-width="2.5" opacity="0.6" stroke-linecap="round"/>
+      <path d="M -20,26 L -18,74" fill="none" stroke="#d2cfa2" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- LANCE -->
+    <g id="lance" filter="url(#sketchyMedium)">
+      <line x1="-52" y1="71" x2="-175" y2="18" stroke="#5a4a3a" stroke-width="6" stroke-linecap="round"/>
+      <line x1="-52" y1="71" x2="-175" y2="18" stroke="#3a2a1a" stroke-width="2" opacity="0.5"/>
+      <path d="M -175,18 L -205,-12 L -170,3 Z" fill="#8a8a8a" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -175,18 Q -205,8 -225,28 Q -205,38 -175,23 Z" 
+            fill="#a04030" stroke="#2a1a0a" stroke-width="2" opacity="0.9"/>
+      <path d="M -200,23 L -190,28 M -195,20 L -195,31" stroke="#d4ba82" stroke-width="2"/>
+    </g>
+
+    <!-- Patine -->
+    <g fill="#4a6a4a" opacity="0.35">
+      <ellipse cx="-115" cy="88" rx="9" ry="6"/>
+      <ellipse cx="55" cy="128" rx="11" ry="6"/>
+      <ellipse cx="-175" cy="28" rx="5" ry="3"/>
+      <ellipse cx="0" cy="58" rx="6" ry="4"/>
+    </g>
+    <!-- Fientes -->
+    <ellipse cx="-4" cy="-26" rx="5" ry="2.5" fill="#e4d4b4" opacity="0.5"/>
+    <ellipse cx="115" cy="102" rx="5" ry="2.5" fill="#e4d4b4" opacity="0.4"/>
+  </g>
+</svg>

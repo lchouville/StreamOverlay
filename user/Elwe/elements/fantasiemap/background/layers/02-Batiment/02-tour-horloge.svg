@@ -128,18 +128,45 @@
       <line x1="2890" y1="1610" x2="2890" y2="1670"/>
     </g>
 
+    <!-- Soubassement : plinthe saillante en pierre claire au pied de la base -->
+    <rect x="2040" y="1628" width="960" height="44" fill="#bfa878" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyMedium)"/>
+    <line x1="2040" y1="1640" x2="3000" y2="1640" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
+    <!-- Chainage d'angle de la base -->
+    <g fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5" filter="url(#sketchyMedium)">
+      <rect x="2050" y="1250" width="66" height="63"/>
+      <rect x="2924" y="1250" width="66" height="63"/>
+      <rect x="2050" y="1313" width="40" height="63"/>
+      <rect x="2950" y="1313" width="40" height="63"/>
+      <rect x="2050" y="1376" width="66" height="63"/>
+      <rect x="2924" y="1376" width="66" height="63"/>
+      <rect x="2050" y="1439" width="40" height="63"/>
+      <rect x="2950" y="1439" width="40" height="63"/>
+      <rect x="2050" y="1502" width="66" height="63"/>
+      <rect x="2924" y="1502" width="66" height="63"/>
+      <rect x="2050" y="1565" width="40" height="63"/>
+      <rect x="2950" y="1565" width="40" height="63"/>
+    </g>
+
     <!-- PORTE MÉDIÉVALE -->
     <path d="M 2380,1670 L 2380,1420 Q 2380,1340 2520,1340 Q 2660,1340 2660,1420 L 2660,1670 Z" 
           fill="url(#hatchWood)" stroke="#1a0f05" stroke-width="6" 
           filter="url(#sketchyHeavy)"/>
     
-    <path d="M 2360,1340 Q 2520,1300 2680,1340" 
-          fill="none" stroke="#1a0f05" stroke-width="5" 
-          filter="url(#sketchyMedium)"/>
-
-    <path d="M 2510,1330 L 2520,1310 L 2530,1330" 
-          fill="none" stroke="#1a0f05" stroke-width="4" 
-          filter="url(#sketchyMedium)"/>
+    <!-- Arc de la porte de ville : 13 claveaux autour de l'arc, cle de voute saillante, -->
+    <!-- piedroits en pierres harpees. (Le linteau courbe d'origine est remplace.) -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M 2346,1420 L 2346.2,1412.3 L 2346.8,1404.8 L 2347.7,1397.6 L 2349.1,1390.6 L 2350.8,1383.9 L 2353,1377.5 L 2355.5,1371.4 L 2358.4,1365.5 L 2361.7,1359.8 L 2365.3,1354.4 L 2369.4,1349.3 L 2373.8,1344.5 L 2378.7,1339.9 L 2383.9,1335.6 L 2389.5,1331.5 L 2395.5,1327.7 L 2401.9,1324.2 L 2408.6,1320.9 L 2415.8,1317.9 L 2423.3,1315.1 L 2431.3,1312.6 L 2439.6,1310.4 L 2448.3,1308.4 L 2457.4,1306.7 L 2466.8,1305.3 L 2476.7,1304.1 L 2486.9,1303.2 L 2497.6,1302.5 L 2508.6,1302.1 L 2520,1302 L 2531.4,1302.1 L 2542.4,1302.5 L 2553.1,1303.2 L 2563.3,1304.1 L 2573.2,1305.3 L 2582.6,1306.7 L 2591.7,1308.4 L 2600.4,1310.4 L 2608.7,1312.6 L 2616.7,1315.1 L 2624.2,1317.9 L 2631.4,1320.9 L 2638.1,1324.2 L 2644.5,1327.7 L 2650.5,1331.5 L 2656.1,1335.6 L 2661.3,1339.9 L 2666.2,1344.5 L 2670.6,1349.3 L 2674.7,1354.4 L 2678.3,1359.8 L 2681.6,1365.5 L 2684.5,1371.4 L 2687,1377.5 L 2689.2,1383.9 L 2690.9,1390.6 L 2692.3,1397.6 L 2693.2,1404.8 L 2693.8,1412.3 L 2694,1420 L 2660,1420 L 2659.8,1414.8 L 2659.4,1409.7 L 2658.6,1404.8 L 2657.5,1400.1 L 2656.1,1395.6 L 2654.4,1391.2 L 2652.4,1387 L 2650,1383 L 2647.4,1379.2 L 2644.4,1375.6 L 2641.2,1372.1 L 2637.6,1368.8 L 2633.7,1365.7 L 2629.5,1362.8 L 2625,1360 L 2620.2,1357.4 L 2615,1355 L 2609.6,1352.8 L 2603.8,1350.8 L 2597.8,1348.9 L 2591.4,1347.2 L 2584.7,1345.7 L 2577.7,1344.4 L 2570.4,1343.2 L 2562.8,1342.2 L 2554.8,1341.4 L 2546.6,1340.8 L 2538,1340.4 L 2529.2,1340.1 L 2520,1340 L 2510.8,1340.1 L 2502,1340.4 L 2493.4,1340.8 L 2485.2,1341.4 L 2477.2,1342.2 L 2469.6,1343.2 L 2462.3,1344.4 L 2455.3,1345.7 L 2448.6,1347.2 L 2442.2,1348.9 L 2436.2,1350.8 L 2430.4,1352.8 L 2425,1355 L 2419.8,1357.4 L 2415,1360 L 2410.5,1362.8 L 2406.3,1365.7 L 2402.4,1368.8 L 2398.8,1372.1 L 2395.6,1375.6 L 2392.6,1379.2 L 2390,1383 L 2387.6,1387 L 2385.6,1391.2 L 2383.9,1395.6 L 2382.5,1400.1 L 2381.4,1404.8 L 2380.6,1409.7 L 2380.2,1414.8 L 2380,1420 Z" fill="#cbb98f" stroke="#1a0f05" stroke-width="4"/>
+      <path d="M 2383.3,1397.3 L 2350.1,1386.5 M 2393.3,1378.3 L 2362.5,1358.6 M 2409.8,1363.2 L 2383.1,1336.2 M 2433,1351.8 L 2411.9,1319.5 M 2462.8,1344.3 L 2449,1308.3 M 2499.3,1340.5 L 2494.3,1302.7 M 2540.7,1340.5 L 2545.7,1302.7 M 2577.2,1344.3 L 2591,1308.3 M 2607,1351.8 L 2628.1,1319.5 M 2630.2,1363.2 L 2656.9,1336.2 M 2646.7,1378.3 L 2677.5,1358.6 M 2656.7,1397.3 L 2689.9,1386.5 " stroke="#1a0f05" stroke-width="2.5"/>
+      <path d="M 2506,1340 L 2500,1292 L 2540,1292 L 2534,1340 Z" fill="#d8c79d" stroke="#1a0f05" stroke-width="3.5"/>
+      <rect x="2344" y="1420" width="36" height="52" fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5"/>
+      <rect x="2660" y="1420" width="36" height="52" fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5"/>
+      <rect x="2358" y="1472" width="22" height="52" fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5"/>
+      <rect x="2660" y="1472" width="22" height="52" fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5"/>
+      <rect x="2344" y="1524" width="36" height="52" fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5"/>
+      <rect x="2660" y="1524" width="36" height="52" fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5"/>
+      <rect x="2358" y="1576" width="22" height="52" fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5"/>
+      <rect x="2660" y="1576" width="22" height="52" fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5"/>
+    </g>
 
     <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)">
       <line x1="2520" y1="1350" x2="2520" y2="1670"/>
@@ -151,13 +178,18 @@
       <line x1="2540" y1="1600" x2="2640" y2="1600"/>
     </g>
 
+    <g stroke="#2a1a0a" stroke-width="5" stroke-linecap="round" filter="url(#sketchyMedium)">
+      <path d="M 2384,1450 L 2470,1450 M 2384,1560 L 2470,1560 M 2656,1450 L 2570,1450 M 2656,1560 L 2570,1560"/>
+    </g>
     <circle cx="2510" cy="1520" r="8" fill="none" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
     <circle cx="2530" cy="1520" r="8" fill="none" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
 
-    <!-- Petites fenêtres latérales -->
-    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
-      <path d="M 2150,1420 L 2150,1500 Q 2150,1515 2170,1515 L 2190,1515 Q 2210,1515 2210,1500 L 2210,1420 Q 2210,1405 2180,1400 Q 2150,1405 2150,1420 Z"/>
-      <path d="M 2830,1420 L 2830,1500 Q 2830,1515 2850,1515 L 2870,1515 Q 2890,1515 2890,1500 L 2890,1420 Q 2890,1405 2860,1400 Q 2830,1405 2830,1420 Z"/>
+    <!-- Meurtrieres en croix (archeres) dans un encadrement de pierre -->
+    <g filter="url(#sketchyMedium)">
+      <rect x="2148" y="1392" width="64" height="134" fill="#cbb98f" stroke="#1a0f05" stroke-width="4"/>
+      <path d="M 2176,1404 L 2184,1404 L 2184,1446 L 2198,1446 L 2198,1454 L 2184,1454 L 2184,1514 L 2176,1514 L 2176,1454 L 2162,1454 L 2162,1446 L 2176,1446 Z" fill="#1a0f05"/>
+      <rect x="2828" y="1392" width="64" height="134" fill="#cbb98f" stroke="#1a0f05" stroke-width="4"/>
+      <path d="M 2856,1404 L 2864,1404 L 2864,1446 L 2878,1446 L 2878,1454 L 2864,1454 L 2864,1514 L 2856,1514 L 2856,1454 L 2842,1454 L 2842,1446 L 2856,1446 Z" fill="#1a0f05"/>
     </g>
 
     <!-- CRÉNEAUX (au sommet de la base) -->
@@ -176,6 +208,16 @@
       <rect x="2920" y="1150" width="70" height="50"/>
     </g>
 
+    <!-- Chaperons des merlons et cordon saillant sous le chemin de ronde -->
+    <g fill="#cbb98f" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)">
+      <rect x="2045" y="1142" width="80" height="12"/>
+      <rect x="2145" y="1142" width="80" height="12"/>
+      <rect x="2245" y="1142" width="80" height="12"/>
+      <rect x="2715" y="1142" width="80" height="12"/>
+      <rect x="2815" y="1142" width="80" height="12"/>
+      <rect x="2915" y="1142" width="80" height="12"/>
+      <rect x="2040" y="1244" width="960" height="16"/>
+    </g>
     <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
       <line x1="2085" y1="1155" x2="2085" y2="1195"/>
       <line x1="2185" y1="1155" x2="2185" y2="1195"/>
@@ -234,31 +276,86 @@
       <line x1="2680" y1="1188.9" x2="2680" y2="1250"/>
     </g>
 
-    <!-- EMPLACEMENT HORLOGE -->
-    <circle cx="2520" cy="950" r="95" 
-            fill="url(#hatchLedge)" stroke="#1a0f05" stroke-width="5" 
-            filter="url(#sketchyHeavy)"/>
-    <circle cx="2520" cy="950" r="80" 
-            fill="#d4ba82" stroke="#1a0f05" stroke-width="3" 
-            filter="url(#sketchyMedium)"/>
-    <g stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)">
-      <line x1="2520" y1="875" x2="2520" y2="885"/>
-      <line x1="2595" y1="950" x2="2585" y2="950"/>
-      <line x1="2520" y1="1025" x2="2520" y2="1015"/>
-      <line x1="2445" y1="950" x2="2455" y2="950"/>
+    <!-- Chainage d'angle : pierres alternees longues/courtes, plus claires, aux deux angles -->
+    <g fill="#cbb98f" stroke="#1a0f05" stroke-width="2.5" filter="url(#sketchyMedium)">
+      <rect x="2320" y="700" width="56" height="61.1"/>
+      <rect x="2664" y="700" width="56" height="61.1"/>
+      <rect x="2320" y="761.1" width="34" height="61.1"/>
+      <rect x="2686" y="761.1" width="34" height="61.1"/>
+      <rect x="2320" y="822.2" width="56" height="61.1"/>
+      <rect x="2664" y="822.2" width="56" height="61.1"/>
+      <rect x="2320" y="883.3" width="34" height="61.1"/>
+      <rect x="2686" y="883.3" width="34" height="61.1"/>
+      <rect x="2320" y="944.4" width="56" height="61.1"/>
+      <rect x="2664" y="944.4" width="56" height="61.1"/>
+      <rect x="2320" y="1005.5" width="34" height="61.1"/>
+      <rect x="2686" y="1005.5" width="34" height="61.1"/>
+      <rect x="2320" y="1066.6" width="56" height="61.1"/>
+      <rect x="2664" y="1066.6" width="56" height="61.1"/>
+      <rect x="2320" y="1127.7" width="34" height="61.1"/>
+      <rect x="2686" y="1127.7" width="34" height="61.1"/>
+      <rect x="2320" y="1188.8" width="56" height="61.1"/>
+      <rect x="2664" y="1188.8" width="56" height="61.1"/>
+      <rect x="2320" y="1249.9" width="34" height="61.1"/>
+      <rect x="2686" y="1249.9" width="34" height="61.1"/>
+    </g>
+
+    <!-- HORLOGE : couronne de pierre (claveaux), cadran creme a 12 graduations -->
+    <circle cx="2520" cy="950" r="100" fill="#cbb98f" stroke="#1a0f05" stroke-width="6" filter="url(#sketchyHeavy)"/>
+    <g stroke="#1a0f05" stroke-width="2" filter="url(#sketchyMedium)">
+      <line x1="2604" y1="950" x2="2620" y2="950"/>
+      <line x1="2597.6" y1="982.1" x2="2612.4" y2="988.3"/>
+      <line x1="2579.4" y1="1009.4" x2="2590.7" y2="1020.7"/>
+      <line x1="2552.1" y1="1027.6" x2="2558.3" y2="1042.4"/>
+      <line x1="2520" y1="1034" x2="2520" y2="1050"/>
+      <line x1="2487.9" y1="1027.6" x2="2481.7" y2="1042.4"/>
+      <line x1="2460.6" y1="1009.4" x2="2449.3" y2="1020.7"/>
+      <line x1="2442.4" y1="982.1" x2="2427.6" y2="988.3"/>
+      <line x1="2436" y1="950" x2="2420" y2="950"/>
+      <line x1="2442.4" y1="917.9" x2="2427.6" y2="911.7"/>
+      <line x1="2460.6" y1="890.6" x2="2449.3" y2="879.3"/>
+      <line x1="2487.9" y1="872.4" x2="2481.7" y2="857.6"/>
+      <line x1="2520" y1="866" x2="2520" y2="850"/>
+      <line x1="2552.1" y1="872.4" x2="2558.3" y2="857.6"/>
+      <line x1="2579.4" y1="890.6" x2="2590.7" y2="879.3"/>
+      <line x1="2597.6" y1="917.9" x2="2612.4" y2="911.7"/>
+    </g>
+    <circle cx="2520" cy="950" r="82" fill="#e9dcb8" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
+    <circle cx="2520" cy="950" r="70" fill="none" stroke="#5a4028" stroke-width="1.5" opacity="0.7"/>
+    <g stroke="#1a0f05" stroke-linecap="round" filter="url(#sketchyMedium)">
+      <line x1="2520" y1="892" x2="2520" y2="874" stroke-width="5"/>
+      <line x1="2552" y1="894.6" x2="2558" y2="884.2" stroke-width="3"/>
+      <line x1="2575.4" y1="918" x2="2585.8" y2="912" stroke-width="3"/>
+      <line x1="2578" y1="950" x2="2596" y2="950" stroke-width="5"/>
+      <line x1="2575.4" y1="982" x2="2585.8" y2="988" stroke-width="3"/>
+      <line x1="2552" y1="1005.4" x2="2558" y2="1015.8" stroke-width="3"/>
+      <line x1="2520" y1="1008" x2="2520" y2="1026" stroke-width="5"/>
+      <line x1="2488" y1="1005.4" x2="2482" y2="1015.8" stroke-width="3"/>
+      <line x1="2464.6" y1="982" x2="2454.2" y2="988" stroke-width="3"/>
+      <line x1="2462" y1="950" x2="2444" y2="950" stroke-width="5"/>
+      <line x1="2464.6" y1="918" x2="2454.2" y2="912" stroke-width="3"/>
+      <line x1="2488" y1="894.6" x2="2482" y2="884.2" stroke-width="3"/>
     </g>
     <circle cx="2520" cy="950" r="6" fill="#1a0f05"/>
 
-    <!-- Fenêtres gothiques - Niveau supérieur -->
-    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="3.5" filter="url(#sketchyMedium)">
-      <path d="M 2370,750 L 2370,820 Q 2370,835 2390,835 L 2410,835 Q 2430,835 2430,820 L 2430,750 Q 2430,735 2400,730 Q 2370,735 2370,750 Z"/>
-      <path d="M 2610,750 L 2610,820 Q 2610,835 2630,835 L 2650,835 Q 2670,835 2670,820 L 2670,750 Q 2670,735 2640,730 Q 2610,735 2610,750 Z"/>
-    </g>
-
-    <!-- Fenêtres gothiques - Niveau inférieur -->
-    <g fill="#1a0f05" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
-      <path d="M 2380,1070 L 2380,1150 Q 2380,1170 2410,1170 L 2430,1170 Q 2460,1170 2460,1150 L 2460,1070 Q 2460,1050 2420,1040 Q 2380,1050 2380,1070 Z"/>
-      <path d="M 2580,1070 L 2580,1150 Q 2580,1170 2610,1170 L 2630,1170 Q 2660,1170 2660,1150 L 2660,1070 Q 2660,1050 2620,1040 Q 2580,1050 2580,1070 Z"/>
+    <!-- Fenetres gothiques : encadrement de pierre clair, meneau et croisillon, appui saillant -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M 2361,835 L 2361,752 Q 2361,727.4 2400,722.9 Q 2439,727.4 2439,752 L 2439,835 Z" fill="#cbb98f" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 2370,835 L 2370,752 Q 2370,732.8 2400,732.8 Q 2430,732.8 2430,752 L 2430,835 Z" fill="#1a0f05" stroke="#1a0f05" stroke-width="2"/>
+      <path d="M 2400,736.8 L 2400,835 M 2370,789.4 L 2430,789.4" stroke="#d4ba82" stroke-width="3"/>
+      <rect x="2356" y="835" width="88" height="10" fill="#cbb98f" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 2601,835 L 2601,752 Q 2601,727.4 2640,722.9 Q 2679,727.4 2679,752 L 2679,835 Z" fill="#cbb98f" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 2610,835 L 2610,752 Q 2610,732.8 2640,732.8 Q 2670,732.8 2670,752 L 2670,835 Z" fill="#1a0f05" stroke="#1a0f05" stroke-width="2"/>
+      <path d="M 2640,736.8 L 2640,835 M 2610,789.4 L 2670,789.4" stroke="#d4ba82" stroke-width="3"/>
+      <rect x="2596" y="835" width="88" height="10" fill="#cbb98f" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 2371,1170 L 2371,1068 Q 2371,1037 2420,1032.5 Q 2469,1037 2469,1068 L 2469,1170 Z" fill="#cbb98f" stroke="#1a0f05" stroke-width="3.5"/>
+      <path d="M 2380,1170 L 2380,1068 Q 2380,1042.4 2420,1042.4 Q 2460,1042.4 2460,1068 L 2460,1170 Z" fill="#1a0f05" stroke="#1a0f05" stroke-width="2"/>
+      <path d="M 2420,1046.4 L 2420,1170 M 2380,1113.9 L 2460,1113.9" stroke="#d4ba82" stroke-width="3"/>
+      <rect x="2366" y="1170" width="108" height="10" fill="#cbb98f" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 2571,1170 L 2571,1068 Q 2571,1037 2620,1032.5 Q 2669,1037 2669,1068 L 2669,1170 Z" fill="#cbb98f" stroke="#1a0f05" stroke-width="3.5"/>
+      <path d="M 2580,1170 L 2580,1068 Q 2580,1042.4 2620,1042.4 Q 2660,1042.4 2660,1068 L 2660,1170 Z" fill="#1a0f05" stroke="#1a0f05" stroke-width="2"/>
+      <path d="M 2620,1046.4 L 2620,1170 M 2580,1113.9 L 2660,1113.9" stroke="#d4ba82" stroke-width="3"/>
+      <rect x="2566" y="1170" width="108" height="10" fill="#cbb98f" stroke="#1a0f05" stroke-width="3"/>
     </g>
   </g>
 
@@ -266,46 +363,54 @@
   <!-- 3. TOIT -->
   <!-- ======================================================= -->
   <g id="toit">
-    <polygon points="2280,700 2380,470 2660,470 2760,700" 
-             fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="6" 
-             filter="url(#sketchyHeavy)"/>
-
-    <g stroke="#2a1a0a" stroke-width="1.5" filter="url(#sketchyMedium)">
-      <line x1="2300" y1="500" x2="2740" y2="500"/>
-      <line x1="2320" y1="530" x2="2720" y2="530"/>
-      <line x1="2340" y1="560" x2="2700" y2="560"/>
-      <line x1="2360" y1="590" x2="2680" y2="590"/>
-      <line x1="2380" y1="620" x2="2660" y2="620"/>
-      <line x1="2400" y1="650" x2="2640" y2="650"/>
-      <line x1="2420" y1="680" x2="2620" y2="680"/>
+    <!-- Corniche sous le toit (bandeau saillant) -->
+    <rect x="2296" y="690" width="448" height="16" fill="#cbb98f" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
+    <g fill="#5a4028" stroke="#1a0f05" stroke-width="2" filter="url(#sketchyMedium)">
+      <rect x="2330" y="706" width="12" height="12"/>
+      <rect x="2368" y="706" width="12" height="12"/>
+      <rect x="2406" y="706" width="12" height="12"/>
+      <rect x="2444" y="706" width="12" height="12"/>
+      <rect x="2482" y="706" width="12" height="12"/>
+      <rect x="2520" y="706" width="12" height="12"/>
+      <rect x="2558" y="706" width="12" height="12"/>
+      <rect x="2596" y="706" width="12" height="12"/>
+      <rect x="2634" y="706" width="12" height="12"/>
+      <rect x="2672" y="706" width="12" height="12"/>
+      <rect x="2710" y="706" width="12" height="12"/>
     </g>
-
-    <g fill="none" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)">
-      <line x1="2280" y1="700" x2="2380" y2="470"/>
-      <line x1="2760" y1="700" x2="2660" y2="470"/>
+    <!-- Toit en pavillon, sommet plat (comme la guilde) -->
+    <polygon points="2266,692 2380,470 2660,470 2774,692" fill="#8c6b45" stroke="#1a0f05" stroke-width="6" stroke-linejoin="round" filter="url(#sketchyHeavy)"/>
+    <polygon points="2266,692 2380,470 2660,470 2774,692" fill="url(#hatchRoof)" opacity="0.6"/>
+    <!-- Rangs de tuiles : bornes sur les aretiers (x = 2266 + (692-y)*114/222) -->
+    <g stroke="#2a1a0a" stroke-width="1.8" opacity="0.7" filter="url(#sketchyMedium)">
+      <line x1="2283.4" y1="666" x2="2756.6" y2="666"/>
+      <line x1="2296.7" y1="640" x2="2743.3" y2="640"/>
+      <line x1="2310.1" y1="614" x2="2729.9" y2="614"/>
+      <line x1="2323.4" y1="588" x2="2716.6" y2="588"/>
+      <line x1="2336.8" y1="562" x2="2703.2" y2="562"/>
+      <line x1="2350.1" y1="536" x2="2689.9" y2="536"/>
+      <line x1="2363.5" y1="510" x2="2676.5" y2="510"/>
+      <line x1="2376.8" y1="484" x2="2663.2" y2="484"/>
     </g>
-
-    <line x1="2380" y1="470" x2="2660" y2="470" 
-          stroke="#1a0f05" stroke-width="6" 
-          filter="url(#sketchyHeavy)"/>
-
+    <!-- Sommet plat -->
+    <rect x="2372" y="456" width="296" height="16" fill="#b5a481" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
+    <!-- Bandeau d'egout -->
+    <rect x="2258" y="686" width="524" height="10" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
+    <!-- Lucarne (cadran de cloche) : fronton en tuiles, baie a croisillon -->
     <g filter="url(#sketchyMedium)">
-      <rect x="2490" y="530" width="60" height="70" 
-            fill="#1a0f05" stroke="#1a0f05" stroke-width="3"/>
-      <polygon points="2485,530 2520,500 2555,530" 
-               fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="3"/>
+      <rect x="2486" y="532" width="68" height="74" fill="#cbb98f" stroke="#1a0f05" stroke-width="4"/>
+      <rect x="2496" y="544" width="48" height="56" fill="#1a0f05" stroke="#1a0f05" stroke-width="2"/>
+      <path d="M 2520,544 L 2520,600 M 2496,570 L 2544,570" stroke="#d4ba82" stroke-width="3"/>
+      <polygon points="2476,534 2520,494 2564,534" fill="#8c6b45" stroke="#1a0f05" stroke-width="4" stroke-linejoin="round"/>
+      <line x1="2492" y1="522" x2="2548" y2="522" stroke="#2a1a0a" stroke-width="1.5" opacity="0.7"/>
     </g>
-
+    <!-- Epis de faitage aux deux bouts du sommet -->
     <g stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
-      <line x1="2380" y1="470" x2="2380" y2="440"/>
-      <circle cx="2380" cy="435" r="5" fill="#2a1a0a"/>
-      <line x1="2660" y1="470" x2="2660" y2="440"/>
-      <circle cx="2660" cy="435" r="5" fill="#2a1a0a"/>
+      <line x1="2380" y1="458" x2="2380" y2="426"/>
+      <circle cx="2380" cy="421" r="6" fill="#5a4a3a"/>
+      <line x1="2660" y1="458" x2="2660" y2="426"/>
+      <circle cx="2660" cy="421" r="6" fill="#5a4a3a"/>
     </g>
-    
-    <rect x="2260" y="690" width="520" height="12"
-          fill="url(#hatchLedge)" stroke="#1a0f05" stroke-width="3"
-          filter="url(#sketchyMedium)"/>
   </g>
 
   </g>
