@@ -108,6 +108,13 @@
     <line x1="45" y1="140" x2="45" y2="175" stroke="#5a3a1a" stroke-width="2"/>
     <line x1="30" y1="157" x2="60" y2="157" stroke="#5a3a1a" stroke-width="2"/>
 
+    <!-- Volets ouverts -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M 30,140 L 20,143.5 L 20,175 L 30,175 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      <path d="M 60,140 L 70,143.5 L 70,175 L 60,175 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      <path d="M 25,143.8 L 25,173 M 65,143.8 L 65,173" stroke="#3a2a1a" stroke-width="1.2"/>
+    </g>
+
     <!-- ===== TAS DE BÛCHES (à droite de la cabane) ===== -->
     <g id="tas-buches" filter="url(#sketchyMedium)">
       <!-- Bûches empilées -->

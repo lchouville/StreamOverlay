@@ -164,6 +164,16 @@
     <line x1="560" y1="1150" x2="560" y2="1230" stroke="#d4ba82" stroke-width="2"/>
     <line x1="530" y1="1190" x2="590" y2="1190" stroke="#d4ba82" stroke-width="2"/>
 
+    <!-- Volets ouverts -->
+    <g filter="url(#sketchyMedium)">
+      <path d="M 370,1150 L 352,1158 L 352,1230 L 370,1230 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 430,1150 L 448,1158 L 448,1230 L 430,1230 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 361,1156 L 361,1228 M 439,1156 L 439,1228" stroke="#3a2a1a" stroke-width="1.7999999999999998"/>
+      <path d="M 530,1150 L 512,1158 L 512,1230 L 530,1230 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 590,1150 L 608,1158 L 608,1230 L 590,1230 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="3"/>
+      <path d="M 521,1156 L 521,1228 M 599,1156 L 599,1228" stroke="#3a2a1a" stroke-width="1.7999999999999998"/>
+    </g>
+
     <!-- LUCARNE centrale dans le toit (comme la guilde) -->
     <g filter="url(#sketchyMedium)">
       <polygon points="436,1012 480,950 524,1012" fill="url(#hatchRoof)" stroke="#1a0f05" stroke-width="4"/>
@@ -201,6 +211,12 @@
       <rect x="725" y="1612" width="60" height="48" fill="#1a0f05" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
       <line x1="755" y1="1612" x2="755" y2="1660" stroke="#d4ba82" stroke-width="2"/>
       <line x1="725" y1="1636" x2="785" y2="1636" stroke="#d4ba82" stroke-width="2"/>
+      <!-- Volets ouverts -->
+      <g filter="url(#sketchyMedium)">
+        <path d="M 725,1612 L 710,1616.8 L 710,1660 L 725,1660 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2.5"/>
+        <path d="M 785,1612 L 800,1616.8 L 800,1660 L 785,1660 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2.5"/>
+        <path d="M 717.5,1616.4 L 717.5,1658 M 792.5,1616.4 L 792.5,1658" stroke="#3a2a1a" stroke-width="1.5"/>
+      </g>
       <!-- Petite porte -->
       <path d="M 835,1750 L 835,1712 Q 835,1696 855,1696 Q 875,1696 875,1712 L 875,1750 Z"
             fill="url(#hatchWoodDoor)" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>

@@ -51,6 +51,15 @@
     <clipPath id="clip-baie-chapelle" clipPathUnits="userSpaceOnUse">
       <path d="M -38,-71 L -38,-115 Q -38,-142 -10,-142 Q 18,-142 18,-115 L 18,-71 Z"/>
     </clipPath>
+    <!-- Ciel + horizon du calque 02-sol-pave.svg (ses dalles au sol sont remplacees par les paves). -->
+    <clipPath id="clip-ciel" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="3840" height="805"/>
+    </clipPath>
+    <!-- Ouverture du puits (coordonnees locales du puits) : tout ce qui est au-dessus de la margelle, -->
+    <!-- plus l'interieur de l'ouverture jusqu'a son bord avant (le seau y disparait en descendant). -->
+    <clipPath id="clip-ouverture-puits" clipPathUnits="userSpaceOnUse">
+      <path d="M -200,-300 L 200,-300 L 200,75 L 60,75 A 60,20 0 0 1 -60,75 L -200,75 Z"/>
+    </clipPath>
     <!-- Idem pour la porte de la guilde (coordonnees locales du calque guilde). -->
     <clipPath id="clip-embrasure-guilde" clipPathUnits="userSpaceOnUse">
       <path d="M 122,478 L 122,340 Q 122,302 190,302 Q 258,302 258,340 L 258,478 Z"/>
@@ -78,6 +87,25 @@
       0%, 55%, 100% { transform: skewX(0deg); }
       70%           { transform: skewX(calc(var(--ble-force-rafale, 8) * -1deg)); }
       82%           { transform: skewX(calc(var(--ble-force-rafale, 8) * -0.375deg)); }
+    }
+    /* Arbres au vent (#champs-ble .foret) : memes cycles et memes vagues que le ble, mais -->
+       inclinaison reduite (bois rigide) ; le houppier ploie plus que le tronc. */
+    .tree-gust, .tree-sway {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+    .tree-sway { animation-name: treeSway; animation-duration: var(--ble-balancement, 3.4s); }
+    .tree-gust { animation-name: treeGust; animation-duration: var(--ble-rafale, 11s); }
+    @keyframes treeSway {
+      0%, 100% { transform: skewX(calc(var(--arbre-force, 0.35) * var(--ble-force-balancement, 5) * -0.3deg)); }
+      50%      { transform: skewX(calc(var(--arbre-force, 0.35) * var(--ble-force-balancement, 5) * -1deg)); }
+    }
+    @keyframes treeGust {
+      0%, 55%, 100% { transform: skewX(0deg); }
+      70%           { transform: skewX(calc(var(--arbre-force, 0.35) * var(--ble-force-rafale, 8) * -1deg)); }
+      82%           { transform: skewX(calc(var(--arbre-force, 0.35) * var(--ble-force-rafale, 8) * -0.375deg)); }
     }
     /* Ailes du moulin (#moulin-ailes) : rotation continue, sens anti-horaire vu de face. */
     .ailes {
@@ -195,7 +223,15 @@
   </style>
   <image href="layers/01-papier.svg" x="0" y="0" width="3840" height="2160"/>
   <g clip-path="url(#clip-cadre)">
-    <image href="layers/02-sol-pave.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Ancien sol (dalles) : on n'en garde que le ciel et l'horizon (y<805) ; dessous, le sol pave -->
+    <!-- en fondu laisse apparaitre le parchemin. -->
+    <g clip-path="url(#clip-ciel)">
+      <image href="layers/02-sol-pave.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    </g>
+    <!-- Sol de la ville entierement pave de petits paves ronds (recouvre les dalles ci-dessus). -->
+    <!-- Version PNG (rendu de layers/02-sol-paves-ronds.svg) : ~19 000 paves statiques, bien plus -->
+    <!-- leger a afficher sous les animations. Regenerer le PNG apres modification du SVG. -->
+    <image href="layers/02-sol-paves-ronds.png" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <!-- Colline de champs de ble, derriere le rempart -->
     <image href="layers/02-colline-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <!-- Champs de ble et chemin du moulin sur les collines : generes par le script en bas de -->
@@ -262,6 +298,8 @@
             fill="none" stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)"/>
     </g>
     <image href="layers/02-Batiment/02-taverne.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maisons normandes, au fond derriere la forge -->
+    <image href="layers/02-Batiment/02-maisons2.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <image href="layers/02-Batiment/02-forge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <image href="layers/02-Batiment/02-auberge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <!-- Porte de l'auberge : meme transform que #echoppe-apothicaire du calque, meme principe que -->
@@ -283,14 +321,14 @@
       </g>
     </g>
     <image href="layers/02-Batiment/02-guild-av.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Porte de la guilde (double battant) : meme transform que #guilde-aventuriers du calque, -->
+    <!-- Porte de la guilde (double battant) : transform de #guilde-aventuriers + porte remontee de 37.5u, -->
     <!-- meme principe que #porte-tour. La banniere, devant la porte dans le calque, est -->
     <!-- redessinee par-dessus. -->
-    <g id="porte-guilde" transform="translate(3045,844)" display="none">
+    <g id="porte-guilde" transform="translate(3045,806.5)" display="none">
       <path d="M 130,470 L 130,340 Q 130,310 190,310 Q 250,310 250,340 L 250,470 Z"
             fill="#1a0f05" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)"/>
       <g class="battants" clip-path="url(#clip-embrasure-guilde)"/>
-      <g filter="url(#sketchyMedium)">
+      <g filter="url(#sketchyMedium)" transform="translate(0,-7.5)">
         <line x1="100" y1="290" x2="280" y2="290" stroke="#1a0f05" stroke-width="4"/>
         <path d="M 150,290 L 230,290 L 230,340 L 190,360 L 150,340 Z"
               fill="#8b4513" stroke="#1a0f05" stroke-width="3" opacity="0.9"/>
@@ -321,6 +359,35 @@
       </g>
     </g>
 
+    <!-- Puits, en bas a droite de la place (premier plan) -->
+    <image href="layers/02-Batiment/02-puit.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Treuil du puits (corde, seau, manivelle) : meme transform que #puits-medieval du calque. -->
+    <!-- De temps en temps, on descend le seau dans le puits puis on le remonte (script). -->
+    <g id="puits-treuil" transform="translate(3600,1381.25) scale(0.75)" filter="url(#sketchyMedium)">
+      <!-- Seau + corde : coupes par la margelle avant quand ils descendent dans le puits -->
+      <g clip-path="url(#clip-ouverture-puits)">
+        <line class="corde" x1="0" y1="-66" x2="0" y2="56" stroke="#8a7a6a" stroke-width="2.2"/>
+        <g class="seau">
+          <path d="M -12,60 Q 0,49 12,60" fill="none" stroke="#2a1a0a" stroke-width="2"/>
+          <path d="M -15,60 L -12,85 Q -12,90 0,90 Q 12,90 12,85 L 15,60 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
+          <line x1="-13" y1="70" x2="13" y2="70" stroke="#2a1a0a" stroke-width="1.5"/>
+          <line x1="-12" y1="80" x2="12" y2="80" stroke="#2a1a0a" stroke-width="1.5"/>
+          <ellipse class="eau" cx="0" cy="61" rx="13" ry="3.5" fill="#6a7a8a" opacity="0"/>
+          <!-- Gouttes qui fuient par le fond du seau pendant qu'il se vide -->
+          <circle class="goutte" cx="-4" cy="91" r="1.8" fill="#8a9aaa" opacity="0"/>
+          <circle class="goutte" cx="3" cy="91" r="1.6" fill="#8a9aaa" opacity="0"/>
+        </g>
+      </g>
+      <!-- Manivelle : l'axe est vu de face, la manivelle tourne donc dans un plan perpendiculaire a -->
+      <!-- l'ecran : on ne voit que la projection du bras (vertical, de longueur R*cos), la poignee -->
+      <!-- monte et descend le long de x=78. -->
+      <g class="manivelle" stroke="#5a4a3a" stroke-linecap="round">
+        <line x1="58" y1="-70" x2="78" y2="-70" stroke-width="4.5"/>
+        <line class="bras" x1="78" y1="-70" x2="78" y2="-52" stroke-width="4.5"/>
+        <line class="poignee" x1="78" y1="-52" x2="87" y2="-52" stroke="#3a2a1a" stroke-width="5.5"/>
+      </g>
+    </g>
+
     <!-- Lumieres de fenetres/lanternes : coordonnees calculees depuis la position locale de -->
     <!-- chaque ouverture x la transform actuelle de son batiment (tour, taverne, auberge, -->
     <!-- guilde, forge, chapelle). Si un batiment est redeplace/redimensionne, ces points doivent -->
@@ -337,6 +404,21 @@
     <g class="win-light" style="animation-duration:33s; animation-delay:-19s;" transform="translate(2571.6,757.4)">
       <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.6s;" rx="16" ry="11.5" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
+    <g class="win-light" style="animation-duration:19s; animation-delay:-2s;" transform="translate(2381.8,810.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.30s; animation-delay:-0.1s;" rx="8" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:22s; animation-delay:-7s;" transform="translate(2475.4,810.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.40s; animation-delay:-0.2s;" rx="8" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:25s; animation-delay:-12s;" transform="translate(2475.4,758.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.50s; animation-delay:-0.3s;" rx="8" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:28s; animation-delay:-0s;" transform="translate(2475.4,706.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.60s; animation-delay:-0.4s;" rx="8" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:31s; animation-delay:-5s;" transform="translate(2582.7,810.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.70s; animation-delay:-0.5s;" rx="7" ry="12" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
     <!-- Taverne elargie : fenetre droite etage 1, fenetre gauche etage 2, lucarne -->
     <g class="win-light" style="animation-duration:31s; animation-delay:-16s;" transform="translate(2248.1,846.7)">
       <ellipse class="flame-glow" style="animation-duration:1.7s; animation-delay:-0.3s;" rx="15" ry="19" fill="#ffcf8a" filter="url(#glowBlur)"/>
@@ -346,6 +428,28 @@
     </g>
     <g class="win-light" style="animation-duration:35s; animation-delay:-21s;" transform="translate(2208.2,702.6)">
       <ellipse class="flame-glow" style="animation-duration:1.8s; animation-delay:-0.5s;" rx="13" ry="13" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <!-- Maisons normandes (02-maisons2.svg, etage 2) et cabane du bucheron -->
+    <g class="win-light" style="animation-duration:22s; animation-delay:-3s;" transform="translate(3463.1,747.3)">
+      <ellipse class="flame-glow" style="animation-duration:1.35s; animation-delay:-0.2s;" rx="9" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:26s; animation-delay:-10s;" transform="translate(3497.9,747.3)">
+      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.3s;" rx="9" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:30s; animation-delay:-17s;" transform="translate(3558.8,747.3)">
+      <ellipse class="flame-glow" style="animation-duration:1.55s; animation-delay:-0.4s;" rx="23" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:34s; animation-delay:-5s;" transform="translate(3657.4,750.2)">
+      <ellipse class="flame-glow" style="animation-duration:1.65s; animation-delay:-0.5s;" rx="12" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:38s; animation-delay:-12s;" transform="translate(3703.8,750.2)">
+      <ellipse class="flame-glow" style="animation-duration:1.35s; animation-delay:-0.6s;" rx="12" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:42s; animation-delay:-0s;" transform="translate(3750.2,750.2)">
+      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.7s;" rx="12" ry="15" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:46s; animation-delay:-7s;" transform="translate(2673.2,627.7)">
+      <ellipse class="flame-glow" style="animation-duration:1.55s; animation-delay:-0.8s;" rx="4" ry="5" fill="#ffcf8a" filter="url(#glowBlur)"/>
     </g>
     <!-- Fenetre de l'extension de la taverne -->
     <g class="win-light" style="animation-duration:26s; animation-delay:-7s;" transform="translate(2323.7,952.1)">
@@ -495,6 +599,7 @@
     rootStyle.setProperty('--ble-rafale', cfg('ble.rafale', 11) + 's');
     rootStyle.setProperty('--ble-force-balancement', cfg('ble.forceBalancement', 5));
     rootStyle.setProperty('--ble-force-rafale', cfg('ble.forceRafale', 8));
+    rootStyle.setProperty('--arbre-force', cfg('ble.forceArbres', 0.35));
     rootStyle.setProperty('--moulin-tour', cfg('moulin.tour', 16) + 's');
     rootStyle.setProperty('--chat-queue', cfg('chat.queue', 3.7) + 's');
     rootStyle.setProperty('--chat-respiration', cfg('chat.respiration', 2.9) + 's');
@@ -777,8 +882,21 @@
       var NS = 'http://www.w3.org/2000/svg';
       function rand(a, b) { return a + Math.random() * (b - a); }
 
+      // Force du vent a l'abscisse x (0..1) : meme rafale que le ble (keyframes wheatGust :
+      // calme jusqu'a 55 %, pic a 70 %, retombee 82 %), meme vague qui traverse de gauche a droite.
+      var GUSTD = cfg('ble.rafale', 11);
+      function gustAt(x) {
+        var t = (document.timeline ? document.timeline.currentTime : performance.now()) / 1000;
+        var p = (((t - x / 450) % GUSTD) + GUSTD) % GUSTD / GUSTD;
+        if (p < 0.55) return 0;
+        if (p < 0.70) return (p - 0.55) / 0.15;
+        if (p < 0.82) return 1 - 0.625 * (p - 0.70) / 0.12;
+        return 0.375 * (1 - (p - 0.82) / 0.18);
+      }
+      var WIND = cfg('fumee.vent', 1);
       function smoke(id, wind) {
         var g = document.querySelector('#' + id + ' .puffs');
+        var gx = document.getElementById(id).getBoundingClientRect().left;
         var level = rand(0.3, 0.6), target = level, nextChange = 0;
 
         function retarget(now) {
@@ -800,7 +918,9 @@
           e.setAttribute('fill', Math.random() < 0.5 ? '#3a2a1a' : '#4a3826');
           e.setAttribute('opacity', 0);
           g.appendChild(e);
-          var dx = wind + rand(-12, 12), dy = -rand(140, 190) * k;
+          // Vent de fond (vers la droite, comme le ble) + rafale : la fumee se couche et monte moins
+          var gu = gustAt(gx);
+          var dx = WIND * (20 + 110 * gu) + rand(-12, 12) + wind * 0.3, dy = -rand(140, 190) * k * (1 - 0.35 * gu);
           var a = e.animate([
             { transform: 'translate(0px,0px) scale(0.5)', opacity: 0 },
             { opacity: 0.15 + 0.45 * I, offset: 0.12 },
@@ -819,9 +939,9 @@
         step();
       }
 
-      if (cfg('fumee.actives.forge', true)) smoke('forge-smoke', -16);
-      if (cfg('fumee.actives.boulangerie', true)) smoke('boulangerie-smoke', -10);
-      if (cfg('fumee.actives.cabane', true)) smoke('cabane-smoke', -14);
+      if (cfg('fumee.actives.forge', true)) smoke('forge-smoke', 0);
+      if (cfg('fumee.actives.boulangerie', true)) smoke('boulangerie-smoke', 0);
+      if (cfg('fumee.actives.cabane', true)) smoke('cabane-smoke', 0);
     })();
 
     (function () {
@@ -1061,19 +1181,78 @@
       trees.sort(function (a, b) { return a[1] - b[1]; }).forEach(function (t) {
         var x = t[0] + (rnd() - 0.5) * 4, y = t[1] + (rnd() - 0.5) * 3, s = t[2] * (0.85 + rnd() * 0.35);
         var fill = FILLS[Math.floor(rnd() * FILLS.length)], sw = r1(0.8 + 0.6 * s);
+        // Vent : meme phase que le ble a cette abscisse (la vague traverse aussi la foret)
+        var tg = el('g', { 'class': 'tree-gust' }, foret);
+        tg.style.animationDelay = ((x / 450) % GUST - GUST).toFixed(2) + 's';
+        var tree = el('g', { 'class': 'tree-sway' }, tg);
+        tree.style.animationDelay = ((x / 900) % SWAY - SWAY + (rnd() - 0.5) * 0.6).toFixed(2) + 's';
         el('path', { d: 'M' + r1(x) + ',' + r1(y) + 'L' + r1(x) + ',' + r1(y - 12 * s), fill: 'none',
-                     stroke: '#3a2a14', 'stroke-width': r1(1.2 + 1.5 * s) }, foret);
+                     stroke: '#3a2a14', 'stroke-width': r1(1.2 + 1.5 * s) }, tree);
         if (rnd() < 0.3) {
           // Conifere
           el('path', { d: 'M' + r1(x - 9 * s) + ',' + r1(y - 7 * s) + 'L' + r1(x) + ',' + r1(y - 26 * s) + 'L' + r1(x + 9 * s) + ',' + r1(y - 7 * s) + 'Z' +
                           'M' + r1(x - 7 * s) + ',' + r1(y - 19 * s) + 'L' + r1(x) + ',' + r1(y - 38 * s) + 'L' + r1(x + 7 * s) + ',' + r1(y - 19 * s) + 'Z',
-                       fill: fill, 'stroke-width': sw }, foret);
+                       fill: fill, 'stroke-width': sw }, tree);
         } else {
           // Feuillu
           el('path', { d: circle(x - 6 * s, y - 16 * s, 8 * s) + circle(x + 6 * s, y - 17 * s, 8 * s) + circle(x, y - 25 * s, 9 * s),
-                       fill: fill, 'stroke-width': sw }, foret);
+                       fill: fill, 'stroke-width': sw }, tree);
         }
       });
+    })();
+
+    (function () {
+      // Puits : de temps en temps, on tourne la manivelle, le seau descend dans le puits
+      // (disparait derriere la margelle), reste un instant, puis remonte plein, plus lentement.
+      var root = document.getElementById('puits-treuil');
+      var corde = root.querySelector('.corde'), seau = root.querySelector('.seau');
+      var eau = root.querySelector('.eau'), bras = root.querySelector('.bras'), poignee = root.querySelector('.poignee');
+      var gouttes = root.querySelectorAll('.goutte');
+      var DOWN = cfg('puits.descente', 3) * 1000, WAIT = 1500, UP = cfg('puits.remontee', 4.5) * 1000;
+      var DRAIN = cfg('puits.vidage', 7) * 1000;
+      var DEPTH = 85, TURNS_PER_UNIT = 1 / 30, R = 18;  // 1 tour de manivelle par 30u de corde
+      function ease(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+      var start = 0, moving = DOWN + WAIT + UP, total = moving + DRAIN;
+      function setCrank(angle) {
+        var ky = -70 + R * Math.cos(angle);
+        bras.setAttribute('y2', ky.toFixed(1));
+        poignee.setAttribute('y1', ky.toFixed(1)); poignee.setAttribute('y2', ky.toFixed(1));
+        // poignee derriere l'axe (sin<0) : plus fine, comme en retrait
+        poignee.setAttribute('stroke-width', Math.sin(angle) < 0 ? 4 : 5.5);
+      }
+      function frame(now) {
+        var t = now - start, off;
+        if (t < DOWN) off = DEPTH * ease(t / DOWN);
+        else if (t < DOWN + WAIT) off = DEPTH;
+        else if (t < moving) off = DEPTH * (1 - ease((t - DOWN - WAIT) / UP));
+        else off = 0;
+        seau.setAttribute('transform', 'translate(0,' + off.toFixed(1) + ')');
+        corde.setAttribute('y2', (56 + off).toFixed(1));
+        setCrank(off * TURNS_PER_UNIT * 2 * Math.PI);
+        // Eau : pleine a la remontee, puis le seau se vide par en dessous (niveau qui baisse, gouttes)
+        var L = t < DOWN ? -1 : t < moving ? 0 : Math.min(1, (t - moving) / DRAIN);
+        if (L < 0) { eau.setAttribute('opacity', 0); }
+        else {
+          eau.setAttribute('cy', (61 + 7 * L).toFixed(1));
+          eau.setAttribute('rx', (13 - 3.5 * L).toFixed(1));
+          eau.setAttribute('ry', (3.5 - 1.5 * L).toFixed(1));
+          eau.setAttribute('opacity', (0.8 * (1 - L * L)).toFixed(2));
+        }
+        for (var i = 0; i < gouttes.length; i++) {
+          if (t < moving || L >= 1) { gouttes[i].setAttribute('opacity', 0); continue; }
+          var ph = ((t - moving) / (420 + 160 * i) + i * 0.5) % 1;   // une goutte toutes les ~0.5 s
+          gouttes[i].setAttribute('cy', (91 + 14 * ph * ph).toFixed(1));
+          gouttes[i].setAttribute('opacity', (0.9 * (1 - ph) * (1 - L)).toFixed(2));
+        }
+        if (t < total) requestAnimationFrame(frame);
+        else { seau.removeAttribute('transform'); corde.setAttribute('y2', 56); setCrank(0); eau.setAttribute('opacity', 0); }
+      }
+      function cycle() {
+        start = performance.now();
+        requestAnimationFrame(frame);
+        setTimeout(cycle, total + cfgMs('puits.intervalle', [40, 90]));
+      }
+      setTimeout(cycle, cfgMs('puits.premiere', [10, 30]));
     })();
     });
   ]]></script>

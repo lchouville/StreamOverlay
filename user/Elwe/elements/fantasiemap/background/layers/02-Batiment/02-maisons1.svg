@@ -60,12 +60,24 @@
         <line x1="60" y1="250" x2="120" y2="300"/>
         <line x1="120" y1="200" x2="180" y2="250"/>
       </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 16,222 L 7,227 L 7,272 L 16,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 44,222 L 53,227 L 53,272 L 44,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="16" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 30,222 L 30,272 M 16,247 L 44,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="13" y1="274" x2="47" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 76,222 L 67,227 L 67,272 L 76,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 104,222 L 113,227 L 113,272 L 104,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="76" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 90,222 L 90,272 M 76,247 L 104,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="73" y1="274" x2="107" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 136,222 L 127,227 L 127,272 L 136,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 164,222 L 173,227 L 173,272 L 164,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="136" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 150,222 L 150,272 M 136,247 L 164,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="133" y1="274" x2="167" y2="274" stroke="#2a1a0a" stroke-width="3"/>
@@ -81,12 +93,24 @@
         <line x1="60" y1="150" x2="120" y2="200"/>
         <line x1="120" y1="100" x2="180" y2="150"/>
       </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 16,122 L 7,127 L 7,172 L 16,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 44,122 L 53,127 L 53,172 L 44,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="16" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 30,122 L 30,172 M 16,147 L 44,147" stroke="#d4ba82" stroke-width="2"/>
       <line x1="13" y1="174" x2="47" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 76,122 L 67,127 L 67,172 L 76,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 104,122 L 113,127 L 113,172 L 104,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="76" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 90,122 L 90,172 M 76,147 L 104,147" stroke="#d4ba82" stroke-width="2"/>
       <line x1="73" y1="174" x2="107" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 136,122 L 127,127 L 127,172 L 136,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 164,122 L 173,127 L 173,172 L 164,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="136" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 150,122 L 150,172 M 136,147 L 164,147" stroke="#d4ba82" stroke-width="2"/>
       <line x1="133" y1="174" x2="167" y2="174" stroke="#2a1a0a" stroke-width="3"/>
@@ -154,12 +178,24 @@
         <line x1="120" y1="200" x2="160" y2="250"/>
         <line x1="160" y1="250" x2="120" y2="300"/>
       </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 12.7,222 L 3.7,227 L 3.7,272 L 12.7,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 40.7,222 L 49.7,227 L 49.7,272 L 40.7,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="12.7" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 26.7,222 L 26.7,272 M 12.7,247 L 40.7,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="9.7" y1="274" x2="43.7" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 66,222 L 57,227 L 57,272 L 66,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 94,222 L 103,227 L 103,272 L 94,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="66" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 80,222 L 80,272 M 66,247 L 94,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="63" y1="274" x2="97" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 119.3,222 L 110.3,227 L 110.3,272 L 119.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 147.3,222 L 156.3,227 L 156.3,272 L 147.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="119.3" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 133.3,222 L 133.3,272 M 119.3,247 L 147.3,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="116.3" y1="274" x2="150.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>
@@ -231,12 +267,24 @@
         <line x1="150" y1="300" x2="175" y2="250"/>
         <line x1="175" y1="250" x2="200" y2="300"/>
       </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 19.3,222 L 10.3,227 L 10.3,272 L 19.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 47.3,222 L 56.3,227 L 56.3,272 L 47.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="19.3" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 33.3,222 L 33.3,272 M 19.3,247 L 47.3,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="16.3" y1="274" x2="50.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 86,222 L 77,227 L 77,272 L 86,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 114,222 L 123,227 L 123,272 L 114,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="86" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 100,222 L 100,272 M 86,247 L 114,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="83" y1="274" x2="117" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 152.7,222 L 143.7,227 L 143.7,272 L 152.7,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 180.7,222 L 189.7,227 L 189.7,272 L 180.7,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="152.7" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 166.7,222 L 166.7,272 M 152.7,247 L 180.7,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="149.7" y1="274" x2="183.7" y2="274" stroke="#2a1a0a" stroke-width="3"/>
@@ -258,12 +306,24 @@
         <line x1="150" y1="200" x2="175" y2="150"/>
         <line x1="175" y1="150" x2="200" y2="200"/>
       </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 19.3,122 L 10.3,127 L 10.3,172 L 19.3,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 47.3,122 L 56.3,127 L 56.3,172 L 47.3,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="19.3" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 33.3,122 L 33.3,172 M 19.3,147 L 47.3,147" stroke="#d4ba82" stroke-width="2"/>
       <line x1="16.3" y1="174" x2="50.3" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 86,122 L 77,127 L 77,172 L 86,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 114,122 L 123,127 L 123,172 L 114,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="86" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 100,122 L 100,172 M 86,147 L 114,147" stroke="#d4ba82" stroke-width="2"/>
       <line x1="83" y1="174" x2="117" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 152.7,122 L 143.7,127 L 143.7,172 L 152.7,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 180.7,122 L 189.7,127 L 189.7,172 L 180.7,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="152.7" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 166.7,122 L 166.7,172 M 152.7,147 L 180.7,147" stroke="#d4ba82" stroke-width="2"/>
       <line x1="149.7" y1="174" x2="183.7" y2="174" stroke="#2a1a0a" stroke-width="3"/>
@@ -285,12 +345,24 @@
         <line x1="150" y1="100" x2="175" y2="50"/>
         <line x1="175" y1="50" x2="200" y2="100"/>
       </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 19.3,22 L 10.3,27 L 10.3,72 L 19.3,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 47.3,22 L 56.3,27 L 56.3,72 L 47.3,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="19.3" y="22" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 33.3,22 L 33.3,72 M 19.3,47 L 47.3,47" stroke="#d4ba82" stroke-width="2"/>
       <line x1="16.3" y1="74" x2="50.3" y2="74" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 86,22 L 77,27 L 77,72 L 86,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 114,22 L 123,27 L 123,72 L 114,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="86" y="22" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 100,22 L 100,72 M 86,47 L 114,47" stroke="#d4ba82" stroke-width="2"/>
       <line x1="83" y1="74" x2="117" y2="74" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 152.7,22 L 143.7,27 L 143.7,72 L 152.7,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 180.7,22 L 189.7,27 L 189.7,72 L 180.7,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="152.7" y="22" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 166.7,22 L 166.7,72 M 152.7,47 L 180.7,47" stroke="#d4ba82" stroke-width="2"/>
       <line x1="149.7" y1="74" x2="183.7" y2="74" stroke="#2a1a0a" stroke-width="3"/>
@@ -355,15 +427,31 @@
         <line x1="85" y1="225" x2="127.5" y2="250"/>
         <line x1="127.5" y1="250" x2="85" y2="275"/>
       </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 9.8,222 L 2.8,227 L 2.8,272 L 9.8,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 32.8,222 L 39.8,227 L 39.8,272 L 32.8,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="9.8" y="222" width="23" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 21.3,222 L 21.3,272 M 9.8,247 L 32.8,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="6.8" y1="274" x2="35.8" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 52.3,222 L 45.3,227 L 45.3,272 L 52.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 75.3,222 L 82.3,227 L 82.3,272 L 75.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="52.3" y="222" width="23" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 63.8,222 L 63.8,272 M 52.3,247 L 75.3,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="49.3" y1="274" x2="78.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 94.8,222 L 87.8,227 L 87.8,272 L 94.8,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 117.8,222 L 124.8,227 L 124.8,272 L 117.8,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="94.8" y="222" width="23" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 106.3,222 L 106.3,272 M 94.8,247 L 117.8,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="91.8" y1="274" x2="120.8" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 137.3,222 L 130.3,227 L 130.3,272 L 137.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 160.3,222 L 167.3,227 L 167.3,272 L 160.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
       <rect x="137.3" y="222" width="23" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
       <path d="M 148.8,222 L 148.8,272 M 137.3,247 L 160.3,247" stroke="#d4ba82" stroke-width="2"/>
       <line x1="134.3" y1="274" x2="163.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>

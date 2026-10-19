@@ -40,7 +40,8 @@ window.ANIM_CONFIG = {
     changement: [4, 14],   // toutes les combien de secondes l'intensite change
     probaForte: 0.2,       // chance (0 a 1) de passer en grosses bouffees
     probaCalme: 0.3,       // chance (0 a 1) de passer presque eteint (le reste = normal)
-    densite: 1             // multiplicateur du nombre de bouffees (2 = deux fois plus)
+    densite: 1,            // multiplicateur du nombre de bouffees (2 = deux fois plus)
+    vent: 1                // force avec laquelle le vent couche la fumee (0 = fumee droite)
   },
 
   // ---------------------------------------------------------------- BLE / HERBE (vent)
@@ -48,7 +49,17 @@ window.ANIM_CONFIG = {
     balancement: 3.4,      // duree d'une oscillation douce
     rafale: 11,            // duree du cycle des rafales (plus grand = rafales plus rares)
     forceBalancement: 5,   // inclinaison max du balancement, en degres (0 = immobile)
-    forceRafale: 8         // inclinaison supplementaire pendant une rafale, en degres
+    forceRafale: 8,        // inclinaison supplementaire pendant une rafale, en degres
+    forceArbres: 0.35      // les arbres ploient a cette fraction du ble (0 = immobiles)
+  },
+
+  // ---------------------------------------------------------------- PUITS
+  puits: {
+    premiere:   [10, 30],  // delai avant le premier puisage
+    intervalle: [40, 90],  // attente entre deux puisages
+    descente:   3,         // duree de la descente du seau
+    remontee:   4.5,       // duree de la remontee (plus lente : seau plein)
+    vidage:     7          // le seau remonte plein puis se vide par en dessous en tant de secondes
   },
 
   // ---------------------------------------------------------------- MOULIN
