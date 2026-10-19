@@ -6,13 +6,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160"
      preserveAspectRatio="xMidYMid slice">
   <defs>
+    <!-- Cadre de bordure : meme rect que la bordure exterieure de 05-bordure.svg. Le groupe qui -->
+    <!-- enveloppe le sol + les batiments (plus bas) porte clip-path="url(#clip-cadre)" SANS -->
+    <!-- rotation, pendant que chaque <image> a l'interieur garde clip-path="url(#clip-coin-ovale)" -->
+    <!-- (qui lui est tourne) : deux clips empiles sur des elements distincts = intersection -->
+    <!-- ovale ∩ cadre. (Ne pas mettre clip-cadre direction sur l'ellipse ni dans le <clipPath> -->
+    <!-- lui-meme : un <g> n'est pas un contenu valide de <clipPath>, et un clip-path pose sur un -->
+    <!-- element qui a aussi un transform herite ce transform pour son propre clip-path.) -->
+    <clipPath id="clip-cadre" clipPathUnits="userSpaceOnUse">
+      <rect x="80" y="80" width="3680" height="2000" rx="12"/>
+    </clipPath>
+
     <!-- Ovale qui decoupe le coin haut-droit (vue du dessus, batiments miniatures) du reste de -->
     <!-- la scene. Memes cx/cy/rx/ry que l'ellipse encre de 05-bordure.svg : si l'un change, -->
-    <!-- reporter la modification sur l'autre. Applique a chaque batiment du coin pour effacer -->
-    <!-- ce qui en depasse. -->
+    <!-- reporter la modification sur l'autre. -->
     <clipPath id="clip-coin-ovale" clipPathUnits="userSpaceOnUse">
       <ellipse cx="3750" cy="-220" rx="2860" ry="1840" transform="rotate(15 3750 -220)"/>
     </clipPath>
+
+    <!-- Flou doux pour les lueurs de fenetre/lanterne (voir #building-lights plus bas). -->
+    <filter id="glowBlur" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
   </defs>
 
   <style>
@@ -50,17 +65,130 @@
       0%   { transform: translate(0,0); opacity: 1; }
       100% { transform: translate(2px,-66px); opacity: 0; }
     }
+
+    /* Lumieres de fenetres/lanternes (#building-lights) : cycle long "s'allume, reste allume -->
+       un moment, s'eteint" (win-light) combine a un scintillement rapide type flamme -->
+       (flame-glow, imbrique). Duree/delai varies par instance via style= inline pour que les -->
+       lumieres ne se synchronisent pas entre elles. */
+    .win-light {
+      animation-name: winCycle;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+    @keyframes winCycle {
+      0%, 40%   { opacity: 0; }
+      55%       { opacity: 0.18; }
+      65%       { opacity: 0.4; }
+      80%       { opacity: 0.4; }
+      88%       { opacity: 0.15; }
+      95%, 100% { opacity: 0; }
+    }
+    .flame-glow {
+      animation-name: flameFlicker;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+    @keyframes flameFlicker {
+      0%   { opacity: 1; }
+      10%  { opacity: 0.94; }
+      22%  { opacity: 1; }
+      35%  { opacity: 0.9; }
+      48%  { opacity: 0.97; }
+      60%  { opacity: 0.92; }
+      74%  { opacity: 1; }
+      88%  { opacity: 0.95; }
+      100% { opacity: 1; }
+    }
   </style>
   <image href="layers/01-papier.svg" x="0" y="0" width="3840" height="2160"/>
+  <g clip-path="url(#clip-cadre)">
+    <image href="layers/02-sol-pave.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-Batiment/02-tour-horloge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-Batiment/02-taverne.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-Batiment/02-forge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-Batiment/02-auberge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-Batiment/02-guild-av.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-Batiment/02-chapel.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+
+    <!-- Lumieres de fenetres/lanternes : coordonnees calculees depuis la position locale de -->
+    <!-- chaque ouverture x la transform actuelle de son batiment (tour, taverne, auberge, -->
+    <!-- guilde, forge, chapelle). Si un batiment est redeplace/redimensionne, ces points doivent -->
+    <!-- etre recalcules en consequence. -->
+    <g id="building-lights" clip-path="url(#clip-coin-ovale)">
+    <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(2842.5,571.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="18" ry="26" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:25s; animation-delay:-9s;" transform="translate(2974.5,571.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="18" ry="26" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(2853.5,748.5)">
+      <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="22" ry="30" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(2963.5,748.5)">
+      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="22" ry="30" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(2168.3,846.7)">
+      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="15" ry="19" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(2241.8,764.8)">
+      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="13" ry="17" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(2315.3,813.1)">
+      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="8" ry="9" fill="#ff8c3d" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(2498,1045.25)">
+      <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="50" ry="34" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:25s; animation-delay:-9s;" transform="translate(2732,970.25)">
+      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="8" ry="9" fill="#ff8c3d" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(3240,1039)">
+      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="36" ry="42" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(3480,1039)">
+      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="36" ry="42" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(3225,906.5)">
+      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="32" ry="35" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(3360,906.5)">
+      <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="32" ry="35" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(3495,906.5)">
+      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="32" ry="35" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(3360,811.5)">
+      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="27" ry="25" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:25s; animation-delay:-9s;" transform="translate(3625,1063)">
+      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="9" ry="10" fill="#ff8c3d" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:29s; animation-delay:-14s;" transform="translate(3270,1166)">
+      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="10" ry="14" fill="#ff8c3d" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:17s; animation-delay:-5s;" transform="translate(3450,1166)">
+      <ellipse class="flame-glow" style="animation-duration:1.9s; animation-delay:-0.58s;" rx="10" ry="14" fill="#ff8c3d" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:33s; animation-delay:-18s;" transform="translate(2572,765)">
+      <ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-1.16s;" rx="14" ry="18" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:23s; animation-delay:-11s;" transform="translate(1954,934.8)">
+      <ellipse class="flame-glow" style="animation-duration:1.75s; animation-delay:-0.44s;" rx="38" ry="66" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:27s; animation-delay:-3s;" transform="translate(1786,775.2)">
+      <ellipse class="flame-glow" style="animation-duration:1.3s; animation-delay:-0.29s;" rx="25" ry="41" fill="#ffcf8a" filter="url(#glowBlur)"/>
+    </g>
+    <g class="win-light" style="animation-duration:21s; animation-delay:-2s;" transform="translate(1954,1052.4)">
+      <ellipse class="flame-glow" style="animation-duration:1.6s; animation-delay:-0.87s;" rx="9" ry="10" fill="#ff8c3d" filter="url(#glowBlur)"/>
+    </g>
+    </g>
+  </g>
+
+  <!-- Effets papier (taches, plis, coins) : passes au-dessus des batiments pour que l'usure -->
+  <!-- du parchemin se superpose a toute la scene, pas seulement au fond. -->
   <image href="layers/02-taches.svg" x="0" y="0" width="3840" height="2160"/>
   <image href="layers/03-plis.svg" x="0" y="0" width="3840" height="2160"/>
   <image href="layers/04-coins.svg" x="0" y="0" width="3840" height="2160"/>
-  <image href="layers/02-tour-horloge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-  <image href="layers/02-taverne.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-  <image href="layers/02-auberge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-  <image href="layers/02-guild-av.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-  <image href="layers/02-chapel.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-  <image href="layers/02-forge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
 
   <!-- Horloge vivante : aiguilles synchronisees sur l'heure reelle du navigateur. -->
   <!-- Centre du cadran = centre original (2520,950) passe par la transform de la tour (translate(1522.5,140.75) scale(0.55)). -->
@@ -84,9 +212,9 @@
   </g>
 
   <!-- Fumee de forge vivante : sommet de cheminee (230,-190) du calque forge, passe par sa -->
-  <!-- transform (translate(2858,1250) scale(0.5)) -> (2973,1155). Un <image> ne peut pas animer -->
+  <!-- transform (translate(2380,721) scale(0.8)) -> (2564,569). Un <image> ne peut pas animer -->
   <!-- de SVG embarque, d'ou l'inline ici (meme raison que l'horloge-live ci-dessus). -->
-  <g id="forge-smoke" transform="translate(2973,1155)">
+  <g id="forge-smoke" transform="translate(2564,569)">
     <ellipse class="forge-puff p1" cx="0" cy="0" rx="13" ry="10" fill="#3a2a1a"/>
     <ellipse class="forge-puff p2" cx="5" cy="2" rx="11" ry="9" fill="#4a3826"/>
     <ellipse class="forge-puff p3" cx="-6" cy="1" rx="12" ry="9" fill="#3a2a1a"/>
