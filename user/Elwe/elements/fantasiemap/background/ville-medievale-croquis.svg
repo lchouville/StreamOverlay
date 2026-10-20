@@ -3075,6 +3075,17 @@
           });
       }
 
+      // Pseudos de test (Test1, Test2...) : n de 0 a 10, certains VIP ou subs au hasard pour voir
+      // les insignes. Aussi en console : pseudosDeTest(5).
+      function pseudosDeTest(n) {
+        n = Math.max(0, Math.min(10, n | 0));
+        for (var i = 1; i <= n; i++) {
+          var abo = Math.random() < 0.3;
+          apparaitre('Test' + i, { vip: Math.random() < 0.2, sub: abo, mois: abo ? Math.floor(hasard(1, 25)) : 0 });
+        }
+      }
+      window.pseudosDeTest = pseudosDeTest;
+
       // Chat Twitch en lecture seule (connexion anonyme "justinfan", sans token).
       var CHAINE = String(cfg('maraudeur.chaine', '')).replace(/^#/, '').toLowerCase();
       var COMMANDES = cfg('maraudeur.commandes', ['!carte']).map(function (c) { return String(c).toLowerCase(); });
@@ -3100,6 +3111,13 @@
             var tags = {};
             (msg[1] || '').split(';').forEach(function (t) { var i = t.indexOf('='); tags[t.slice(0, i)] = t.slice(i + 1); });
             var badges = tags.badges || '', mois = /(?:subscriber|founder)\/(\d+)/.exec(tags['badge-info'] || '');
+            // Le streamer (deja sur la carte) qui tape la commande : pseudos de test, "!carte 5"
+            // pour en avoir 5, sinon un nombre au hasard entre 0 et 10.
+            if (msg[2] === CHAINE || /(^|,)broadcaster\//.test(badges)) {
+              var demande = parseInt(msg[3].trim().split(/\s+/)[1], 10);
+              pseudosDeTest(isFinite(demande) ? demande : Math.floor(hasard(0, 11)));
+              return;
+            }
             apparaitre(tags['display-name'] || msg[2], {
               mod: tags.mod === '1' || /(^|,)moderator\//.test(badges) || modosChaine.has(msg[2]),
               vip: tags.vip === '1' || /(^|,)vip\//.test(badges) || vipsChaine.has(msg[2]),
