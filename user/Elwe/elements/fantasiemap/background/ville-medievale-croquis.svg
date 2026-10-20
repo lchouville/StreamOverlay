@@ -48,6 +48,11 @@
       <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
       <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
+    <!-- Souris de la place (#souris-place) : meme filtre que layers/02-animals/mouse.svg. -->
+    <filter id="souris-croquis" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06 0.08" numOctaves="2" seed="15" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
     <!-- Embrasure de la porte de la tour (coordonnees locales du calque tour), un peu elargie -->
     <!-- pour ne pas rogner le trait crayonne : les battants qui partent vers l'interieur -->
     <!-- passent derriere le mur et l'arc. -->
@@ -86,6 +91,13 @@
       <stop offset="0.4" stop-color="#8a9cc0" stop-opacity="0.2"/>
       <stop offset="1" stop-color="#506080" stop-opacity="0"/>
     </radialGradient>
+    <!-- Trainee des etoiles filantes (voir #etoiles-filantes) : transparente a la queue (x=0), -->
+    <!-- lumineuse a la tete (x=1). La trainee est dessinee horizontale puis tournee. -->
+    <linearGradient id="trainee-filante">
+      <stop offset="0" stop-color="#f4ecd4" stop-opacity="0"/>
+      <stop offset="0.7" stop-color="#f4ecd4" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#fffaea" stop-opacity="1"/>
+    </linearGradient>
     <radialGradient id="vignette-grad" gradientUnits="userSpaceOnUse" cx="2750" cy="900" r="1500">
       <stop offset="0.45" stop-color="#14182e" stop-opacity="0"/>
       <stop offset="1" stop-color="#14182e" stop-opacity="0.85"/>
@@ -114,6 +126,19 @@
   </defs>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@1&amp;display=swap');
+    /* Carte du Maraudeur (#maraudeur) : chaque empreinte apparait a l'encre puis s'efface. */
+    .pas-maraudeur { opacity: 0; animation: pasMaraudeur 6s ease-in forwards; }
+    @keyframes pasMaraudeur {
+      0%   { opacity: 0; }
+      6%   { opacity: 0.85; }
+      50%  { opacity: 0.7; }
+      100% { opacity: 0; }
+    }
+    /* Au-dela de 3 empreintes par personne, la plus ancienne s'efface vite. */
+    .pas-maraudeur.pas-fin { animation: pasMaraudeurFin 0.5s ease-out forwards; }
+    @keyframes pasMaraudeurFin { from { opacity: 0.7; } to { opacity: 0; } }
+    .nom-maraudeur { transition: opacity 1.5s ease; }
     /* Ble au vent (#champs-ble) : chaque segment de rang penche autour du pied de ses epis. -->
        Balancement permanent (wheatSway) + rafales plus fortes et plus rares (wheatGust, groupe -->
        parent). Les delais, calcules par le script selon x, font traverser les vagues de -->
@@ -179,6 +204,19 @@
       transform-box: fill-box;
       transform-origin: center;
     }
+    /* Souris de la place (#souris-place) : couleurs du dessin (reprises de mouse.svg). */
+    .souris-encre { stroke: #2a1a0a; stroke-linecap: round; stroke-linejoin: round; }
+    .souris-pelage { fill: #f4efe4; }
+    .souris-pelage-fonce { fill: #c9c0b0; }
+    .souris-pelage-clair { fill: #fffaf0; }
+    .souris-trait-pelage { stroke: #f4efe4; stroke-linecap: round; }
+    .souris-trait-fonce { stroke: #c9c0b0; stroke-linecap: round; }
+    .souris-trait-queue { stroke: #e8b0a8; stroke-linecap: round; fill: none; }
+    .souris-poil { stroke: #a09484; stroke-linecap: round; fill: none; }
+    .souris-oreille-int { fill: #eaa8a8; }
+    .souris-oeil { fill: #1a0f05; }
+    .souris-reflet { fill: #f4ecd4; }
+    .souris-nez { fill: #c8707a; }
     /* Chat de la boulangerie (#chat-boulangerie) : queue qui balance, respiration, tete qui -->
        penche de temps en temps, oreille qui fremit. Durees premieres entre elles pour que les -->
        mouvements ne se repetent pas a l'identique. */
@@ -316,6 +354,9 @@
   <!-- animations-config.js). Visible uniquement en dehors de l'ovale principal (mask-hors-ovale), -->
   <!-- tout autour de la vignette de la ville. -->
   <g id="ville-dessus" mask="url(#mask-hors-ovale)"></g>
+  <!-- Carte du Maraudeur : traces de pas + pseudo des spectateurs qui tapent la commande dans -->
+  <!-- le chat (script "Carte du Maraudeur", a la fin du script "Ville vue du dessus"). -->
+  <g id="maraudeur" mask="url(#mask-hors-ovale)"></g>
 
   <g clip-path="url(#clip-cadre)">
     <!-- Ancien sol (dalles) : on n'en garde que le ciel et l'horizon (y<805) ; dessous, le sol pave -->
@@ -323,14 +364,7 @@
     <g clip-path="url(#clip-ciel)">
       <image href="layers/02-nature/02-sky.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     </g>
-    <!-- CIEL : nuages et oiseaux crees au hasard par le script ("Ciel"), passent derriere les -->
-    <!-- collines et les batiments. -->
-    <g id="ciel" clip-path="url(#clip-coin-ovale)">
-      <g id="nuages" filter="url(#sketchyMedium)">
-      </g>
-      <g id="oiseaux" fill="none" stroke="#3a2a1a" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-    <!-- Astres (etoiles/soleil/lune) juste apres le ciel : devant les nuages, mais derriere -->
+    <!-- Astres (etoiles/soleil/lune) juste avant le ciel : derriere les nuages et derriere -->
     <!-- tous les batiments de la ville (le voile de nuit, lui, reste au-dessus de tout pour -->
     <!-- assombrir aussi bien les batiments que les astres). -->
     <g id="astres" clip-path="url(#clip-coin-ovale)">
@@ -407,6 +441,8 @@
         <circle cx="3588.2" cy="238.3" r="1.4"/>
         <circle cx="2246.3" cy="507.6" r="1"/>
       </g>
+      <!-- Etoiles filantes (script "Etoiles filantes") : rares, uniquement en pleine nuit -->
+      <g id="etoiles-filantes"/>
       <g id="soleil" filter="url(#sketchyMedium)" opacity="0">
         <circle r="92" fill="#f0c860" opacity="0.18"/>
         <path d="M 48,0 L 74,0 M 41.6,24 L 53.7,31 M 24,41.6 L 37,64.1 M 0,48 L 0,62 M -24,41.6 L -37,64.1 M -41.6,24 L -53.7,31 M -48,0 L -74,0 M -41.6,-24 L -53.7,-31 M -24,-41.6 L -37,-64.1 M 0,-48 L 0,-62 M 24,-41.6 L 37,-64.1 M 41.6,-24 L 53.7,-31 " stroke="#c88a30" stroke-width="5" stroke-linecap="round"/>
@@ -417,6 +453,13 @@
         <path d="M 10,-36 A 36,36 0 1 0 10,36 A 46,46 0 0 1 10,-36 Z" fill="#ece4c8" stroke="#5a4a30" stroke-width="3.5"/>
         <circle cx="-14" cy="-6" r="5" fill="#d0c6a4"/><circle cx="-8" cy="14" r="3.5" fill="#d0c6a4"/>
       </g>
+    </g>
+    <!-- CIEL : nuages et oiseaux crees au hasard par le script ("Ciel"), devant les astres -->
+    <!-- (le soleil et la lune passent derriere les nuages) et derriere collines et batiments. -->
+    <g id="ciel" clip-path="url(#clip-coin-ovale)">
+      <g id="nuages" filter="url(#sketchyMedium)">
+      </g>
+      <g id="oiseaux" fill="none" stroke="#3a2a1a" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
 
     <!-- Sol de la ville entierement pave de petits paves ronds (recouvre les dalles ci-dessus). -->
@@ -498,15 +541,34 @@
             fill="#1a0f05" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)"/>
       <g class="battants"/>
     </g>
-    <!-- Chat assis sur le tonneau de droite de la boulangerie : dessin d'origine du calque -->
-    <!-- auberge (coordonnees locales), meme transform + decalage translate(200,0) du tonneau. -->
-    <g id="chat-boulangerie" transform="translate(1892,79.25) scale(0.6) translate(200,0)" filter="url(#sketchyMedium)">
-      <path class="cat-tail" d="M 1245,1700 Q 1260,1695 1255,1680" fill="none" stroke="#1a0f05" stroke-width="2.5" stroke-linecap="round"/>
-      <ellipse class="cat-body" cx="1230" cy="1700" rx="15" ry="12" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
+    <!-- Chat noir assis sur le tonneau de droite de la boulangerie (coordonnees locales du -->
+    <!-- calque, meme transform + decalage translate(200,0) du tonneau ; haut du tonneau y~1705). -->
+    <!-- Silhouette reprise de layers/02-animals/cat.svg (buste en poire, cuisses repliees, queue -->
+    <!-- en crosse) mais simplifiee : a l'ecran il ne fait qu'une quinzaine de pixels. Pivots des -->
+    <!-- animations (voir .cat-* dans <style>) : base de la queue = coin bas-gauche de son trace, -->
+    <!-- tete = menton, oreille = sa base. Les yeux sont hors filtre pour rester nets. -->
+    <g id="chat-boulangerie" transform="translate(1892,79.25) scale(0.6) translate(200,0)">
+      <g filter="url(#sketchyMedium)">
+        <path class="cat-tail" d="M 1240,1706 Q 1257,1707 1257,1692 Q 1257,1681 1264,1678" fill="none" stroke="#0d0802" stroke-width="4.5" stroke-linecap="round"/>
+        <g class="cat-body">
+          <ellipse cx="1220" cy="1701" rx="7" ry="6" fill="#1f160e" stroke="#0d0802" stroke-width="1.8"/>
+          <ellipse cx="1240" cy="1701" rx="7" ry="6" fill="#1f160e" stroke="#0d0802" stroke-width="1.8"/>
+          <path d="M 1219,1707 C 1213,1696 1219,1684 1230,1683 C 1241,1684 1247,1696 1241,1707 Z" fill="#1f160e" stroke="#0d0802" stroke-width="2"/>
+          <path d="M 1226,1694 L 1226,1706 M 1234,1694 L 1234,1706" stroke="#0d0802" stroke-width="1.2" opacity="0.8"/>
+        </g>
+      </g>
       <g class="cat-head">
-        <circle cx="1230" cy="1685" r="10" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
-        <path d="M 1225,1680 L 1222,1670 L 1228,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
-        <path class="cat-ear" d="M 1235,1680 L 1238,1670 L 1232,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+        <g filter="url(#sketchyMedium)">
+          <path d="M 1222,1676 L 1220,1664 L 1229,1671 Z" fill="#1f160e" stroke="#0d0802" stroke-width="1.5" stroke-linejoin="round"/>
+          <path class="cat-ear" d="M 1238,1676 L 1240,1664 L 1231,1671 Z" fill="#1f160e" stroke="#0d0802" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M 1230,1669 C 1238,1669 1241,1675 1240.5,1679 C 1240,1684 1235,1687 1230,1687 C 1225,1687 1220,1684 1219.5,1679 C 1219,1675 1222,1669 1230,1669 Z" fill="#1f160e" stroke="#0d0802" stroke-width="1.8"/>
+        </g>
+        <!-- yeux jaunes en amande, pupille fendue -->
+        <path d="M 1223.5,1678.5 Q 1226.3,1675.8 1229,1678.5 Q 1226.3,1680.6 1223.5,1678.5 Z" fill="#e8c040"/>
+        <path d="M 1231,1678.5 Q 1233.7,1675.8 1236.5,1678.5 Q 1233.7,1680.6 1231,1678.5 Z" fill="#e8c040"/>
+        <ellipse cx="1226.3" cy="1678.4" rx="0.55" ry="1.5" fill="#0d0802"/>
+        <ellipse cx="1233.7" cy="1678.4" rx="0.55" ry="1.5" fill="#0d0802"/>
+        <path d="M 1229,1682 L 1231,1682 L 1230,1683.2 Z" fill="#7a4a48"/>
       </g>
     </g>
     <image href="layers/02-buildings/02-guild.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
@@ -628,6 +690,123 @@
       </g>
     </g>
 
+    <!-- Souris qui traverse le bas de la place de temps en temps, en passant derriere le puits. -->
+    <!-- Dessin repris de layers/02-animals/mouse.svg (IDs prefixes "souris-", pivots des -->
+    <!-- articulations en transform-origin). Placee avant le puits pour disparaitre derriere -->
+    <!-- lui. Position, sens et trot pilotes par le script "Souris" (reglages : souris dans -->
+    <!-- animations-config.js). -->
+    <g id="souris-place" clip-path="url(#clip-coin-ovale)" display="none">
+      <g class="pos">
+      <g id="souris" filter="url(#souris-croquis)">
+
+        <!-- 1. PATTES DU FOND (cote gauche, pelage plus fonce, legerement decalees) -->
+        <g id="souris-pattes-fond">
+          <g id="souris-cuisse-arriere-g" transform-origin="114 122">
+            <path d="M 114,122 Q 108,132 110,138" fill="none" class="souris-encre" stroke-width="10"/>
+            <path d="M 114,122 Q 108,132 110,138" fill="none" class="souris-trait-fonce" stroke-width="6"/>
+            <g id="souris-jambe-arriere-g" transform-origin="110 138">
+              <path d="M 110,138 Q 114,142 112,144" fill="none" class="souris-encre" stroke-width="6"/>
+              <path d="M 110,138 Q 114,142 112,144" fill="none" class="souris-trait-fonce" stroke-width="3"/>
+              <g id="souris-pied-arriere-g" transform-origin="112 144">
+                <ellipse cx="118" cy="146" rx="8" ry="3" class="souris-encre souris-pelage-fonce" stroke-width="1.8"/>
+              </g>
+            </g>
+          </g>
+          <g id="souris-cuisse-avant-g" transform-origin="180 127">
+            <path d="M 180,127 Q 183,134 180,140" fill="none" class="souris-encre" stroke-width="8"/>
+            <path d="M 180,127 Q 183,134 180,140" fill="none" class="souris-trait-fonce" stroke-width="4.5"/>
+            <g id="souris-jambe-avant-g" transform-origin="180 140">
+              <path d="M 180,140 Q 179,143 181,144" fill="none" class="souris-encre" stroke-width="5"/>
+              <path d="M 180,140 Q 179,143 181,144" fill="none" class="souris-trait-fonce" stroke-width="2.5"/>
+              <g id="souris-pied-avant-g" transform-origin="181 144">
+                <ellipse cx="186" cy="146" rx="7" ry="2.8" class="souris-encre souris-pelage-fonce" stroke-width="1.8"/>
+              </g>
+            </g>
+          </g>
+        </g>
+
+        <!-- 2. QUEUE (longue, fine, rosee ; pivot a la base, sous la croupe) -->
+        <g id="souris-queue" transform-origin="78 122">
+          <path d="M 78,122 C 52,134 30,130 24,112 C 19,97 28,84 12,72" fill="none" class="souris-encre" stroke-width="5.5"/>
+          <path d="M 78,122 C 52,134 30,130 24,112 C 19,97 28,84 12,72" fill="none" class="souris-trait-queue" stroke-width="3"/>
+          <!-- anneaux de la queue -->
+          <path d="M 60,127 l 1,4 M 44,128 l -1,4 M 31,121 l -4,2 M 24,104 l -4,0 M 23,92 l -4,-1"
+                class="souris-poil" stroke-width="1" opacity="0.5"/>
+        </g>
+
+        <!-- 3. CORPS (goutte : croupe ronde et haute, s'affine vers le cou) + ventre clair -->
+        <g id="souris-corps">
+          <path d="M 72,118 C 64,84 108,60 152,64 C 190,67 214,86 216,106 C 218,124 198,134 160,135 L 98,135 C 82,135 74,128 72,118 Z"
+                class="souris-encre souris-pelage" stroke-width="2.5"/>
+          <path d="M 96,131 Q 150,138 204,124 Q 160,128 96,131 Z" class="souris-pelage-clair"/>
+          <!-- quelques poils hachures sur le dos -->
+          <path d="M 104,76 l 3,6 M 124,68 l 2,6 M 146,66 l 1,6 M 168,69 l -1,6 M 188,77 l -2,5"
+                class="souris-poil" stroke-width="1.4" opacity="0.55"/>
+        </g>
+
+        <!-- 4. PATTES DU DEVANT (cote droit, pelage normal) -->
+        <g id="souris-pattes-devant">
+          <g id="souris-cuisse-arriere-d" transform-origin="102 122">
+            <path d="M 102,122 Q 96,132 98,138" fill="none" class="souris-encre" stroke-width="10"/>
+            <path d="M 102,122 Q 96,132 98,138" fill="none" class="souris-trait-pelage" stroke-width="6"/>
+            <!-- cuisse dodue par-dessus le trait de la patte -->
+            <path d="M 82,118 C 82,100 114,98 120,116 C 124,130 110,138 100,138 C 88,136 82,128 82,118 Z"
+                  class="souris-encre souris-pelage" stroke-width="2.2"/>
+            <g id="souris-jambe-arriere-d" transform-origin="98 138">
+              <path d="M 98,138 Q 102,142 100,144" fill="none" class="souris-encre" stroke-width="6"/>
+              <path d="M 98,138 Q 102,142 100,144" fill="none" class="souris-trait-pelage" stroke-width="3"/>
+              <g id="souris-pied-arriere-d" transform-origin="100 144">
+                <ellipse cx="106" cy="146" rx="8.5" ry="3.2" class="souris-encre souris-oreille-int" stroke-width="1.8"/>
+              </g>
+            </g>
+          </g>
+          <g id="souris-cuisse-avant-d" transform-origin="194 127">
+            <path d="M 194,127 Q 197,134 194,140" fill="none" class="souris-encre" stroke-width="8"/>
+            <path d="M 194,127 Q 197,134 194,140" fill="none" class="souris-trait-pelage" stroke-width="4.5"/>
+            <g id="souris-jambe-avant-d" transform-origin="194 140">
+              <path d="M 194,140 Q 193,143 195,144" fill="none" class="souris-encre" stroke-width="5"/>
+              <path d="M 194,140 Q 193,143 195,144" fill="none" class="souris-trait-pelage" stroke-width="2.5"/>
+              <g id="souris-pied-avant-d" transform-origin="195 144">
+                <ellipse cx="200" cy="146" rx="7" ry="2.8" class="souris-encre souris-oreille-int" stroke-width="1.8"/>
+              </g>
+            </g>
+          </g>
+        </g>
+
+        <!-- 5. TETE (pivot au cou) -->
+        <g id="souris-tete" transform-origin="204 100">
+          <!-- oreille du fond, derriere le crane -->
+          <circle cx="226" cy="68" r="12" class="souris-encre souris-pelage-fonce" stroke-width="2.2"/>
+
+          <!-- crane + museau pointu d'un seul tenant (pas de raccord visible) -->
+          <path d="M 196,98 C 194,80 214,72 232,80 C 244,86 256,98 266,106 C 270,110 266,116 258,117 C 240,119 214,120 202,112 C 198,108 196,104 196,98 Z"
+                class="souris-encre souris-pelage" stroke-width="2.5"/>
+          <!-- joue / menton clairs -->
+          <path d="M 214,114 Q 236,118 256,114 Q 236,112 214,114 Z" class="souris-pelage-clair"/>
+
+          <!-- grande oreille ronde du devant (animable : frisson) -->
+          <g id="souris-oreille" transform-origin="214 80">
+            <path d="M 206,82 C 194,74 196,54 212,52 C 228,51 232,68 222,80 Z" class="souris-encre souris-pelage" stroke-width="2.2"/>
+            <path d="M 208,78 C 201,72 203,59 212,58 C 222,58 224,69 219,77 Z" class="souris-oreille-int"/>
+          </g>
+
+          <!-- Oeil (animable : clignement) : rond, brillant -->
+          <g id="souris-oeil" transform-origin="238 92">
+            <circle cx="238" cy="92" r="3.8" class="souris-oeil"/>
+            <circle cx="239.4" cy="90.6" r="1.3" class="souris-reflet"/>
+          </g>
+
+          <!-- nez rose au bout du museau -->
+          <circle cx="266" cy="108" r="3.2" class="souris-encre souris-nez" stroke-width="1.2"/>
+
+          <g id="souris-moustaches" class="souris-encre" stroke-width="0.9" fill="none" opacity="0.7">
+            <path d="M 256,106 Q 270,98 282,96 M 256,109 Q 272,107 284,109 M 255,112 Q 268,116 280,122"/>
+          </g>
+        </g>
+
+      </g>
+      </g>
+    </g>
     <!-- Puits, en bas a droite de la place (premier plan) -->
     <image href="layers/02-buildings/02-well.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     <!-- Treuil du puits (corde, seau, manivelle) : meme transform que #puits-medieval du calque. -->
@@ -915,6 +1094,8 @@
 
   <!-- Reglages des animations (frequences, durees, forces) : voir animations-config.js. -->
   <script href="animations-config.js"/>
+  <!-- Identifiants Twitch de la chaine (facultatif, ignore par git) : voir twitch-connexion.js. -->
+  <script href="twitch-secrets.js"/>
   <script><![CDATA[
     // Tout demarre au chargement complet, apres animations-config.js (window.ANIM_CONFIG).
     window.addEventListener('load', function () {
@@ -959,11 +1140,18 @@
     // mode 'accelere' : une journee complete de 24h dure 'jourNuit.dureeCycle' minutes.
     var tempsMode = cfg('jourNuit.mode', 'reel'), tempsCycleMin = cfg('jourNuit.dureeCycle', 20);
     var temps_t0 = performance.now();
-    var temps_depart = new Date();
-    var temps_startHour = temps_depart.getHours() + temps_depart.getMinutes() / 60 + temps_depart.getSeconds() / 3600;
+    // En mode accelere, la journee demarre a 'jourNuit.heureDepart' (7h par defaut).
+    var temps_startHour = cfg('jourNuit.heureDepart', 7);
     function heureVirtuelle() {
       if (tempsMode === 'accelere') return (temps_startHour + (performance.now() - temps_t0) / 60000 / tempsCycleMin * 24) % 24;
       var d = new Date(); return d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600;
+    }
+    // setAttribute seulement si la valeur change : les animations tournent a chaque frame
+    // (requestAnimationFrame) et un attribut reecrit a l'identique forcerait quand meme un
+    // repaint de la zone (voire de toute la scene pour les voiles plein ecran).
+    function setAttrSiChange(el, name, val) {
+      var k = '_v_' + name;
+      if (el[k] !== val) { el[k] = val; el.setAttribute(name, val); }
     }
 
     (function () {
@@ -977,6 +1165,10 @@
       // lisible : on la masque et on ne s'occupe plus que des heures/minutes.
       if (tempsMode === 'accelere') secondHand.style.display = 'none';
 
+      // Mise a jour a chaque frame : en mode accelere l'aiguille des minutes fait un tour en
+      // quelques secondes, un rafraichissement a la seconde la faisait sauter par a-coups.
+      // En mode reel, heureVirtuelle() ne change qu'a chaque seconde : setAttrSiChange evite
+      // alors les ecritures inutiles et l'aiguille des secondes garde son tic mecanique.
       function update() {
         var h = heureVirtuelle();
         var totalSec = h * 3600;
@@ -984,16 +1176,16 @@
         var minAngle = (totalSec % 3600) / 3600 * 360;
         var hourAngle = (h % 12) / 12 * 360;
 
-        hourHand.setAttribute('transform', 'rotate(' + hourAngle + ')');
-        minuteHand.setAttribute('transform', 'rotate(' + minAngle + ')');
+        setAttrSiChange(hourHand, 'transform', 'rotate(' + hourAngle.toFixed(2) + ')');
+        setAttrSiChange(minuteHand, 'transform', 'rotate(' + minAngle.toFixed(2) + ')');
         if (tempsMode !== 'accelere') {
           var secAngle = (totalSec % 60) / 60 * 360;
-          secondHand.setAttribute('transform', 'rotate(' + secAngle + ')');
+          setAttrSiChange(secondHand, 'transform', 'rotate(' + secAngle.toFixed(2) + ')');
         }
+        requestAnimationFrame(update);
       }
 
       update();
-      setInterval(update, 1000);
     })();
 
     (function () {
@@ -1058,8 +1250,10 @@
 
         // Traverses et anneaux/heurtoir (sketchyMedium, comme dans le calque).
         var det = el('g', { filter: 'url(#sketchyMedium)', stroke: '#1a0f05' }, parent);
+        // p = [x1, y1, x2, y2] (traverse) ou [x1, y1, x2, y2, epaisseur, couleur] (penture).
         leaf.planks = c.planks.map(function (p) {
-          return { p: p, e: el('line', { 'stroke-width': 3 }, det) };
+          return { p: p, e: el('line', p[4] ? { 'stroke-width': p[4], stroke: p[5], 'stroke-linecap': 'round' }
+                                            : { 'stroke-width': 3 }, det) };
         });
         leaf.rings = c.rings.map(function (r) {
           return { r: r, e: el('ellipse', r.fill ? { fill: '#1a0f05', stroke: 'none' }
@@ -1102,7 +1296,14 @@
         });
       }
 
+      // Fondu (ms) entre la porte peinte du calque et l'overlay anime, porte encore fermee :
+      // un basculement instantane faisait "sauter" la porte a l'apparition et a la disparition
+      // (le rendu des battants ne peut pas etre identique au pixel pres a celui du calque).
+      var FONDU = 250;
+
       // Angle courant d'un battant selon sa sequence ouverture / pause / fermeture.
+      // tl.start = debut du mouvement ; l'overlay apparait FONDU ms avant et disparait FONDU ms
+      // apres, battant ferme.
       function angleAt(leaf, now) {
         var tl = leaf.tl;
         if (!tl) return 0;
@@ -1113,8 +1314,15 @@
         if (t < tl.hold) return tl.max;
         t -= tl.hold;
         if (t < tl.close) return tl.max * (1 - ease(t / tl.close));
-        leaf.tl = null;
+        if (t > tl.close + FONDU) leaf.tl = null;
         return 0;
+      }
+      // Opacite de l'overlay pour ce battant : 0 -> 1 avant le mouvement, 1 -> 0 apres.
+      function alphaAt(leaf, now) {
+        var tl = leaf.tl;
+        if (!tl) return 0;
+        var t = now - tl.start, total = tl.open + tl.hold + tl.close;
+        return Math.max(0, Math.min(1, (t + FONDU) / FONDU, (total + FONDU - t) / FONDU));
       }
 
       var doors = [];
@@ -1122,29 +1330,32 @@
       function tick(now) {
         var active = false;
         doors.forEach(function (door) {
-          var any = false;
+          var any = false, alpha = 0;
           door.leaves.forEach(function (leaf) {
             render(leaf, angleAt(leaf, now));
+            alpha = Math.max(alpha, alphaAt(leaf, now));
             if (leaf.tl) any = true;
           });
           // Porte fermee : on masque l'overlay et c'est la porte du calque qui s'affiche.
           door.group.setAttribute('display', any ? 'inline' : 'none');
+          door.group.setAttribute('opacity', alpha.toFixed(3));
           if (any) active = true;
         });
         running = active;
         if (active) requestAnimationFrame(tick);
       }
 
-      // amount : 0..1 (fraction de l'ouverture maxi c.maxDeg). Renvoie la duree totale (ms).
+      // amount : 0..1 (fraction de l'ouverture maxi c.maxDeg). Renvoie la duree totale (ms),
+      // fondus compris.
       function swing(leaf, amount, delay) {
         leaf.tl = {
-          start: performance.now() + delay,
+          start: performance.now() + delay + FONDU,
           max: amount * leaf.c.maxDeg * Math.PI / 180,
           open: cfgMs('portes.ouverture', [2.2, 4]), hold: cfgMs('portes.ouverte', [1.2, 4.5]),
           close: cfgMs('portes.fermeture', [2.2, 4.5])
         };
         if (!running) { running = true; requestAnimationFrame(tick); }
-        return delay + leaf.tl.open + leaf.tl.hold + leaf.tl.close;
+        return delay + 2 * FONDU + leaf.tl.open + leaf.tl.hold + leaf.tl.close;
       }
 
       // --- Tour : double battant, s'ouvre vers l'interieur ---
@@ -1155,14 +1366,17 @@
         hinge: 2380, free: 2520, top: 1340, bottom: 1670, stroke: 6, maxDeg: 85, outward: false, eye: tourEye,
         outline: [[2380, 1670], [2380, 1420]]
           .concat(quad([2380, 1420], [2380, 1340], [2520, 1340], 10)).concat([[2520, 1670]]),
-        planks: [[2400, 1400, 2500, 1400], [2400, 1500, 2500, 1500], [2400, 1600, 2500, 1600]],
+        // traverses + pentures en fer forge (presentes sur la porte peinte du calque)
+        planks: [[2400, 1400, 2500, 1400], [2400, 1500, 2500, 1500], [2400, 1600, 2500, 1600],
+                 [2384, 1450, 2470, 1450, 5, '#2a1a0a'], [2384, 1560, 2470, 1560, 5, '#2a1a0a']],
         rings: [{ x: 2510, y: 1520, r: 8, w: 3 }]
       });
       var tourD = makeLeaf(tourParent, {
         hinge: 2660, free: 2520, top: 1340, bottom: 1670, stroke: 6, maxDeg: 85, outward: false, eye: tourEye,
         outline: [[2660, 1670], [2660, 1420]]
           .concat(quad([2660, 1420], [2660, 1340], [2520, 1340], 10)).concat([[2520, 1670]]),
-        planks: [[2540, 1400, 2640, 1400], [2540, 1500, 2640, 1500], [2540, 1600, 2640, 1600]],
+        planks: [[2540, 1400, 2640, 1400], [2540, 1500, 2640, 1500], [2540, 1600, 2640, 1600],
+                 [2656, 1450, 2570, 1450, 5, '#2a1a0a'], [2656, 1560, 2570, 1560, 5, '#2a1a0a']],
         rings: [{ x: 2530, y: 1520, r: 8, w: 3 }]
       });
       doors.push({ group: tourGroup, leaves: [tourG, tourD] });
@@ -1713,10 +1927,16 @@
 
       // ---- Nuages speciaux : silhouettes piochees au hasard dans layers/02-nature/clouds/
       // (voir ciel.nuagesSpeciaux dans animations-config.js pour la liste des fichiers).
+      // Programmes a part des nuages normaux : un toutes les nuagesSpeciaux.attente secondes,
+      // jamais deux fois le meme a la suite, et pas plus de maxVisibles a l'ecran a la fois.
       var SPECIAUX_FICHIERS = cfg('ciel.nuagesSpeciaux.fichiers', []);
-      var SPECIAUX_PROBA = cfg('ciel.nuagesSpeciaux.probabilite', 0.15);
+      var SPECIAUX_MAX = cfg('ciel.nuagesSpeciaux.maxVisibles', 2);
+      var speciauxVisibles = 0, dernierSpecial = null;
       function spawnSpecialCloud(startFrac) {
-        var file = SPECIAUX_FICHIERS[Math.floor(Math.random() * SPECIAUX_FICHIERS.length)];
+        var choix = SPECIAUX_FICHIERS.filter(function (f) { return f !== dernierSpecial; });
+        if (!choix.length) choix = SPECIAUX_FICHIERS;
+        var file = dernierSpecial = choix[Math.floor(Math.random() * choix.length)];
+        speciauxVisibles++;
         var w = rand(160, 300), h = w * 0.66, y = rand(110, 470), sc = rand(0.7, 1.3);
         var g = el('g', {}, nuages);
         var inner = el('g', { transform: 'translate(0,' + y.toFixed(1) + ') scale(' + sc.toFixed(2) + ')' }, g);
@@ -1724,11 +1944,17 @@
         var from = X0 - w * sc - 50, to = X1 + 50, dur = CROSS * rand(0.7, 1.4) * 1000;
         var anim = g.animate([{ transform: 'translateX(' + from + 'px)' }, { transform: 'translateX(' + to + 'px)' }], { duration: dur, easing: 'linear' });
         if (startFrac) anim.currentTime = dur * startFrac;
-        anim.onfinish = function () { g.remove(); };
+        anim.onfinish = function () { g.remove(); speciauxVisibles--; };
       }
+      // deja assez de nuages speciaux a l'ecran : on reessaie un peu plus tard
+      function nextSpecialCloud() {
+        if (speciauxVisibles >= SPECIAUX_MAX) return setTimeout(nextSpecialCloud, 10000);
+        spawnSpecialCloud(0);
+        setTimeout(nextSpecialCloud, cfgMs('ciel.nuagesSpeciaux.attente', [60, 120]));
+      }
+      if (SPECIAUX_FICHIERS.length) setTimeout(nextSpecialCloud, cfgMs('ciel.nuagesSpeciaux.attente', [60, 120]));
 
       function spawnCloud(startFrac) {
-        if (SPECIAUX_FICHIERS.length && Math.random() < SPECIAUX_PROBA) return spawnSpecialCloud(startFrac);
         var w = rand(160, 480), h = rand(40, 95), y = rand(110, 470), sc = rand(0.55, 1.2);
         var g = el('g', {}, nuages);
         var inner = el('g', { transform: 'translate(0,' + y.toFixed(1) + ') scale(' + sc.toFixed(2) + ')' }, g);
@@ -1786,6 +2012,73 @@
     })();
 
     (function () {
+      // Souris : de temps en temps, une souris traverse le bas de la place au trot, du bord de
+      // l'ovale jusqu'au bord droit du cadre (dans un sens ou dans l'autre), en passant derriere
+      // le puits. Elle s'arrete renifler a cote du puits (et parfois une fois avant), puis repart. Trot : patte arriere d'un cote en phase avec la patte
+      // avant de l'autre ; chaque patte plie le genou pendant qu'elle revient vers l'avant.
+      var place = document.getElementById('souris-place');
+      if (!place) return;
+      var pos = place.querySelector('.pos');
+      function rand(a, b) { return a + Math.random() * (b - a); }
+      function part(id) { return document.getElementById('souris-' + id); }
+      // rotation autour du pivot donne par l'attribut transform-origin de l'element
+      function rot(e, a) { e.setAttribute('transform', 'rotate(' + a.toFixed(1) + ')'); }
+      var pattes = [['arriere-d', 0], ['avant-g', 0], ['arriere-g', Math.PI], ['avant-d', Math.PI]].map(function (p) {
+        return { c: part('cuisse-' + p[0]), j: part('jambe-' + p[0]), p: part('pied-' + p[0]), ph: p[1], avant: p[0].indexOf('avant') === 0 };
+      });
+      var corps = part('corps'), tete = part('tete'), queue = part('queue'), oreille = part('oreille');
+      var XG = 2980, XD = 3820;            // bord gauche (cache par l'ovale) / hors du cadre a droite
+      var PUITS_G = 3490, PUITS_D = 3710;  // arrets juste a gauche / a droite du puits
+      var CENTRE_X = 140, PIED_Y = 149;    // point d'appui de la souris dans mouse.svg
+
+      function traversee() {
+        var dir = Math.random() < 0.5 ? 1 : -1;
+        var taille = cfg('souris.taille', 0.17), vMax = cfg('souris.vitesse', 45);
+        // juste derriere la margelle (elle passe cachee par le puits)
+        var y = rand(1500, 1515), x = dir > 0 ? XG : XD, xFin = dir > 0 ? XD : XG;
+        // arret pour renifler au pied du puits, avant de passer derriere ; parfois un autre sur
+        // la partie gauche de la place (la seule assez large)
+        var arrets = [dir > 0 ? PUITS_G : PUITS_D];
+        if (Math.random() < 0.5) arrets.push(rand(3150, 3400));
+        arrets.sort(function (a, b) { return (a - b) * dir; });
+        var foulee = taille * 48;            // distance parcourue par cycle de pattes
+        var v = vMax, ph = 0, pause = 0, t = 0, last = performance.now();
+        place.removeAttribute('display');
+        function frame(now) {
+          var dt = Math.min(0.1, Math.max(0, now - last) / 1000); last = now; t += dt;
+          if (pause > 0) {
+            pause -= dt; v = Math.max(0, v - vMax * 4 * dt);
+          } else {
+            if (arrets.length && (arrets[0] - x) * dir <= 0) { arrets.shift(); pause = cfgMs('souris.arret', [1.5, 4]) / 1000; }
+            v = Math.min(vMax, v + vMax * 3 * dt);
+          }
+          x += dir * v * dt;
+          ph += dt * v / foulee * 2 * Math.PI;
+          var k = v / vMax;                  // 0 a l'arret, 1 au trot : amplitude des mouvements
+          pattes.forEach(function (p) {
+            var a = ph + p.ph;
+            var c = (p.avant ? 22 : 28) * Math.sin(a) * k;
+            var j = -(p.avant ? 16 : 22) * Math.max(0, Math.cos(a)) * k;
+            rot(p.c, c); rot(p.j, j); rot(p.p, -(c + j) * 0.6);
+          });
+          var bond = (-2.5 * Math.abs(Math.sin(ph)) * k).toFixed(2);
+          corps.setAttribute('transform', 'translate(0,' + bond + ')');
+          // a l'arret : museau baisse qui renifle (petits hochements rapides)
+          var renifle = (1 - k) * (4 + 3 * Math.sin(t * 22));
+          tete.setAttribute('transform', 'translate(0,' + bond + ') rotate(' + (renifle + 2 * Math.sin(ph) * k).toFixed(1) + ')');
+          queue.setAttribute('transform', 'translate(0,' + bond + ') rotate(' + (4 * k + 5 * Math.sin(t * 2.3) + 2 * Math.sin(ph * 0.5)).toFixed(1) + ')');
+          rot(oreille, Math.sin(t * 9) > 0.96 ? -12 : 0);
+          pos.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ') scale(' + (taille * dir) + ',' + taille + ') translate(' + -CENTRE_X + ',' + -PIED_Y + ')');
+          if ((xFin - x) * dir > 0) requestAnimationFrame(frame);
+          else { place.setAttribute('display', 'none'); setTimeout(traversee, cfgMs('souris.pause', [40, 120])); }
+        }
+        requestAnimationFrame(frame);
+      }
+      // ?souris dans l'URL : premiere traversee tout de suite (test)
+      setTimeout(traversee, /[?&]souris\b/.test(location.search) ? 0 : cfgMs('souris.premiere', [5, 20]));
+    })();
+
+    (function () {
       // Jour et nuit : suit la meme horloge virtuelle que les aiguilles de la tour
       // (mode 'reel' ou 'accelere', voir heureVirtuelle ci-dessus).
       //
@@ -1808,43 +2101,106 @@
       var lueur = document.getElementById('lueur-astre'), vign = document.getElementById('vignette-nuit');
       var AMB = cfg('jourNuit.lumiereAmbiante', 1);
       function smooth(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
-      // Position sur l'arc du ciel (p : 0 lever -> 1 coucher), cache par les collines aux extremites
-      function arc(p) { return [1650 + p * 2100, 640 - 470 * Math.sin(Math.PI * p)]; }
+      // Position sur l'arc du ciel (p : 0 lever -> 1 coucher) : vrai arc de cercle (vitesse
+      // angulaire constante) d'un coin a l'autre de l'ovale du ciel. Extremites ARC_A (bord
+      // gauche de l'ovale) et ARC_B (bord droit du cadre) a l'horizon ARC_Y, sommet a ARC_HAUT ;
+      // au-dela de p = 0 / p = 1 l'astre continue sur le meme cercle et passe sous les collines.
+      var ARC_A = 1620, ARC_B = 3780, ARC_Y = 650, ARC_HAUT = 170;
+      var arcDemi = (ARC_B - ARC_A) / 2, arcFleche = ARC_Y - ARC_HAUT;
+      var arcR = (arcDemi * arcDemi + arcFleche * arcFleche) / (2 * arcFleche);
+      var arcCx = (ARC_A + ARC_B) / 2, arcCy = ARC_HAUT + arcR;
+      var arcTheta = Math.asin(arcDemi / arcR);
+      function arc(p) {
+        var t = arcTheta * (2 * p - 1);
+        return [arcCx + arcR * Math.sin(t), arcCy - arcR * Math.cos(t)];
+      }
       function update() {
-        var h = heureVirtuelle(), dayLen = COUCHER - LEVER;
+        var h = heureVirtuelle(), dayLen = COUCHER - LEVER, nightLen = 24 - dayLen;
         var pd = (h - LEVER) / dayLen;                                   // soleil
-        var pn = ((h - COUCHER + 24) % 24) / (24 - dayLen);              // lune
+        var pn = ((h - COUCHER + 24) % 24) / nightLen;                   // lune
+        // Juste avant le coucher du soleil, pn vaut ~24/nightLen : on le ramene en negatif
+        // pour que la lune se leve progressivement derriere les collines au lieu d'apparaitre
+        // d'un coup sur l'horizon.
+        if (pn > 1.5) pn -= 24 / nightLen;
         var sunUp = pd > -0.05 && pd < 1.05, moonUp = pn > -0.05 && pn < 1.05;
-        if (sunUp) { var a = arc(pd); soleil.setAttribute('transform', 'translate(' + a[0].toFixed(1) + ',' + a[1].toFixed(1) + ')'); }
-        if (moonUp) { var m = arc(pn); lune.setAttribute('transform', 'translate(' + m[0].toFixed(1) + ',' + m[1].toFixed(1) + ')'); }
-        soleil.setAttribute('opacity', sunUp ? 1 : 0);
-        lune.setAttribute('opacity', moonUp ? 1 : 0);
+        if (sunUp) { var a = arc(pd); setAttrSiChange(soleil, 'transform', 'translate(' + a[0].toFixed(1) + ',' + a[1].toFixed(1) + ')'); }
+        if (moonUp) { var m = arc(pn); setAttrSiChange(lune, 'transform', 'translate(' + m[0].toFixed(1) + ',' + m[1].toFixed(1) + ')'); }
+        setAttrSiChange(soleil, 'opacity', sunUp ? '1' : '0');
+        setAttrSiChange(lune, 'opacity', moonUp ? '1' : '0');
         // obscurite : 0 le jour, 1 la nuit, transitions d'environ 1 h autour du lever et du coucher
         var dark = 1 - smooth(LEVER - 0.5, LEVER + 0.75, h) * (1 - smooth(COUCHER - 0.75, COUCHER + 0.5, h));
         // teinte chaude : pic au lever et au coucher
         var warm = Math.max(Math.exp(-Math.pow((h - LEVER) / 0.7, 2)), Math.exp(-Math.pow((h - COUCHER) / 0.7, 2)));
-        voile.setAttribute('opacity', (dark * NUIT).toFixed(3));
-        crep.setAttribute('opacity', (warm * 0.22).toFixed(3));
+        setAttrSiChange(voile, 'opacity', (dark * NUIT).toFixed(3));
+        setAttrSiChange(crep, 'opacity', (warm * 0.22).toFixed(3));
         // Lueur ambiante : centree sur le soleil le jour, sur la lune la nuit ; plus forte quand
         // l'astre est haut, chaude et rasante au lever/coucher.
         var src = null, amb = 0;
-        if (sunUp && dark < 0.6) { src = arc(pd); amb = (1 - dark) * (0.55 + 0.45 * Math.sin(Math.PI * Math.min(1, Math.max(0, pd)))); lueur.setAttribute('fill', 'url(#lueur-soleil)'); }
-        else if (moonUp) { src = arc(pn); amb = dark * 0.25 * Math.sin(Math.PI * Math.min(1, Math.max(0, pn))); lueur.setAttribute('fill', 'url(#lueur-lune)'); }
-        if (src) { lueur.setAttribute('cx', src[0].toFixed(1)); lueur.setAttribute('cy', src[1].toFixed(1)); }
-        lueur.setAttribute('opacity', (AMB * amb).toFixed(3));
-        vign.setAttribute('opacity', (dark * 0.7).toFixed(3));
-        etoiles.setAttribute('opacity', Math.max(0, (dark - 0.4) / 0.6).toFixed(2));
+        if (sunUp && dark < 0.6) { src = arc(pd); amb = (1 - dark) * (0.55 + 0.45 * Math.sin(Math.PI * Math.min(1, Math.max(0, pd)))); setAttrSiChange(lueur, 'fill', 'url(#lueur-soleil)'); }
+        else if (moonUp) { src = arc(pn); amb = dark * 0.25 * Math.sin(Math.PI * Math.min(1, Math.max(0, pn))); setAttrSiChange(lueur, 'fill', 'url(#lueur-lune)'); }
+        if (src) { setAttrSiChange(lueur, 'cx', src[0].toFixed(1)); setAttrSiChange(lueur, 'cy', src[1].toFixed(1)); }
+        setAttrSiChange(lueur, 'opacity', (AMB * amb).toFixed(3));
+        setAttrSiChange(vign, 'opacity', (dark * 0.7).toFixed(3));
+        setAttrSiChange(etoiles, 'opacity', Math.max(0, (dark - 0.4) / 0.6).toFixed(2));
         document.documentElement.classList.toggle('nuit', dark > 0.5);
       }
-      update();
-      setInterval(update, tempsMode === 'accelere' ? 100 : 5000);
+      // Mode accelere : a chaque frame pour un deplacement fluide des astres (l'ancien pas de
+      // 100 ms donnait des sauts de plusieurs pixels). Mode reel : le ciel bouge a peine,
+      // un rafraichissement toutes les 5 s suffit.
+      if (tempsMode === 'accelere') (function loop() { update(); requestAnimationFrame(loop); })();
+      else { update(); setInterval(update, 5000); }
     })();
 
     (function () {
-      // Ville vue du dessus : rues, places et pates de maisons (batiments carres) generes
-      // autour de l'ovale principal, visibles uniquement a l'exterieur de celui-ci (voir
-      // mask-hors-ovale). Generation deterministe (seed villeDessus.seed) : meme plan a
-      // chaque chargement, pour pouvoir le peaufiner comme le reste du decor.
+      // Etoiles filantes : de temps en temps, une trainee lumineuse traverse le ciel en
+      // diagonale descendante. Seulement quand les etoiles sont bien visibles (pleine nuit).
+      var SVGNS = 'http://www.w3.org/2000/svg';
+      var root = document.getElementById('etoiles-filantes'), etoiles = document.getElementById('etoiles');
+      function rand(a, b) { return a + Math.random() * (b - a); }
+      function shoot() {
+        var dir = Math.random() < 0.5 ? 1 : -1;
+        var x0 = rand(2000, 3500), y0 = rand(110, 330);
+        var ang = rand(18, 40) * dir;                       // inclinaison sous l'horizontale
+        var dist = rand(320, 650), dur = rand(0.7, 1.3) * 1000, maxTail = rand(110, 220), w = rand(1.6, 2.6);
+        var rad = ang * Math.PI / 180, dx = Math.cos(rad) * dir, dy = Math.abs(Math.sin(rad));
+        var g = document.createElementNS(SVGNS, 'g');
+        var tail = document.createElementNS(SVGNS, 'polygon');
+        tail.setAttribute('fill', 'url(#trainee-filante)');
+        var head = document.createElementNS(SVGNS, 'circle');
+        head.setAttribute('r', (w * 0.9).toFixed(1));
+        head.setAttribute('fill', '#fffaea');
+        g.appendChild(tail); g.appendChild(head); root.appendChild(g);
+        var rot = Math.atan2(dy, dx) * 180 / Math.PI, start = performance.now();
+        function frame(now) {
+          var t = Math.min(1, (now - start) / dur);
+          var e = 1 - Math.pow(1 - t, 2);                   // ralentit en fin de course
+          var x = x0 + dx * dist * e, y = y0 + dy * dist * e;
+          // la trainee s'allonge au depart puis se resorbe quand l'etoile s'eteint
+          var L = maxTail * Math.sin(Math.PI * Math.min(1, t * 1.4 + 0.05));
+          g.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ') rotate(' + rot.toFixed(1) + ')');
+          tail.setAttribute('points', (-L).toFixed(1) + ',-0.3 0,' + (-w / 2).toFixed(2) + ' 0,' + (w / 2).toFixed(2) + ' ' + (-L).toFixed(1) + ',0.3');
+          g.setAttribute('opacity', Math.sin(Math.PI * t).toFixed(3));
+          if (t < 1) requestAnimationFrame(frame);
+          else g.remove();
+        }
+        requestAnimationFrame(frame);
+      }
+      function next() {
+        if (parseFloat(etoiles.getAttribute('opacity')) > 0.6) shoot();
+        setTimeout(next, cfgMs('ciel.etoilesFilantes', [25, 90]));
+      }
+      setTimeout(next, cfgMs('ciel.etoilesFilantes', [25, 90]));
+    })();
+
+    (function () {
+      // Ville vue du dessus, facon plan de ville ancien / Carte du Maraudeur : la vignette
+      // ovale est le coeur de la ville ; autour, des quartiers en anneaux (rues qui suivent
+      // l'ovale) coupes par des rues rayonnantes, avec des pates de maisons decoupes en
+      // batiments serres le long des rues (cours interieures au milieu), quelques places, une
+      // muraille a tours et, au-dela, les faubourgs : riviere, champs et grandes routes.
+      // Rues larges pour que les pseudos de la Carte du Maraudeur y circulent. Visible
+      // uniquement a l'exterieur de l'ovale (mask-hors-ovale). Generation deterministe (seed
+      // villeDessus.seed) : meme plan a chaque chargement.
       var root = document.getElementById('ville-dessus');
       if (!root) return;
       var NS = 'http://www.w3.org/2000/svg';
@@ -1859,8 +2215,11 @@
           return ((t ^ t >>> 14) >>> 0) / 4294967296;
         };
       }
-      var rand = mulberry32(cfg('villeDessus.seed', 1337));
+      // ?seed=1234 dans l'URL : essayer une autre seed sans toucher la config.
+      var seedUrl = /[?&]seed=(-?\d+)/.exec(location.search);
+      var rand = mulberry32(seedUrl ? +seedUrl[1] : cfg('villeDessus.seed', 1337));
       function r(a, b) { return a + rand() * (b - a); }
+      function choix(liste) { return liste[Math.floor(rand() * liste.length)]; }
 
       // Geometrie reprise directement du DOM (clip-cadre / clip-coin-ovale) : si l'un des
       // deux change un jour, la generation suit sans reglage double a maintenir.
@@ -1872,135 +2231,887 @@
       var OV_RX = +ovale.getAttribute('rx'), OV_RY = +ovale.getAttribute('ry');
       var rotMatch = /rotate\(([-\d.]+)/.exec(ovale.getAttribute('transform') || '');
       var OV_ROT = rotMatch ? (+rotMatch[1]) * Math.PI / 180 : 0;
-      // echelle : 1 = l'ovale principal lui-meme, >1 = un ovale agrandi autour (la muraille).
+      var cosR = Math.cos(OV_ROT), sinR = Math.sin(OV_ROT);
+      // echelle : 1 = l'ovale principal lui-meme, >1 = un ovale agrandi autour.
       function dansOvale(x, y, echelle) {
         echelle = echelle || 1;
         var dx = x - OV_CX, dy = y - OV_CY;
-        var cos = Math.cos(-OV_ROT), sin = Math.sin(-OV_ROT);
-        var lx = dx * cos - dy * sin, ly = dx * sin + dy * cos;
+        var lx = dx * cosR + dy * sinR, ly = -dx * sinR + dy * cosR;
         var rx = OV_RX * echelle, ry = OV_RY * echelle;
         return (lx * lx) / (rx * rx) + (ly * ly) / (ry * ry) <= 1;
       }
-
-      var TAILLE_BLOC = cfg('villeDessus.tailleBloc', 230);
-      var LARGEUR_RUE = cfg('villeDessus.largeurRue', 16);
-      var PROBA_PLACE = cfg('villeDessus.probaPlace', 0.15);
-      var PROFONDEUR_MAX = cfg('villeDessus.profondeurSubdivision', 5);
-      var AIRE_MIN = cfg('villeDessus.aireMinParcelle', 1400);
-      var LARGEUR_RUELLE = cfg('villeDessus.largeurRuelle', 6);
-      var IRREGULARITE = cfg('villeDessus.irregularite', 0.16);
-      var MURET_ECHELLE = cfg('villeDessus.muretEchelle', 1.3);
-      var PROBA_EXTERIEUR = cfg('villeDessus.probaBatimentExterieur', 0.3);
-      var TOITS = ['#b5704a', '#9c5a3c', '#c98a52', '#8a6a44', '#a97850'];
-
-      // Muraille : ovale principal agrandi par MURET_ECHELLE, dessinee en premier (donc sous
-      // les batiments) avec quelques tours/portes marquees a intervalles reguliers.
-      var MUR_RX = OV_RX * MURET_ECHELLE, MUR_RY = OV_RY * MURET_ECHELLE;
-      el('ellipse', {
-        cx: OV_CX, cy: OV_CY, rx: MUR_RX.toFixed(1), ry: MUR_RY.toFixed(1),
-        transform: 'rotate(' + (OV_ROT * 180 / Math.PI).toFixed(2) + ' ' + OV_CX + ' ' + OV_CY + ')',
-        fill: 'none', stroke: '#2a1a0a', 'stroke-width': 7, opacity: 0.55, filter: 'url(#sketchyMedium)'
-      }, root);
-      var N_TOURS = 16;
-      for (var nt = 0; nt < N_TOURS; nt++) {
-        var ang = (nt / N_TOURS) * Math.PI * 2;
-        var lx0 = Math.cos(ang) * MUR_RX, ly0 = Math.sin(ang) * MUR_RY;
-        var cosR = Math.cos(OV_ROT), sinR = Math.sin(OV_ROT);
-        el('circle', {
-          cx: (OV_CX + lx0 * cosR - ly0 * sinR).toFixed(1), cy: (OV_CY + lx0 * sinR + ly0 * cosR).toFixed(1),
-          r: 6, fill: '#2a1a0a', opacity: 0.55
-        }, root);
+      function dansCadre(p, marge) { marge = marge || 0; return p[0] > FX + marge && p[0] < FX + FW - marge && p[1] > FY + marge && p[1] < FY + FH - marge; }
+      function chemin(pts) { return 'M ' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L '); }
+      function aire(poly) { var a = 0; for (var i = 0; i < poly.length; i++) { var p = poly[i], q = poly[(i + 1) % poly.length]; a += p[0] * q[1] - q[0] * p[1]; } return Math.abs(a / 2); }
+      function centre(poly) { var x = 0, y = 0; poly.forEach(function (p) { x += p[0]; y += p[1]; }); return [x / poly.length, y / poly.length]; }
+      // Polygone resserre vers son centre de d px (espace entre deux batiments / champs).
+      function resserrer(poly, d) {
+        var c = centre(poly), k = Math.max(0.2, 1 - 2 * d / Math.sqrt(aire(poly)));
+        return poly.map(function (p) { return [c[0] + (p[0] - c[0]) * k, c[1] + (p[1] - c[1]) * k]; });
       }
+      function points(poly) { return poly.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '); }
 
-      // Grille de rues irreguliere (lignes verticales/horizontales a espacement variable).
-      var xs = [FX], x = FX;
-      while (x < FX + FW) { x += TAILLE_BLOC * r(0.75, 1.3); xs.push(Math.min(x, FX + FW)); }
-      var ys = [FY], y = FY;
-      while (y < FY + FH) { y += TAILLE_BLOC * r(0.75, 1.3); ys.push(Math.min(y, FY + FH)); }
+      var LARGEUR_RUE = cfg('villeDessus.largeurRue', 64);
+      var LARGEUR_AVENUE = cfg('villeDessus.largeurAvenue', 80);
+      var PROF = cfg('villeDessus.profondeurPate', [220, 270]);
+      var LARG = cfg('villeDessus.largeurPate', [300, 460]);
+      // La seed fait varier tout le plan, pas seulement les details : nombre de grandes
+      // rues, position de la muraille et de la riviere, rythme des anneaux, noms tires au hasard.
+      var N_GRANDES = Math.max(2, cfg('villeDessus.grandesRues', 5) + Math.floor(r(-1, 2)));
+      var PROBA_PLACE = cfg('villeDessus.probaPlace', 0.07);
+      var AIRE_BAT = cfg('villeDessus.aireBatiment', [3500, 9000]);
+      var QUARTIERS = cfg('villeDessus.quartiers', ['La Halle', 'Les Tanneurs', 'Le Temple', 'La Butte', 'Les Forges']);
+      var NOMS_RUES = cfg('villeDessus.rues', ['Grand-Rue', 'Rue des Forges', 'Voie du Pont', 'Rue du Septentrion', 'Chemin du Moulin']);
+      var RIVIERE = cfg('villeDessus.riviere', 'La Vive');
+      function melanger(liste) { liste = liste.slice(); for (var i = liste.length - 1; i > 0; i--) { var j = Math.floor(rand() * (i + 1)), x = liste[i]; liste[i] = liste[j]; liste[j] = x; } return liste; }
+      QUARTIERS = melanger(QUARTIERS); NOMS_RUES = melanger(NOMS_RUES);
+      var ENCRE = '#2a1a0a', SOL = '#e6d6ac', PIERRE = '#3d3631';
+      var POLICE = "'IM Fell English', Georgia, 'Times New Roman', serif";
+      var TOITS = ['#8f6b52', '#9a765b', '#84624a', '#a27f62', '#7a5a44'];
+      var CHAMPS = ['#d6c99a', '#cdc48e', '#d9c48e', '#c4c290'];
 
-      // Un pate de maisons est subdivise recursivement (coupe verticale ou horizontale a une
-      // fraction aleatoire, plutot qu'au milieu) jusqu'a obtenir des parcelles de taille
-      // irreguliere : rendu proche d'un plan de ville dessine a la main plutot qu'une grille.
-      function dessinerPate(bx0, by0, bx1, by1) { subdiviser(bx0, by0, bx1, by1, PROFONDEUR_MAX); }
+      // ---- Forme de la ville, tiree par la seed (ou imposee par villeDessus.forme) :
+      //  - 'ovale'         : quartiers en anneaux qui suivent l'ovale, la vignette au coeur ;
+      //  - 'citadelle'     : petite ville fortifiee polygonale autour d'un donjon, posee
+      //                      ailleurs sur la carte et entouree de campagne ;
+      //  - 'grille'        : rues presque droites qui se croisent (ville neuve, bastide) ;
+      //  - 'contre-courbe' : anneaux centres loin en bas a gauche, courbes a l'envers de l'ovale.
+      // Toutes partagent le meme repere : un centre, deux rayons, une rotation et une
+      // deformation polygonale ; un point du plan = un angle t et une taille d'anneau s.
+      var FORMES = ['ovale', 'citadelle', 'grille', 'contre-courbe'];
+      var forme = cfg('villeDessus.forme', 'hasard');
+      if (FORMES.indexOf(forme) < 0) forme = choix(FORMES);
+      var formeUrl = /[?&]forme=([a-z-]+)/.exec(location.search);
+      if (formeUrl && FORMES.indexOf(formeUrl[1]) >= 0) forme = formeUrl[1];
+      var MILIEU = [FX + FW / 2, FY + FH / 2];
+      var G = { cx: OV_CX, cy: OV_CY, rx: OV_RX, ry: OV_RY, rot: OV_ROT, cotes: 0, poly: 0, phase: 0 };
+      if (forme === 'citadelle') {
+        // centre : un point visible, loin de l'ovale et des bords du cadre
+        var cxC = MILIEU[0], cyC = MILIEU[1];
+        for (var essai = 0; essai < 300; essai++) {
+          cxC = r(FX + 500, FX + FW - 500); cyC = r(FY + 450, FY + FH - 400);
+          if (!dansOvale(cxC, cyC, 1.25)) break;
+        }
+        G = { cx: cxC, cy: cyC, rx: 1, ry: r(0.8, 1), rot: r(0, 3.14), cotes: Math.floor(r(7, 12)), poly: r(0.5, 0.9), phase: r(0, 6.3) };
+      } else if (forme === 'grille') {
+        // centre tres lointain : anneaux et rues rayonnantes presque droits
+        var dirG = r(0, 6.3), distG = r(9000, 20000);
+        G = { cx: MILIEU[0] + Math.cos(dirG) * distG, cy: MILIEU[1] + Math.sin(dirG) * distG, rx: 1, ry: 1, rot: 0, cotes: 0, poly: 0, phase: 0 };
+      } else if (forme === 'contre-courbe') {
+        var dirC = r(1.9, 2.9), distC = r(2600, 4200);   // vers le bas a gauche (y vers le bas)
+        G = { cx: MILIEU[0] + Math.cos(dirC) * distC, cy: MILIEU[1] + Math.sin(dirC) * distC, rx: r(1, 1.5), ry: 1, rot: r(0, 3.14), cotes: 0, poly: 0, phase: 0 };
+      }
+      var cosG = Math.cos(G.rot), sinG = Math.sin(G.rot);
+      function deformation(t) {
+        if (!G.cotes) return 1;
+        var a = 2 * Math.PI / G.cotes, u = ((t - G.phase) % a + a) % a - a / 2;
+        return 1 - G.poly + G.poly * Math.cos(a / 2) / Math.cos(u);
+      }
+      function pt(t, s) {
+        var k = s * deformation(t), ex = Math.cos(t) * G.rx * k, ey = Math.sin(t) * G.ry * k;
+        return [G.cx + ex * cosG - ey * sinG, G.cy + ex * sinG + ey * cosG];
+      }
+      function coord(x, y) {   // inverse de pt : [t, s]
+        var dx = x - G.cx, dy = y - G.cy, lx = (dx * cosG + dy * sinG) / G.rx, ly = (-dx * sinG + dy * cosG) / G.ry, t = Math.atan2(ly, lx);
+        return [t, Math.hypot(lx, ly) / deformation(t)];
+      }
+      function pxParRadian(t, s) { var a = pt(t, s), b = pt(t + 1e-4, s); return Math.max(1e-6, Math.hypot(b[0] - a[0], b[1] - a[1]) / 1e-4); }
+      var UNITE = Math.min(G.rx, G.ry);   // px par unite de s (sur le petit axe)
+      var PROF_MOY = (PROF[0] + PROF[1]) / 2;
 
-      function subdiviser(x0, y0, x1, y1, depth) {
-        var w = x1 - x0, h = y1 - y0;
-        if (w <= 0 || h <= 0) return;
-        if (depth <= 0 || w * h < AIRE_MIN || Math.min(w, h) < 18) { dessinerParcelle(x0, y0, x1, y1); return; }
-        var vertical = w >= h ? rand() < 0.8 : rand() < 0.2;
-        var t = r(0.35, 0.65);
-        if (vertical) {
-          var cut = x0 + w * t;
-          subdiviser(x0, y0, cut - LARGEUR_RUELLE / 2, y1, depth - 1);
-          subdiviser(cut + LARGEUR_RUELLE / 2, y0, x1, y1, depth - 1);
-        } else {
-          var cut2 = y0 + h * t;
-          subdiviser(x0, y0, x1, cut2 - LARGEUR_RUELLE / 2, depth - 1);
-          subdiviser(x0, cut2 + LARGEUR_RUELLE / 2, x1, y1, depth - 1);
+      // Partie visible (dans le cadre, hors ovale) : plage d'angles et de tailles a couvrir.
+      var angles = [], S_MIN = Infinity, S_MAX = -Infinity;
+      for (var vx = FX; vx <= FX + FW; vx += 40) {
+        for (var vy = FY; vy <= FY + FH; vy += 40) {
+          if (dansOvale(vx, vy)) continue;
+          var cv = coord(vx, vy);
+          angles.push(cv[0]); S_MIN = Math.min(S_MIN, cv[1]); S_MAX = Math.max(S_MAX, cv[1]);
         }
       }
+      angles.sort(function (a, b) { return a - b; });
+      // le plus grand trou entre deux angles visibles (en faisant le tour) : la plage est le reste
+      var trou = angles[0] + 2 * Math.PI - angles[angles.length - 1], debutPlage = angles[0];
+      for (var ia = 1; ia < angles.length; ia++) if (angles[ia] - angles[ia - 1] > trou) { trou = angles[ia] - angles[ia - 1]; debutPlage = angles[ia]; }
+      var PLEIN = trou < 0.3;   // le centre est dans la partie visible : la ville fait le tour complet
+      var T0, T1;
+      if (PLEIN) { T0 = r(0, 6.3); T1 = T0 + 2 * Math.PI; }
+      else { T0 = debutPlage; T1 = debutPlage + 2 * Math.PI - trou; var margeT = (T1 - T0) * 0.03; T0 -= margeT; T1 += margeT; }
 
-      function dessinerParcelle(x0, y0, x1, y1) {
-        var pad = Math.min(x1 - x0, y1 - y0) * 0.05;
-        x0 += pad; y0 += pad; x1 -= pad; y1 -= pad;
-        var w = x1 - x0, h = y1 - y0;
-        if (w < 4 || h < 4) return;
-        // Coins decales aleatoirement : quadrilatere irregulier plutot qu'un rectangle parfait.
-        var jx = w * IRREGULARITE, jy = h * IRREGULARITE;
-        function coin(px, py) { return (px + r(-jx, jx)).toFixed(1) + ',' + (py + r(-jy, jy)).toFixed(1); }
-        var pts = [coin(x0, y0), coin(x1, y0), coin(x1, y1), coin(x0, y1)].join(' ');
-        el('polygon', {
-          points: pts, fill: TOITS[Math.floor(rand() * TOITS.length)],
-          stroke: '#2a1a0a', 'stroke-width': 1.3, filter: 'url(#sketchyMedium)'
-        }, root);
-        // Faitage (ligne de toit), seulement sur les parcelles assez grandes.
-        if (rand() < 0.6 && Math.min(w, h) > 14) {
-          var cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, horiz = w >= h;
-          el('line', {
-            x1: (horiz ? x0 + w * 0.15 : cx).toFixed(1), y1: (horiz ? cy : y0 + h * 0.15).toFixed(1),
-            x2: (horiz ? x1 - w * 0.15 : cx).toFixed(1), y2: (horiz ? cy : y1 - h * 0.15).toFixed(1),
-            stroke: '#2a1a0a', 'stroke-width': 1, opacity: 0.35
-          }, root);
-        }
+      // Premier anneau (coeur) et muraille. Parfois pas de muraille visible : la ville couvre tout.
+      var S0 = forme === 'ovale' ? 1 : forme === 'citadelle' ? r(110, 170) : S_MIN - 0.3 * PROF_MOY / UNITE;
+      var MUR = cfg('villeDessus.muraille', [0.35, 0.7]);
+      if (!Array.isArray(MUR)) MUR = [0.35, 0.7];
+      var MURAILLE = forme === 'citadelle' ? r(600, 950) / UNITE
+        : S0 + (S_MAX - S0) * (rand() < 0.15 ? 1.15 : r(MUR[0], MUR[1]));
+
+      // Rues en anneau : du coeur a la muraille, profondeur de pate PROF, chaque anneau
+      // legerement ondule.
+      var nBandes = Math.max(1, Math.round((MURAILLE - S0) * UNITE / PROF_MOY));
+      var anneaux = [];
+      for (var k = 0; k <= nBandes; k++) {
+        var base = S0 + (MURAILLE - S0) * k / nBandes;
+        if (k > 0 && k < nBandes) base += r(-0.3, 0.3) * (MURAILLE - S0) / nBandes;
+        anneaux.push({ s: base, a: k ? r(11, 40) / UNITE : 0, p1: r(0, 6.3), p2: r(0, 6.3) });
+      }
+      function sAnneau(k, t) { var a = anneaux[k]; return a.s + a.a * (0.6 * Math.sin(3 * t + a.p1) + 0.4 * Math.sin(7 * t + a.p2)); }
+      function ptAnneau(k, t) { return pt(t, sAnneau(k, t)); }
+
+      // Grandes rues : rayonnent depuis le coeur de la ville et continuent en routes hors les
+      // murs. Hors tour complet, deux rues "bornes" hors cadre ferment les quartiers des bords.
+      var grandes = [];
+      if (PLEIN) {
+        for (var g = 0; g < N_GRANDES; g++) grandes.push(T0 + 2 * Math.PI * (g + r(-0.25, 0.25)) / N_GRANDES);
+        grandes.push(grandes[0] + 2 * Math.PI);
+      } else {
+        grandes.push(T0 - (T1 - T0) * 0.06);
+        for (g = 0; g < N_GRANDES; g++) grandes.push(T0 + (T1 - T0) * (g + 0.5) / N_GRANDES + r(-0.25, 0.25) * (T1 - T0) / N_GRANDES);
+        grandes.push(T1 + (T1 - T0) * 0.06);
+      }
+      var J0 = PLEIN ? 0 : 1, J1 = grandes.length - 2;   // grandes rues reelles (hors bornes / doublon)
+      function estGrande(j) { return PLEIN || (j > 0 && j < grandes.length - 1); }
+      var ondes = grandes.map(function () { return [r(0, 6.3), r(40, 130)]; });
+      if (PLEIN) ondes[ondes.length - 1] = ondes[0];
+      // ondulation en px (et pas en angle) : meme allure pres du coeur et loin de lui
+      function angleGrande(j, s) {
+        var rayon = Math.max(1, s * UNITE);
+        return grandes[j] + Math.min(ondes[j][1], rayon * 0.3) / rayon * Math.sin(s * UNITE / 370 + ondes[j][0]);
       }
 
-      function dessinerPlace(bx0, by0, bx1, by1) {
-        el('rect', {
-          x: bx0.toFixed(1), y: by0.toFixed(1), width: (bx1 - bx0).toFixed(1), height: (by1 - by0).toFixed(1),
-          fill: '#d8c49a', stroke: '#6a5030', 'stroke-width': 1.6, filter: 'url(#sketchyMedium)', opacity: 0.85
-        }, root);
-        var cx = (bx0 + bx1) / 2, cy = (by0 + by1) / 2;
-        el('circle', { cx: cx.toFixed(1), cy: cy.toFixed(1), r: (Math.min(bx1 - bx0, by1 - by0) * 0.12).toFixed(1), fill: '#8a9a5a', stroke: '#2a1a0a', 'stroke-width': 1 }, root);
-      }
-
-      // Hors les murs : habitat disperse (une seule ferme isolee par pate, au mieux), pas de
-      // place ni de pate dense - contraste avec l'interieur fortifie.
-      function dessinerFerme(bx0, by0, bx1, by1) {
-        var w = bx1 - bx0, h = by1 - by0;
-        var bw = w * r(0.35, 0.55), bh = h * r(0.35, 0.55);
-        var x0 = bx0 + r(0, w - bw), y0 = by0 + r(0, h - bh);
-        dessinerParcelle(x0, y0, x0 + bw, y0 + bh);
-      }
-
-      for (var i = 0; i < xs.length - 1; i++) {
-        for (var j = 0; j < ys.length - 1; j++) {
-          var bx0 = xs[i] + LARGEUR_RUE / 2, bx1 = xs[i + 1] - LARGEUR_RUE / 2;
-          var by0 = ys[j] + LARGEUR_RUE / 2, by1 = ys[j + 1] - LARGEUR_RUE / 2;
-          if (bx1 <= bx0 || by1 <= by0) continue;
-          var centreX = (bx0 + bx1) / 2, centreY = (by0 + by1) / 2;
-          // Ignore les pates entierement a l'interieur de l'ovale : caches par la scene principale.
-          var coins = [[bx0, by0], [bx1, by0], [bx0, by1], [bx1, by1], [centreX, centreY]];
-          if (coins.every(function (c) { return dansOvale(c[0], c[1]); })) continue;
-          if (!dansOvale(centreX, centreY, MURET_ECHELLE)) {
-            // Hors les murs.
-            if (rand() < PROBA_EXTERIEUR) dessinerFerme(bx0, by0, bx1, by1);
-          } else if (rand() < PROBA_PLACE) {
-            dessinerPlace(bx0, by0, bx1, by1);
-          } else {
-            dessinerPate(bx0, by0, bx1, by1);
+      // Rues rayonnantes de chaque bande d'anneaux : les grandes rues + des rues secondaires
+      // espacees d'une largeur de pate, legerement de biais (jamais alignees d'une bande a l'autre).
+      var bandes = [];
+      for (k = 0; k < nBandes; k++) {
+        var sIn = anneaux[k].s, sOut = anneaux[k + 1].s, sMid = (sIn + sOut) / 2, rad = [];
+        for (var j = 0; j < grandes.length; j++) {
+          rad.push({ tIn: angleGrande(j, sIn), tOut: angleGrande(j, sOut), grande: estGrande(j), j: j });
+          if (j === grandes.length - 1) break;
+          var tFin = angleGrande(j + 1, sMid), t = angleGrande(j, sMid);
+          for (;;) {
+            t += r(LARG[0], LARG[1]) / pxParRadian(t, sMid);
+            if ((tFin - t) * pxParRadian(t, sMid) < LARG[0] * 0.7) break;
+            var biais = r(-0.25, 0.25) * LARG[0] / pxParRadian(t, sMid);
+            rad.push({ tIn: t - biais, tOut: t + biais, grande: false });
           }
         }
+        bandes.push(rad);
       }
+      function ptsRadiale(k, R) {
+        var a = ptAnneau(k, R.tIn), b = ptAnneau(k + 1, R.tOut), n = Math.max(2, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 50)), pts = [a];
+        for (var i = 1; i < n; i++) {
+          var f = i / n, s = sAnneau(k, R.tIn) + (sAnneau(k + 1, R.tOut) - sAnneau(k, R.tIn)) * f;
+          pts.push(pt(R.j !== undefined ? angleGrande(R.j, s) : R.tIn + (R.tOut - R.tIn) * f, s));
+        }
+        pts.push(b);
+        return pts;
+      }
+      function ptsArc(k, ta, tb) {
+        var n = Math.max(1, Math.ceil(Math.abs(tb - ta) * pxParRadian(ta, anneaux[k].s) / 50)), pts = [];
+        for (var i = 0; i <= n; i++) pts.push(ptAnneau(k, ta + (tb - ta) * i / n));
+        return pts;
+      }
+
+      // ---- Calques, du dessous vers le dessus
+      var defs = el('defs', {}, root);
+      [0, 45, 90, 135].forEach(function (a) {
+        var pat = el('pattern', { id: 'hachures-champ-' + a, patternUnits: 'userSpaceOnUse', width: 14, height: 14, patternTransform: 'rotate(' + a + ')' }, defs);
+        el('line', { x1: 0, y1: 0, x2: 0, y2: 14, stroke: ENCRE, 'stroke-width': 1.2, opacity: 0.35 }, pat);
+      });
+      var gChamps = el('g', { filter: 'url(#sketchyMedium)' }, root);
+      var gRiviere = el('g', { fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', filter: 'url(#sketchyMedium)' }, root);
+      var gBati = el('g', { stroke: ENCRE, 'stroke-width': 1.6, 'stroke-linejoin': 'round', filter: 'url(#sketchyMedium)' }, root);
+      var gMur = el('g', { fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', filter: 'url(#sketchyMedium)' }, root);
+      var gRues = el('g', { fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', filter: 'url(#sketchyMedium)' }, root);
+      var gRuesEncre = el('g', { stroke: ENCRE, opacity: 0.85 }, gRues), gRuesSol = el('g', { stroke: SOL }, gRues);
+      var gTours = el('g', { fill: PIERRE, stroke: ENCRE, 'stroke-width': 2, filter: 'url(#sketchyMedium)' }, root);
+      var gTextes = el('g', { fill: ENCRE, 'font-family': POLICE, 'font-style': 'italic', 'text-anchor': 'middle' }, root);
+
+      // ---- Pates de maisons : chaque bande est coupee en pates par ses rues rayonnantes,
+      // puis chaque pate est decoupe recursivement (coupe perpendiculaire a son plus long
+      // cote) en batiments. Un batiment qui ne touche aucune rue devient parfois une cour (ou
+      // un jardin) : ilots denses, avec ici et la un coeur d'ilot vide.
+      function couper(poly, ext, cote, signe) {
+        var out = [], oext = [];
+        for (var i = 0; i < poly.length; i++) {
+          var a = poly[i], b = poly[(i + 1) % poly.length], da = cote(a) * signe, db = cote(b) * signe;
+          if (da >= 0) { out.push(a); oext.push(ext[i]); }
+          if ((da >= 0) !== (db >= 0)) {
+            var u = da / (da - db);
+            out.push([a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u]);
+            oext.push(da >= 0 ? false : ext[i]);
+          }
+        }
+        return { p: out, ext: oext };
+      }
+      function decouper(poly, ext, profondeur, aireMax) {
+        if (profondeur <= 0 || aire(poly) < aireMax) return [{ p: poly, ext: ext }];
+        var iMax = 0, lMax = 0;
+        for (var i = 0; i < poly.length; i++) {
+          var q = poly[(i + 1) % poly.length], l = Math.hypot(q[0] - poly[i][0], q[1] - poly[i][1]);
+          if (l > lMax) { lMax = l; iMax = i; }
+        }
+        var a = poly[iMax], b = poly[(iMax + 1) % poly.length], f = r(0.3, 0.7);
+        var dx = (b[0] - a[0]) / lMax, dy = (b[1] - a[1]) / lMax, px = a[0] + (b[0] - a[0]) * f, py = a[1] + (b[1] - a[1]) * f;
+        function cote(p) { return (p[0] - px) * dx + (p[1] - py) * dy; }
+        var A = couper(poly, ext, cote, 1), B = couper(poly, ext, cote, -1);
+        if (A.p.length < 3 || B.p.length < 3) return [{ p: poly, ext: ext }];
+        return decouper(A.p, A.ext, profondeur - 1, aireMax).concat(decouper(B.p, B.ext, profondeur - 1, aireMax));
+      }
+      function arbres(c, n, rayon) {
+        for (var i = 0; i < n; i++) {
+          el('circle', { cx: (c[0] + r(-rayon, rayon)).toFixed(1), cy: (c[1] + r(-rayon, rayon)).toFixed(1), r: r(9, 15).toFixed(1), fill: '#8f9a68', 'stroke-width': 1.3 }, gBati);
+        }
+      }
+      var places = [];
+      var entrees = [];   // centres des batiments sur rue : les marcheurs du Maraudeur y rentrent
+      function visibleUnPeu(poly) { return poly.some(function (p) { return dansCadre(p) && !dansOvale(p[0], p[1]); }); }
+
+      bandes.forEach(function (rad, k) {
+        for (var i = 0; i < rad.length - 1; i++) {
+          var R1 = rad[i], R2 = rad[i + 1];
+          var poly = ptsArc(k, R1.tIn, R2.tIn).concat(ptsRadiale(k, R2).slice(1, -1), ptsArc(k + 1, R2.tOut, R1.tOut), ptsRadiale(k, R1).slice(1, -1).reverse());
+          if (!visibleUnPeu(poly)) continue;
+          if (rand() < PROBA_PLACE) {
+            // Place : pavee (sol nu) avec un puits au milieu et quelques arbres en bordure.
+            var c = centre(poly);
+            places.push(c);
+            el('circle', { cx: c[0].toFixed(1), cy: c[1].toFixed(1), r: 16, fill: '#9aa7a0', 'stroke-width': 2.5 }, gBati);
+            arbres([c[0] + r(-90, 90), c[1] + r(-60, 60)], 3, 30);
+            continue;
+          }
+          decouper(poly, poly.map(function () { return true; }), 12, r(AIRE_BAT[0], AIRE_BAT[1])).forEach(function (lot) {
+            var a = aire(lot.p);
+            if (a < 500) return;
+            if (!lot.ext.some(Boolean) && rand() < 0.3) { if (rand() < 0.5) arbres(centre(lot.p), 2 + Math.floor(rand() * 3), Math.sqrt(a) * 0.25); return; }
+            el('polygon', { points: points(resserrer(lot.p, 3)), fill: choix(TOITS) }, gBati);
+            if (lot.ext.some(Boolean)) entrees.push(centre(lot.p));
+          });
+        }
+      });
+
+      if (forme === 'citadelle') {
+        // Donjon au coeur de la citadelle : enceinte carree a tours d'angle, cour au milieu.
+        var donjon = [];
+        for (var id = 0; id < 4; id++) donjon.push(pt(T0 + G.phase + id * Math.PI / 2 + Math.PI / 4, S0 * 0.62));
+        el('polygon', { points: points(donjon), fill: '#a99d8a', 'stroke-width': 3 }, gBati);
+        el('polygon', { points: points(resserrer(donjon, 22)), fill: '#d8c8a2', 'stroke-width': 2 }, gBati);
+        donjon.forEach(function (p) { el('circle', { cx: p[0].toFixed(1), cy: p[1].toFixed(1), r: 14, fill: PIERRE, 'stroke-width': 2 }, gBati); });
+        places.push(null);   // pas de "Place du Marche" sur le donjon
+      }
+
+      // ---- Faubourgs : hors les murs, des champs entre les grandes routes (decoupes en
+      // parcelles hachurees), avec ici et la une ferme.
+      var S_LOIN = S_MAX + 300 / UNITE, S_FAUBOURG = MURAILLE + 50 / UNITE;
+      for (j = 0; j < grandes.length - 1; j++) {
+        var bord = [], n = 24, i2;
+        for (i2 = 0; i2 <= n; i2++) bord.push(pt(angleGrande(j, S_FAUBOURG) + (angleGrande(j + 1, S_FAUBOURG) - angleGrande(j, S_FAUBOURG)) * i2 / n, S_FAUBOURG));
+        for (i2 = 1; i2 < n; i2++) { var s2 = S_FAUBOURG + (S_LOIN - S_FAUBOURG) * i2 / n; bord.push(pt(angleGrande(j + 1, s2), s2)); }
+        for (i2 = n; i2 >= 0; i2--) bord.push(pt(angleGrande(j, S_LOIN) + (angleGrande(j + 1, S_LOIN) - angleGrande(j, S_LOIN)) * i2 / n, S_LOIN));
+        for (i2 = n - 1; i2 > 0; i2--) { var s3 = S_FAUBOURG + (S_LOIN - S_FAUBOURG) * i2 / n; bord.push(pt(angleGrande(j, s3), s3)); }
+        decouper(bord, bord.map(function () { return true; }), 10, r(45000, 90000)).forEach(function (champ) {
+          if (!visibleUnPeu(champ.p)) return;
+          var p = points(resserrer(champ.p, 7));
+          el('polygon', { points: p, fill: choix(CHAMPS), stroke: '#6a5030', 'stroke-width': 1.4 }, gChamps);
+          el('polygon', { points: p, fill: 'url(#hachures-champ-' + choix([0, 45, 90, 135]) + ')' }, gChamps);
+          if (rand() < 0.25) {
+            var c = centre(champ.p), coin = choix(champ.p), ferme = resserrer(champ.p, 0).map(function (q) { return [c[0] + (coin[0] - c[0]) * 0.45 + (q[0] - c[0]) * 0.16, c[1] + (coin[1] - c[1]) * 0.45 + (q[1] - c[1]) * 0.16]; });
+            el('polygon', { points: points(ferme), fill: choix(TOITS), stroke: ENCRE, 'stroke-width': 1.6 }, gChamps);
+          }
+        });
+      }
+
+      // ---- Riviere : longe la muraille a distance, dans les faubourgs. Les routes passent
+      // par-dessus (ponts).
+      // 1 a 2 meandres sur la partie visible, quelle que soit la forme de la ville
+      var rivP = [r(0, 6.3), r(0, 6.3), r(260, 550) / UNITE, r(37, 92) / UNITE, r(1, 2.2), r(4, 6)], ptsRiviere = [];
+      var tRiv0 = PLEIN ? T0 : T0 - (T1 - T0) * 0.05, tRiv1 = PLEIN ? T1 + 0.01 : T1 + (T1 - T0) * 0.05;
+      for (t = tRiv0; t <= tRiv1; t += 30 / pxParRadian(t, MURAILLE + rivP[2])) {
+        var uRiv = 2 * Math.PI * (t - T0) / (T1 - T0);
+        ptsRiviere.push(pt(t, MURAILLE + rivP[2] + rivP[3] * Math.sin(rivP[4] * uRiv + rivP[0]) + 28 / UNITE * Math.sin(rivP[5] * uRiv + rivP[1])));
+      }
+      var dRiviere = chemin(ptsRiviere);
+      el('path', { d: dRiviere, stroke: ENCRE, 'stroke-width': 104, opacity: 0.8 }, gRiviere);
+      el('path', { d: dRiviere, stroke: '#8fa79a', 'stroke-width': 92 }, gRiviere);
+      el('path', { d: dRiviere, stroke: '#c4d2c6', 'stroke-width': 3, 'stroke-dasharray': '34 26', opacity: 0.8 }, gRiviere);
+
+      // ---- Rues : anneaux, rues rayonnantes, grandes routes hors les murs. Trait d'encre large
+      // dessous + sol clair dessus = rue cernee d'encre. Toutes les rues alimentent aussi le
+      // graphe de la Carte du Maraudeur (memes points aux carrefours).
+      var rues = [];
+      function rue(pts, largeur) {
+        rues.push(pts);
+        var d = chemin(pts);
+        el('path', { d: d, 'stroke-width': largeur + 6 }, gRuesEncre);
+        el('path', { d: d, 'stroke-width': largeur }, gRuesSol);
+      }
+      for (k = 0; k <= nBandes; k++) {
+        // angles des carrefours de cet anneau, ajoutes aux points reguliers pour que les rues
+        // rayonnantes tombent exactement sur un point de l'anneau
+        var ts = [], sk = anneaux[k].s;
+        for (t = T0; t <= T1; t += 50 / pxParRadian(t, sk)) ts.push(t);
+        if (k < nBandes) bandes[k].forEach(function (R) { ts.push(R.tIn); });
+        if (k > 0) bandes[k - 1].forEach(function (R) { ts.push(R.tOut); });
+        ts.sort(function (a, b) { return a - b; });
+        rue(ts.filter(function (v, i) { return !i || v - ts[i - 1] > 1e-6; }).map(function (v) { return ptAnneau(k, v); }), LARGEUR_RUE);
+      }
+      bandes.forEach(function (rad, k) { rad.forEach(function (R) { rue(ptsRadiale(k, R), R.grande ? LARGEUR_AVENUE : LARGEUR_RUE); }); });
+      var routes = {};
+      for (j = J0; j <= J1; j++) {
+        var route = [ptAnneau(nBandes, angleGrande(j, MURAILLE))];
+        for (var s4 = MURAILLE + 70 / UNITE; s4 <= S_LOIN; s4 += 70 / UNITE) route.push(pt(angleGrande(j, s4), s4));
+        routes[j] = route;
+        rue(route, LARGEUR_AVENUE);
+      }
+
+      // ---- Muraille : juste au-dela du dernier anneau, tours rondes regulieres, portes
+      // (deux tours) la ou passent les grandes routes. Les routes sont dessinees par-dessus le
+      // mur : l'ouverture de la porte.
+      function ptMur(t) {
+        var a = ptAnneau(nBandes, t), b = pt(t, sAnneau(nBandes, t) + 10 / UNITE), l = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        return [a[0] + (b[0] - a[0]) / l * 46, a[1] + (b[1] - a[1]) / l * 46];
+      }
+      var ptsMur = [];
+      for (t = T0; t <= T1; t += 30 / pxParRadian(t, MURAILLE)) ptsMur.push(ptMur(t));
+      el('path', { d: chemin(ptsMur), stroke: PIERRE, 'stroke-width': 20 }, gMur);
+      el('path', { d: chemin(ptsMur), stroke: '#7a7068', 'stroke-width': 5, opacity: 0.7 }, gMur);
+      var portes = [];
+      for (j = J0; j <= J1; j++) portes.push(angleGrande(j, MURAILLE));
+      function tour(t, rayon) { var p = ptMur(t); el('circle', { cx: p[0].toFixed(1), cy: p[1].toFixed(1), r: rayon }, gTours); }
+      portes.forEach(function (tp) { var dt = 62 / pxParRadian(tp, MURAILLE); tour(tp - dt, 20); tour(tp + dt, 20); });
+      for (t = T0; t <= T1; t += 260 / pxParRadian(t, MURAILLE)) {
+        if (portes.every(function (tp) { return Math.abs(tp - t) * pxParRadian(t, MURAILLE) > 150; })) tour(t, 15);
+      }
+
+      // ---- Noms a l'encre : quartiers (capitales espacees, en travers des pates), grandes
+      // rues et riviere (le long du trace), places.
+      function visibleTexte(p) { return dansCadre(p, 120) && !dansOvale(p[0], p[1], 1.06); }
+      function texte(contenu, attrs) { var e = el('text', attrs, gTextes); e.textContent = contenu; return e; }
+      var halo = { stroke: SOL, 'stroke-width': 8, 'paint-order': 'stroke', 'stroke-linejoin': 'round' };
+      function avecHalo(attrs) { for (var h in halo) attrs[h] = halo[h]; return attrs; }
+      // Texte le long d'une ligne : seulement sur la plus longue portion visible, lue de
+      // gauche a droite.
+      var nChemins = 0;
+      function texteLe(pts, contenu, taille) {
+        var meilleur = [], cour = [];
+        pts.forEach(function (p) { if (visibleTexte(p)) { cour.push(p); if (cour.length > meilleur.length) meilleur = cour.slice(); } else cour = []; });
+        if (meilleur.length < 2) return;
+        if (meilleur[meilleur.length - 1][0] < meilleur[0][0]) meilleur.reverse();
+        var id = 'trace-nom-' + (nChemins++);
+        el('path', { id: id, d: chemin(meilleur) }, defs);
+        var e = el('text', avecHalo({ 'font-size': taille, dy: (taille * 0.35).toFixed(1) }), gTextes);
+        var tp = el('textPath', { href: '#' + id, startOffset: '50%' }, e);
+        tp.textContent = contenu;
+      }
+      var iQuartier = 0;
+      for (j = 0; j < grandes.length - 1 && iQuartier < QUARTIERS.length; j++) {
+        for (k = 1; k < nBandes; k++) {
+          var tq = (angleGrande(j, anneaux[k].s) + angleGrande(j + 1, anneaux[k].s)) / 2, sq = (anneaux[k].s + anneaux[k + 1].s) / 2;
+          var pq = pt(tq, sq);
+          if (!visibleTexte(pq)) continue;
+          var tang = pt(tq + 0.001, sq), ang = Math.atan2(tang[1] - pq[1], tang[0] - pq[0]) * 180 / Math.PI;
+          if (ang > 90) ang -= 180; else if (ang < -90) ang += 180;
+          texte(QUARTIERS[iQuartier++].toUpperCase(), avecHalo({ x: pq[0].toFixed(1), y: pq[1].toFixed(1), 'font-size': 46, 'letter-spacing': 9, opacity: 0.85, transform: 'rotate(' + ang.toFixed(1) + ' ' + pq[0].toFixed(1) + ' ' + pq[1].toFixed(1) + ')' }));
+          break;
+        }
+      }
+      var iRue = 0;
+      bandes[0].forEach(function (R, i) {
+        if (!R.grande || R.j > J1 || iRue >= NOMS_RUES.length) return;
+        var pts = [];
+        bandes.forEach(function (rad, kb) { rad.forEach(function (R2) { if (R2.j === R.j) pts = pts.concat(ptsRadiale(kb, R2)); }); });
+        texteLe(pts.concat(routes[R.j] || []), NOMS_RUES[iRue++], 32);
+      });
+      texteLe(ptsRiviere, RIVIERE, 34);
+      if (forme === 'citadelle') texte('LE DONJON', avecHalo({ x: G.cx.toFixed(1), y: (G.cy + 12).toFixed(1), 'font-size': 34, 'letter-spacing': 5 }));
+      places.forEach(function (c, i) {
+        if (c && i < 2 && visibleTexte(c)) texte(i ? 'Place aux Herbes' : 'Place du Marché', avecHalo({ x: c[0].toFixed(1), y: (c[1] + 52).toFixed(1), 'font-size': 26 }));
+      });
+
+      // ---- Carte du Maraudeur : les spectateurs qui tapent la commande (maraudeur.commandes)
+      // dans le chat Twitch apparaissent sur le plan pendant maraudeur.duree secondes : des
+      // traces de pas a l'encre qui avancent de rue en rue, avec leur pseudo sur une banderole.
+      var calque = document.getElementById('maraudeur');
+      if (!calque) return;
+      // Pas dessous, pseudos dessus : un nouveau pas ne recouvre jamais une banderole.
+      var calquePas = el('g', {}, calque), calqueNoms = el('g', {}, calque);
+
+      // Graphe des rues : chaque point de chaque rue est un noeud (les carrefours sont des
+      // points partages entre rues), relie a ses voisins quand le troncon est visible (hors
+      // ovale et loin des bords du cadre). Les marcheurs suivent ainsi les rues courbes.
+      function visible(px, py) {
+        return !dansOvale(px, py, 1.04) && px > FX + 30 && px < FX + FW - 30 && py > FY + 30 && py < FY + FH - 30;
+      }
+      var noeuds = {}, listeNoeuds = [];
+      function noeud(p) {
+        var cle = Math.round(p[0]) + ',' + Math.round(p[1]);
+        return noeuds[cle] || (noeuds[cle] = { x: p[0], y: p[1], v: [] });
+      }
+      rues.forEach(function (pts) {
+        for (var i = 0; i < pts.length - 1; i++) {
+          var a = pts[i], b = pts[i + 1];
+          if (!visible(a[0], a[1]) || !visible(b[0], b[1]) || !visible((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)) continue;
+          var na = noeud(a), nb = noeud(b);
+          if (na === nb || na.v.indexOf(nb) >= 0) continue;
+          na.v.push(nb); nb.v.push(na);
+        }
+      });
+      Object.keys(noeuds).forEach(function (k) { if (noeuds[k].v.length) listeNoeuds.push(noeuds[k]); });
+      if (!listeNoeuds.length) return;
+
+      var DUREE = cfgMs('maraudeur.duree', 40), VITESSE = cfg('maraudeur.vitesse', 55);
+      var MAX = cfg('maraudeur.maxPersonnes', 12), PAS = 30, ECART = 9, ENCRE = '#2a1a0a';
+      var marcheurs = {}, enCours = false;
+      function hasard(a, b) { return a + Math.random() * (b - a); }
+      function choisir(liste) { return liste[Math.floor(Math.random() * liste.length)]; }
+
+      // Empreinte de chaussure (semelle + talon) orientee dans le sens de la marche, decalee
+      // a gauche ou a droite de l'axe de la rue ; s'efface seule (animation .pas-maraudeur).
+      function empreinte(px, py, dx, dy, gauche) {
+        var s = gauche ? -1 : 1;
+        var g = el('g', {
+          'class': 'pas-maraudeur', fill: ENCRE,
+          transform: 'translate(' + (px - dy * ECART * s).toFixed(1) + ',' + (py + dx * ECART * s).toFixed(1) + ') rotate(' + (Math.atan2(dy, dx) * 180 / Math.PI + s * 8).toFixed(1) + ')'
+        }, calquePas);
+        el('ellipse', { cx: 4, cy: 0, rx: 8, ry: 4.2 }, g);
+        el('ellipse', { cx: -9.5, cy: 0, rx: 3.8, ry: 3.4 }, g);
+        g.addEventListener('animationend', function () { g.remove(); });
+        return g;
+      }
+
+      // Croisements : deux personnes qui passent a moins de RAYON l'une de l'autre se
+      // "croisent". Le score d'un spectateur se gagne en croisant des personnes differentes (voir
+      // croisements() pour le bareme ; garde toute la session, meme s'il revient plus tard) ; il donne le contour de sa
+      // banderole (RANGS). Le streamer se promene en continu, hors classement (bordure rubis) :
+      // qui le croise gagne un petit bouclier sous son pseudo. Le meilleur score porte une couronne
+      // (d'or s'il est seul en tete, d'argent pour chacun des ex aequo).
+      // Statuts Twitch (tags du chat) : insigne a gauche du pseudo et teinte de la banderole.
+      // Les modos restent en permanence et ne jouent pas (bordure verte) : les croiser sans
+      // bouclier coute des points. Les VIP et les subs restent plus longtemps ; les subs gagnent
+      // un bonus a chaque croisement.
+      var RAYON = 70, RUBIS = '#b0123a', VERT_MODO = '#3d6e36';
+      var BONUS_SUB = cfg('maraudeur.bonusSub', 1), MALUS_MODO = cfg('maraudeur.malusModo', 1);
+      var DUREE_VIP = cfg('maraudeur.dureeVip', 3), DUREE_SUB = cfg('maraudeur.dureeSub', 2);
+      var SEUILS = cfg('maraudeur.rangs', { bronze: 3, argent: 6, or: 10, diamant: 15 });
+      var RANGS = [
+        { nom: 'diamant', couleur: '#4fb8d0', halo: true },
+        { nom: 'or', couleur: '#cfa22a', halo: true },
+        { nom: 'argent', couleur: '#9aa4ac', halo: false },
+        { nom: 'bronze', couleur: '#a0612b', halo: false }
+      ];
+      var infos = {};   // par pseudo (minuscules) : { score, croises: Set, bouclier: bool }
+      function info(k) { return infos[k] || (infos[k] = { score: 0, croises: new Set(), bouclier: false }); }
+
+      // Banderole au pseudo (petit parchemin a bouts arrondis), juste au-dessus des pas, avec
+      // halo (rangs or / diamant, streamer), couronne au-dessus et bouclier en dessous.
+      // Insignes (centres en 0,0, ~22 px) : epee pour les modos, diamant pour les VIP, sceau de
+      // cire pour les subs.
+      function insigne(type, parent) {
+        var g = el('g', { 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, parent);
+        if (type === 'mod') {
+          el('path', { d: 'M 0,-12 L 3,-8 L 3,5 L -3,5 L -3,-8 Z', fill: '#c9ced4', stroke: ENCRE, 'stroke-width': 1.3 }, g);
+          el('path', { d: 'M -8,5 L 8,5', stroke: '#7a5a2a', 'stroke-width': 3.2 }, g);
+          el('path', { d: 'M 0,7 L 0,12', stroke: '#5a3a1a', 'stroke-width': 3 }, g);
+        } else if (type === 'vip') {
+          el('path', { d: 'M -9,-4 L -5,-10 L 5,-10 L 9,-4 L 0,10 Z', fill: '#e06aa8', stroke: ENCRE, 'stroke-width': 1.3 }, g);
+          el('path', { d: 'M -9,-4 L 9,-4 M -2,-10 L -4,-4 L 0,10 M 2,-10 L 4,-4 L 0,10', fill: 'none', stroke: '#fbe3f0', 'stroke-width': 1, opacity: 0.85 }, g);
+        } else {
+          el('circle', { r: 9.5, fill: '#7d4bb3', stroke: ENCRE, 'stroke-width': 1.3 }, g);
+          el('path', { d: 'M 0,-5 L 1.5,-1.5 L 5,-1.5 L 2.2,1 L 3.2,5 L 0,2.6 L -3.2,5 L -2.2,1 L -5,-1.5 L -1.5,-1.5 Z', fill: '#e8dcf6' }, g);
+        }
+        return g;
+      }
+      function banderole(nom, st) {
+        var types = ['mod', 'vip', 'sub'].filter(function (t) { return st[t]; }), largeurInsignes = types.length * 26;
+        var teinte = st.mod ? '#d6e2c0' : st.vip ? '#f0d6e6' : st.sub ? '#e0d8ee' : '#efe2bf';
+        var g = el('g', { 'class': 'nom-maraudeur', opacity: 0 }, calqueNoms);
+        var halo = el('rect', { y: -26, height: 50, rx: 16, fill: 'none', 'stroke-width': 7, opacity: 0 }, g);
+        var fond = el('rect', { y: -21, height: 40, rx: 12, fill: teinte, stroke: ENCRE, 'stroke-width': 1.6, filter: 'url(#sketchyMedium)' }, g);
+        var insignes = types.map(function (t) { return insigne(t, g); });
+        var mois = null;
+        if (st.sub && st.mois > 0) {
+          mois = el('text', {
+            'text-anchor': 'end', y: 38, fill: '#5a3a80', 'font-size': 17, 'font-style': 'italic',
+            'font-family': "'IM Fell English', Georgia, 'Times New Roman', serif",
+            stroke: '#efe2bf', 'stroke-width': 4, 'paint-order': 'stroke'
+          }, g);
+          mois.textContent = st.mois + ' mois';
+        }
+        var texte = el('text', {
+          'text-anchor': 'middle', x: largeurInsignes / 2, y: 9, fill: ENCRE, 'font-size': 30, 'font-style': 'italic',
+          'font-family': "'IM Fell English', Georgia, 'Times New Roman', serif"
+        }, g);
+        texte.textContent = nom;
+        var couronne = el('path', {
+          d: 'M -17,-24 L -20,-46 L -9,-35 L 0,-50 L 9,-35 L 20,-46 L 17,-24 Z',
+          fill: '#d9b53a', stroke: ENCRE, 'stroke-width': 2, 'stroke-linejoin': 'round', display: 'none'
+        }, g);
+        var bouclier = el('g', { display: 'none' }, g);
+        el('path', { d: 'M -10,22 L 10,22 L 10,31 Q 10,41 0,47 Q -10,41 -10,31 Z', fill: RUBIS, stroke: ENCRE, 'stroke-width': 1.8, 'stroke-linejoin': 'round' }, bouclier);
+        el('path', { d: 'M 0,26 L 0,42 M -6,31 L 6,31', stroke: '#f0d9a0', 'stroke-width': 2, 'stroke-linecap': 'round' }, bouclier);
+        function ajuster() {
+          var w = texte.getComputedTextLength() + 28 + largeurInsignes;
+          fond.setAttribute('x', (-w / 2).toFixed(1));
+          fond.setAttribute('width', w.toFixed(1));
+          halo.setAttribute('x', (-w / 2 - 5).toFixed(1));
+          halo.setAttribute('width', (w + 10).toFixed(1));
+          insignes.forEach(function (ins, i) { ins.setAttribute('transform', 'translate(' + (-w / 2 + 25 + i * 26).toFixed(1) + ',0)'); });
+          // mois d'abonnement sous le bord droit ; le bouclier passe alors a gauche
+          if (mois) { mois.setAttribute('x', (w / 2 - 8).toFixed(1)); bouclier.setAttribute('transform', 'translate(' + (-w / 2 + 22).toFixed(1) + ',0)'); }
+        }
+        ajuster();
+        if (document.fonts) document.fonts.ready.then(ajuster);   // police web chargee apres coup
+        requestAnimationFrame(function () { g.setAttribute('opacity', 1); });
+        return { g: g, fond: fond, halo: halo, couronne: couronne, bouclier: bouclier };
+      }
+      // Contour selon le rang (ou rubis pour le streamer), bouclier si le streamer a ete croise.
+      function habiller(m) {
+        var b = m.nom, couleur = ENCRE, epaisseur = 1.6, avecHalo = false;
+        if (m.streamer) { couleur = RUBIS; epaisseur = 4; avecHalo = true; }
+        else if (m.mod) { couleur = VERT_MODO; epaisseur = 4; avecHalo = true; }
+        else {
+          var score = info(m.k).score;
+          for (var i = 0; i < RANGS.length; i++) {
+            if (score >= SEUILS[RANGS[i].nom]) { couleur = RANGS[i].couleur; epaisseur = 3.5; avecHalo = RANGS[i].halo; break; }
+          }
+          b.bouclier.setAttribute('display', info(m.k).bouclier ? 'inline' : 'none');
+        }
+        b.fond.setAttribute('stroke', couleur);
+        b.fond.setAttribute('stroke-width', epaisseur);
+        b.halo.setAttribute('stroke', couleur);
+        b.halo.setAttribute('opacity', avecHalo ? 0.45 : 0);
+      }
+      // Couronne : meilleur score parmi les spectateurs presents. Seul en tete : couronne d'or ;
+      // a egalite : tous les ex aequo portent une couronne d'argent.
+      function couronner() {
+        var max = 0, ex = 0;
+        Object.keys(marcheurs).forEach(function (k) {
+          var sc = marcheurs[k].horsJeu ? 0 : info(k).score;
+          if (sc > max) { max = sc; ex = 1; } else if (sc === max && sc > 0) ex++;
+        });
+        Object.keys(marcheurs).forEach(function (k) {
+          var m = marcheurs[k], enTete = !m.horsJeu && max > 0 && info(k).score === max;
+          m.nom.couronne.setAttribute('display', enTete ? 'inline' : 'none');
+          m.nom.couronne.setAttribute('fill', ex > 1 ? '#c4ccd2' : '#d9b53a');
+        });
+      }
+      // Petit "+1" (ou bouclier gagne) qui monte et s'efface au-dessus de la banderole.
+      function bulle(m, contenu, couleur) {
+        var g = el('g', { transform: 'translate(' + m.x.toFixed(1) + ',' + (m.y - 90).toFixed(1) + ')' }, calqueNoms);
+        var t = el('text', {
+          'text-anchor': 'middle', fill: couleur || ENCRE, 'font-size': 30, 'font-style': 'italic',
+          'font-family': "'IM Fell English', Georgia, 'Times New Roman', serif",
+          stroke: '#efe2bf', 'stroke-width': 6, 'paint-order': 'stroke'
+        }, g);
+        t.textContent = contenu;
+        t.animate([{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-34px)', opacity: 0 }], { duration: 1400, easing: 'ease-out' })
+          .onfinish = function () { g.remove(); };
+      }
+      // Un croisement compte au moment ou deux personnes se rapprochent (pas tant qu'elles
+      // restent cote a cote). Regles :
+      //  - premiere rencontre entre deux spectateurs : +1 chacun ; mais celui qui croise un
+      //    porteur de bouclier marque +0, et le porteur perd son bouclier ;
+      //  - premiere rencontre avec le streamer : +2 et un bouclier ; le recroiser rend le
+      //    bouclier perdu, sans nouveaux points ;
+      //  - croiser un modo : -1 (score jamais negatif) ; avec un bouclier, il protege (+0) et s'use ;
+      //  - un sub gagne BONUS_SUB de plus a chaque croisement qui lui rapporte des points ;
+      //  - streamer et modos ne marquent rien entre eux.
+      var proches = new Set();
+      function croisements() {
+        var ks = Object.keys(marcheurs), maintenant = new Set();
+        for (var i = 0; i < ks.length; i++) {
+          for (var j = i + 1; j < ks.length; j++) {
+            var a = marcheurs[ks[i]], b = marcheurs[ks[j]];
+            if (Math.hypot(a.x - b.x, a.y - b.y) > RAYON) continue;
+            var cle = a.k < b.k ? a.k + '|' + b.k : b.k + '|' + a.k;
+            maintenant.add(cle);
+            if (proches.has(cle)) continue;   // deja cote a cote
+            if (a.horsJeu && b.horsJeu) continue;
+            if (a.streamer || b.streamer) {
+              var v = a.streamer ? b : a, iv = info(v.k), premiere = !iv.croises.has(a.streamer ? a.k : b.k);
+              var gainS = 2 + (v.sub ? BONUS_SUB : 0);
+              if (premiere) { iv.croises.add(a.streamer ? a.k : b.k); iv.score += gainS; }
+              if (premiere || !iv.bouclier) {
+                iv.bouclier = true; habiller(v); couronner();
+                bulle(v, premiere ? '+' + gainS + ' ✦' : '✦', RUBIS);
+              }
+              continue;
+            }
+            if (a.mod || b.mod) {
+              var vm = a.mod ? b : a, im = info(vm.k);
+              if (im.bouclier) { im.bouclier = false; bulle(vm, '+0', '#8a7a6a'); }
+              else { im.score = Math.max(0, im.score - MALUS_MODO); bulle(vm, '-' + MALUS_MODO, '#9a2a1a'); }
+              habiller(vm); couronner();
+              continue;
+            }
+            var ia = info(a.k), ib = info(b.k);
+            if (ia.croises.has(b.k)) continue;
+            ia.croises.add(b.k); ib.croises.add(a.k);
+            var gainA = ib.bouclier ? 0 : 1 + (a.sub ? BONUS_SUB : 0), gainB = ia.bouclier ? 0 : 1 + (b.sub ? BONUS_SUB : 0);
+            ia.score += gainA; ib.score += gainB;
+            if (gainB === 0) ia.bouclier = false;   // le bouclier de a a protege : il est use
+            if (gainA === 0) ib.bouclier = false;
+            habiller(a); habiller(b);
+            bulle(a, '+' + gainA, gainA ? ENCRE : '#8a7a6a'); bulle(b, '+' + gainB, gainB ? ENCRE : '#8a7a6a');
+            couronner();
+          }
+        }
+        proches = maintenant;
+      }
+
+      var ARRET = cfg('maraudeur.arret', [1.5, 4]), ENTRE_ARRETS = cfg('maraudeur.entreArrets', [6, 16]);
+      // statut : { streamer, mod, vip, sub, mois } (true seul = streamer)
+      function apparaitre(nom, statut) {
+        var st = statut === true ? { streamer: true } : (statut || {});
+        var k = nom.toLowerCase(), now = performance.now();
+        if (marcheurs[k]) { if (!marcheurs[k].horsJeu) prolonger(marcheurs[k], now); return; }   // re-commande : prolonge
+        var horsJeu = !!(st.streamer || st.mod);
+        var spectateurs = Object.keys(marcheurs).filter(function (c) { return !marcheurs[c].horsJeu; }).length;
+        if (!horsJeu && spectateurs >= MAX) return;
+        var duree = DUREE * Math.max(1, st.vip ? DUREE_VIP : 1, st.sub ? DUREE_SUB : 1);
+        var de = choisir(listeNoeuds);
+        var m = marcheurs[k] = {
+          k: k, streamer: !!st.streamer, mod: !!st.mod && !st.streamer, sub: !!st.sub, horsJeu: horsJeu, duree: duree,
+          de: de, vers: choisir(de.v), s: 0, prochainPas: 0, gauche: false, x: de.x, y: de.y,
+          fin: horsJeu ? Infinity : now + duree, nom: banderole(nom, st), vitesse: VITESSE * hasard(0.85, 1.15),
+          pauseFin: 0, prochainePause: now + hasard(ENTRE_ARRETS[0], ENTRE_ARRETS[1]) * 1000
+        };
+        habiller(m);
+        couronner();
+        if (!enCours) { enCours = true; dernier = now; requestAnimationFrame(frame); }
+      }
+
+      // Temps ecoule : le marcheur ne s'evapore pas sur place, il s'en va. Soit il rentre dans
+      // le premier batiment qu'il longe (les pas entrent dans la maison), soit il gagne la
+      // sortie de la carte la plus proche (rue qui file hors du cadre) par le plus court chemin.
+      function sortiePlusProche(depart) {
+        var vus = new Map([[depart, null]]), file = [depart], secours = null;
+        while (file.length) {
+          var n = file.shift();
+          if (n !== depart && n.v.length === 1) {
+            var auBord = n.x < FX + 90 || n.x > FX + FW - 90 || n.y < FY + 90 || n.y > FY + FH - 90;
+            if (auBord) { secours = n; break; }
+          }
+          n.v.forEach(function (w) { if (!vus.has(w)) { vus.set(w, n); file.push(w); } });
+        }
+        if (!secours) return null;
+        var chemin = [];
+        for (var c = secours; c && c !== depart; c = vus.get(c)) chemin.unshift(c);
+        return chemin;
+      }
+      function partir(m, now) {
+        m.etat = Math.random() < 0.5 ? 'rentre' : 'sort';
+        m.limite = now + 40000;   // garde-fou : s'efface quoi qu'il arrive
+        if (m.etat === 'sort') {
+          // sortie trop loin (plus de ~1500 px de marche) : il rentre plutot dans une maison
+          m.chemin = sortiePlusProche(m.vers);
+          if (!m.chemin || m.chemin.length > 30) m.etat = 'rentre';
+        }
+      }
+      // Point d'arrivee hors graphe (porte d'une maison, ou au-dela du bord de la carte).
+      function versPoint(m, x, y) { m.cible = true; return { x: x, y: y, v: [] }; }
+      function prochainNoeud(m) {
+        if (m.cible) return null;                                        // arrive : on disparait
+        if (m.etat === 'rentre') {
+          var meilleur = null, dMin = 190;
+          entrees.forEach(function (e) { var d = Math.hypot(e[0] - m.vers.x, e[1] - m.vers.y); if (d < dMin) { dMin = d; meilleur = e; } });
+          if (meilleur) return versPoint(m, m.vers.x + (meilleur[0] - m.vers.x) * 0.85, m.vers.y + (meilleur[1] - m.vers.y) * 0.85);
+        }
+        if (m.etat === 'sort') {
+          if (m.chemin.length) return m.chemin.shift();
+          // bout de rue au bord du cadre : on continue tout droit hors de la carte
+          var dx = m.vers.x - m.de.x, dy = m.vers.y - m.de.y, l = Math.hypot(dx, dy) || 1;
+          return versPoint(m, m.vers.x + dx / l * 160, m.vers.y + dy / l * 160);
+        }
+        // Carrefour : on repart dans une rue au hasard, sans faire demi-tour sauf impasse.
+        var suite = m.vers.v.filter(function (n) { return n !== m.de; });
+        return choisir(suite.length ? suite : m.vers.v);
+      }
+      function disparaitre(k) {
+        var m = marcheurs[k];
+        m.nom.g.setAttribute('opacity', 0);
+        setTimeout(function () { m.nom.g.remove(); }, 1600);
+        delete marcheurs[k];
+        couronner();
+      }
+      function prolonger(m, now) {
+        m.fin = now + m.duree;
+        if (!m.etat) return;
+        if (m.cible) {
+          // il allait rentrer / sortir : demi-tour vers le dernier carrefour
+          var len = Math.hypot(m.vers.x - m.de.x, m.vers.y - m.de.y), de = m.de;
+          m.de = m.vers; m.vers = de; m.s = len - m.s; m.prochainPas = m.s; m.cible = false;
+        }
+        m.etat = null; m.chemin = null;
+      }
+
+      var dernier = 0;
+      function frame(now) {
+        var dt = Math.min(0.1, (now - dernier) / 1000);
+        dernier = now;
+        Object.keys(marcheurs).forEach(function (k) {
+          var m = marcheurs[k];
+          if (now > m.fin && !m.etat) partir(m, now);
+          if (m.etat && now > m.limite) { disparaitre(k); return; }
+          var len = Math.hypot(m.vers.x - m.de.x, m.vers.y - m.de.y);
+          var dx = (m.vers.x - m.de.x) / len, dy = (m.vers.y - m.de.y) / len;
+          // Arret de temps en temps pendant la promenade : il s'immobilise, pieds joints.
+          if (!m.etat && now > m.prochainePause) {
+            m.pauseFin = now + hasard(ARRET[0], ARRET[1]) * 1000;
+            m.prochainePause = m.pauseFin + hasard(ENTRE_ARRETS[0], ENTRE_ARRETS[1]) * 1000;
+            m.pas = m.pas || [];
+            m.pas.push(empreinte(m.x, m.y, dx, dy, m.gauche));
+            if (m.pas.length > 3) m.pas.shift().classList.add('pas-fin');
+          }
+          if (now >= m.pauseFin) {
+            m.s += m.vitesse * dt;
+            while (m.s >= len) {
+              var suivant = prochainNoeud(m);
+              if (!suivant) { disparaitre(k); return; }   // entre dans la maison / sorti de la carte
+              m.s -= len; m.prochainPas -= len;
+              m.de = m.vers; m.vers = suivant;
+              len = Math.hypot(m.vers.x - m.de.x, m.vers.y - m.de.y);
+            }
+            dx = (m.vers.x - m.de.x) / len; dy = (m.vers.y - m.de.y) / len;
+            while (m.s >= m.prochainPas) {
+              // 3 empreintes au plus par personne : la plus ancienne s'efface quand une nouvelle apparait
+              m.pas = m.pas || [];
+              m.pas.push(empreinte(m.de.x + dx * m.prochainPas, m.de.y + dy * m.prochainPas, dx, dy, m.gauche));
+              if (m.pas.length > 3) m.pas.shift().classList.add('pas-fin');
+              m.gauche = !m.gauche;
+              m.prochainPas += PAS;
+            }
+          }
+          m.x = m.de.x + dx * m.s; m.y = m.de.y + dy * m.s;
+          m.nom.g.setAttribute('transform', 'translate(' + m.x.toFixed(1) + ',' + (m.y - 36).toFixed(1) + ')');
+        });
+        croisements();
+        enCours = Object.keys(marcheurs).length > 0;
+        if (enCours) requestAnimationFrame(frame);
+      }
+
+      // Test sans chat : ?carte=Pseudo1,Pseudo2 dans l'URL (statuts : Pseudo:mod, Pseudo:vip,
+      // Pseudo:sub12...), ou carteMaraudeur('Pseudo', { vip: true }) en console.
+      window.carteMaraudeur = apparaitre;
+      // Le streamer se promene en permanence sur la carte (maraudeur.streamer, '' = absent).
+      var STREAMER = String(cfg('maraudeur.streamer', 'Elwe'));
+      if (STREAMER) apparaitre(STREAMER, true);
+      var test = /[?&]carte=([^&?]*)/.exec(location.search);
+      if (test) decodeURIComponent(test[1]).split(',').forEach(function (n) {
+        var parts = n.trim().split(':'), st = {};
+        parts.slice(1).forEach(function (p) { var sm = /^sub(\d*)$/.exec(p); if (sm) { st.sub = true; st.mois = +sm[1] || 0; } else st[p] = true; });
+        if (parts[0]) apparaitre(parts[0], st);
+      });
+
+      // Modos et VIP de la chaine via l'API Twitch (identifiants dans twitch-secrets.js ou dans
+      // l'URL, a obtenir avec "node twitch-connexion.js") : ils apparaissent d'office sur la carte au
+      // chargement (modos permanents, VIP pour leur duree), et leur statut est reconnu quand
+      // ils tapent la commande meme si le chat ne le precise pas. Sans identifiants : rien de plus.
+      var modosChaine = new Set(), vipsChaine = new Set();
+      // Sur GitHub Pages (pas de twitch-secrets.js publie), les identifiants passent dans l'URL
+      // de la source OBS apres un # : ...#twitch=IDCLIENT:JETONRENOUVELLEMENT (le # n'est jamais
+      // envoye au serveur ; valeur donnee par "node twitch-connexion.js obs").
+      var SECRETS = window.TWITCH_SECRETS || {};
+      var parUrl = /[#&]twitch=([^:&]+):([^&]+)/.exec(location.hash);
+      // (un # mal colle ne doit pas empecher la suite : le chat et la commande marchent sans l'API)
+      try { if (parUrl) SECRETS = { clientId: decodeURIComponent(parUrl[1]), refreshToken: decodeURIComponent(parUrl[2]) }; }
+      catch (e) { console.warn('[Maraudeur] #twitch= illisible dans l\'URL'); }
+      var jetonAcces = SECRETS.token;
+      function memoire(cle, valeur) {
+        try { if (valeur === undefined) return localStorage.getItem(cle); localStorage.setItem(cle, valeur); } catch (e) {}
+        return null;
+      }
+      // Le token ne vit que 4 h : a chaque chargement on en demande un neuf avec le jeton de
+      // renouvellement. Celui-ci ne sert qu'une fois : le suivant est garde dans le navigateur
+      // (OBS), sauf si twitch-secrets.js a ete refait depuis (son jeton est alors plus recent).
+      function renouveler() {
+        var garde = memoire('maraudeur-refresh-source') === SECRETS.refreshToken ? memoire('maraudeur-refresh') : null;
+        var essais = [garde, SECRETS.refreshToken].filter(function (j, i, l) { return j && l.indexOf(j) === i; });
+        function essai(i) {
+          if (i >= essais.length) return Promise.resolve(SECRETS.token);
+          return fetch('https://id.twitch.tv/oauth2/token', { method: 'POST', body: new URLSearchParams({ client_id: SECRETS.clientId, grant_type: 'refresh_token', refresh_token: essais[i] }) })
+            .then(function (rep) { return rep.json(); })
+            .then(function (j) {
+              if (!j.access_token) return essai(i + 1);
+              memoire('maraudeur-refresh', j.refresh_token);
+              memoire('maraudeur-refresh-source', SECRETS.refreshToken);
+              return j.access_token;
+            });
+        }
+        return essai(0);
+      }
+      function helix(url, liste) {
+        liste = liste || [];
+        return fetch(url, { headers: { 'Client-Id': SECRETS.clientId, Authorization: 'Bearer ' + jetonAcces } })
+          .then(function (rep) { if (!rep.ok) throw new Error(url + ' : ' + rep.status); return rep.json(); })
+          .then(function (rep) {
+            liste = liste.concat(rep.data || []);
+            var suite = rep.pagination && rep.pagination.cursor;   // plus de 100 : page suivante
+            return suite ? helix(url.replace(/&after=[^&]*/, '') + '&after=' + suite, liste) : liste;
+          });
+      }
+      function placerEquipe(modos, vips) {
+        modos.forEach(function (u) { modosChaine.add(u.user_login); apparaitre(u.user_name, { mod: true }); });
+        vips.forEach(function (u) { vipsChaine.add(u.user_login); apparaitre(u.user_name, { vip: true }); });
+      }
+      if (SECRETS.clientId && (SECRETS.token || SECRETS.refreshToken) && window.fetch) {
+        renouveler()
+          .then(function (jeton) {
+            jetonAcces = jeton;
+            return fetch('https://id.twitch.tv/oauth2/validate', { headers: { Authorization: 'OAuth ' + jeton } });
+          })
+          .then(function (rep) { return rep.json(); })
+          .then(function (v) {
+            if (!v.user_id) throw new Error('connexion expiree : relancer "node twitch-connexion.js"');
+            var parChaine = '?broadcaster_id=' + v.user_id + '&first=100';
+            return Promise.all([helix('https://api.twitch.tv/helix/moderation/moderators' + parChaine), helix('https://api.twitch.tv/helix/channels/vips' + parChaine)]);
+          })
+          .then(function (listes) {
+            memoire('maraudeur-equipe', JSON.stringify(listes));   // derniere liste connue
+            placerEquipe(listes[0], listes[1]);
+          })
+          .catch(function (e) {
+            console.warn('[Maraudeur] API Twitch :', e.message);
+            // Twitch injoignable ou connexion expiree : on reprend la derniere liste connue
+            try { var equipe = JSON.parse(memoire('maraudeur-equipe')); if (equipe) placerEquipe(equipe[0], equipe[1]); } catch (err) {}
+          });
+      }
+
+      // Chat Twitch en lecture seule (connexion anonyme "justinfan", sans token).
+      var CHAINE = String(cfg('maraudeur.chaine', '')).replace(/^#/, '').toLowerCase();
+      var COMMANDES = cfg('maraudeur.commandes', ['!carte']).map(function (c) { return String(c).toLowerCase(); });
+      if (!CHAINE || !window.WebSocket) return;
+      var attente = 1000;
+      function connecter() {
+        var ws = new WebSocket('wss://irc-ws.chat.twitch.tv:443');
+        ws.onopen = function () {
+          attente = 1000;
+          ws.send('CAP REQ :twitch.tv/tags');
+          ws.send('PASS SCHMOOPIIE');
+          ws.send('NICK justinfan' + Math.floor(hasard(10000, 99999)));
+          ws.send('JOIN #' + CHAINE);
+        };
+        ws.onmessage = function (ev) {
+          String(ev.data).split('\r\n').forEach(function (ligne) {
+            if (ligne.indexOf('PING') === 0) { ws.send('PONG' + ligne.slice(4)); return; }
+            var msg = /^(?:@(\S+) )?:(\w+)!\S+ PRIVMSG #\S+ :(.*)$/.exec(ligne);
+            if (!msg) return;
+            var mot = msg[3].trim().split(/\s+/)[0].toLowerCase();
+            if (COMMANDES.indexOf(mot) < 0) return;
+            // tags IRC : statut du spectateur (modo, VIP, sub et mois d'abonnement)
+            var tags = {};
+            (msg[1] || '').split(';').forEach(function (t) { var i = t.indexOf('='); tags[t.slice(0, i)] = t.slice(i + 1); });
+            var badges = tags.badges || '', mois = /(?:subscriber|founder)\/(\d+)/.exec(tags['badge-info'] || '');
+            apparaitre(tags['display-name'] || msg[2], {
+              mod: tags.mod === '1' || /(^|,)moderator\//.test(badges) || modosChaine.has(msg[2]),
+              vip: tags.vip === '1' || /(^|,)vip\//.test(badges) || vipsChaine.has(msg[2]),
+              sub: tags.subscriber === '1' || /(^|,)(subscriber|founder)\//.test(badges),
+              mois: mois ? +mois[1] : 0
+            });
+          });
+        };
+        // Coupure (reseau, redemarrage Twitch) : reconnexion avec attente croissante.
+        ws.onclose = function () { setTimeout(connecter, attente); attente = Math.min(attente * 2, 60000); };
+      }
+      connecter();
     })();
     });
   ]]></script>

@@ -1,276 +1,180 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Calque : Statue équestre d'un chevalier (cheval bardé, bouclier, lance). -->
-<!-- Style croquis médiéval avec patine de bronze et piédestal en pierre. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" width="1024" height="1536">
+  <!-- Personnage en tenue ecossaise (veste verte, gilet noir, kilt tartan, chaussettes de laine), -->
+  <!-- style BD : contours noirs epais, aplats + ombres franches. Coordonnees calees sur image.png. -->
   <defs>
-    <!-- Patine bronze/verdigris pour la statue -->
-    <pattern id="bronzePatina" patternUnits="userSpaceOnUse" width="12" height="12">
-      <rect width="12" height="12" fill="#6a7a5a"/>
-      <circle cx="4" cy="5" r="2" fill="#5a6a4a" opacity="0.6"/>
-      <circle cx="9" cy="9" r="1.5" fill="#7a8a6a" opacity="0.5"/>
-      <circle cx="2" cy="8" r="1" fill="#4a5a3a" opacity="0.4"/>
+    <style>
+      .trait { stroke: #141414; stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; }
+      .fin { stroke: #141414; stroke-width: 3; stroke-linecap: round; fill: none; }
+      .peau { fill: #f2c4a2; }
+      .peau-ombre { fill: #d99a7a; }
+      .veste { fill: #0f4a3e; }
+      .veste-ombre { fill: #0a3229; }
+      .veste-reflet { fill: #1c6453; }
+      .gilet { fill: #1d1d1f; }
+      .gilet-ombre { fill: #111112; }
+      .chemise { fill: #f4f1ea; }
+      .chemise-ombre { fill: #d6d2c8; }
+      .laine { fill: #efe8cc; }
+      .laine-ombre { fill: #d5cba6; }
+      .cuir { fill: #8e6a44; }
+      .cheveux { fill: #5a3220; }
+      .cheveux-ombre { fill: #3a2014; }
+    </style>
+
+    <!-- Tartan bleu nuit / vert, filets jaune et violet (comme le kilt de l'image) -->
+    <pattern id="tartan" x="330" y="745" width="120" height="120" patternUnits="userSpaceOnUse" patternTransform="translate(-60,-40) scale(1.7)">
+      <rect width="120" height="120" fill="#183a48"/>
+      <rect x="0" y="0" width="52" height="120" fill="#0f4a3e" opacity="0.6"/>
+      <rect x="0" y="0" width="120" height="52" fill="#0f4a3e" opacity="0.6"/>
+      <rect x="72" y="0" width="30" height="120" fill="#081820" opacity="0.55"/>
+      <rect x="0" y="72" width="120" height="30" fill="#081820" opacity="0.55"/>
+      <rect x="58" y="0" width="3" height="120" fill="#cdb873"/>
+      <rect x="0" y="58" width="120" height="3" fill="#cdb873"/>
+      <rect x="110" y="0" width="2" height="120" fill="#6b5a8e"/>
+      <rect x="0" y="110" width="120" height="2" fill="#6b5a8e"/>
     </pattern>
-
-    <!-- Texture pierre (piédestal) -->
-    <pattern id="stoneTexture" patternUnits="userSpaceOnUse" width="40" height="30">
-      <rect width="40" height="30" fill="#b8a888"/>
-      <rect x="2" y="2" width="36" height="12" fill="#c4b59a" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
-      <rect x="2" y="16" width="17" height="12" fill="#aa9a7a" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
-      <rect x="21" y="16" width="17" height="12" fill="#c4b59a" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+    <!-- Cotes de la laine (chaussettes) -->
+    <pattern id="cotes" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+      <rect width="12" height="12" fill="#efe8cc"/>
+      <rect x="9" width="2.5" height="12" fill="#d5cba6"/>
     </pattern>
-
-    <!-- Dégradé pour effet bronze -->
-    <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7a8a6a"/>
-      <stop offset="50%" stop-color="#5a6a4a"/>
-      <stop offset="100%" stop-color="#4a5a3a"/>
-    </linearGradient>
-
-    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
-      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    
-    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
-      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
+    <pattern id="cotes-revers" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+      <rect width="14" height="14" fill="#f4eed6"/>
+      <rect x="10" width="3" height="14" fill="#dcd2b0"/>
+    </pattern>
   </defs>
 
-  <!-- ======================================================= -->
-  <!-- STATUE ÉQUESTRE (Placée sur le côté droit) -->
-  <!-- ======================================================= -->
-  <g id="statue-chevalier-equestre" transform="translate(2800, 1200) scale(0.95)" opacity="0.95">
-    
-    <!-- Ombre portée au sol -->
-    <ellipse cx="0" cy="420" rx="220" ry="35" fill="#3a2a1a" opacity="0.35" filter="url(#sketchyMedium)"/>
+  <!-- ================================================= JAMBES -->
+  <!-- cuisses / genoux (sous le kilt) -->
+  <path class="trait peau" d="M 372,995 L 448,995 L 456,1080 L 356,1084 Z"/>
+  <path class="trait peau" d="M 584,995 L 652,995 L 688,1074 L 582,1074 Z"/>
+  <path class="peau-ombre" d="M 420,1000 L 446,1000 L 452,1076 L 432,1078 Z"/>
+  <path class="peau-ombre" d="M 630,1000 L 650,1000 L 684,1070 L 660,1072 Z"/>
+  <path class="fin" d="M 392,1040 Q 404,1032 416,1042 M 604,1036 Q 616,1028 628,1038"/>
 
-    <!-- ======================================================= -->
-    <!-- PIÉDESTAL (Large et massif pour le cheval) -->
-    <!-- ======================================================= -->
-    <g id="piédestal">
-      <!-- Base large -->
-      <rect x="-220" y="360" width="440" height="60" 
-            fill="#b8a888" stroke="#2a1a0a" stroke-width="4" 
-            filter="url(#sketchyHeavy)" opacity="0.95"/>
-      <rect x="-220" y="360" width="440" height="60" 
-            fill="url(#stoneTexture)" opacity="0.8"/>
-      
-      <!-- Bloc central -->
-      <rect x="-200" y="280" width="400" height="80" 
-            fill="#b8a888" stroke="#2a1a0a" stroke-width="4" 
-            filter="url(#sketchyHeavy)" opacity="0.95"/>
-      <rect x="-200" y="280" width="400" height="80" 
-            fill="url(#stoneTexture)" opacity="0.8"/>
-      
-      <!-- Bloc supérieur (plateforme) -->
-      <rect x="-180" y="240" width="360" height="40" 
-            fill="#b8a888" stroke="#2a1a0a" stroke-width="4" 
-            filter="url(#sketchyHeavy)" opacity="0.95"/>
-      <rect x="-180" y="240" width="360" height="40" 
-            fill="url(#stoneTexture)" opacity="0.8"/>
+  <!-- chaussettes montantes : tube cotele + revers replie -->
+  <path class="trait" fill="url(#cotes)" d="M 360,1110 C 362,1170 372,1240 378,1296 L 442,1300 C 442,1240 450,1170 455,1112 Z"/>
+  <path class="laine-ombre" opacity="0.6" d="M 425,1114 L 455,1112 C 450,1170 442,1240 442,1300 L 428,1298 C 430,1230 434,1170 425,1114 Z"/>
+  <path class="trait" fill="url(#cotes-revers)" d="M 352,1068 C 380,1060 430,1062 460,1070 L 457,1118 C 425,1112 385,1112 357,1118 Z"/>
+  <path class="trait" fill="url(#cotes)" d="M 585,1108 C 594,1170 606,1235 614,1292 L 680,1290 C 680,1230 684,1170 686,1106 Z"/>
+  <path class="laine-ombre" opacity="0.6" d="M 655,1108 L 686,1106 C 684,1170 680,1230 680,1290 L 664,1290 C 664,1230 662,1170 655,1108 Z"/>
+  <path class="trait" fill="url(#cotes-revers)" d="M 578,1062 C 610,1054 660,1054 690,1060 L 687,1110 C 655,1104 615,1104 584,1112 Z"/>
 
-      <!-- Inscription / Plaque -->
-      <rect x="-100" y="300" width="200" height="40" rx="3" fill="#8a7a6a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <g stroke="#3a2a1a" stroke-width="2" opacity="0.7" filter="url(#sketchyMedium)">
-        <line x1="-80" y1="315" x2="80" y2="315"/>
-        <line x1="-60" y1="325" x2="60" y2="325"/>
-      </g>
+  <!-- chaussures en daim creme, semelle cuir -->
+  <path class="trait cuir" d="M 328,1362 C 330,1386 400,1392 446,1376 L 446,1362 Z"/>
+  <path class="trait laine" d="M 378,1284 C 346,1302 326,1332 328,1358 C 332,1378 402,1382 446,1366 C 452,1338 448,1304 442,1288 Z"/>
+  <path class="laine-ombre" d="M 340,1352 C 360,1366 410,1368 444,1356 L 446,1366 C 402,1382 332,1378 330,1360 Z"/>
+  <path class="fin" d="M 362,1310 Q 384,1300 404,1312"/>
+  <path class="trait cuir" d="M 612,1338 C 616,1360 690,1370 784,1360 L 784,1346 Z"/>
+  <path class="trait laine" d="M 614,1282 L 684,1280 C 716,1298 768,1308 782,1336 C 786,1356 744,1362 690,1358 C 646,1356 616,1348 612,1330 Z"/>
+  <path class="laine-ombre" d="M 620,1336 C 650,1348 730,1352 780,1344 L 782,1350 C 744,1360 646,1358 616,1344 Z"/>
+  <path class="fin" d="M 690,1300 Q 714,1296 736,1312"/>
 
-      <!-- Mousse sur le piédestal -->
-      <g fill="#6a7a5a" opacity="0.4" filter="url(#sketchyMedium)">
-        <ellipse cx="-180" cy="360" rx="20" ry="10"/>
-        <ellipse cx="190" cy="390" rx="25" ry="12"/>
-        <ellipse cx="0" cy="410" rx="40" ry="10"/>
-      </g>
-    </g>
+  <!-- ================================================= VESTE (pans, derriere le gilet) -->
+  <path class="trait veste" d="M 330,402 L 456,384 L 470,410 L 432,470 L 414,620 L 420,742 L 336,838 L 290,830 C 292,720 296,620 300,540 Z"/>
+  <path class="trait veste" d="M 562,390 L 652,410 C 678,520 692,640 696,800 L 640,782 L 616,714 L 612,500 Z"/>
+  <!-- ombre du pan droit -->
+  <path class="veste-ombre" d="M 650,420 C 672,520 686,640 690,792 L 668,786 C 664,660 656,540 640,430 Z"/>
 
-    <!-- ======================================================= -->
-    <!-- CHEVAL BARDÉ (En armure) -->
-    <!-- ======================================================= -->
-    <g id="cheval-bardé">
-      
-      <!-- Jambes arrière (loin) -->
-      <path d="M 120,200 L 140,320 L 170,320 L 150,200 Z" fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <path d="M 120,200 L 140,320 L 170,320 L 150,200 Z" fill="url(#bronzePatina)" opacity="0.6"/>
-      <!-- Jambes avant (loin) -->
-      <path d="M -120,200 L -140,320 L -110,320 L -90,200 Z" fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <path d="M -120,200 L -140,320 L -110,320 L -90,200 Z" fill="url(#bronzePatina)" opacity="0.6"/>
-
-      <!-- Queue -->
-      <path d="M 160,150 Q 220,180 200,280 Q 190,300 180,280 Q 190,200 150,170 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-
-      <!-- Corps du cheval (Torse et croupe) -->
-      <path d="M -160,120 Q 0,80 160,120 Q 180,180 150,220 L -140,220 Q -180,180 -160,120 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="4" 
-            filter="url(#sketchyHeavy)" opacity="0.95"/>
-      <path d="M -160,120 Q 0,80 160,120 Q 180,180 150,220 L -140,220 Q -180,180 -160,120 Z" 
-            fill="url(#bronzePatina)" opacity="0.6"/>
-
-      <!-- Caparaçon / Bardure (Armure du cheval) -->
-      <g stroke="#2a1a0a" stroke-width="2" opacity="0.7" fill="none" filter="url(#sketchyMedium)">
-        <path d="M -150,130 Q 0,90 150,130"/>
-        <path d="M -140,160 Q 0,120 140,160"/>
-        <path d="M -130,190 Q 0,150 130,190"/>
-        <!-- Sangles -->
-        <line x1="-50" y1="100" x2="-50" y2="220"/>
-        <line x1="50" y1="100" x2="50" y2="220"/>
-      </g>
-
-      <!-- Encolure et Tête -->
-      <path d="M -160,120 Q -200,80 -220,40 Q -230,20 -210,10 Q -190,0 -180,30 Q -160,70 -140,110 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="4" 
-            filter="url(#sketchyHeavy)" opacity="0.95"/>
-      <path d="M -160,120 Q -200,80 -220,40 Q -230,20 -210,10 Q -190,0 -180,30 Q -160,70 -140,110 Z" 
-            fill="url(#bronzePatina)" opacity="0.6"/>
-
-      <!-- Chanfron (Armure de la tête) -->
-      <path d="M -220,40 L -240,50 L -230,70 L -200,60 Z" 
-            fill="#5a6a4a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <!-- Pointe du chanfron -->
-      <path d="M -240,50 L -250,55 L -240,60 Z" fill="#4a5a3a" stroke="#2a1a0a" stroke-width="2"/>
-      <!-- illère (trou pour l'œil) -->
-      <ellipse cx="-205" cy="35" rx="6" ry="4" fill="#1a0f05" opacity="0.9"/>
-      <!-- Oreilles -->
-      <path d="M -190,15 L -195,-5 L -180,10 Z" fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="2"/>
-      <path d="M -175,20 L -175,0 L -165,15 Z" fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="2"/>
-
-      <!-- Jambes avant (proches) -->
-      <!-- Jambe avant gauche (posée) -->
-      <path d="M -100,200 L -110,320 Q -110,330 -90,330 L -70,330 Q -60,330 -60,320 L -70,200 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <!-- Genouillère -->
-      <ellipse cx="-80" cy="270" rx="16" ry="10" fill="#5a6a4a" stroke="#2a1a0a" stroke-width="2"/>
-      
-      <!-- Jambe avant droite (levée - dynamique) -->
-      <path d="M -60,200 L -90,260 Q -100,280 -80,290 L -60,290 Q -50,290 -50,270 L -40,200 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <ellipse cx="-70" cy="250" rx="16" ry="10" fill="#5a6a4a" stroke="#2a1a0a" stroke-width="2"/>
-
-      <!-- Jambes arrière (proches) -->
-      <path d="M 100,200 L 90,320 Q 90,330 110,330 L 130,330 Q 140,330 140,320 L 130,200 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <ellipse cx="110" cy="270" rx="16" ry="10" fill="#5a6a4a" stroke="#2a1a0a" stroke-width="2"/>
-
-      <!-- Crinière (stylisée en métal) -->
-      <g fill="#4a5a3a" stroke="#2a1a0a" stroke-width="2" filter="url(#sketchyMedium)">
-        <path d="M -160,100 Q -170,80 -150,70 Q -140,90 -150,110 Z"/>
-        <path d="M -140,90 Q -150,70 -130,60 Q -120,80 -130,100 Z"/>
-        <path d="M -120,85 Q -130,65 -110,55 Q -100,75 -110,95 Z"/>
-      </g>
-    </g>
-
-    <!-- ======================================================= -->
-    <!-- CHEVALIER -->
-    <!-- ======================================================= -->
-    <g id="chevalier">
-      <!-- Jambes du chevalier (sur les flancs) -->
-      <path d="M -30,180 L -40,240 Q -40,250 -20,250 L -10,250 Q 0,250 0,240 L 10,180 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <path d="M 20,180 L 30,240 Q 30,250 50,250 L 60,250 Q 70,250 70,240 L 50,180 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <!-- Genouillères -->
-      <ellipse cx="-20" cy="220" rx="14" ry="9" fill="#5a6a4a" stroke="#2a1a0a" stroke-width="2"/>
-      <ellipse cx="50" cy="220" rx="14" ry="9" fill="#5a6a4a" stroke="#2a1a0a" stroke-width="2"/>
-
-      <!-- Torse (Cuirasse) -->
-      <path d="M -40,80 Q 0,60 40,80 L 50,180 Q 0,190 -50,180 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="4" 
-            filter="url(#sketchyHeavy)" opacity="0.95"/>
-      <path d="M -40,80 Q 0,60 40,80 L 50,180 Q 0,190 -50,180 Z" 
-            fill="url(#bronzePatina)" opacity="0.6"/>
-      
-      <!-- Détails cuirasse -->
-      <line x1="0" y1="75" x2="0" y2="185" stroke="#2a1a0a" stroke-width="2" opacity="0.7"/>
-      <path d="M -35,110 Q 0,105 35,110" fill="none" stroke="#2a1a0a" stroke-width="2" opacity="0.7"/>
-      <path d="M -40,140 Q 0,135 40,140" fill="none" stroke="#2a1a0a" stroke-width="2" opacity="0.7"/>
-
-      <!-- Épaulières (Pauldrons) -->
-      <path d="M -50,80 Q -70,90 -65,120 Q -50,130 -40,120 L -35,85 Z" fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <path d="M 40,80 Q 60,90 65,120 Q 50,130 40,120 L 35,85 Z" fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-
-      <!-- Bras gauche (tient le bouclier) -->
-      <path d="M -60,115 L -80,160 Q -85,170 -70,175 L -50,170 Q -40,165 -45,150 L -35,115 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      
-      <!-- Bras droit (tient la lance) -->
-      <path d="M 55,115 L 70,150 Q 75,160 60,165 L 40,160 Q 30,155 35,140 L 45,115 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <!-- Gantelet droit -->
-      <circle cx="65" cy="160" r="10" fill="#4a5a3a" stroke="#2a1a0a" stroke-width="2"/>
-
-      <!-- Heaume (Casque) -->
-      <path d="M -25,85 L -25,40 Q -25,10 0,10 Q 25,10 25,40 L 25,85 Q 25,95 0,95 Q -25,95 -25,85 Z" 
-            fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="4" 
-            filter="url(#sketchyHeavy)" opacity="0.95"/>
-      <path d="M -25,85 L -25,40 Q -25,10 0,10 Q 25,10 25,40 L 25,85 Q 25,95 0,95 Q -25,95 -25,85 Z" 
-            fill="url(#bronzePatina)" opacity="0.6"/>
-      
-      <!-- Visière -->
-      <path d="M -20,45 L -20,65 Q -20,70 0,70 Q 20,70 20,65 L 20,45 Q 20,40 0,40 Q -20,40 -20,45 Z" 
-            fill="#1a0f05" opacity="0.85"/>
-      <g stroke="#1a0f05" stroke-width="1.5" opacity="0.7">
-        <line x1="-10" y1="75" x2="-10" y2="85"/>
-        <line x1="0" y1="75" x2="0" y2="85"/>
-        <line x1="10" y1="75" x2="10" y2="85"/>
-      </g>
-      <!-- Cimier (Crête du casque) -->
-      <path d="M 0,10 Q 0,-15 0,-25" fill="none" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <path d="M -10,-20 Q 0,-30 10,-20 L 5,-10 L -5,-10 Z" fill="#4a5a3a" stroke="#2a1a0a" stroke-width="2"/>
-
-      <!-- BOUCLIER (Écu chauffé) -->
-      <g id="bouclier" transform="translate(-75, 160) rotate(-15)" filter="url(#sketchyMedium)">
-        <path d="M -35,-40 L 35,-40 L 45,10 L 0,60 L -45,10 Z" 
-              fill="url(#bronzeGrad)" stroke="#2a1a0a" stroke-width="4"/>
-        <path d="M -35,-40 L 35,-40 L 45,10 L 0,60 L -45,10 Z" 
-              fill="url(#bronzePatina)" opacity="0.5"/>
-        <!-- Bordure du bouclier -->
-        <path d="M -25,-30 L 25,-30 L 32,10 L 0,48 L -32,10 Z" 
-              fill="none" stroke="#2a1a0a" stroke-width="2"/>
-        <!-- Héraldique : Lion rampant stylisé -->
-        <path d="M -10,-10 Q 10,-20 15,0 Q 20,20 0,30 Q -15,20 -10,0 Z" 
-              fill="#4a5a3a" stroke="#2a1a0a" stroke-width="2"/>
-        <path d="M 5,-5 L 15,-15 M 5,5 L 15,5 M 0,15 L 10,25" stroke="#2a1a0a" stroke-width="2" fill="none"/>
-      </g>
-    </g>
-
-    <!-- ======================================================= -->
-    <!-- LANCE ET FANION -->
-    <!-- ======================================================= -->
-    <g id="lance-fanion" filter="url(#sketchyMedium)">
-      <!-- La Lance (longue tige diagonale) -->
-      <line x1="65" y1="160" x2="-280" y2="-250" stroke="#5a4a3a" stroke-width="8" stroke-linecap="round"/>
-      <line x1="65" y1="160" x2="-280" y2="-250" stroke="#3a2a1a" stroke-width="2" opacity="0.5"/>
-      
-      <!-- Pointe de la lance -->
-      <path d="M -280,-250 L -310,-280 L -270,-260 Z" fill="#8a8a8a" stroke="#2a1a0a" stroke-width="2"/>
-      
-      <!-- Fanion (Drapeau triangulaire au bout de la lance) -->
-      <path d="M -280,-250 Q -330,-270 -380,-240 Q -330,-230 -280,-250 Z" 
-            fill="#a04030" stroke="#2a1a0a" stroke-width="3" opacity="0.9"/>
-      <!-- Héraldique sur le fanion -->
-      <path d="M -310,-255 L -300,-245 L -320,-245 Z" fill="#d4ba82" opacity="0.8"/>
-      <path d="M -340,-245 L -330,-235 L -350,-235 Z" fill="#d4ba82" opacity="0.8"/>
-      <!-- Pliures du tissu -->
-      <path d="M -300,-250 Q -320,-240 -340,-245" fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.6"/>
-      <path d="M -320,-255 Q -340,-245 -360,-240" fill="none" stroke="#2a1a0a" stroke-width="1.5" opacity="0.6"/>
-    </g>
-
-    <!-- ======================================================= -->
-    <!-- DÉTAILS DE PATINE ET VIEILLISSEMENT -->
-    <!-- ======================================================= -->
-    <g fill="#4a6a4a" opacity="0.5" filter="url(#sketchyMedium)">
-      <ellipse cx="-180" cy="150" rx="15" ry="10"/>
-      <ellipse cx="120" cy="180" rx="12" ry="8"/>
-      <ellipse cx="-210" cy="60" rx="10" ry="6"/>
-      <ellipse cx="20" cy="120" rx="14" ry="9"/>
-      <ellipse cx="0" cy="30" rx="8" ry="5"/>
-    </g>
-
-    <!-- Fientes d'oiseaux (réalisme de statue extérieure) -->
-    <ellipse cx="-15" cy="15" rx="8" ry="4" fill="#e4d4b4" opacity="0.5" filter="url(#sketchyMedium)"/>
-    <ellipse cx="140" cy="130" rx="6" ry="3" fill="#e4d4b4" opacity="0.4" filter="url(#sketchyMedium)"/>
-
+  <!-- ================================================= KILT -->
+  <path class="trait" fill="url(#tartan)" d="M 345,738 L 690,732 C 698,820 708,900 718,984 C 600,996 460,1006 324,1012 C 326,920 334,830 345,738 Z"/>
+  <!-- plis : s'ouvrent vers le bas -->
+  <g class="fin" stroke-width="2.5" opacity="0.75">
+    <path d="M 360,830 L 352,1008 M 385,830 L 380,1007 M 410,830 L 408,1005 M 435,830 L 436,1004 M 460,830 L 464,1002"/>
+    <path d="M 485,830 L 492,1000 M 510,830 L 520,999 M 535,830 L 548,997 M 560,830 L 576,995 M 585,830 L 604,993"/>
+    <path d="M 610,830 L 632,991 M 635,830 L 660,989 M 660,830 L 688,987"/>
   </g>
+  <!-- ombre sous la ceinture et ourlet plus sombre -->
+  <path fill="#06121a" opacity="0.45" d="M 345,738 L 690,732 L 692,770 C 580,758 460,760 343,774 Z"/>
+  <path fill="#06121a" opacity="0.35" d="M 326,985 C 460,980 600,972 716,962 L 718,984 C 600,996 460,1006 324,1012 Z"/>
+
+  <!-- ================================================= CHEMISE, GILET, CRAVATE -->
+  <path class="chemise" d="M 466,368 L 550,368 L 556,500 L 460,500 Z"/>
+  <!-- gilet noir en V, pointes sur le kilt -->
+  <path class="trait gilet" d="M 440,408 L 512,512 L 566,410 L 612,500 L 616,712 L 548,712 L 470,750 L 418,736 L 412,600 L 430,470 Z"/>
+  <path class="gilet-ombre" d="M 560,430 L 610,506 L 614,710 L 580,712 C 586,620 580,520 560,430 Z"/>
+  <path class="fin" stroke="#444" d="M 512,512 L 520,712"/>
+  <!-- boutons -->
+  <g class="trait" stroke-width="2" fill="#4a4a4e">
+    <circle cx="524" cy="530" r="6"/><circle cx="525" cy="568" r="6"/><circle cx="526" cy="606" r="6"/>
+    <circle cx="527" cy="644" r="6"/><circle cx="528" cy="682" r="6"/>
+  </g>
+  <!-- poches a rabat -->
+  <path class="trait" stroke-width="3" fill="#2a2a2c" d="M 456,648 L 500,646 L 500,662 L 456,665 Z"/>
+  <path class="trait" stroke-width="3" fill="#2a2a2c" d="M 552,646 L 598,644 L 598,660 L 552,662 Z"/>
+  <!-- chaine de montre -->
+  <path d="M 470,662 Q 480,700 497,692 Q 508,676 524,644" fill="none" stroke="#c9c9cc" stroke-width="3" stroke-dasharray="3 2.5"/>
+
+  <!-- col de chemise -->
+  <path class="trait chemise" d="M 470,342 L 446,388 L 494,410 L 506,376 Z"/>
+  <path class="trait chemise" d="M 546,342 L 568,388 L 522,410 L 510,376 Z"/>
+  <path class="chemise-ombre" d="M 472,350 L 500,378 L 492,404 L 478,398 Z"/>
+  <!-- cravate verte -->
+  <path class="trait veste" d="M 494,378 L 524,378 L 518,404 L 500,404 Z"/>
+  <path class="trait veste" d="M 500,404 L 518,404 L 530,486 L 509,506 L 490,486 Z"/>
+  <path class="veste-reflet" d="M 504,410 L 512,410 L 516,480 L 506,488 Z"/>
+
+  <!-- revers de la veste + pochette doree -->
+  <path class="trait veste" d="M 454,374 L 406,448 L 428,458 L 416,476 L 468,606 L 430,470 L 440,410 Z"/>
+  <path class="trait veste" d="M 560,378 L 606,450 L 586,458 L 600,478 L 616,602 L 612,500 L 566,410 Z"/>
+  <path class="trait" stroke-width="3" fill="#cfae66" d="M 366,466 L 410,462 L 411,472 L 367,476 Z"/>
+
+  <!-- ================================================= MANCHES + MAINS -->
+  <!-- manches : epaule tombante, coude ecarte, l'avant-bras revient vers la ceinture -->
+  <path class="trait veste" d="M 336,398 C 300,400 276,428 262,480 C 250,520 242,560 242,600 C 242,646 262,686 292,708 L 348,716 C 336,690 326,650 326,606 C 326,560 334,510 336,470 C 338,440 340,418 336,398 Z"/>
+  <path class="veste-reflet" d="M 296,428 C 278,470 266,520 262,580 C 274,530 286,486 310,444 Z"/>
+  <path class="veste-ombre" d="M 326,560 C 322,620 326,670 340,712 L 348,716 C 336,690 326,650 326,606 Z"/>
+  <path class="fin" d="M 256,628 Q 278,620 296,634 M 256,660 Q 276,652 294,668"/>
+
+  <path class="trait veste" d="M 650,410 C 684,418 704,456 712,510 C 718,550 722,590 720,630 C 718,670 706,698 690,716 L 640,714 C 650,686 656,650 656,610 C 656,560 650,510 650,470 C 650,446 648,426 650,410 Z"/>
+  <path class="veste-ombre" d="M 694,470 C 708,520 716,580 714,640 C 710,680 700,704 690,716 L 676,714 C 694,670 700,560 694,470 Z"/>
+  <path class="fin" d="M 664,640 Q 684,632 702,646"/>
+
+  <!-- poignets de chemise + montre -->
+  <path class="trait chemise" d="M 330,700 L 366,706 L 362,730 L 326,724 Z"/>
+  <path class="trait chemise" d="M 636,706 L 674,706 L 676,730 L 638,730 Z"/>
+  <rect class="trait" stroke-width="2" x="664" y="706" width="12" height="22" rx="3" fill="#2a2a2c"/>
+
+  <!-- poings (pouces vers l'avant, poses sur la ceinture du kilt) -->
+  <path class="trait peau" d="M 350,716 C 344,742 366,768 396,764 C 422,762 434,742 430,720 C 426,704 404,700 386,705 C 368,706 354,706 350,716 Z"/>
+  <path class="peau-ombre" d="M 360,744 C 372,760 400,764 420,754 C 404,768 372,766 360,744 Z"/>
+  <path class="fin" stroke-width="2.5" d="M 372,722 Q 386,716 398,726 M 380,738 Q 392,732 408,740 M 404,716 Q 420,722 422,738"/>
+  <path class="trait peau" d="M 590,712 C 588,742 610,764 636,760 C 656,756 664,736 656,716 C 648,700 626,700 610,703 C 598,705 592,708 590,712 Z"/>
+  <path class="peau-ombre" d="M 600,742 C 612,758 634,762 650,750 C 640,764 612,764 600,742 Z"/>
+  <path class="fin" stroke-width="2.5" d="M 612,722 Q 626,716 638,726 M 604,738 Q 618,732 632,740 M 598,716 Q 594,730 600,740"/>
+
+  <!-- ================================================= TETE -->
+  <path class="trait peau-ombre" d="M 472,310 L 472,372 C 490,382 528,382 544,372 L 544,310 Z"/>
+  <!-- oreilles -->
+  <ellipse class="trait peau" cx="444" cy="248" rx="13" ry="21"/>
+  <ellipse class="trait peau" cx="572" cy="246" rx="13" ry="21"/>
+  <path class="fin" stroke-width="2.5" d="M 446,238 Q 438,248 446,258 M 570,236 Q 578,246 570,256"/>
+  <!-- visage -->
+  <path class="trait peau" d="M 446,214 C 442,282 462,332 504,346 C 546,344 570,300 572,224 C 570,184 546,164 506,164 C 470,164 446,184 446,214 Z"/>
+  <path class="peau-ombre" opacity="0.7" d="M 450,240 C 452,290 470,326 500,342 C 476,322 462,290 460,246 Z"/>
+  <!-- barbe de quelques jours + moustache -->
+  <path fill="#9c6640" opacity="0.6" d="M 450,262 C 456,316 480,344 505,346 C 538,345 562,312 568,262 C 560,292 546,312 526,316 Q 507,322 488,316 C 470,310 457,292 450,262 Z"/>
+  <path fill="#9c6640" opacity="0.7" d="M 486,294 Q 506,284 528,294 Q 507,299 486,294 Z"/>
+  <path fill="#9c6640" opacity="0.6" d="M 498,314 Q 507,330 516,314 Z"/>
+  <!-- cheveux : cote courts, houppe vers l'arriere -->
+  <!-- cheveux : cotes courts, houppe en meches relevees vers l'arriere -->
+  <path class="trait cheveux" d="M 444,240 C 436,206 440,176 456,160 L 452,146 L 468,150 C 472,134 486,126 500,128 L 498,116 L 516,124 C 526,116 542,118 548,128 L 562,124 L 560,140 C 576,150 582,180 574,236 C 570,212 564,196 550,190 C 528,184 494,190 470,180 C 458,194 450,214 448,240 Z"/>
+  <path class="cheveux-ombre" d="M 450,230 C 446,200 452,176 468,162 C 462,186 456,208 456,234 Z"/>
+  <path class="cheveux-ombre" d="M 470,180 C 494,190 528,184 550,190 C 562,196 568,206 572,222 C 560,200 530,194 500,196 C 486,194 476,190 470,180 Z"/>
+  <path class="fin" stroke="#2a160c" stroke-width="2.5" d="M 474,160 Q 492,140 516,138 M 480,174 Q 506,152 540,150 M 530,132 Q 556,142 566,172 M 498,170 Q 522,160 552,168"/>
+  <path d="M 486,146 Q 500,136 516,136" fill="none" stroke="#8a5434" stroke-width="3" stroke-linecap="round"/>
+  <!-- sourcils -->
+  <path d="M 458,212 Q 476,202 496,210" fill="none" stroke="#3a2014" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 518,210 Q 538,202 557,212" fill="none" stroke="#3a2014" stroke-width="6" stroke-linecap="round"/>
+  <!-- yeux fermes, souriants -->
+  <path class="fin" d="M 464,236 Q 477,244 490,236 M 525,236 Q 538,244 551,236"/>
+  <!-- lunettes rectangulaires -->
+  <g fill="#ffffff" fill-opacity="0.12" stroke="#1a1a1a" stroke-width="5" stroke-linejoin="round">
+    <rect x="452" y="216" width="48" height="34" rx="6"/>
+    <rect x="514" y="216" width="50" height="34" rx="6"/>
+  </g>
+  <path d="M 500,228 Q 507,223 514,228 M 452,224 L 440,222 M 564,224 L 576,222" fill="none" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+  <!-- nez et sourire en coin -->
+  <path class="fin" stroke-width="2.5" d="M 508,240 Q 500,266 504,278 Q 511,283 518,277"/>
+  <path class="fin" d="M 489,300 Q 506,308 524,297"/>
 </svg>

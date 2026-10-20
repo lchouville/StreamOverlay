@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : souris blanche de profil (trottine vers la droite), decoupee pour l'animation. -->
+<!-- Meme conventions que catside.svg : structure imbriquee cuisse > jambe > pied (pivot = -->
+<!-- hanche, genou, cheville), queue pivot a la base, tete pivot au cou. Integration dans -->
+<!-- ville-medievale-croquis.svg : copier le <g id="souris"> en ligne avec les regles .souris-* -->
+<!-- et le filtre #souris-croquis. Tous les IDs sont prefixes "souris-". -->
+<!-- Les couleurs sont dans les classes ; les epaisseurs de trait sont en attributs (une classe -->
+<!-- CSS ecraserait un attribut stroke-width/fill, d'ou cette separation). -->
+<!-- Membres et queue : trait d'encre large dessous + trait de pelage plus fin dessus. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 48 285 108" width="285" height="108">
+  <defs>
+    <style>
+      .souris-encre { stroke: #2a1a0a; stroke-linecap: round; stroke-linejoin: round; }
+      .souris-pelage { fill: #f4efe4; }
+      .souris-pelage-fonce { fill: #c9c0b0; }
+      .souris-pelage-clair { fill: #fffaf0; }
+      .souris-trait-pelage { stroke: #f4efe4; stroke-linecap: round; }
+      .souris-trait-fonce { stroke: #c9c0b0; stroke-linecap: round; }
+      .souris-trait-queue { stroke: #e8b0a8; stroke-linecap: round; fill: none; }
+      .souris-poil { stroke: #a09484; stroke-linecap: round; fill: none; }
+      .souris-oreille-int { fill: #eaa8a8; }
+      .souris-oeil { fill: #1a0f05; }
+      .souris-reflet { fill: #f4ecd4; }
+      .souris-nez { fill: #c8707a; }
+    </style>
+    <filter id="souris-croquis" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06 0.08" numOctaves="2" seed="15" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <g id="souris" filter="url(#souris-croquis)">
+
+    <!-- 1. PATTES DU FOND (cote gauche, pelage plus fonce, legerement decalees) -->
+    <g id="souris-pattes-fond">
+      <g id="souris-cuisse-arriere-g" transform-origin="114 122">
+        <path d="M 114,122 Q 108,132 110,138" fill="none" class="souris-encre" stroke-width="10"/>
+        <path d="M 114,122 Q 108,132 110,138" fill="none" class="souris-trait-fonce" stroke-width="6"/>
+        <g id="souris-jambe-arriere-g" transform-origin="110 138">
+          <path d="M 110,138 Q 114,142 112,144" fill="none" class="souris-encre" stroke-width="6"/>
+          <path d="M 110,138 Q 114,142 112,144" fill="none" class="souris-trait-fonce" stroke-width="3"/>
+          <g id="souris-pied-arriere-g" transform-origin="112 144">
+            <ellipse cx="118" cy="146" rx="8" ry="3" class="souris-encre souris-pelage-fonce" stroke-width="1.8"/>
+          </g>
+        </g>
+      </g>
+      <g id="souris-cuisse-avant-g" transform-origin="180 127">
+        <path d="M 180,127 Q 183,134 180,140" fill="none" class="souris-encre" stroke-width="8"/>
+        <path d="M 180,127 Q 183,134 180,140" fill="none" class="souris-trait-fonce" stroke-width="4.5"/>
+        <g id="souris-jambe-avant-g" transform-origin="180 140">
+          <path d="M 180,140 Q 179,143 181,144" fill="none" class="souris-encre" stroke-width="5"/>
+          <path d="M 180,140 Q 179,143 181,144" fill="none" class="souris-trait-fonce" stroke-width="2.5"/>
+          <g id="souris-pied-avant-g" transform-origin="181 144">
+            <ellipse cx="186" cy="146" rx="7" ry="2.8" class="souris-encre souris-pelage-fonce" stroke-width="1.8"/>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- 2. QUEUE (longue, fine, rosee ; pivot a la base, sous la croupe) -->
+    <g id="souris-queue" transform-origin="78 122">
+      <path d="M 78,122 C 52,134 30,130 24,112 C 19,97 28,84 12,72" fill="none" class="souris-encre" stroke-width="5.5"/>
+      <path d="M 78,122 C 52,134 30,130 24,112 C 19,97 28,84 12,72" fill="none" class="souris-trait-queue" stroke-width="3"/>
+      <!-- anneaux de la queue -->
+      <path d="M 60,127 l 1,4 M 44,128 l -1,4 M 31,121 l -4,2 M 24,104 l -4,0 M 23,92 l -4,-1"
+            class="souris-poil" stroke-width="1" opacity="0.5"/>
+    </g>
+
+    <!-- 3. CORPS (goutte : croupe ronde et haute, s'affine vers le cou) + ventre clair -->
+    <g id="souris-corps">
+      <path d="M 72,118 C 64,84 108,60 152,64 C 190,67 214,86 216,106 C 218,124 198,134 160,135 L 98,135 C 82,135 74,128 72,118 Z"
+            class="souris-encre souris-pelage" stroke-width="2.5"/>
+      <path d="M 96,131 Q 150,138 204,124 Q 160,128 96,131 Z" class="souris-pelage-clair"/>
+      <!-- quelques poils hachures sur le dos -->
+      <path d="M 104,76 l 3,6 M 124,68 l 2,6 M 146,66 l 1,6 M 168,69 l -1,6 M 188,77 l -2,5"
+            class="souris-poil" stroke-width="1.4" opacity="0.55"/>
+    </g>
+
+    <!-- 4. PATTES DU DEVANT (cote droit, pelage normal) -->
+    <g id="souris-pattes-devant">
+      <g id="souris-cuisse-arriere-d" transform-origin="102 122">
+        <path d="M 102,122 Q 96,132 98,138" fill="none" class="souris-encre" stroke-width="10"/>
+        <path d="M 102,122 Q 96,132 98,138" fill="none" class="souris-trait-pelage" stroke-width="6"/>
+        <!-- cuisse dodue par-dessus le trait de la patte -->
+        <path d="M 82,118 C 82,100 114,98 120,116 C 124,130 110,138 100,138 C 88,136 82,128 82,118 Z"
+              class="souris-encre souris-pelage" stroke-width="2.2"/>
+        <g id="souris-jambe-arriere-d" transform-origin="98 138">
+          <path d="M 98,138 Q 102,142 100,144" fill="none" class="souris-encre" stroke-width="6"/>
+          <path d="M 98,138 Q 102,142 100,144" fill="none" class="souris-trait-pelage" stroke-width="3"/>
+          <g id="souris-pied-arriere-d" transform-origin="100 144">
+            <ellipse cx="106" cy="146" rx="8.5" ry="3.2" class="souris-encre souris-oreille-int" stroke-width="1.8"/>
+          </g>
+        </g>
+      </g>
+      <g id="souris-cuisse-avant-d" transform-origin="194 127">
+        <path d="M 194,127 Q 197,134 194,140" fill="none" class="souris-encre" stroke-width="8"/>
+        <path d="M 194,127 Q 197,134 194,140" fill="none" class="souris-trait-pelage" stroke-width="4.5"/>
+        <g id="souris-jambe-avant-d" transform-origin="194 140">
+          <path d="M 194,140 Q 193,143 195,144" fill="none" class="souris-encre" stroke-width="5"/>
+          <path d="M 194,140 Q 193,143 195,144" fill="none" class="souris-trait-pelage" stroke-width="2.5"/>
+          <g id="souris-pied-avant-d" transform-origin="195 144">
+            <ellipse cx="200" cy="146" rx="7" ry="2.8" class="souris-encre souris-oreille-int" stroke-width="1.8"/>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- 5. TETE (pivot au cou) -->
+    <g id="souris-tete" transform-origin="204 100">
+      <!-- oreille du fond, derriere le crane -->
+      <circle cx="226" cy="68" r="12" class="souris-encre souris-pelage-fonce" stroke-width="2.2"/>
+
+      <!-- crane + museau pointu d'un seul tenant (pas de raccord visible) -->
+      <path d="M 196,98 C 194,80 214,72 232,80 C 244,86 256,98 266,106 C 270,110 266,116 258,117 C 240,119 214,120 202,112 C 198,108 196,104 196,98 Z"
+            class="souris-encre souris-pelage" stroke-width="2.5"/>
+      <!-- joue / menton clairs -->
+      <path d="M 214,114 Q 236,118 256,114 Q 236,112 214,114 Z" class="souris-pelage-clair"/>
+
+      <!-- grande oreille ronde du devant (animable : frisson) -->
+      <g id="souris-oreille" transform-origin="214 80">
+        <path d="M 206,82 C 194,74 196,54 212,52 C 228,51 232,68 222,80 Z" class="souris-encre souris-pelage" stroke-width="2.2"/>
+        <path d="M 208,78 C 201,72 203,59 212,58 C 222,58 224,69 219,77 Z" class="souris-oreille-int"/>
+      </g>
+
+      <!-- Oeil (animable : clignement) : rond, brillant -->
+      <g id="souris-oeil" transform-origin="238 92">
+        <circle cx="238" cy="92" r="3.8" class="souris-oeil"/>
+        <circle cx="239.4" cy="90.6" r="1.3" class="souris-reflet"/>
+      </g>
+
+      <!-- nez rose au bout du museau -->
+      <circle cx="266" cy="108" r="3.2" class="souris-encre souris-nez" stroke-width="1.2"/>
+
+      <g id="souris-moustaches" class="souris-encre" stroke-width="0.9" fill="none" opacity="0.7">
+        <path d="M 256,106 Q 270,98 282,96 M 256,109 Q 272,107 284,109 M 255,112 Q 268,116 280,122"/>
+      </g>
+    </g>
+
+  </g>
+</svg>

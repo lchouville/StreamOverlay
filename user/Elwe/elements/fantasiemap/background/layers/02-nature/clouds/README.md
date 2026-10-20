@@ -9,4 +9,6 @@ Pour en ajouter un :
    deduit la hauteur avec ce ratio).
 2. Ajouter son nom de fichier dans `ciel.nuagesSpeciaux.fichiers` (`animations-config.js`).
 
-La frequence d'apparition se regle avec `ciel.nuagesSpeciaux.probabilite` dans le meme fichier.
+La frequence se regle avec `ciel.nuagesSpeciaux.attente` (secondes entre deux nuages speciaux) et
+`ciel.nuagesSpeciaux.maxVisibles` (nombre max a l'ecran) dans le meme fichier. Le meme nuage ne
+passe jamais deux fois de suite.

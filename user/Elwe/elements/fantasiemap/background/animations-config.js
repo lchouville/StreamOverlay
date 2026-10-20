@@ -75,7 +75,8 @@ window.ANIM_CONFIG = {
   // tour de l'horloge (les deux restent toujours synchronises sur la meme heure).
   jourNuit: {
     mode: 'accelere',          // 'reel' = suit l'heure de l'ordinateur ; 'accelere' = cycle rapide
-    dureeCycle: 10,        // (mode 'accelere') duree d'une journee complete de 24h, en minutes
+    dureeCycle: 5,        // (mode 'accelere') duree d'une journee complete de 24h, en minutes
+    heureDepart: 8,       // (mode 'accelere') heure au chargement (ex. 7 = 7h00, 21.5 = 21h30)
     lever: null,           // heure du lever du soleil ; null = calculee automatiquement selon le
                            // mois en cours (heure reelle du lever en France) ; mettre un nombre
                            // (ex. 7) pour la forcer
@@ -91,41 +92,84 @@ window.ANIM_CONFIG = {
     nuages: [15, 70],      // attente entre l'apparition de deux nuages
     premierVol: [3, 10],   // delai avant le premier vol d'oiseaux
     oiseaux: [20, 60],     // attente entre deux vols d'oiseaux
+    etoilesFilantes: [25, 90], // attente entre deux etoiles filantes (seulement en pleine nuit)
 
-    // Nuages speciaux : de temps en temps, au lieu d'un nuage normal, une silhouette piochee
-    // au hasard dans layers/02-nature/clouds/ apparait (clin d'oeil jeux/identite : char
-    // Warthunder, creeper Minecraft, etc.). Pour en ajouter un : deposer un SVG (fond
-    // transparent, dessine sur un canevas ~300x200) dans ce dossier, puis ajouter son nom
-    // de fichier dans la liste ci-dessous.
+    // Nuages speciaux : de temps en temps, en plus des nuages normaux, une silhouette piochee
+    // au hasard dans layers/02-nature/clouds/ traverse le ciel (clin d'oeil jeux/identite :
+    // char Warthunder, creeper Minecraft, etc.), jamais deux fois la meme a la suite. Pour en
+    // ajouter un : deposer un SVG (fond transparent, dessine sur un canevas ~300x200) dans ce
+    // dossier, puis ajouter son nom de fichier dans la liste ci-dessous.
     nuagesSpeciaux: {
-      probabilite: 0.15,  // chance (0 a 1) qu'un nuage soit une forme speciale plutot qu'un nuage normal
+      attente: [60, 120], // attente entre deux nuages speciaux (le premier aussi)
+      maxVisibles: 2,     // nombre max de nuages speciaux a l'ecran en meme temps
       fichiers: [
-        // 'char-warthunder.svg',
-        // 'creeper-minecraft.svg'
+        'tank.svg',               // char d'assaut (War Thunder)
+        'creeper.svg'             // tete de creeper (Minecraft)
       ]
     }
   },
 
   // ---------------------------------------------------------------- VILLE VUE DU DESSUS
-  // Rues, places et pates de maisons (vus de dessus) generes autour de l'ovale principal
-  // (voir mask-hors-ovale dans ville-medievale-croquis.svg). Chaque pate est subdivise
-  // recursivement en parcelles de taille irreguliere (coupes aleatoires + coins decales),
-  // pour un rendu proche d'un plan de ville style "carte de fantasy" plutot qu'une grille
-  // de carres uniformes. Meme seed = meme plan a chaque chargement.
+  // Plan de la ville (vu de dessus) autour de l'ovale principal, facon plan de ville ancien /
+  // Carte du Maraudeur : quartiers en anneaux autour de la vignette, coupes par des rues
+  // rayonnantes ; batiments serres le long des rues, cours interieures, places ; muraille a
+  // tours ; hors les murs, riviere, champs et grandes routes. Les rues sont assez larges
+  // pour les pseudos de la Carte du Maraudeur. Meme seed = meme plan a chaque chargement
+  // (changer la seed pour tirer un autre plan ; pour essayer sans toucher ce fichier, ajouter
+  // ?seed=1234 a l URL du SVG, et ?forme=grille pour forcer une forme). Toutes les tailles
+  // sont en px (canevas 3840x2160).
   villeDessus: {
-    seed: 1337,
-    tailleBloc: 260,          // taille moyenne d'un pate de maisons (rue a rue), en px
-    largeurRue: 16,           // largeur des rues entre les pates de maisons
-    probaPlace: 0.15,         // chance qu'un pate de maisons soit une place vide plutot que des batiments
-    profondeurSubdivision: 5, // nombre max de coupes recursives par pate (plus grand = parcelles plus petites)
-    aireMinParcelle: 3600,    // aire (px^2) en dessous de laquelle on arrete de subdiviser (plus grand = batiments plus gros)
-    largeurRuelle: 8,         // largeur de l'espace laisse entre deux parcelles voisines
-    irregularite: 0.16,       // decalage aleatoire des coins des parcelles (0 = rectangles parfaits)
+    seed: 13122000,
+    // Forme de la ville : 'hasard' (tiree par la seed) ou l'une de : 'ovale' (anneaux autour
+    // de la vignette), 'citadelle' (petite ville fortifiee polygonale autour d'un donjon, dans
+    // la campagne), 'grille' (rues presque droites), 'contre-courbe' (anneaux courbes a l'envers).
+    forme: 'hasard',
+    largeurRue: 64,               // largeur des rues
+    largeurAvenue: 80,            // largeur des grandes rues et des routes
+    profondeurPate: [220, 270],   // distance entre deux rues en anneau (plus grand = plan moins zoome)
+    largeurPate: [300, 460],      // distance entre deux rues rayonnantes
+    grandesRues: 5,               // grandes rues qui traversent la ville et sortent par une porte
+    aireBatiment: [3500, 9000],   // taille des batiments (aire en px^2 en dessous de laquelle on ne recoupe plus)
+    probaPlace: 0.07,             // chance qu'un pate de maisons soit une place
+    muraille: [0.35, 0.7],        // position de la muraille entre le coeur de la ville (0) et le bord de la carte (1) ;
+                                  // parfois (15 %) pas de muraille visible : la ville couvre toute la carte
+    quartiers: ['La Halle', 'Les Tanneurs', 'Le Temple', 'La Butte', 'Les Forges'],
+    rues: ['Grand-Rue', 'Rue des Forges', 'Voie du Pont', 'Rue du Septentrion', 'Chemin du Moulin'],
+    riviere: 'La Vive'
+  },
 
-    // Muraille : au-dela de cette limite (ovale principal agrandi par muretEchelle), c'est
-    // l'exterieur de la ville - habitat disperse, pas de places, pas de pates denses.
-    muretEchelle: 1.3,             // taille de la muraille par rapport a l'ovale principal
-    probaBatimentExterieur: 0.3    // chance qu'un pate hors-les-murs ait quand meme une ferme isolee
+  // ---------------------------------------------------------------- CARTE DU MARAUDEUR
+  // Les spectateurs qui tapent la commande dans le chat Twitch apparaissent sur le plan vu du
+  // dessus : traces de pas a l'encre qui se promenent dans les rues, avec leur pseudo.
+  // Test sans chat : ajouter ?carte=Pseudo1,Pseudo2 a l'URL du SVG.
+  maraudeur: {
+    chaine: 'elwe',                  // nom de la chaine Twitch a ecouter ('' = desactive)
+    commandes: ['!carte', '/carte'], // mots qui declenchent l'apparition (debut du message)
+    duree: 40,                       // temps de promenade (une nouvelle commande prolonge) ; ensuite
+                                     // la personne rentre dans une maison ou sort de la carte
+    vitesse: 55,                     // vitesse de marche (px/s, sur le canevas 3840x2160)
+    maxPersonnes: 12,                // nombre max de personnes sur la carte en meme temps
+    arret: [1.5, 4],                 // duree d'un arret pendant la promenade
+    entreArrets: [6, 16],            // temps de marche entre deux arrets
+
+    // Le streamer se promene en continu sur la carte (bordure rubis, hors classement) ;
+    // un spectateur qui le croise gagne un petit bouclier sous son pseudo. ('' = absent)
+    streamer: 'Elwe',
+    // Score (pendant la session) : +1 par personne differente croisee ; +2 la premiere fois
+    // qu'on croise le streamer (et un bouclier). Croiser un porteur de bouclier rapporte +0 et
+    // lui fait perdre son bouclier ; recroiser le streamer rend le bouclier. Contour de la
+    // banderole selon le score : standard (encre), puis bronze / argent / or / diamant a
+    // partir de ces seuils. Le meilleur score present sur la carte porte une couronne.
+    rangs: { bronze: 3, argent: 6, or: 10, diamant: 15 },
+
+    // Statuts Twitch (lus dans le chat de ceux qui tapent la commande) : insigne a cote du
+    // pseudo (epee = modo, diamant = VIP, sceau = sub, + mois d'abonnement) et teinte de la
+    // banderole. Les modos restent sur la carte en permanence et ne jouent pas ; les croiser
+    // sans bouclier fait perdre des points (avec un bouclier : +0, et le bouclier s'use).
+    malusModo: 1,          // points perdus en croisant un modo sans bouclier
+    bonusSub: 1,           // points en plus pour un sub a chaque croisement qui lui rapporte
+    dureeVip: 3,           // les VIP restent 3x plus longtemps sur la carte
+    dureeSub: 2            // les subs 2x plus longtemps (VIP + sub : le plus long des deux)
   },
 
   // ---------------------------------------------------------------- MOULIN
@@ -139,6 +183,18 @@ window.ANIM_CONFIG = {
     respiration: 2.9,
     tete: 11,              // cycle ou il penche la tete
     oreille: 7.3           // cycle ou l'oreille fremit
+  },
+
+  // ---------------------------------------------------------------- SOURIS (place)
+  // Une souris traverse le bas de la place au trot de temps en temps en passant derriere le
+  // puits, avec un arret pour renifler a cote du puits (et parfois un autre avant).
+  // Test : ajouter ?souris a l'URL du SVG pour la faire passer tout de suite.
+  souris: {
+    premiere: [5, 20],     // delai avant la premiere traversee
+    pause: [40, 120],      // attente entre deux traversees
+    arret: [1.5, 4],       // duree d'un arret pour renifler
+    vitesse: 45,           // vitesse de trot (px/s, sur le canevas 3840x2160)
+    taille: 0.17           // echelle du dessin de layers/02-animals/mouse.svg
   },
 
   // ---------------------------------------------------------------- LUMIERES DES FENETRES

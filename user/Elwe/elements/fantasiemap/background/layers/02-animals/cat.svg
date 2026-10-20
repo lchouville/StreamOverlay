@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : chat tigre roux assis, vu de face, decoupe pour l'animation. -->
+<!-- Integration dans ville-medievale-croquis.svg : copier le <g id="chat-assis"> en ligne (un -->
+<!-- <image> ne s'anime pas), avec les regles .chat-* et le filtre #chat-croquis (ou le -->
+<!-- remplacer par #sketchyMedium de la scene). Tous les IDs sont prefixes "chat-assis-" pour ne -->
+<!-- pas entrer en collision avec la scene ni avec chat-profil (catside.svg). -->
+<!-- Pivots (transform-origin) en coordonnees locales du chat : origine (0,0) = cou. -->
+<!-- Les couleurs sont dans les classes ; les epaisseurs de trait sont en attributs (une classe -->
+<!-- CSS ecraserait un attribut stroke-width/fill, d'ou cette separation). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-95 -100 245 205" width="245" height="205">
+  <defs>
+    <style>
+      .chat-encre { stroke: #2a1a0a; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-pelage { fill: #c98a52; }
+      .chat-pelage-fonce { fill: #9c5a3c; }
+      .chat-pelage-clair { fill: #ecd2a2; }
+      .chat-trait-pelage { stroke: #c98a52; stroke-linecap: round; }
+      .chat-trait-fonce { stroke: #9c5a3c; stroke-linecap: round; }
+      .chat-rayure { stroke: #7a4426; stroke-linecap: round; fill: none; }
+      .chat-oreille-int { fill: #c07a6a; }
+      .chat-iris { fill: #9aa84a; }
+      .chat-pupille { fill: #1a0f05; }
+      .chat-reflet { fill: #f4ecd4; }
+      .chat-nez { fill: #b8645a; }
+    </style>
+    <filter id="chat-croquis" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <g id="chat-assis" filter="url(#chat-croquis)">
+
+    <!-- QUEUE (animable : balancement autour de sa base, a droite du bassin) -->
+    <!-- Trait d'encre large dessous + trait de pelage plus fin dessus = queue epaisse cernee. -->
+    <g id="chat-assis-queue" transform-origin="48 82">
+      <path d="M 48,82 Q 112,90 120,40 Q 124,10 104,-4" fill="none" class="chat-encre" stroke-width="19"/>
+      <path d="M 48,82 Q 112,90 120,40 Q 124,10 104,-4" fill="none" class="chat-trait-pelage" stroke-width="12"/>
+      <!-- anneaux tigres + bout fonce -->
+      <path d="M 88,73 L 93,84 M 108,58 L 120,64 M 116,34 L 128,34" class="chat-rayure" stroke-width="4"/>
+      <path d="M 120,22 Q 118,8 104,-4" fill="none" class="chat-trait-fonce" stroke-width="12"/>
+    </g>
+
+    <!-- CORPS (animable : respiration) -->
+    <g id="chat-assis-corps">
+      <!-- cuisses repliees de chaque cote -->
+      <ellipse cx="-42" cy="72" rx="28" ry="26" class="chat-encre chat-pelage" stroke-width="3"/>
+      <ellipse cx="42" cy="72" rx="28" ry="26" class="chat-encre chat-pelage" stroke-width="3"/>
+      <!-- buste en poire -->
+      <path d="M -40,92 C -62,48 -44,4 0,-4 C 44,4 62,48 40,92 Z" class="chat-encre chat-pelage" stroke-width="3"/>
+      <!-- plastron clair -->
+      <path d="M -22,6 Q -26,52 0,70 Q 26,52 22,6 Q 0,14 -22,6 Z" class="chat-pelage-clair"/>
+      <!-- rayures des flancs -->
+      <path d="M -50,40 Q -40,44 -36,52 M -54,58 Q -44,60 -40,68 M 50,40 Q 40,44 36,52 M 54,58 Q 44,60 40,68" class="chat-rayure" stroke-width="3.5"/>
+      <path d="M -60,64 Q -54,66 -50,74 M 60,64 Q 54,66 50,74" class="chat-rayure" stroke-width="3"/>
+
+      <!-- Pattes avant -->
+      <g id="chat-assis-pattes-avant">
+        <path d="M -17,40 L -18,88" fill="none" class="chat-encre" stroke-width="22"/>
+        <path d="M -17,40 L -18,88" fill="none" class="chat-trait-pelage" stroke-width="16"/>
+        <path d="M 17,40 L 18,88" fill="none" class="chat-encre" stroke-width="22"/>
+        <path d="M 17,40 L 18,88" fill="none" class="chat-trait-pelage" stroke-width="16"/>
+        <!-- pieds blancs avec les doigts marques -->
+        <ellipse cx="-19" cy="94" rx="13" ry="8" class="chat-encre chat-pelage-clair" stroke-width="3"/>
+        <ellipse cx="19" cy="94" rx="13" ry="8" class="chat-encre chat-pelage-clair" stroke-width="3"/>
+        <path d="M -23,90 L -23,97 M -15,90 L -15,97 M 15,90 L 15,97 M 23,90 L 23,97" class="chat-encre" stroke-width="1.5"/>
+        <!-- rayures des pattes -->
+        <path d="M -27,58 L -21,60 M -27,70 L -21,72 M 27,58 L 21,60 M 27,70 L 21,72" class="chat-rayure" stroke-width="3"/>
+      </g>
+    </g>
+
+    <!-- TETE (animable : inclinaison, pivot au cou) -->
+    <g id="chat-assis-tete" transform-origin="0 -2">
+
+      <!-- OREILLES (animables) : derriere le crane, base cachee par la tete -->
+      <g id="chat-assis-oreille-gauche" transform-origin="-30 -64">
+        <path d="M -48,-44 L -50,-94 L -12,-70 Z" class="chat-encre chat-pelage" stroke-width="3"/>
+        <path d="M -42,-52 L -45,-84 L -22,-68 Z" class="chat-oreille-int"/>
+      </g>
+      <g id="chat-assis-oreille-droite" transform-origin="30 -64">
+        <path d="M 48,-44 L 50,-94 L 12,-70 Z" class="chat-encre chat-pelage" stroke-width="3"/>
+        <path d="M 42,-52 L 45,-84 L 22,-68 Z" class="chat-oreille-int"/>
+      </g>
+
+      <!-- crane, joues un peu elargies -->
+      <path d="M 0,-80 C 36,-80 56,-56 54,-34 C 52,-12 30,0 0,0 C -30,0 -52,-12 -54,-34 C -56,-56 -36,-80 0,-80 Z" class="chat-encre chat-pelage" stroke-width="3"/>
+      <!-- M tigre du front + rayures des joues -->
+      <path d="M -18,-74 Q -14,-64 -16,-54 M 0,-79 L 0,-58 M 18,-74 Q 14,-64 16,-54" class="chat-rayure" stroke-width="4"/>
+      <path d="M -52,-38 L -38,-36 M -50,-26 L -38,-28 M 52,-38 L 38,-36 M 50,-26 L 38,-28" class="chat-rayure" stroke-width="3"/>
+      <!-- museau clair -->
+      <ellipse cx="-9" cy="-16" rx="13" ry="10" class="chat-pelage-clair"/>
+      <ellipse cx="9" cy="-16" rx="13" ry="10" class="chat-pelage-clair"/>
+      <ellipse cx="0" cy="-6" rx="9" ry="5" class="chat-pelage-clair"/>
+
+      <!-- YEUX (animables : clignement, scaleY autour du centre de l'oeil) -->
+      <!-- Yeux de chat en amande : iris plein, pupille fendue, pas de blanc. -->
+      <g id="chat-assis-oeil-gauche" transform-origin="-21 -42">
+        <path d="M -34,-42 Q -21,-56 -8,-42 Q -21,-31 -34,-42 Z" class="chat-encre chat-iris" stroke-width="2.5"/>
+        <ellipse cx="-21" cy="-42" rx="2.6" ry="7.5" class="chat-pupille"/>
+        <circle cx="-17.5" cy="-46" r="1.8" class="chat-reflet"/>
+      </g>
+      <g id="chat-assis-oeil-droit" transform-origin="21 -42">
+        <path d="M 34,-42 Q 21,-56 8,-42 Q 21,-31 34,-42 Z" class="chat-encre chat-iris" stroke-width="2.5"/>
+        <ellipse cx="21" cy="-42" rx="2.6" ry="7.5" class="chat-pupille"/>
+        <circle cx="24.5" cy="-46" r="1.8" class="chat-reflet"/>
+      </g>
+
+      <!-- NEZ ET BOUCHE -->
+      <g id="chat-assis-nez-bouche">
+        <path d="M -6,-26 L 6,-26 L 0,-19 Z" class="chat-encre chat-nez" stroke-width="1.8"/>
+        <path d="M 0,-19 L 0,-14 M 0,-14 Q -5,-9 -10,-12 M 0,-14 Q 5,-9 10,-12" fill="none" class="chat-encre" stroke-width="2"/>
+      </g>
+
+      <!-- MOUSTACHES -->
+      <g id="chat-assis-moustaches" class="chat-encre" stroke-width="1.3" fill="none" opacity="0.75">
+        <path d="M -16,-20 Q -36,-26 -60,-24 M -16,-15 Q -38,-15 -62,-12 M -16,-10 Q -36,-4 -58,2"/>
+        <path d="M 16,-20 Q 36,-26 60,-24 M 16,-15 Q 38,-15 62,-12 M 16,-10 Q 36,-4 58,2"/>
+      </g>
+    </g>
+
+  </g>
+</svg>
