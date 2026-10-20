@@ -143,7 +143,7 @@ window.ANIM_CONFIG = {
   // dessus : traces de pas a l'encre qui se promenent dans les rues, avec leur pseudo.
   // Test sans chat : ajouter ?carte=Pseudo1,Pseudo2 a l'URL du SVG.
   maraudeur: {
-    chaine: 'elwe',                  // nom de la chaine Twitch a ecouter ('' = desactive)
+    chaine: 'elwecelebrindal',       // nom de la chaine Twitch a ecouter ('' = desactive)
     commandes: ['!carte', '/carte'], // mots qui declenchent l'apparition (debut du message)
     duree: 40,                       // temps de promenade (une nouvelle commande prolonge) ; ensuite
                                      // la personne rentre dans une maison ou sort de la carte
