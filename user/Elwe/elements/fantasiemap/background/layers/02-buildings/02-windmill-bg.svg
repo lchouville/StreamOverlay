@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Calque : Moulin à vent médiéval sur la colline. -->
 <!-- Style croquis avec hachures pierre/bois. -->
-<!-- Pose sur la crete de la colline proche (02-colline-fond.svg, crete y~560 vers x=1990), dans -->
+<!-- Pose sur la crete de la colline proche (02-hill-bg.svg, crete y~560 vers x=1990), dans -->
 <!-- le creux de ciel entre la chapelle et la taverne, et reduit a 33% (derriere le rempart : porte <= ~21 px) : le -->
-<!-- pied (100,280) du dessin tombe en (1990,560). Dessine avant le rempart (02-muraille-fond). -->
+<!-- pied (100,280) du dessin tombe en (1990,560). Dessine avant le rempart (02-rampart-bg). -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
   <defs>
     <!-- Texture pierre -->

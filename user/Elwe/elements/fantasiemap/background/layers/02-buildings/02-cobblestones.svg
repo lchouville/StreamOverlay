@@ -2,7 +2,7 @@
 <!-- Calque : sol de la ville entierement pave de petits paves ronds (GENERE par script). -->
 <!-- Perspective : horizon y=720, taille des paves = max(6, 0.03*(y-720)), rangs paralleles a -->
 <!-- l'horizon et decales. Paves generes seulement dans le coin ovale visible (#clip-coin-ovale) -->
-<!-- et sous y=800 (au-dessus : collines et rempart). Recouvre les dalles de 02-sol-pave.svg. -->
+<!-- et sous y=800 (au-dessus : collines et rempart). Recouvre les dalles de 02-sky.svg. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
   <defs>
     <filter id="sketchyLight" x="-5%" y="-5%" width="110%" height="110%">

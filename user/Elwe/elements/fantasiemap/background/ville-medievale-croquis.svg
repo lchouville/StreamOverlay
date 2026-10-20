@@ -6,7 +6,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160"
      preserveAspectRatio="xMidYMid slice">
   <defs>
-    <!-- Cadre de bordure : meme rect que la bordure exterieure de 05-bordure.svg. Le groupe qui -->
+    <!-- Cadre de bordure : meme rect que la bordure exterieure de 05-border.svg. Le groupe qui -->
     <!-- enveloppe le sol + les batiments (plus bas) porte clip-path="url(#clip-cadre)" SANS -->
     <!-- rotation, pendant que chaque <image> a l'interieur garde clip-path="url(#clip-coin-ovale)" -->
     <!-- (qui lui est tourne) : deux clips empiles sur des elements distincts = intersection -->
@@ -18,7 +18,7 @@
     </clipPath>
 
     <!-- Ovale qui decoupe le coin haut-droit (vue du dessus, batiments miniatures) du reste de -->
-    <!-- la scene. Memes cx/cy/rx/ry que l'ellipse encre de 05-bordure.svg : si l'un change, -->
+    <!-- la scene. Memes cx/cy/rx/ry que l'ellipse encre de 05-border.svg : si l'un change, -->
     <!-- reporter la modification sur l'autre. -->
     <clipPath id="clip-coin-ovale" clipPathUnits="userSpaceOnUse">
       <ellipse cx="3750" cy="-220" rx="2860" ry="1840" transform="rotate(15 3750 -220)"/>
@@ -51,7 +51,7 @@
     <clipPath id="clip-baie-chapelle" clipPathUnits="userSpaceOnUse">
       <path d="M -38,-71 L -38,-115 Q -38,-142 -10,-142 Q 18,-142 18,-115 L 18,-71 Z"/>
     </clipPath>
-    <!-- Ciel + horizon du calque 02-sol-pave.svg (ses dalles au sol sont remplacees par les paves). -->
+    <!-- Ciel + horizon du calque 02-sky.svg (ne contient plus que le ciel ; le sol est entierement couvert par le pave rond). -->
     <clipPath id="clip-ciel" clipPathUnits="userSpaceOnUse">
       <rect x="0" y="0" width="3840" height="805"/>
     </clipPath>
@@ -301,12 +301,12 @@
       100% { opacity: 1; }
     }
   </style>
-  <image href="layers/01-papier.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/01-paper.svg" x="0" y="0" width="3840" height="2160"/>
   <g clip-path="url(#clip-cadre)">
     <!-- Ancien sol (dalles) : on n'en garde que le ciel et l'horizon (y<805) ; dessous, le sol pave -->
     <!-- en fondu laisse apparaitre le parchemin. -->
     <g clip-path="url(#clip-ciel)">
-      <image href="layers/02-sol-pave.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+      <image href="layers/02-nature/02-sky.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
     </g>
     <!-- CIEL : nuages et oiseaux crees au hasard par le script ("Ciel"), passent derriere les -->
     <!-- collines et les batiments. -->
@@ -315,289 +315,9 @@
       </g>
       <g id="oiseaux" fill="none" stroke="#3a2a1a" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
-    <!-- Sol de la ville entierement pave de petits paves ronds (recouvre les dalles ci-dessus). -->
-    <!-- Version PNG (rendu de layers/02-sol-paves-ronds.svg) : ~19 000 paves statiques, bien plus -->
-    <!-- leger a afficher sous les animations. Regenerer le PNG apres modification du SVG. -->
-    <image href="layers/02-sol-paves-ronds.png" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Colline de champs de ble, derriere le rempart -->
-    <image href="layers/02-colline-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Champs de ble et chemin du moulin sur les collines : generes par le script en bas de -->
-    <!-- fichier (rangs d'epis par parcelle, ondulation au vent). Entre la colline et le moulin. -->
-    <g id="champs-ble" clip-path="url(#clip-coin-ovale)">
-      <g class="chemin"/>
-      <g class="epis" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      <g class="foret" stroke="#3a2a14" stroke-linejoin="round" filter="url(#sketchyMedium)"/>
-    </g>
-    <!-- Cabane de bucheron dans la clairiere a l'oree de la foret -->
-    <image href="layers/02-Batiment/02-cabane-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Maison paysanne pres du moulin -->
-    <image href="layers/02-Batiment/02-maison-paysanne.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Maison de hobbit sur la colline lointaine, a droite -->
-    <image href="layers/02-Batiment/02-maison-hobbit.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Moulin a vent sur la crete de la colline -->
-    <image href="layers/02-Batiment/02-moulin-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Ailes du moulin : meme transform que #moulin-a-vent du calque, moyeu en (100,95). Une aile -->
-    <!-- (pointant vers le haut) est dessinee une fois puis repetee a 90/180/270 deg ; le groupe -->
-    <!-- .ailes tourne autour du moyeu (symetrie d'ordre 4 : centre de sa boite = moyeu). -->
-    <g clip-path="url(#clip-coin-ovale)">
-    <g id="moulin-ailes" transform="translate(1957,467.6) scale(0.33)" opacity="0.9">
-      <g class="ailes">
-        <g id="aile" filter="url(#sketchyMedium)">
-          <!-- Toile tendue sur le cadre, d'un cote du bras -->
-          <rect x="103" y="-80" width="30" height="128" fill="#e3d2a6" stroke="#2a1a0a" stroke-width="2"/>
-          <!-- Lattes transversales et longeron du cadre -->
-          <g stroke="#3a2a14" stroke-width="1.4">
-            <line x1="100" y1="-64" x2="133" y2="-64"/>
-            <line x1="100" y1="-48" x2="133" y2="-48"/>
-            <line x1="100" y1="-32" x2="133" y2="-32"/>
-            <line x1="100" y1="-16" x2="133" y2="-16"/>
-            <line x1="100" y1="0" x2="133" y2="0"/>
-            <line x1="100" y1="16" x2="133" y2="16"/>
-            <line x1="100" y1="32" x2="133" y2="32"/>
-            <line x1="118" y1="-80" x2="118" y2="48"/>
-          </g>
-          <!-- Planche de bord d'attaque (cote oppose) -->
-          <rect x="91" y="-80" width="6" height="128" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="1.5"/>
-          <!-- Bras (vergue) -->
-          <line x1="100" y1="95" x2="100" y2="-85" stroke="#4a3420" stroke-width="5" stroke-linecap="round"/>
-        </g>
-        <use href="#aile" transform="rotate(90 100 95)"/>
-        <use href="#aile" transform="rotate(180 100 95)"/>
-        <use href="#aile" transform="rotate(270 100 95)"/>
-      </g>
-      <!-- Moyeu (fixe) -->
-      <circle cx="100" cy="95" r="11" fill="#5a4a3a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
-      <circle cx="100" cy="95" r="4" fill="#2a1a0a"/>
-    </g>
-    </g>
-    <!-- Rempart de la ville en arriere-plan (sur l'horizon, derriere tous les batiments) -->
-    <image href="layers/02-Batiment/02-muraille-fond.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Maisons a colombages en retrait, entre la taverne et la tour (derriere les deux) -->
-    <image href="layers/02-Batiment/02-maisons1.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <image href="layers/02-Batiment/02-tour-horloge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Porte de la tour (double battant) : meme transform que #tour-horloge du calque. Masquee -->
-    <!-- tant que la porte est fermee (on voit alors celle du calque) ; pendant une ouverture, le -->
-    <!-- fond sombre recouvre la porte peinte et les battants (generes par le script en bas de -->
-    <!-- fichier) pivotent en perspective. L'arc en claveaux reste visible (hors du fond). -->
-    <g id="porte-tour" transform="translate(1522.5,140.75) scale(0.55)" display="none">
-      <path d="M 2380,1670 L 2380,1420 Q 2380,1340 2520,1340 Q 2660,1340 2660,1420 L 2660,1670 Z"
-            fill="#1a0f05" stroke="#1a0f05" stroke-width="6" filter="url(#sketchyHeavy)"/>
-      <g class="battants" clip-path="url(#clip-embrasure-tour)"/>
-    </g>
-    <image href="layers/02-Batiment/02-taverne.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Maisons normandes, au fond derriere la forge -->
-    <image href="layers/02-Batiment/02-maisons2.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <image href="layers/02-Batiment/02-forge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <image href="layers/02-Batiment/02-auberge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Porte de l'auberge : meme transform que #echoppe-apothicaire du calque, meme principe que -->
-    <!-- #porte-tour. Heurtoir a gauche donc charniere a droite ; s'ouvre vers la rue. -->
-    <g id="porte-auberge" transform="translate(1892,79.25) scale(0.6)" display="none">
-      <path d="M 1200,1750 L 1200,1600 Q 1200,1570 1250,1570 Q 1300,1570 1300,1600 L 1300,1750 Z"
-            fill="#1a0f05" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)"/>
-      <g class="battants"/>
-    </g>
-    <!-- Chat assis sur le tonneau de droite de la boulangerie : dessin d'origine du calque -->
-    <!-- auberge (coordonnees locales), meme transform + decalage translate(200,0) du tonneau. -->
-    <g id="chat-boulangerie" transform="translate(1892,79.25) scale(0.6) translate(200,0)" filter="url(#sketchyMedium)">
-      <path class="cat-tail" d="M 1245,1700 Q 1260,1695 1255,1680" fill="none" stroke="#1a0f05" stroke-width="2.5" stroke-linecap="round"/>
-      <ellipse class="cat-body" cx="1230" cy="1700" rx="15" ry="12" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
-      <g class="cat-head">
-        <circle cx="1230" cy="1685" r="10" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
-        <path d="M 1225,1680 L 1222,1670 L 1228,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
-        <path class="cat-ear" d="M 1235,1680 L 1238,1670 L 1232,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
-      </g>
-    </g>
-    <image href="layers/02-Batiment/02-guild-av.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Porte de la guilde (double battant) : transform de #guilde-aventuriers + porte remontee de 37.5u, -->
-    <!-- meme principe que #porte-tour. La banniere, devant la porte dans le calque, est -->
-    <!-- redessinee par-dessus. -->
-    <g id="porte-guilde" transform="translate(3045,806.5)" display="none">
-      <path d="M 130,470 L 130,340 Q 130,310 190,310 Q 250,310 250,340 L 250,470 Z"
-            fill="#1a0f05" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)"/>
-      <g class="battants" clip-path="url(#clip-embrasure-guilde)"/>
-      <g filter="url(#sketchyMedium)" transform="translate(0,-7.5)">
-        <line x1="100" y1="290" x2="280" y2="290" stroke="#1a0f05" stroke-width="4"/>
-        <path d="M 150,290 L 230,290 L 230,340 L 190,360 L 150,340 Z"
-              fill="#8b4513" stroke="#1a0f05" stroke-width="3" opacity="0.9"/>
-        <circle cx="190" cy="320" r="12" fill="none" stroke="#d4ba82" stroke-width="2"/>
-        <line x1="190" y1="308" x2="190" y2="332" stroke="#d4ba82" stroke-width="2"/>
-        <line x1="178" y1="320" x2="202" y2="320" stroke="#d4ba82" stroke-width="2"/>
-        <line x1="182" y1="312" x2="198" y2="328" stroke="#d4ba82" stroke-width="1.5"/>
-        <line x1="198" y1="312" x2="182" y2="328" stroke="#d4ba82" stroke-width="1.5"/>
-      </g>
-    </g>
-    <image href="layers/02-Batiment/02-chapel.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Cloche de la chapelle : meme transform que #chapelle-amelioree du calque, suspendue a -->
-    <!-- la poutre de la baie (pivot de l'anse en (-10,-125)). Sonne de temps en temps (script). -->
-    <g id="cloche-chapelle" transform="translate(1800,820) scale(1.4)" clip-path="url(#clip-baie-chapelle)" filter="url(#sketchyMedium)">
-      <g class="robe">
-        <!-- Battant : dessine avant la robe, seul le bas depasse sous la levre -->
-        <g class="battant">
-          <line x1="-10" y1="-112" x2="-10" y2="-77" stroke="#1a0f05" stroke-width="2"/>
-          <circle cx="-10" cy="-74.5" r="3" fill="#8a6a30" stroke="#1a0f05" stroke-width="1.5"/>
-        </g>
-        <!-- Anse -->
-        <rect x="-14.5" y="-128" width="9" height="7" fill="#8a6a30" stroke="#1a0f05" stroke-width="1.5"/>
-        <!-- Robe : couronne etroite, evasement, levre large -->
-        <path d="M -10,-122 C -22,-122 -22,-106 -23,-95 Q -24,-86 -31,-80 L 11,-80 Q 4,-86 3,-95 C 2,-106 2,-122 -10,-122 Z"
-              fill="#b08a4a" stroke="#1a0f05" stroke-width="2.5" stroke-linejoin="round"/>
-        <path d="M -17,-113 Q -18,-100 -21,-89" fill="none" stroke="#e0c48a" stroke-width="2" stroke-linecap="round"/>
-        <line x1="-32" y1="-80" x2="12" y2="-80" stroke="#1a0f05" stroke-width="3" stroke-linecap="round"/>
-      </g>
-    </g>
-
-    <!-- Fontaine au milieu de la place, devant la porte de la tour -->
-    <image href="layers/02-Batiment/02-fontaine.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Eau de la fontaine (animee) : jet de la pomme de pin, filets qui tombent de la vasque, -->
-    <!-- rides concentriques dans le bassin. -->
-    <g id="fontaine-eau" transform="translate(-160,-100)" fill="none" stroke-linecap="round">
-      <g stroke="#c4d0cc" stroke-width="3" opacity="0.85">
-        <path class="eau-jet" d="M 2870,1206 Q 2852,1196 2840,1252"/>
-        <path class="eau-jet" d="M 2870,1206 Q 2888,1196 2900,1252" style="animation-delay:-0.3s"/>
-        <path class="eau-jet" d="M 2870,1206 Q 2870,1192 2870,1248" style="animation-delay:-0.15s"/>
-      </g>
-      <g stroke="#b4c2be" stroke-width="3.5" opacity="0.8">
-        <path class="eau-filet" d="M 2818,1258 Q 2796,1268 2790,1348"/>
-        <path class="eau-filet" d="M 2922,1258 Q 2944,1268 2950,1348" style="animation-delay:-0.4s"/>
-        <path class="eau-filet" d="M 2840,1264 Q 2830,1290 2828,1350" style="animation-delay:-0.2s"/>
-        <path class="eau-filet" d="M 2900,1264 Q 2910,1290 2912,1350" style="animation-delay:-0.6s"/>
-      </g>
-      <g stroke="#d8e0dc" stroke-width="1.6">
-        <ellipse class="eau-ride" cx="2790" cy="1350" rx="14" ry="3"/>
-        <ellipse class="eau-ride" cx="2950" cy="1350" rx="14" ry="3" style="animation-delay:-0.8s"/>
-        <ellipse class="eau-ride" cx="2828" cy="1352" rx="12" ry="2.6" style="animation-delay:-0.4s"/>
-        <ellipse class="eau-ride" cx="2912" cy="1352" rx="12" ry="2.6" style="animation-delay:-1.2s"/>
-      </g>
-    </g>
-
-    <!-- Tentes de marchands sur la place (apres la guilde, avant le puits) -->
-    <image href="layers/02-Batiment/02-tentes.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Auvents des tentes (ondulent au vent) et enseignes : sortis du calque 02-tentes.svg -->
-    <g id="tentes-auvents" clip-path="url(#clip-coin-ovale)">
-      <g transform="translate(3540, 1020.2) scale(0.59)">
-    <!-- Auvent rayé (Toit de la tente) -->
-    <!-- Forme drapée avec bordure festonnée -->
-    <path class="auvent" data-geo="140,30,70,20" d="M -140,20 Q 0,-33.7 140,20 L 157.3,70 Q 121.8,90 86.4,70 Q 45.9,93.1 5.3,71.6 Q -25.2,93.9 -55.8,71.9 Q -86.2,91.7 -116.6,70.9 Q -131.9,88.2 -147.1,69.1 Z"
-          fill="url(#stripesRed)" stroke="#2a1a0a" stroke-width="4"
-          filter="url(#sketchyMedium)"/>
-
-    <!-- Pliures de l'auvent -->
-    <g class="auvent-plis" stroke="#2a1a0a" stroke-width="2" opacity="0.5" fill="none" filter="url(#sketchyMedium)">
-      <path d="M -70,25 Q -70,50 -90,70"/>
-      <path d="M 0,10 Q 0,50 -10,70"/>
-      <path d="M 70,25 Q 70,50 70,70"/>
-    </g>
-
-    <!-- Enseigne suspendue -->
-    <g filter="url(#sketchyMedium)">
-      <line x1="-120" y1="20" x2="-120" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
-      <line x1="-120" y1="-10" x2="-80" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
-      <rect x="-80" y="-10" width="40" height="50" rx="3" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3"/>
-      <!-- Symbole : Aiguille et fil -->
-      <line x1="-60" y1="5" x2="-60" y2="30" stroke="#2a1a0a" stroke-width="2"/>
-      <path d="M -60,15 Q -50,10 -50,20 Q -50,30 -60,25" fill="none" stroke="#a04030" stroke-width="2"/>
-    </g>
-
-      </g>
-      <g transform="translate(3660, 1095) scale(-0.825, 0.825)">
-    <!-- Auvent rayé vert -->
-    <path class="auvent" data-geo="130,25,65,20" d="M -130,20 Q 0,-28.7 130,20 L 147.3,65 Q 114.3,85 81.4,65 Q 43,88.1 4.6,66.6 Q -23.8,88.9 -52.2,66.9 Q -80.1,86.7 -108,65.9 Q -122.6,83.2 -137.1,64.1 Z"
-          fill="url(#stripesGreen)" stroke="#2a1a0a" stroke-width="4"
-          filter="url(#sketchyMedium)"/>
-
-    <!-- Pliures -->
-    <g class="auvent-plis" stroke="#2a1a0a" stroke-width="2" opacity="0.5" fill="none" filter="url(#sketchyMedium)">
-      <path d="M -60,22 Q -60,45 -100,65"/>
-      <path d="M 0,10 Q 0,45 -20,65"/>
-      <path d="M 60,22 Q 60,45 60,65"/>
-    </g>
-
-    <!-- Enseigne suspendue -->
-    <g filter="url(#sketchyMedium)">
-      <line x1="110" y1="20" x2="110" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
-      <line x1="110" y1="-10" x2="150" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
-      <path d="M 150,-10 L 190,-10 L 180,30 L 160,30 Z" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3"/>
-      <!-- Symbole : Épi de blé -->
-      <line x1="170" y1="5" x2="170" y2="25" stroke="#c4a040" stroke-width="2"/>
-      <path d="M 170,10 Q 165,5 170,0 Q 175,5 170,10" fill="#c4a040"/>
-      <path d="M 170,15 Q 175,10 170,5" fill="#c4a040"/>
-    </g>
-
-      </g>
-    </g>
-
-    <!-- Puits, en bas a droite de la place (premier plan) -->
-    <image href="layers/02-Batiment/02-puit.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
-    <!-- Treuil du puits (corde, seau, manivelle) : meme transform que #puits-medieval du calque. -->
-    <!-- De temps en temps, on descend le seau dans le puits puis on le remonte (script). -->
-    <g id="puits-treuil" transform="translate(3600,1381.25) scale(0.75)" filter="url(#sketchyMedium)">
-      <!-- Seau + corde : coupes par la margelle avant quand ils descendent dans le puits -->
-      <g clip-path="url(#clip-ouverture-puits)">
-        <line class="corde" x1="0" y1="-66" x2="0" y2="56" stroke="#8a7a6a" stroke-width="2.2"/>
-        <g class="seau">
-          <path d="M -12,60 Q 0,49 12,60" fill="none" stroke="#2a1a0a" stroke-width="2"/>
-          <path d="M -15,60 L -12,85 Q -12,90 0,90 Q 12,90 12,85 L 15,60 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
-          <line x1="-13" y1="70" x2="13" y2="70" stroke="#2a1a0a" stroke-width="1.5"/>
-          <line x1="-12" y1="80" x2="12" y2="80" stroke="#2a1a0a" stroke-width="1.5"/>
-          <ellipse class="eau" cx="0" cy="61" rx="13" ry="3.5" fill="#6a7a8a" opacity="0"/>
-          <!-- Gouttes qui fuient par le fond du seau pendant qu'il se vide -->
-          <circle class="goutte" cx="-4" cy="91" r="1.8" fill="#8a9aaa" opacity="0"/>
-          <circle class="goutte" cx="3" cy="91" r="1.6" fill="#8a9aaa" opacity="0"/>
-        </g>
-      </g>
-      <!-- Manivelle : l'axe est vu de face, la manivelle tourne donc dans un plan perpendiculaire a -->
-      <!-- l'ecran : on ne voit que la projection du bras (vertical, de longueur R*cos), la poignee -->
-      <!-- monte et descend le long de x=78. -->
-      <g class="manivelle" stroke="#5a4a3a" stroke-linecap="round">
-        <line x1="58" y1="-70" x2="78" y2="-70" stroke-width="4.5"/>
-        <line class="bras" x1="78" y1="-70" x2="78" y2="-52" stroke-width="4.5"/>
-        <line class="poignee" x1="78" y1="-52" x2="87" y2="-52" stroke="#3a2a1a" stroke-width="5.5"/>
-      </g>
-    </g>
-
-    <!-- Longs fanions en haut des tours a toit, ondulant au vent (vers la droite, comme le ble). -->
-    <!-- Formes animees par <animate> sur d (10 poses par cycle). -->
-    <g id="fanions" filter="url(#sketchyMedium)">
-      <!-- tour de l'horloge, epi gauche -->
-      <line x1="2831.5" y1="372" x2="2831.5" y2="298" stroke="#2a1a0a" stroke-width="3.5" stroke-linecap="round"/>
-      <circle cx="2831.5" cy="297" r="3.5" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
-      <path class="fanion" data-px="2831.5" data-py="372" data-hp="70" data-l="120" data-h="22" d="M 2831.5,302 L 2839,302.5 L 2846.5,303.4 L 2854,304.6 L 2861.5,305.4 L 2869,305.5 L 2876.5,304.6 L 2884,302.8 L 2891.5,300.3 L 2899,297.7 L 2906.5,295.8 L 2914,295.3 L 2921.5,296.6 L 2929,299.7 L 2936.5,304.2 L 2944,309.2 L 2951.5,313.8 L 2951.5,315.5 L 2944,312.2 L 2936.5,308.5 L 2929,305.2 L 2921.5,303.4 L 2914,303.4 L 2906.5,305.2 L 2899,308.3 L 2891.5,312.1 L 2884,315.9 L 2876.5,319.1 L 2869,321.2 L 2861.5,322.4 L 2854,322.8 L 2846.5,322.9 L 2839,323.2 L 2831.5,324 Z" fill="#a04030" stroke="#2a1a0a" stroke-width="2.5" stroke-linejoin="round"/>
-      <path class="fanion-bande" d="M 2831.5,313 L 2838.8,312.8 L 2846.1,313.2 L 2853.3,313.7 L 2860.6,313.9 L 2867.9,313.4 L 2875.2,311.9 L 2882.4,309.3 L 2889.7,306.2 L 2897,303 L 2904.3,300.5 L 2911.5,299.4 L 2918.8,300 L 2926.1,302.5 L 2933.4,306.3 L 2940.6,310.7 L 2947.9,314.7" fill="none" stroke="#d4ba82" stroke-width="4.8" stroke-linecap="round"/>
-      <!-- tour de l'horloge, epi droit -->
-      <line x1="2985.5" y1="372" x2="2985.5" y2="298" stroke="#2a1a0a" stroke-width="3.5" stroke-linecap="round"/>
-      <circle cx="2985.5" cy="297" r="3.5" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
-      <path class="fanion" data-px="2985.5" data-py="372" data-hp="70" data-l="120" data-h="22" d="M 2985.5,302 L 2993,302.5 L 3000.5,303.4 L 3008,304.6 L 3015.5,305.4 L 3023,305.5 L 3030.5,304.6 L 3038,302.8 L 3045.5,300.3 L 3053,297.7 L 3060.5,295.8 L 3068,295.3 L 3075.5,296.6 L 3083,299.7 L 3090.5,304.2 L 3098,309.2 L 3105.5,313.8 L 3105.5,315.5 L 3098,312.2 L 3090.5,308.5 L 3083,305.2 L 3075.5,303.4 L 3068,303.4 L 3060.5,305.2 L 3053,308.3 L 3045.5,312.1 L 3038,315.9 L 3030.5,319.1 L 3023,321.2 L 3015.5,322.4 L 3008,322.8 L 3000.5,322.9 L 2993,323.2 L 2985.5,324 Z" fill="#a04030" stroke="#2a1a0a" stroke-width="2.5" stroke-linejoin="round"/>
-      <path class="fanion-bande" d="M 2985.5,313 L 2992.8,312.8 L 3000.1,313.2 L 3007.3,313.7 L 3014.6,313.9 L 3021.9,313.4 L 3029.2,311.9 L 3036.4,309.3 L 3043.7,306.2 L 3051,303 L 3058.3,300.5 L 3065.5,299.4 L 3072.8,300 L 3080.1,302.5 L 3087.4,306.3 L 3094.6,310.7 L 3101.9,314.7" fill="none" stroke="#d4ba82" stroke-width="4.8" stroke-linecap="round"/>
-      <!-- tour du rempart (toit conique) x=2150 -->
-      <line x1="2150" y1="628" x2="2150" y2="598" stroke="#2a1a0a" stroke-width="2.4" stroke-linecap="round"/>
-      <circle cx="2150" cy="597" r="2.4" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
-      <path class="fanion" data-px="2150" data-py="628" data-hp="26" data-l="44" data-h="8" d="M 2150,602 L 2152.8,602.2 L 2155.5,602.7 L 2158.3,603.2 L 2161,603.6 L 2163.8,603.7 L 2166.5,603.4 L 2169.3,602.8 L 2172,602 L 2174.8,601.2 L 2177.5,600.6 L 2180.3,600.4 L 2183,601 L 2185.8,602.2 L 2188.5,603.9 L 2191.3,605.8 L 2194,607.6 L 2194,608.2 L 2191.3,606.9 L 2188.5,605.5 L 2185.8,604.2 L 2183,603.5 L 2180.3,603.4 L 2177.5,604 L 2174.8,605 L 2172,606.3 L 2169.3,607.6 L 2166.5,608.7 L 2163.8,609.4 L 2161,609.7 L 2158.3,609.8 L 2155.5,609.8 L 2152.8,609.8 L 2150,610 Z" fill="#8a3a2a" stroke="#2a1a0a" stroke-width="1.4" stroke-linejoin="round"/>
-      <path class="fanion-bande" d="M 2150,606 L 2152.7,606 L 2155.3,606.2 L 2158,606.5 L 2160.7,606.6 L 2163.3,606.5 L 2166,606.1 L 2168.7,605.2 L 2171.3,604.2 L 2174,603.1 L 2176.7,602.3 L 2179.3,601.9 L 2182,602.2 L 2184.7,603.2 L 2187.3,604.7 L 2190,606.4 L 2192.7,607.9" fill="none" stroke="#c9b48a" stroke-width="1.8" stroke-linecap="round"/>
-      <!-- tour du rempart (toit conique) x=3420 -->
-      <line x1="3420" y1="628" x2="3420" y2="598" stroke="#2a1a0a" stroke-width="2.4" stroke-linecap="round"/>
-      <circle cx="3420" cy="597" r="2.4" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
-      <path class="fanion" data-px="3420" data-py="628" data-hp="26" data-l="44" data-h="8" d="M 3420,602 L 3422.8,602.2 L 3425.5,602.7 L 3428.3,603.2 L 3431,603.6 L 3433.8,603.7 L 3436.5,603.4 L 3439.3,602.8 L 3442,602 L 3444.8,601.2 L 3447.5,600.6 L 3450.3,600.4 L 3453,601 L 3455.8,602.2 L 3458.5,603.9 L 3461.3,605.8 L 3464,607.6 L 3464,608.2 L 3461.3,606.9 L 3458.5,605.5 L 3455.8,604.2 L 3453,603.5 L 3450.3,603.4 L 3447.5,604 L 3444.8,605 L 3442,606.3 L 3439.3,607.6 L 3436.5,608.7 L 3433.8,609.4 L 3431,609.7 L 3428.3,609.8 L 3425.5,609.8 L 3422.8,609.8 L 3420,610 Z" fill="#8a3a2a" stroke="#2a1a0a" stroke-width="1.4" stroke-linejoin="round"/>
-      <path class="fanion-bande" d="M 3420,606 L 3422.7,606 L 3425.3,606.2 L 3428,606.5 L 3430.7,606.6 L 3433.3,606.5 L 3436,606.1 L 3438.7,605.2 L 3441.3,604.2 L 3444,603.1 L 3446.7,602.3 L 3449.3,601.9 L 3452,602.2 L 3454.7,603.2 L 3457.3,604.7 L 3460,606.4 L 3462.7,607.9" fill="none" stroke="#c9b48a" stroke-width="1.8" stroke-linecap="round"/>
-    </g>
-
-    <!-- Eclairage jour/nuit : voile bleu nuit (multiply) + teinte chaude d'aube/crepuscule, sous -->
-    <!-- les lumieres des fenetres pour qu'elles restent vives la nuit. Pilote par le script. -->
-    <g id="eclairage" style="pointer-events:none">
-      <!-- Assombrissement (transparence simple : les modes de fusion sur de grands groupes se -->
-      <!-- rendaient partiellement) : nuit bleue, teinte de crepuscule, vignettage nocturne -->
-      <g clip-path="url(#clip-coin-ovale)">
-        <rect id="voile-nuit" x="0" y="0" width="3840" height="2160" fill="#24305a" opacity="0"/>
-        <rect id="voile-crepuscule" x="0" y="0" width="3840" height="2160" fill="#c86a28" opacity="0"/>
-        <rect id="vignette-nuit" x="0" y="0" width="3840" height="2160" fill="url(#vignette-grad)" opacity="0"/>
-      </g>
-      <!-- Lumiere ambiante : lueur emise par le soleil ou la lune autour de l'astre -->
-      <g clip-path="url(#clip-coin-ovale)">
-        <ellipse id="lueur-astre" cx="2700" cy="300" rx="1500" ry="1100" fill="url(#lueur-soleil)" opacity="0"/>
-      </g>
-    </g>
-
-    <!-- Astres au-dessus du voile de nuit (restent lumineux), mais devant les nuages : les nuages -->
-    <!-- de nuit passent donc derriere la lune (acceptable a cette distance). -->
+    <!-- Astres (etoiles/soleil/lune) juste apres le ciel : devant les nuages, mais derriere -->
+    <!-- tous les batiments de la ville (le voile de nuit, lui, reste au-dessus de tout pour -->
+    <!-- assombrir aussi bien les batiments que les astres). -->
     <g id="astres" clip-path="url(#clip-coin-ovale)">
       <!-- Cycle jour/nuit (script "Jour et nuit") : etoiles, soleil, lune -->
       <g id="etoiles" fill="#f4ecd4" opacity="0">
@@ -684,12 +404,291 @@
       </g>
     </g>
 
+    <!-- Sol de la ville entierement pave de petits paves ronds (recouvre les dalles ci-dessus). -->
+    <image href="layers/02-buildings/02-cobblestones.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Colline de champs de ble, derriere le rempart -->
+    <image href="layers/02-nature/02-hill-bg.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Champs de ble et chemin du moulin sur les collines : generes par le script en bas de -->
+    <!-- fichier (rangs d'epis par parcelle, ondulation au vent). Entre la colline et le moulin. -->
+    <g id="champs-ble" clip-path="url(#clip-coin-ovale)">
+      <g class="chemin"/>
+      <g class="epis" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="foret" stroke="#3a2a14" stroke-linejoin="round" filter="url(#sketchyMedium)"/>
+    </g>
+    <!-- Cabane de bucheron dans la clairiere a l'oree de la foret -->
+    <image href="layers/02-buildings/02-cabin-bg.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maison paysanne pres du moulin -->
+    <image href="layers/02-buildings/02-farmhouse.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maison de hobbit sur la colline lointaine, a droite -->
+    <image href="layers/02-buildings/02-hobbit-house.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Moulin a vent sur la crete de la colline -->
+    <image href="layers/02-buildings/02-windmill-bg.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Ailes du moulin : meme transform que #moulin-a-vent du calque, moyeu en (100,95). Une aile -->
+    <!-- (pointant vers le haut) est dessinee une fois puis repetee a 90/180/270 deg ; le groupe -->
+    <!-- .ailes tourne autour du moyeu (symetrie d'ordre 4 : centre de sa boite = moyeu). -->
+    <g clip-path="url(#clip-coin-ovale)">
+    <g id="moulin-ailes" transform="translate(1957,467.6) scale(0.33)" opacity="0.9">
+      <g class="ailes">
+        <g id="aile" filter="url(#sketchyMedium)">
+          <!-- Toile tendue sur le cadre, d'un cote du bras -->
+          <rect x="103" y="-80" width="30" height="128" fill="#e3d2a6" stroke="#2a1a0a" stroke-width="2"/>
+          <!-- Lattes transversales et longeron du cadre -->
+          <g stroke="#3a2a14" stroke-width="1.4">
+            <line x1="100" y1="-64" x2="133" y2="-64"/>
+            <line x1="100" y1="-48" x2="133" y2="-48"/>
+            <line x1="100" y1="-32" x2="133" y2="-32"/>
+            <line x1="100" y1="-16" x2="133" y2="-16"/>
+            <line x1="100" y1="0" x2="133" y2="0"/>
+            <line x1="100" y1="16" x2="133" y2="16"/>
+            <line x1="100" y1="32" x2="133" y2="32"/>
+            <line x1="118" y1="-80" x2="118" y2="48"/>
+          </g>
+          <!-- Planche de bord d'attaque (cote oppose) -->
+          <rect x="91" y="-80" width="6" height="128" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="1.5"/>
+          <!-- Bras (vergue) -->
+          <line x1="100" y1="95" x2="100" y2="-85" stroke="#4a3420" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <use href="#aile" transform="rotate(90 100 95)"/>
+        <use href="#aile" transform="rotate(180 100 95)"/>
+        <use href="#aile" transform="rotate(270 100 95)"/>
+      </g>
+      <!-- Moyeu (fixe) -->
+      <circle cx="100" cy="95" r="11" fill="#5a4a3a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <circle cx="100" cy="95" r="4" fill="#2a1a0a"/>
+    </g>
+    </g>
+    <!-- Rempart de la ville en arriere-plan (sur l'horizon, derriere tous les batiments) -->
+    <image href="layers/02-buildings/02-rampart-bg.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maisons a colombages en retrait, entre la taverne et la tour (derriere les deux) -->
+    <image href="layers/02-buildings/02-timber-houses.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-buildings/02-clock-tower.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Porte de la tour (double battant) : meme transform que #tour-horloge du calque. Masquee -->
+    <!-- tant que la porte est fermee (on voit alors celle du calque) ; pendant une ouverture, le -->
+    <!-- fond sombre recouvre la porte peinte et les battants (generes par le script en bas de -->
+    <!-- fichier) pivotent en perspective. L'arc en claveaux reste visible (hors du fond). -->
+    <g id="porte-tour" transform="translate(1522.5,140.75) scale(0.55)" display="none">
+      <path d="M 2380,1670 L 2380,1420 Q 2380,1340 2520,1340 Q 2660,1340 2660,1420 L 2660,1670 Z"
+            fill="#1a0f05" stroke="#1a0f05" stroke-width="6" filter="url(#sketchyHeavy)"/>
+      <g class="battants" clip-path="url(#clip-embrasure-tour)"/>
+    </g>
+    <image href="layers/02-buildings/02-tavern.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maisons normandes, au fond derriere la forge -->
+    <image href="layers/02-buildings/02-norman-houses.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-buildings/02-forge.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <image href="layers/02-buildings/02-bakery.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Porte de l'auberge : meme transform que #echoppe-apothicaire du calque, meme principe que -->
+    <!-- #porte-tour. Heurtoir a gauche donc charniere a droite ; s'ouvre vers la rue. -->
+    <g id="porte-auberge" transform="translate(1892,79.25) scale(0.6)" display="none">
+      <path d="M 1200,1750 L 1200,1600 Q 1200,1570 1250,1570 Q 1300,1570 1300,1600 L 1300,1750 Z"
+            fill="#1a0f05" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)"/>
+      <g class="battants"/>
+    </g>
+    <!-- Chat assis sur le tonneau de droite de la boulangerie : dessin d'origine du calque -->
+    <!-- auberge (coordonnees locales), meme transform + decalage translate(200,0) du tonneau. -->
+    <g id="chat-boulangerie" transform="translate(1892,79.25) scale(0.6) translate(200,0)" filter="url(#sketchyMedium)">
+      <path class="cat-tail" d="M 1245,1700 Q 1260,1695 1255,1680" fill="none" stroke="#1a0f05" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse class="cat-body" cx="1230" cy="1700" rx="15" ry="12" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
+      <g class="cat-head">
+        <circle cx="1230" cy="1685" r="10" fill="#3a2a1a" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 1225,1680 L 1222,1670 L 1228,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+        <path class="cat-ear" d="M 1235,1680 L 1238,1670 L 1232,1675" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+      </g>
+    </g>
+    <image href="layers/02-buildings/02-guild.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Porte de la guilde (double battant) : transform de #guilde-aventuriers + porte remontee de 37.5u, -->
+    <!-- meme principe que #porte-tour. La banniere, devant la porte dans le calque, est -->
+    <!-- redessinee par-dessus. -->
+    <g id="porte-guilde" transform="translate(3045,806.5)" display="none">
+      <path d="M 130,470 L 130,340 Q 130,310 190,310 Q 250,310 250,340 L 250,470 Z"
+            fill="#1a0f05" stroke="#1a0f05" stroke-width="5" filter="url(#sketchyHeavy)"/>
+      <g class="battants" clip-path="url(#clip-embrasure-guilde)"/>
+      <g filter="url(#sketchyMedium)" transform="translate(0,-7.5)">
+        <line x1="100" y1="290" x2="280" y2="290" stroke="#1a0f05" stroke-width="4"/>
+        <path d="M 150,290 L 230,290 L 230,340 L 190,360 L 150,340 Z"
+              fill="#8b4513" stroke="#1a0f05" stroke-width="3" opacity="0.9"/>
+        <circle cx="190" cy="320" r="12" fill="none" stroke="#d4ba82" stroke-width="2"/>
+        <line x1="190" y1="308" x2="190" y2="332" stroke="#d4ba82" stroke-width="2"/>
+        <line x1="178" y1="320" x2="202" y2="320" stroke="#d4ba82" stroke-width="2"/>
+        <line x1="182" y1="312" x2="198" y2="328" stroke="#d4ba82" stroke-width="1.5"/>
+        <line x1="198" y1="312" x2="182" y2="328" stroke="#d4ba82" stroke-width="1.5"/>
+      </g>
+    </g>
+    <image href="layers/02-buildings/02-chapel.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Cloche de la chapelle : meme transform que #chapelle-amelioree du calque, suspendue a -->
+    <!-- la poutre de la baie (pivot de l'anse en (-10,-125)). Sonne de temps en temps (script). -->
+    <g id="cloche-chapelle" transform="translate(1800,820) scale(1.4)" clip-path="url(#clip-baie-chapelle)" filter="url(#sketchyMedium)">
+      <g class="robe">
+        <!-- Battant : dessine avant la robe, seul le bas depasse sous la levre -->
+        <g class="battant">
+          <line x1="-10" y1="-112" x2="-10" y2="-77" stroke="#1a0f05" stroke-width="2"/>
+          <circle cx="-10" cy="-74.5" r="3" fill="#8a6a30" stroke="#1a0f05" stroke-width="1.5"/>
+        </g>
+        <!-- Anse -->
+        <rect x="-14.5" y="-128" width="9" height="7" fill="#8a6a30" stroke="#1a0f05" stroke-width="1.5"/>
+        <!-- Robe : couronne etroite, evasement, levre large -->
+        <path d="M -10,-122 C -22,-122 -22,-106 -23,-95 Q -24,-86 -31,-80 L 11,-80 Q 4,-86 3,-95 C 2,-106 2,-122 -10,-122 Z"
+              fill="#b08a4a" stroke="#1a0f05" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M -17,-113 Q -18,-100 -21,-89" fill="none" stroke="#e0c48a" stroke-width="2" stroke-linecap="round"/>
+        <line x1="-32" y1="-80" x2="12" y2="-80" stroke="#1a0f05" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- Fontaine au milieu de la place, devant la porte de la tour -->
+    <image href="layers/02-buildings/02-fountain.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Eau de la fontaine (animee) : jet de la pomme de pin, filets qui tombent de la vasque, -->
+    <!-- rides concentriques dans le bassin. -->
+    <g id="fontaine-eau" transform="translate(-160,-100)" fill="none" stroke-linecap="round">
+      <g stroke="#c4d0cc" stroke-width="3" opacity="0.85">
+        <path class="eau-jet" d="M 2870,1206 Q 2852,1196 2840,1252"/>
+        <path class="eau-jet" d="M 2870,1206 Q 2888,1196 2900,1252" style="animation-delay:-0.3s"/>
+        <path class="eau-jet" d="M 2870,1206 Q 2870,1192 2870,1248" style="animation-delay:-0.15s"/>
+      </g>
+      <g stroke="#b4c2be" stroke-width="3.5" opacity="0.8">
+        <path class="eau-filet" d="M 2818,1258 Q 2796,1268 2790,1348"/>
+        <path class="eau-filet" d="M 2922,1258 Q 2944,1268 2950,1348" style="animation-delay:-0.4s"/>
+        <path class="eau-filet" d="M 2840,1264 Q 2830,1290 2828,1350" style="animation-delay:-0.2s"/>
+        <path class="eau-filet" d="M 2900,1264 Q 2910,1290 2912,1350" style="animation-delay:-0.6s"/>
+      </g>
+      <g stroke="#d8e0dc" stroke-width="1.6">
+        <ellipse class="eau-ride" cx="2790" cy="1350" rx="14" ry="3"/>
+        <ellipse class="eau-ride" cx="2950" cy="1350" rx="14" ry="3" style="animation-delay:-0.8s"/>
+        <ellipse class="eau-ride" cx="2828" cy="1352" rx="12" ry="2.6" style="animation-delay:-0.4s"/>
+        <ellipse class="eau-ride" cx="2912" cy="1352" rx="12" ry="2.6" style="animation-delay:-1.2s"/>
+      </g>
+    </g>
+
+    <!-- Tentes de marchands sur la place (apres la guilde, avant le puits) -->
+    <image href="layers/02-buildings/02-tents.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Auvents des tentes (ondulent au vent) et enseignes : sortis du calque 02-tents.svg -->
+    <g id="tentes-auvents" clip-path="url(#clip-coin-ovale)">
+      <g transform="translate(3540, 1020.2) scale(0.59)">
+    <!-- Auvent rayé (Toit de la tente) -->
+    <!-- Forme drapée avec bordure festonnée -->
+    <path class="auvent" data-geo="140,30,70,20" d="M -140,20 Q 0,-33.7 140,20 L 157.3,70 Q 121.8,90 86.4,70 Q 45.9,93.1 5.3,71.6 Q -25.2,93.9 -55.8,71.9 Q -86.2,91.7 -116.6,70.9 Q -131.9,88.2 -147.1,69.1 Z"
+          fill="url(#stripesRed)" stroke="#2a1a0a" stroke-width="4"
+          filter="url(#sketchyMedium)"/>
+
+    <!-- Pliures de l'auvent -->
+    <g class="auvent-plis" stroke="#2a1a0a" stroke-width="2" opacity="0.5" fill="none" filter="url(#sketchyMedium)">
+      <path d="M -70,25 Q -70,50 -90,70"/>
+      <path d="M 0,10 Q 0,50 -10,70"/>
+      <path d="M 70,25 Q 70,50 70,70"/>
+    </g>
+
+    <!-- Enseigne suspendue -->
+    <g filter="url(#sketchyMedium)">
+      <line x1="-120" y1="20" x2="-120" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="-120" y1="-10" x2="-80" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <rect x="-80" y="-10" width="40" height="50" rx="3" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Symbole : Aiguille et fil -->
+      <line x1="-60" y1="5" x2="-60" y2="30" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M -60,15 Q -50,10 -50,20 Q -50,30 -60,25" fill="none" stroke="#a04030" stroke-width="2"/>
+    </g>
+
+      </g>
+      <g transform="translate(3660, 1095) scale(-0.825, 0.825)">
+    <!-- Auvent rayé vert -->
+    <path class="auvent" data-geo="130,25,65,20" d="M -130,20 Q 0,-28.7 130,20 L 147.3,65 Q 114.3,85 81.4,65 Q 43,88.1 4.6,66.6 Q -23.8,88.9 -52.2,66.9 Q -80.1,86.7 -108,65.9 Q -122.6,83.2 -137.1,64.1 Z"
+          fill="url(#stripesGreen)" stroke="#2a1a0a" stroke-width="4"
+          filter="url(#sketchyMedium)"/>
+
+    <!-- Pliures -->
+    <g class="auvent-plis" stroke="#2a1a0a" stroke-width="2" opacity="0.5" fill="none" filter="url(#sketchyMedium)">
+      <path d="M -60,22 Q -60,45 -100,65"/>
+      <path d="M 0,10 Q 0,45 -20,65"/>
+      <path d="M 60,22 Q 60,45 60,65"/>
+    </g>
+
+    <!-- Enseigne suspendue -->
+    <g filter="url(#sketchyMedium)">
+      <line x1="110" y1="20" x2="110" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <line x1="110" y1="-10" x2="150" y2="-10" stroke="#2a1a0a" stroke-width="3"/>
+      <path d="M 150,-10 L 190,-10 L 180,30 L 160,30 Z" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Symbole : Épi de blé -->
+      <line x1="170" y1="5" x2="170" y2="25" stroke="#c4a040" stroke-width="2"/>
+      <path d="M 170,10 Q 165,5 170,0 Q 175,5 170,10" fill="#c4a040"/>
+      <path d="M 170,15 Q 175,10 170,5" fill="#c4a040"/>
+    </g>
+
+      </g>
+    </g>
+
+    <!-- Puits, en bas a droite de la place (premier plan) -->
+    <image href="layers/02-buildings/02-well.svg" x="0" y="0" width="3840" height="2160" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Treuil du puits (corde, seau, manivelle) : meme transform que #puits-medieval du calque. -->
+    <!-- De temps en temps, on descend le seau dans le puits puis on le remonte (script). -->
+    <g id="puits-treuil" transform="translate(3600,1381.25) scale(0.75)" filter="url(#sketchyMedium)">
+      <!-- Seau + corde : coupes par la margelle avant quand ils descendent dans le puits -->
+      <g clip-path="url(#clip-ouverture-puits)">
+        <line class="corde" x1="0" y1="-66" x2="0" y2="56" stroke="#8a7a6a" stroke-width="2.2"/>
+        <g class="seau">
+          <path d="M -12,60 Q 0,49 12,60" fill="none" stroke="#2a1a0a" stroke-width="2"/>
+          <path d="M -15,60 L -12,85 Q -12,90 0,90 Q 12,90 12,85 L 15,60 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2"/>
+          <line x1="-13" y1="70" x2="13" y2="70" stroke="#2a1a0a" stroke-width="1.5"/>
+          <line x1="-12" y1="80" x2="12" y2="80" stroke="#2a1a0a" stroke-width="1.5"/>
+          <ellipse class="eau" cx="0" cy="61" rx="13" ry="3.5" fill="#6a7a8a" opacity="0"/>
+          <!-- Gouttes qui fuient par le fond du seau pendant qu'il se vide -->
+          <circle class="goutte" cx="-4" cy="91" r="1.8" fill="#8a9aaa" opacity="0"/>
+          <circle class="goutte" cx="3" cy="91" r="1.6" fill="#8a9aaa" opacity="0"/>
+        </g>
+      </g>
+      <!-- Manivelle : l'axe est vu de face, la manivelle tourne donc dans un plan perpendiculaire a -->
+      <!-- l'ecran : on ne voit que la projection du bras (vertical, de longueur R*cos), la poignee -->
+      <!-- monte et descend le long de x=78. -->
+      <g class="manivelle" stroke="#5a4a3a" stroke-linecap="round">
+        <line x1="58" y1="-70" x2="78" y2="-70" stroke-width="4.5"/>
+        <line class="bras" x1="78" y1="-70" x2="78" y2="-52" stroke-width="4.5"/>
+        <line class="poignee" x1="78" y1="-52" x2="87" y2="-52" stroke="#3a2a1a" stroke-width="5.5"/>
+      </g>
+    </g>
+
+    <!-- Longs fanions en haut des tours a toit, ondulant au vent (vers la droite, comme le ble). -->
+    <!-- Formes animees par <animate> sur d (10 poses par cycle). -->
+    <g id="fanions" filter="url(#sketchyMedium)">
+      <!-- tour de l'horloge, epi gauche -->
+      <line x1="2831.5" y1="372" x2="2831.5" y2="298" stroke="#2a1a0a" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="2831.5" cy="297" r="3.5" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
+      <path class="fanion" data-px="2831.5" data-py="372" data-hp="70" data-l="120" data-h="22" d="M 2831.5,302 L 2839,302.5 L 2846.5,303.4 L 2854,304.6 L 2861.5,305.4 L 2869,305.5 L 2876.5,304.6 L 2884,302.8 L 2891.5,300.3 L 2899,297.7 L 2906.5,295.8 L 2914,295.3 L 2921.5,296.6 L 2929,299.7 L 2936.5,304.2 L 2944,309.2 L 2951.5,313.8 L 2951.5,315.5 L 2944,312.2 L 2936.5,308.5 L 2929,305.2 L 2921.5,303.4 L 2914,303.4 L 2906.5,305.2 L 2899,308.3 L 2891.5,312.1 L 2884,315.9 L 2876.5,319.1 L 2869,321.2 L 2861.5,322.4 L 2854,322.8 L 2846.5,322.9 L 2839,323.2 L 2831.5,324 Z" fill="#a04030" stroke="#2a1a0a" stroke-width="2.5" stroke-linejoin="round"/>
+      <path class="fanion-bande" d="M 2831.5,313 L 2838.8,312.8 L 2846.1,313.2 L 2853.3,313.7 L 2860.6,313.9 L 2867.9,313.4 L 2875.2,311.9 L 2882.4,309.3 L 2889.7,306.2 L 2897,303 L 2904.3,300.5 L 2911.5,299.4 L 2918.8,300 L 2926.1,302.5 L 2933.4,306.3 L 2940.6,310.7 L 2947.9,314.7" fill="none" stroke="#d4ba82" stroke-width="4.8" stroke-linecap="round"/>
+      <!-- tour de l'horloge, epi droit -->
+      <line x1="2985.5" y1="372" x2="2985.5" y2="298" stroke="#2a1a0a" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="2985.5" cy="297" r="3.5" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
+      <path class="fanion" data-px="2985.5" data-py="372" data-hp="70" data-l="120" data-h="22" d="M 2985.5,302 L 2993,302.5 L 3000.5,303.4 L 3008,304.6 L 3015.5,305.4 L 3023,305.5 L 3030.5,304.6 L 3038,302.8 L 3045.5,300.3 L 3053,297.7 L 3060.5,295.8 L 3068,295.3 L 3075.5,296.6 L 3083,299.7 L 3090.5,304.2 L 3098,309.2 L 3105.5,313.8 L 3105.5,315.5 L 3098,312.2 L 3090.5,308.5 L 3083,305.2 L 3075.5,303.4 L 3068,303.4 L 3060.5,305.2 L 3053,308.3 L 3045.5,312.1 L 3038,315.9 L 3030.5,319.1 L 3023,321.2 L 3015.5,322.4 L 3008,322.8 L 3000.5,322.9 L 2993,323.2 L 2985.5,324 Z" fill="#a04030" stroke="#2a1a0a" stroke-width="2.5" stroke-linejoin="round"/>
+      <path class="fanion-bande" d="M 2985.5,313 L 2992.8,312.8 L 3000.1,313.2 L 3007.3,313.7 L 3014.6,313.9 L 3021.9,313.4 L 3029.2,311.9 L 3036.4,309.3 L 3043.7,306.2 L 3051,303 L 3058.3,300.5 L 3065.5,299.4 L 3072.8,300 L 3080.1,302.5 L 3087.4,306.3 L 3094.6,310.7 L 3101.9,314.7" fill="none" stroke="#d4ba82" stroke-width="4.8" stroke-linecap="round"/>
+      <!-- tour du rempart (toit conique) x=2150 -->
+      <line x1="2150" y1="628" x2="2150" y2="598" stroke="#2a1a0a" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="2150" cy="597" r="2.4" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
+      <path class="fanion" data-px="2150" data-py="628" data-hp="26" data-l="44" data-h="8" d="M 2150,602 L 2152.8,602.2 L 2155.5,602.7 L 2158.3,603.2 L 2161,603.6 L 2163.8,603.7 L 2166.5,603.4 L 2169.3,602.8 L 2172,602 L 2174.8,601.2 L 2177.5,600.6 L 2180.3,600.4 L 2183,601 L 2185.8,602.2 L 2188.5,603.9 L 2191.3,605.8 L 2194,607.6 L 2194,608.2 L 2191.3,606.9 L 2188.5,605.5 L 2185.8,604.2 L 2183,603.5 L 2180.3,603.4 L 2177.5,604 L 2174.8,605 L 2172,606.3 L 2169.3,607.6 L 2166.5,608.7 L 2163.8,609.4 L 2161,609.7 L 2158.3,609.8 L 2155.5,609.8 L 2152.8,609.8 L 2150,610 Z" fill="#8a3a2a" stroke="#2a1a0a" stroke-width="1.4" stroke-linejoin="round"/>
+      <path class="fanion-bande" d="M 2150,606 L 2152.7,606 L 2155.3,606.2 L 2158,606.5 L 2160.7,606.6 L 2163.3,606.5 L 2166,606.1 L 2168.7,605.2 L 2171.3,604.2 L 2174,603.1 L 2176.7,602.3 L 2179.3,601.9 L 2182,602.2 L 2184.7,603.2 L 2187.3,604.7 L 2190,606.4 L 2192.7,607.9" fill="none" stroke="#c9b48a" stroke-width="1.8" stroke-linecap="round"/>
+      <!-- tour du rempart (toit conique) x=3420 -->
+      <line x1="3420" y1="628" x2="3420" y2="598" stroke="#2a1a0a" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="3420" cy="597" r="2.4" fill="#8a7050" stroke="#2a1a0a" stroke-width="1"/>
+      <path class="fanion" data-px="3420" data-py="628" data-hp="26" data-l="44" data-h="8" d="M 3420,602 L 3422.8,602.2 L 3425.5,602.7 L 3428.3,603.2 L 3431,603.6 L 3433.8,603.7 L 3436.5,603.4 L 3439.3,602.8 L 3442,602 L 3444.8,601.2 L 3447.5,600.6 L 3450.3,600.4 L 3453,601 L 3455.8,602.2 L 3458.5,603.9 L 3461.3,605.8 L 3464,607.6 L 3464,608.2 L 3461.3,606.9 L 3458.5,605.5 L 3455.8,604.2 L 3453,603.5 L 3450.3,603.4 L 3447.5,604 L 3444.8,605 L 3442,606.3 L 3439.3,607.6 L 3436.5,608.7 L 3433.8,609.4 L 3431,609.7 L 3428.3,609.8 L 3425.5,609.8 L 3422.8,609.8 L 3420,610 Z" fill="#8a3a2a" stroke="#2a1a0a" stroke-width="1.4" stroke-linejoin="round"/>
+      <path class="fanion-bande" d="M 3420,606 L 3422.7,606 L 3425.3,606.2 L 3428,606.5 L 3430.7,606.6 L 3433.3,606.5 L 3436,606.1 L 3438.7,605.2 L 3441.3,604.2 L 3444,603.1 L 3446.7,602.3 L 3449.3,601.9 L 3452,602.2 L 3454.7,603.2 L 3457.3,604.7 L 3460,606.4 L 3462.7,607.9" fill="none" stroke="#c9b48a" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+
+    <!-- Eclairage jour/nuit : voile bleu nuit (multiply) + teinte chaude d'aube/crepuscule, sous -->
+    <!-- les lumieres des fenetres pour qu'elles restent vives la nuit. Pilote par le script. -->
+    <g id="eclairage" style="pointer-events:none">
+      <!-- Assombrissement (transparence simple : les modes de fusion sur de grands groupes se -->
+      <!-- rendaient partiellement) : nuit bleue, teinte de crepuscule, vignettage nocturne -->
+      <g clip-path="url(#clip-coin-ovale)">
+        <rect id="voile-nuit" x="0" y="0" width="3840" height="2160" fill="#24305a" opacity="0"/>
+        <rect id="voile-crepuscule" x="0" y="0" width="3840" height="2160" fill="#c86a28" opacity="0"/>
+        <rect id="vignette-nuit" x="0" y="0" width="3840" height="2160" fill="url(#vignette-grad)" opacity="0"/>
+      </g>
+      <!-- Lumiere ambiante : lueur emise par le soleil ou la lune autour de l'astre -->
+      <g clip-path="url(#clip-coin-ovale)">
+        <ellipse id="lueur-astre" cx="2700" cy="300" rx="1500" ry="1100" fill="url(#lueur-soleil)" opacity="0"/>
+      </g>
+    </g>
+
     <!-- Lumieres de fenetres/lanternes : coordonnees calculees depuis la position locale de -->
     <!-- chaque ouverture x la transform actuelle de son batiment (tour, taverne, auberge, -->
     <!-- guilde, forge, chapelle). Si un batiment est redeplace/redimensionne, ces points doivent -->
     <!-- etre recalcules en consequence. -->
     <g id="building-lights" clip-path="url(#clip-coin-ovale)">
-    <!-- Maisons a colombages (02-maisons1.svg) : fenetres de grenier (la maison 1, cachee -->
+    <!-- Maisons a colombages (02-timber-houses.svg) : fenetres de grenier (la maison 1, cachee -->
     <!-- derriere la taverne, n'en a pas : sa lueur passerait par-dessus le toit de la taverne). -->
     <g class="win-light" style="animation-duration:29s; animation-delay:-13s;" transform="translate(2381.8,757.4)">
       <ellipse class="lum-halo" rx="36.0" ry="23.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.45s; animation-delay:-0.4s;" rx="17.3" ry="12.7" fill="url(#lum-coeur)"/>
@@ -742,7 +741,7 @@
     <g class="win-light" style="animation-duration:35s; animation-delay:-21s;" transform="translate(2208.2,702.6)">
       <ellipse class="lum-halo" rx="31.2" ry="26.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.8s; animation-delay:-0.5s;" rx="14.9" ry="14.3" fill="url(#lum-coeur)"/>
     </g>
-    <!-- Maisons normandes (02-maisons2.svg, etage 2) et cabane du bucheron -->
+    <!-- Maisons normandes (02-norman-houses.svg, etage 2) et cabane du bucheron -->
     <g class="win-light" style="animation-duration:22s; animation-delay:-3s;" transform="translate(3463.1,747.3)">
       <ellipse class="lum-halo" rx="21.6" ry="30.0" fill="url(#lum-halo)"/><ellipse class="flame-glow" style="animation-duration:1.35s; animation-delay:-0.2s;" rx="10.3" ry="16.5" fill="url(#lum-coeur)"/>
     </g>
@@ -839,9 +838,9 @@
 
   <!-- Effets papier (taches, plis, coins) : passes au-dessus des batiments pour que l'usure -->
   <!-- du parchemin se superpose a toute la scene, pas seulement au fond. -->
-  <image href="layers/02-taches.svg" x="0" y="0" width="3840" height="2160"/>
-  <image href="layers/03-plis.svg" x="0" y="0" width="3840" height="2160"/>
-  <image href="layers/04-coins.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/02-stains.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/03-creases.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/04-corners.svg" x="0" y="0" width="3840" height="2160"/>
 
   <!-- Horloge vivante : aiguilles synchronisees sur l'heure reelle du navigateur. -->
   <!-- Centre du cadran = centre original (2520,950) passe par la transform de la tour (translate(1522.5,140.75) scale(0.55)). -->
@@ -897,7 +896,7 @@
     <g class="puffs"/>
   </g>
 
-  <image href="layers/05-bordure.svg" x="0" y="0" width="3840" height="2160"/>
+  <image href="layers/05-border.svg" x="0" y="0" width="3840" height="2160"/>
 
   <!-- Reglages des animations (frequences, durees, forces) : voir animations-config.js. -->
   <script href="animations-config.js"/>
@@ -940,6 +939,18 @@
       });
     }
 
+    // Horloge virtuelle commune aux aiguilles de la tour et au cycle jour/nuit.
+    // mode 'reel' (par defaut) : suit l'heure de l'ordinateur.
+    // mode 'accelere' : une journee complete de 24h dure 'jourNuit.dureeCycle' minutes.
+    var tempsMode = cfg('jourNuit.mode', 'reel'), tempsCycleMin = cfg('jourNuit.dureeCycle', 20);
+    var temps_t0 = performance.now();
+    var temps_depart = new Date();
+    var temps_startHour = temps_depart.getHours() + temps_depart.getMinutes() / 60 + temps_depart.getSeconds() / 3600;
+    function heureVirtuelle() {
+      if (tempsMode === 'accelere') return (temps_startHour + (performance.now() - temps_t0) / 60000 / tempsCycleMin * 24) % 24;
+      var d = new Date(); return d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600;
+    }
+
     (function () {
       // Mouvement "a l'ancienne" : l'aiguille des secondes avance par a-coups
       // (un tic par seconde), comme une horloge mecanique a echappement,
@@ -947,20 +958,23 @@
       var hourHand = document.getElementById('hand-hour');
       var minuteHand = document.getElementById('hand-minute');
       var secondHand = document.getElementById('hand-second');
+      // En mode accelere, l'aiguille des secondes tournerait bien trop vite pour etre
+      // lisible : on la masque et on ne s'occupe plus que des heures/minutes.
+      if (tempsMode === 'accelere') secondHand.style.display = 'none';
 
       function update() {
-        var now = new Date();
-        var h = now.getHours() % 12;
-        var m = now.getMinutes();
-        var s = now.getSeconds();
+        var h = heureVirtuelle();
+        var totalSec = h * 3600;
 
-        var secAngle = s / 60 * 360;
-        var minAngle = (m + s / 60) / 60 * 360;
-        var hourAngle = (h + m / 60) / 12 * 360;
+        var minAngle = (totalSec % 3600) / 3600 * 360;
+        var hourAngle = (h % 12) / 12 * 360;
 
         hourHand.setAttribute('transform', 'rotate(' + hourAngle + ')');
         minuteHand.setAttribute('transform', 'rotate(' + minAngle + ')');
-        secondHand.setAttribute('transform', 'rotate(' + secAngle + ')');
+        if (tempsMode !== 'accelere') {
+          var secAngle = (totalSec % 60) / 60 * 360;
+          secondHand.setAttribute('transform', 'rotate(' + secAngle + ')');
+        }
       }
 
       update();
@@ -1306,8 +1320,8 @@
     })();
 
     (function () {
-      // Champs de ble sur les collines (calque 02-colline-fond.svg), herbe, forets et chemin du moulin
-      // (calque 02-Batiment/02-moulin-fond.svg, porte en (1990,560)). Les epis sont plantes en rangs qui
+      // Champs de ble sur les collines (calque 02-hill-bg.svg), herbe, forets et chemin du moulin
+      // (calque 02-buildings/02-windmill-bg.svg, porte en (1990,560)). Les epis sont plantes en rangs qui
       // suivent la crete (perspective : rangs et epis de plus en plus espaces/grands vers le
       // bas), avec la teinte de la parcelle dessinee dans le calque ; parcelles labourees et
       // chemin laisses nus. Generation deterministe (PRNG fixe). Chaque segment de rang
@@ -1430,7 +1444,7 @@
                'M' + b + 'L' + r1(x + 0.8 * s) + ',' + r1(y - 11 * s) +
                'M' + b + 'Q' + r1(x + 2 * s) + ',' + r1(y - 5 * s) + ' ' + r1(x + 4.5 * s) + ',' + r1(y - 8 * s);
       }
-      // Clairiere de la cabane du bucheron (calque 02-Batiment/02-cabane-fond.svg) : ni arbre ni herbe
+      // Clairiere de la cabane du bucheron (calque 02-buildings/02-cabin-bg.svg) : ni arbre ni herbe
       // devant elle (les arbres plus loin, pieds au-dessus de y0, restent derriere elle).
       var CLAIRIERE = [2640, 2755, 630, 812];
       function inClearing(x, y) { return x > CLAIRIERE[0] && x < CLAIRIERE[1] && y > CLAIRIERE[2] && y < CLAIRIERE[3]; }
@@ -1681,7 +1695,25 @@
         return d + ' Q ' + (w / 2).toFixed(1) + ',' + (h * rand(0.1, 0.25)).toFixed(1) + ' 0,0 Z';
       }
       var CROSS = cfg('ciel.traverseeNuages', 240);   // secondes pour traverser (moyenne)
+
+      // ---- Nuages speciaux : silhouettes piochees au hasard dans layers/02-nature/clouds/
+      // (voir ciel.nuagesSpeciaux dans animations-config.js pour la liste des fichiers).
+      var SPECIAUX_FICHIERS = cfg('ciel.nuagesSpeciaux.fichiers', []);
+      var SPECIAUX_PROBA = cfg('ciel.nuagesSpeciaux.probabilite', 0.15);
+      function spawnSpecialCloud(startFrac) {
+        var file = SPECIAUX_FICHIERS[Math.floor(Math.random() * SPECIAUX_FICHIERS.length)];
+        var w = rand(160, 300), h = w * 0.66, y = rand(110, 470), sc = rand(0.7, 1.3);
+        var g = el('g', {}, nuages);
+        var inner = el('g', { transform: 'translate(0,' + y.toFixed(1) + ') scale(' + sc.toFixed(2) + ')' }, g);
+        el('image', { href: 'layers/02-nature/clouds/' + file, x: 0, y: (-h).toFixed(1), width: w.toFixed(1), height: h.toFixed(1), opacity: rand(0.85, 1).toFixed(2) }, inner);
+        var from = X0 - w * sc - 50, to = X1 + 50, dur = CROSS * rand(0.7, 1.4) * 1000;
+        var anim = g.animate([{ transform: 'translateX(' + from + 'px)' }, { transform: 'translateX(' + to + 'px)' }], { duration: dur, easing: 'linear' });
+        if (startFrac) anim.currentTime = dur * startFrac;
+        anim.onfinish = function () { g.remove(); };
+      }
+
       function spawnCloud(startFrac) {
+        if (SPECIAUX_FICHIERS.length && Math.random() < SPECIAUX_PROBA) return spawnSpecialCloud(startFrac);
         var w = rand(160, 480), h = rand(40, 95), y = rand(110, 470), sc = rand(0.55, 1.2);
         var g = el('g', {}, nuages);
         var inner = el('g', { transform: 'translate(0,' + y.toFixed(1) + ') scale(' + sc.toFixed(2) + ')' }, g);
@@ -1739,25 +1771,32 @@
     })();
 
     (function () {
-      // Jour et nuit. Mode 'reel' : suit l'heure de l'ordinateur (comme l'horloge). Mode
-      // 'accelere' : une journee complete en 'jourNuit.dureeCycle' minutes.
-      var mode = cfg('jourNuit.mode', 'reel'), cycleMin = cfg('jourNuit.dureeCycle', 20);
-      var LEVER = cfg('jourNuit.lever', 7), COUCHER = cfg('jourNuit.coucher', 20), NUIT = cfg('jourNuit.obscurite', 0.6);
+      // Jour et nuit : suit la meme horloge virtuelle que les aiguilles de la tour
+      // (mode 'reel' ou 'accelere', voir heureVirtuelle ci-dessus).
+      //
+      // Heures de lever/coucher du soleil en France (heure legale civile, changements
+      // d'heure ete/hiver inclus) par mois, valeurs moyennes approchees pour la France
+      // metropolitaine. Utilisees quand jourNuit.lever / jourNuit.coucher ne sont pas
+      // fixes explicitement dans la config (valeur null = automatique selon le mois en cours).
+      var SOLEIL_FRANCE = [
+        [8.6, 17.4], [7.9, 18.3], [7.2, 19.1], [7.0, 20.6], [6.2, 21.3], [5.8, 21.9],
+        [6.0, 21.8], [6.7, 21.1], [7.4, 20.1], [8.0, 19.0], [7.7, 17.2], [8.4, 16.9]
+      ];
+      var soleilMois = SOLEIL_FRANCE[new Date().getMonth()];
+      var leverCfg = cfg('jourNuit.lever', null), coucherCfg = cfg('jourNuit.coucher', null);
+      var LEVER = leverCfg === null ? soleilMois[0] : leverCfg;
+      var COUCHER = coucherCfg === null ? soleilMois[1] : coucherCfg;
+      var NUIT = cfg('jourNuit.obscurite', 0.6);
       var soleil = document.getElementById('soleil'), lune = document.getElementById('lune');
       var etoiles = document.getElementById('etoiles');
       var voile = document.getElementById('voile-nuit'), crep = document.getElementById('voile-crepuscule');
       var lueur = document.getElementById('lueur-astre'), vign = document.getElementById('vignette-nuit');
       var AMB = cfg('jourNuit.lumiereAmbiante', 1);
-      var t0 = performance.now(), startHour = new Date().getHours() + new Date().getMinutes() / 60;
-      function hourNow() {
-        if (mode === 'accelere') return (startHour + (performance.now() - t0) / 60000 / cycleMin * 24) % 24;
-        var d = new Date(); return d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600;
-      }
       function smooth(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
       // Position sur l'arc du ciel (p : 0 lever -> 1 coucher), cache par les collines aux extremites
       function arc(p) { return [1650 + p * 2100, 640 - 470 * Math.sin(Math.PI * p)]; }
       function update() {
-        var h = hourNow(), dayLen = COUCHER - LEVER;
+        var h = heureVirtuelle(), dayLen = COUCHER - LEVER;
         var pd = (h - LEVER) / dayLen;                                   // soleil
         var pn = ((h - COUCHER + 24) % 24) / (24 - dayLen);              // lune
         var sunUp = pd > -0.05 && pd < 1.05, moonUp = pn > -0.05 && pn < 1.05;
@@ -1783,7 +1822,7 @@
         document.documentElement.classList.toggle('nuit', dark > 0.5);
       }
       update();
-      setInterval(update, mode === 'accelere' ? 100 : 5000);
+      setInterval(update, tempsMode === 'accelere' ? 100 : 5000);
     })();
     });
   ]]></script>

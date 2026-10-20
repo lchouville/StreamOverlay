@@ -70,12 +70,17 @@ window.ANIM_CONFIG = {
     vidage:     7          // le seau remonte plein puis se vide par en dessous en tant de secondes
   },
 
-  // ---------------------------------------------------------------- JOUR / NUIT
+  // ---------------------------------------------------------------- JOUR / NUIT (+ HORLOGE)
+  // mode et dureeCycle pilotent aussi bien le cycle jour/nuit que les aiguilles de la
+  // tour de l'horloge (les deux restent toujours synchronises sur la meme heure).
   jourNuit: {
-    mode: 'reel',          // 'reel' = suit l'heure de l'ordinateur ; 'accelere' = cycle rapide
-    dureeCycle: 20,        // (mode 'accelere') duree d'une journee complete, en minutes
-    lever: 7,              // heure du lever du soleil
-    coucher: 20,           // heure du coucher du soleil
+    mode: 'accelere',          // 'reel' = suit l'heure de l'ordinateur ; 'accelere' = cycle rapide
+    dureeCycle: 10,        // (mode 'accelere') duree d'une journee complete de 24h, en minutes
+    lever: null,           // heure du lever du soleil ; null = calculee automatiquement selon le
+                           // mois en cours (heure reelle du lever en France) ; mettre un nombre
+                           // (ex. 7) pour la forcer
+    coucher: null,         // heure du coucher du soleil ; null = automatique selon le mois (France) ;
+                           // mettre un nombre (ex. 20) pour la forcer
     obscurite: 0.6,        // force de l'assombrissement la nuit (0 = aucun, 1 = tres sombre)
     lumiereAmbiante: 1     // force de la lueur du soleil / de la lune sur la scene (0 = aucune)
   },
@@ -83,9 +88,22 @@ window.ANIM_CONFIG = {
   // ---------------------------------------------------------------- CIEL
   ciel: {
     traverseeNuages: 240,  // duree moyenne pour qu'un nuage traverse le ciel (plus grand = plus lent)
-    nuages: [25, 70],      // attente entre l'apparition de deux nuages
+    nuages: [15, 70],      // attente entre l'apparition de deux nuages
     premierVol: [3, 10],   // delai avant le premier vol d'oiseaux
-    oiseaux: [20, 60]      // attente entre deux vols d'oiseaux
+    oiseaux: [20, 60],     // attente entre deux vols d'oiseaux
+
+    // Nuages speciaux : de temps en temps, au lieu d'un nuage normal, une silhouette piochee
+    // au hasard dans layers/02-nature/clouds/ apparait (clin d'oeil jeux/identite : char
+    // Warthunder, creeper Minecraft, etc.). Pour en ajouter un : deposer un SVG (fond
+    // transparent, dessine sur un canevas ~300x200) dans ce dossier, puis ajouter son nom
+    // de fichier dans la liste ci-dessous.
+    nuagesSpeciaux: {
+      probabilite: 0.15,  // chance (0 a 1) qu'un nuage soit une forme speciale plutot qu'un nuage normal
+      fichiers: [
+        // 'char-warthunder.svg',
+        // 'creeper-minecraft.svg'
+      ]
+    }
   },
 
   // ---------------------------------------------------------------- MOULIN

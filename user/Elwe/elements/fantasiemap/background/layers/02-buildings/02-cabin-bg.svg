@@ -3,7 +3,7 @@
 <!-- Style croquis avec hachures bois et pierre. -->
 <!-- Posee dans une clairiere a l'oree gauche de la foret de la colline proche (entre la forge -->
 <!-- et la tour), reduite a 28% (derriere le rempart : porte ~22 px) ; sol local y=255 -> y=655, sous la crete, -->
-<!-- au-dessus des toits des maisons (02-maisons1.svg). La clairiere (pas d'arbre devant) est reservee dans le script #champs-ble -->
+<!-- au-dessus des toits des maisons (02-timber-houses.svg). La clairiere (pas d'arbre devant) est reservee dans le script #champs-ble -->
 <!-- (CLAIRIERE). Fumee animee en inline dans ville-medievale-croquis.svg (#cabane-smoke), au -->
 <!-- sommet de cheminee (160,30) -> (2705.4,592). -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
