@@ -106,6 +106,28 @@ window.ANIM_CONFIG = {
     }
   },
 
+  // ---------------------------------------------------------------- VILLE VUE DU DESSUS
+  // Rues, places et pates de maisons (vus de dessus) generes autour de l'ovale principal
+  // (voir mask-hors-ovale dans ville-medievale-croquis.svg). Chaque pate est subdivise
+  // recursivement en parcelles de taille irreguliere (coupes aleatoires + coins decales),
+  // pour un rendu proche d'un plan de ville style "carte de fantasy" plutot qu'une grille
+  // de carres uniformes. Meme seed = meme plan a chaque chargement.
+  villeDessus: {
+    seed: 1337,
+    tailleBloc: 260,          // taille moyenne d'un pate de maisons (rue a rue), en px
+    largeurRue: 16,           // largeur des rues entre les pates de maisons
+    probaPlace: 0.15,         // chance qu'un pate de maisons soit une place vide plutot que des batiments
+    profondeurSubdivision: 5, // nombre max de coupes recursives par pate (plus grand = parcelles plus petites)
+    aireMinParcelle: 3600,    // aire (px^2) en dessous de laquelle on arrete de subdiviser (plus grand = batiments plus gros)
+    largeurRuelle: 8,         // largeur de l'espace laisse entre deux parcelles voisines
+    irregularite: 0.16,       // decalage aleatoire des coins des parcelles (0 = rectangles parfaits)
+
+    // Muraille : au-dela de cette limite (ovale principal agrandi par muretEchelle), c'est
+    // l'exterieur de la ville - habitat disperse, pas de places, pas de pates denses.
+    muretEchelle: 1.3,             // taille de la muraille par rapport a l'ovale principal
+    probaBatimentExterieur: 0.3    // chance qu'un pate hors-les-murs ait quand meme une ferme isolee
+  },
+
   // ---------------------------------------------------------------- MOULIN
   moulin: {
     tour: 16               // duree d'un tour complet des ailes (plus grand = plus lent)

@@ -24,6 +24,14 @@
       <ellipse cx="3750" cy="-220" rx="2860" ry="1840" transform="rotate(15 3750 -220)"/>
     </clipPath>
 
+    <!-- Inverse de clip-coin-ovale : visible dans le cadre MAIS en dehors de l'ovale (tout le -->
+    <!-- tour de la vignette principale). Utilise par #ville-dessus (vue du dessus generee par -->
+    <!-- script, voir plus bas) : meme rect que clip-cadre, meme ellipse que clip-coin-ovale. -->
+    <mask id="mask-hors-ovale" maskUnits="userSpaceOnUse" x="0" y="0" width="3840" height="2160">
+      <rect x="80" y="80" width="3680" height="2000" rx="12" fill="#fff"/>
+      <ellipse cx="3750" cy="-220" rx="2860" ry="1840" transform="rotate(15 3750 -220)" fill="#000"/>
+    </mask>
+
     <!-- Flou doux pour les lueurs de fenetre/lanterne (voir #building-lights plus bas). -->
     <filter id="glowBlur" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur stdDeviation="4"/>
@@ -302,6 +310,13 @@
     }
   </style>
   <image href="layers/01-paper.svg" x="0" y="0" width="3840" height="2160"/>
+
+  <!-- Ville vue du dessus (rues, places, pates de maisons carres), generee par script -->
+  <!-- ("Ville vue du dessus" en bas de fichier) a partir d'une seed (villeDessus.seed dans -->
+  <!-- animations-config.js). Visible uniquement en dehors de l'ovale principal (mask-hors-ovale), -->
+  <!-- tout autour de la vignette de la ville. -->
+  <g id="ville-dessus" mask="url(#mask-hors-ovale)"></g>
+
   <g clip-path="url(#clip-cadre)">
     <!-- Ancien sol (dalles) : on n'en garde que le ciel et l'horizon (y<805) ; dessous, le sol pave -->
     <!-- en fondu laisse apparaitre le parchemin. -->
@@ -1823,6 +1838,169 @@
       }
       update();
       setInterval(update, tempsMode === 'accelere' ? 100 : 5000);
+    })();
+
+    (function () {
+      // Ville vue du dessus : rues, places et pates de maisons (batiments carres) generes
+      // autour de l'ovale principal, visibles uniquement a l'exterieur de celui-ci (voir
+      // mask-hors-ovale). Generation deterministe (seed villeDessus.seed) : meme plan a
+      // chaque chargement, pour pouvoir le peaufiner comme le reste du decor.
+      var root = document.getElementById('ville-dessus');
+      if (!root) return;
+      var NS = 'http://www.w3.org/2000/svg';
+      function el(tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+
+      // PRNG seedable (mulberry32) : meme seed => meme suite de nombres a chaque fois.
+      function mulberry32(seed) {
+        return function () {
+          seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+          var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+          t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+          return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        };
+      }
+      var rand = mulberry32(cfg('villeDessus.seed', 1337));
+      function r(a, b) { return a + rand() * (b - a); }
+
+      // Geometrie reprise directement du DOM (clip-cadre / clip-coin-ovale) : si l'un des
+      // deux change un jour, la generation suit sans reglage double a maintenir.
+      var cadreRect = document.querySelector('#clip-cadre rect');
+      var FX = +cadreRect.getAttribute('x'), FY = +cadreRect.getAttribute('y');
+      var FW = +cadreRect.getAttribute('width'), FH = +cadreRect.getAttribute('height');
+      var ovale = document.querySelector('#clip-coin-ovale ellipse');
+      var OV_CX = +ovale.getAttribute('cx'), OV_CY = +ovale.getAttribute('cy');
+      var OV_RX = +ovale.getAttribute('rx'), OV_RY = +ovale.getAttribute('ry');
+      var rotMatch = /rotate\(([-\d.]+)/.exec(ovale.getAttribute('transform') || '');
+      var OV_ROT = rotMatch ? (+rotMatch[1]) * Math.PI / 180 : 0;
+      // echelle : 1 = l'ovale principal lui-meme, >1 = un ovale agrandi autour (la muraille).
+      function dansOvale(x, y, echelle) {
+        echelle = echelle || 1;
+        var dx = x - OV_CX, dy = y - OV_CY;
+        var cos = Math.cos(-OV_ROT), sin = Math.sin(-OV_ROT);
+        var lx = dx * cos - dy * sin, ly = dx * sin + dy * cos;
+        var rx = OV_RX * echelle, ry = OV_RY * echelle;
+        return (lx * lx) / (rx * rx) + (ly * ly) / (ry * ry) <= 1;
+      }
+
+      var TAILLE_BLOC = cfg('villeDessus.tailleBloc', 230);
+      var LARGEUR_RUE = cfg('villeDessus.largeurRue', 16);
+      var PROBA_PLACE = cfg('villeDessus.probaPlace', 0.15);
+      var PROFONDEUR_MAX = cfg('villeDessus.profondeurSubdivision', 5);
+      var AIRE_MIN = cfg('villeDessus.aireMinParcelle', 1400);
+      var LARGEUR_RUELLE = cfg('villeDessus.largeurRuelle', 6);
+      var IRREGULARITE = cfg('villeDessus.irregularite', 0.16);
+      var MURET_ECHELLE = cfg('villeDessus.muretEchelle', 1.3);
+      var PROBA_EXTERIEUR = cfg('villeDessus.probaBatimentExterieur', 0.3);
+      var TOITS = ['#b5704a', '#9c5a3c', '#c98a52', '#8a6a44', '#a97850'];
+
+      // Muraille : ovale principal agrandi par MURET_ECHELLE, dessinee en premier (donc sous
+      // les batiments) avec quelques tours/portes marquees a intervalles reguliers.
+      var MUR_RX = OV_RX * MURET_ECHELLE, MUR_RY = OV_RY * MURET_ECHELLE;
+      el('ellipse', {
+        cx: OV_CX, cy: OV_CY, rx: MUR_RX.toFixed(1), ry: MUR_RY.toFixed(1),
+        transform: 'rotate(' + (OV_ROT * 180 / Math.PI).toFixed(2) + ' ' + OV_CX + ' ' + OV_CY + ')',
+        fill: 'none', stroke: '#2a1a0a', 'stroke-width': 7, opacity: 0.55, filter: 'url(#sketchyMedium)'
+      }, root);
+      var N_TOURS = 16;
+      for (var nt = 0; nt < N_TOURS; nt++) {
+        var ang = (nt / N_TOURS) * Math.PI * 2;
+        var lx0 = Math.cos(ang) * MUR_RX, ly0 = Math.sin(ang) * MUR_RY;
+        var cosR = Math.cos(OV_ROT), sinR = Math.sin(OV_ROT);
+        el('circle', {
+          cx: (OV_CX + lx0 * cosR - ly0 * sinR).toFixed(1), cy: (OV_CY + lx0 * sinR + ly0 * cosR).toFixed(1),
+          r: 6, fill: '#2a1a0a', opacity: 0.55
+        }, root);
+      }
+
+      // Grille de rues irreguliere (lignes verticales/horizontales a espacement variable).
+      var xs = [FX], x = FX;
+      while (x < FX + FW) { x += TAILLE_BLOC * r(0.75, 1.3); xs.push(Math.min(x, FX + FW)); }
+      var ys = [FY], y = FY;
+      while (y < FY + FH) { y += TAILLE_BLOC * r(0.75, 1.3); ys.push(Math.min(y, FY + FH)); }
+
+      // Un pate de maisons est subdivise recursivement (coupe verticale ou horizontale a une
+      // fraction aleatoire, plutot qu'au milieu) jusqu'a obtenir des parcelles de taille
+      // irreguliere : rendu proche d'un plan de ville dessine a la main plutot qu'une grille.
+      function dessinerPate(bx0, by0, bx1, by1) { subdiviser(bx0, by0, bx1, by1, PROFONDEUR_MAX); }
+
+      function subdiviser(x0, y0, x1, y1, depth) {
+        var w = x1 - x0, h = y1 - y0;
+        if (w <= 0 || h <= 0) return;
+        if (depth <= 0 || w * h < AIRE_MIN || Math.min(w, h) < 18) { dessinerParcelle(x0, y0, x1, y1); return; }
+        var vertical = w >= h ? rand() < 0.8 : rand() < 0.2;
+        var t = r(0.35, 0.65);
+        if (vertical) {
+          var cut = x0 + w * t;
+          subdiviser(x0, y0, cut - LARGEUR_RUELLE / 2, y1, depth - 1);
+          subdiviser(cut + LARGEUR_RUELLE / 2, y0, x1, y1, depth - 1);
+        } else {
+          var cut2 = y0 + h * t;
+          subdiviser(x0, y0, x1, cut2 - LARGEUR_RUELLE / 2, depth - 1);
+          subdiviser(x0, cut2 + LARGEUR_RUELLE / 2, x1, y1, depth - 1);
+        }
+      }
+
+      function dessinerParcelle(x0, y0, x1, y1) {
+        var pad = Math.min(x1 - x0, y1 - y0) * 0.05;
+        x0 += pad; y0 += pad; x1 -= pad; y1 -= pad;
+        var w = x1 - x0, h = y1 - y0;
+        if (w < 4 || h < 4) return;
+        // Coins decales aleatoirement : quadrilatere irregulier plutot qu'un rectangle parfait.
+        var jx = w * IRREGULARITE, jy = h * IRREGULARITE;
+        function coin(px, py) { return (px + r(-jx, jx)).toFixed(1) + ',' + (py + r(-jy, jy)).toFixed(1); }
+        var pts = [coin(x0, y0), coin(x1, y0), coin(x1, y1), coin(x0, y1)].join(' ');
+        el('polygon', {
+          points: pts, fill: TOITS[Math.floor(rand() * TOITS.length)],
+          stroke: '#2a1a0a', 'stroke-width': 1.3, filter: 'url(#sketchyMedium)'
+        }, root);
+        // Faitage (ligne de toit), seulement sur les parcelles assez grandes.
+        if (rand() < 0.6 && Math.min(w, h) > 14) {
+          var cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, horiz = w >= h;
+          el('line', {
+            x1: (horiz ? x0 + w * 0.15 : cx).toFixed(1), y1: (horiz ? cy : y0 + h * 0.15).toFixed(1),
+            x2: (horiz ? x1 - w * 0.15 : cx).toFixed(1), y2: (horiz ? cy : y1 - h * 0.15).toFixed(1),
+            stroke: '#2a1a0a', 'stroke-width': 1, opacity: 0.35
+          }, root);
+        }
+      }
+
+      function dessinerPlace(bx0, by0, bx1, by1) {
+        el('rect', {
+          x: bx0.toFixed(1), y: by0.toFixed(1), width: (bx1 - bx0).toFixed(1), height: (by1 - by0).toFixed(1),
+          fill: '#d8c49a', stroke: '#6a5030', 'stroke-width': 1.6, filter: 'url(#sketchyMedium)', opacity: 0.85
+        }, root);
+        var cx = (bx0 + bx1) / 2, cy = (by0 + by1) / 2;
+        el('circle', { cx: cx.toFixed(1), cy: cy.toFixed(1), r: (Math.min(bx1 - bx0, by1 - by0) * 0.12).toFixed(1), fill: '#8a9a5a', stroke: '#2a1a0a', 'stroke-width': 1 }, root);
+      }
+
+      // Hors les murs : habitat disperse (une seule ferme isolee par pate, au mieux), pas de
+      // place ni de pate dense - contraste avec l'interieur fortifie.
+      function dessinerFerme(bx0, by0, bx1, by1) {
+        var w = bx1 - bx0, h = by1 - by0;
+        var bw = w * r(0.35, 0.55), bh = h * r(0.35, 0.55);
+        var x0 = bx0 + r(0, w - bw), y0 = by0 + r(0, h - bh);
+        dessinerParcelle(x0, y0, x0 + bw, y0 + bh);
+      }
+
+      for (var i = 0; i < xs.length - 1; i++) {
+        for (var j = 0; j < ys.length - 1; j++) {
+          var bx0 = xs[i] + LARGEUR_RUE / 2, bx1 = xs[i + 1] - LARGEUR_RUE / 2;
+          var by0 = ys[j] + LARGEUR_RUE / 2, by1 = ys[j + 1] - LARGEUR_RUE / 2;
+          if (bx1 <= bx0 || by1 <= by0) continue;
+          var centreX = (bx0 + bx1) / 2, centreY = (by0 + by1) / 2;
+          // Ignore les pates entierement a l'interieur de l'ovale : caches par la scene principale.
+          var coins = [[bx0, by0], [bx1, by0], [bx0, by1], [bx1, by1], [centreX, centreY]];
+          if (coins.every(function (c) { return dansOvale(c[0], c[1]); })) continue;
+          if (!dansOvale(centreX, centreY, MURET_ECHELLE)) {
+            // Hors les murs.
+            if (rand() < PROBA_EXTERIEUR) dessinerFerme(bx0, by0, bx1, by1);
+          } else if (rand() < PROBA_PLACE) {
+            dessinerPlace(bx0, by0, bx1, by1);
+          } else {
+            dessinerPate(bx0, by0, bx1, by1);
+          }
+        }
+      }
     })();
     });
   ]]></script>
