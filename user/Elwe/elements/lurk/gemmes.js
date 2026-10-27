@@ -4,12 +4,13 @@
 // Chaque lurker (liste de lurk.js) est une gemme taillee, son pseudo grave tout autour, qui
 // roule tranquillement sur le "sol" (bas de l'ecran) : elle avance, s'arrete, repart, rebondit
 // sur les bords et sur les autres.
-//   !lurk : la gemme tombe d'en haut, rebondit, une etiquette "Pseudo part en lurk" s'affiche.
+//   !lurk : la gemme tombe au niveau du chat (zone annonce), rebondit, une etiquette
+//           "Pseudo part en lurk" s'affiche.
 //   !lurk 3 (ou !lurk rubis) : choisit sa pierre, numero dans l'ordre de PIERRES (1 saphir,
 //           2 emeraude, 3 rubis, 4 amethyste, 5 diamant, 6 quartz, 7 obsidienne) ; deja en
 //           lurk, ca change la pierre de sa gemme.
-//   !here : la gemme s'eleve en tournant de plus en plus vite puis eclate en etincelles,
-//           avec "Pseudo est de retour ! (apres 42 min)".
+//   !here : la gemme roule jusqu'au chat, s'eleve en tournant de plus en plus vite puis
+//           eclate en etincelles, avec "Pseudo est de retour ! (apres 42 min)".
 // Sans choix, la pierre depend du pseudo (pierresImposees, sinon tiree d'apres le pseudo) :
 // la meme dans toutes les scenes et a chaque live.
 // Les lurkers deja dans la liste au chargement de la scene sont poses au sol, sans chute.
@@ -27,6 +28,8 @@ function GemmesLurk(conteneur, options) {
     rayon: [28, 33],      // rayon min / max (px), tire par pseudo (assez grand pour lire le pseudo grave)
     vitesse: 55,          // vitesse de promenade max (px/s)
     hauteurChute: 320,    // hauteur de depart de la chute a l'arrivee (px au-dessus du sol)
+    annonce: [1564, 1904], // x min / max ou se font l'arrivee (!lurk) et le depart (!here) : le chat
+    vitesseRetour: 120,   // vitesse moyenne (px/s) quand elle roule vers le chat pour repartir
     // pierre imposee pour certains pseudos (sinon tiree au hasard d'apres le pseudo) ;
     // le pseudo est compare sans majuscules ni caracteres speciaux (Saphir_Schartz = saphirschartz)
     pierresImposees: {
@@ -189,7 +192,8 @@ function GemmesLurk(conteneur, options) {
     var r = O.rayon[0] + alea() * (O.rayon[1] - O.rayon[0]);
     var g = {
       p: p, r: r, pierre: choisirPierre(p),
-      x: O.xMin + r + Math.random() * (O.xMax - O.xMin - 2 * r),
+      // une nouvelle gemme tombe au niveau du chat, une gemme deja la est posee n'importe ou
+      x: chute ? xAnnonce(r) : O.xMin + r + Math.random() * (O.xMax - O.xMin - 2 * r),
       y: chute ? O.sol - r - O.hauteurChute - Math.random() * 120 : O.sol - r,
       vx: 0, vy: 0, vCible: 0, prochainChoix: 0, prochaineEtincelle: 1 + Math.random() * 3,
       etat: chute ? 'chute' : 'sol', rebonds: 0, angle: Math.random() * 360, t: 0
@@ -209,15 +213,26 @@ function GemmesLurk(conteneur, options) {
     return g;
   }
 
+  // x au hasard dans la zone des annonces (au niveau du chat)
+  function xAnnonce(r) {
+    var a = Math.max(O.xMin + r, O.annonce[0] + r), b = Math.min(O.xMax - r, O.annonce[1] - r);
+    return a + Math.random() * Math.max(0, b - a);
+  }
+
+  // Retour : la gemme roule au sol jusqu'au chat (en passant derriere les autres), puis
+  // s'eleve et eclate ; l'etiquette s'affiche quand elle s'eleve.
   function partir(p) {
     var g = gemmes[p.login];
     if (!g) return;
     delete gemmes[p.login];
     g.etat = 'depart';
     g.t = 0;
-    g.y0 = g.y;
+    g.x0 = g.x;
+    g.xCible = xAnnonce(g.r);
+    g.tRappel = Math.abs(g.xCible - g.x) / O.vitesseRetour;
+    g.y0 = O.sol - g.r;
     var d = duree(p.duree);
-    etiquette(g, p.nom + ' est de retour !' + (d ? ' (après ' + d + ')' : ''));
+    g.annonce = p.nom + ' est de retour !' + (d ? ' (après ' + d + ')' : '');
     g.boite.classList.add('gemme-part');
     departs.push(g);
   }
@@ -277,10 +292,19 @@ function GemmesLurk(conteneur, options) {
     }
   }
 
-  // Depart : monte en accelerant sa rotation, grossit un peu, puis eclate.
+  // Depart : roule jusqu'au chat (demarre et freine en douceur), puis monte en accelerant sa
+  // rotation, grossit un peu, et eclate.
   function avancerDepart(g, dt) {
     g.t += dt;
-    var k = Math.min(g.t / 1.4, 1), e = k * k * (3 - 2 * k);
+    if (g.t < g.tRappel) {
+      var q = g.t / g.tRappel, xAvant = g.x;
+      g.x = g.x0 + (g.xCible - g.x0) * q * q * (3 - 2 * q);
+      g.y = g.y0;
+      g.angle += (g.x - xAvant) / g.r * 180 / Math.PI;
+      return true;
+    }
+    if (g.annonce) { etiquette(g, g.annonce); g.annonce = null; }
+    var k = Math.min((g.t - g.tRappel) / 1.4, 1), e = k * k * (3 - 2 * k);
     g.y = g.y0 - 140 * e;
     g.angle += (90 + 900 * k) * dt;
     g.echelle = 1 + 0.35 * e;
@@ -327,6 +351,7 @@ function GemmesLurk(conteneur, options) {
       '.gemme-corps { position:absolute; inset:0; will-change:transform; filter:drop-shadow(0 0 1px rgba(26,15,7,.6)); }' +
       '.gemme-halo { position:absolute; left:-65%; top:-65%; width:230%; height:230%; will-change:opacity;' +
       '  animation:gemme-pulse 2.6s ease-in-out infinite alternate; }' +
+      '.gemme { z-index:1; } .gemme.gemme-part { z-index:0; }' +
       '.gemme-part .gemme-halo { animation:gemme-pulse .25s ease-in-out infinite alternate; }' +
       '.gemme-reflet { position:absolute; left:20%; top:12%; width:30%; height:20%; border-radius:50%;' +
       '  background:radial-gradient(closest-side, rgba(255,255,255,.5), rgba(255,255,255,0)); transform:rotate(-30deg); }' +
