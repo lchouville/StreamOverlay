@@ -1,5 +1,6 @@
 // =====================================================================================
-// REGLAGES DES ANIMATIONS du fond "ville medievale" (ville-medievale-croquis.svg)
+// REGLAGES DES ANIMATIONS du fond "ville medievale" (calques calque-*.svg, et l'archive
+// tout-en-un ville-medievale-croquis.svg)
 // =====================================================================================
 // - Toutes les durees sont en SECONDES.
 // - [min, max] : une valeur est tiree au hasard entre les deux a chaque fois.
@@ -76,7 +77,9 @@ window.ANIM_CONFIG = {
   jourNuit: {
     mode: 'accelere',          // 'reel' = suit l'heure de l'ordinateur ; 'accelere' = cycle rapide
     dureeCycle: 5,        // (mode 'accelere') duree d'une journee complete de 24h, en minutes
-    heureDepart: 8,       // (mode 'accelere') heure au chargement (ex. 7 = 7h00, 21.5 = 21h30)
+    heureDepart: 8,       // (mode 'accelere') heure au chargement (ex. 7 = 7h00, 21.5 = 21h30) ;
+                          // calques separes (calque-*.svg) : heure a chaque debut de cycle depuis
+                          // minuit (horloge calee sur l'ordi pour garder les calques synchronises)
     lever: null,           // heure du lever du soleil ; null = calculee automatiquement selon le
                            // mois en cours (heure reelle du lever en France) ; mettre un nombre
                            // (ex. 7) pour la forcer

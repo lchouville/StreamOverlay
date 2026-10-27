@@ -4,13 +4,24 @@
 <meta charset="UTF-8">
 <title>Elwe - Fond Plein (Start/Pause/Fin)</title>
 <style>
-  /* Canvas de reference : 1920x1080 affiche, mais le fond source est rendu en 3840x2160 (16:9)
-     puis redimensionne ici pour supersampler les filtres et limiter l'effet pixel. */
+  /* Apercu du fond complet : empile les 4 calques de secondary-frame/fond/ (1 dessous -> 4 dessus).
+     Pour le live, importer plutot chaque calque comme source navigateur separee dans Streamlabs
+     (1920x1080, meme ordre) afin de repartir le rendu. Ancienne version en une seule page :
+     primary-frame/archive/full-frame.html. Canvas de reference 1920x1080. */
   html, body { margin: 0; padding: 0; width: 1920px; height: 1080px; background: #000; overflow: hidden; }
-  iframe { width: 3840px; height: 2160px; border: 0; display: block; transform: scale(0.5); transform-origin: top left; }
+  iframe { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; border: 0; background: transparent; }
 </style>
 </head>
 <body>
-  <iframe src="../elements/fantasiemap/background/ville-medievale-croquis.svg" title="Fond ville medievale"></iframe>
+  <iframe src="../secondary-frame/fond/1-carte.html" title="Fond 1/4 - carte et Maraudeur"></iframe>
+  <iframe src="../secondary-frame/fond/2-ciel.html" title="Fond 2/4 - ciel" allowtransparency="true"></iframe>
+  <iframe src="../secondary-frame/fond/3-campagne.html" title="Fond 3/4 - campagne" allowtransparency="true"></iframe>
+  <iframe src="../secondary-frame/fond/4-village.html" title="Fond 4/4 - village" allowtransparency="true"></iframe>
+<script>
+  // Parametres de cette page transmis a chaque calque (?carte=, &seed=, #twitch=...).
+  if (location.search || location.hash) {
+    document.querySelectorAll('iframe').forEach(cadre => { cadre.src = cadre.getAttribute('src') + location.search + location.hash; });
+  }
+</script>
 </body>
 </html>

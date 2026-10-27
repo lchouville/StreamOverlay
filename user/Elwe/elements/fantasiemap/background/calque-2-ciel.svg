@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="calques.css"?>
+<!-- Calque 2/4 : ciel de la vignette (astres, etoiles filantes, nuages, oiseaux). -->
+<!-- Le voile de nuit qui assombrit ce ciel est dans le calque 4 (village), au-dessus. -->
+<!-- Calque decoupe de ville-medievale-croquis.svg (version d'origine, tout-en-un, gardee en -->
+<!-- archive) : les calques s'empilent dans l'ordre 1 -> 4, chacun dans sa propre source -->
+<!-- navigateur (secondary-frame/fond/), pour repartir le rendu. Canvas 3840x2160. -->
+<!-- Les <image> pointent sur des PNG pre-rendus (layers-png/) de leur SVG data-source : apres -->
+<!-- modification d'un fichier de layers/, relancer rendu-calques.bat (racine du depot). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160"
+     preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Cadre de bordure : meme rect que la bordure exterieure de 05-border.svg. Le groupe qui -->
+    <!-- enveloppe le sol + les batiments (plus bas) porte clip-path="url(#clip-cadre)" SANS -->
+    <!-- rotation, pendant que chaque <image> a l'interieur garde clip-path="url(#clip-coin-ovale)" -->
+    <!-- (qui lui est tourne) : deux clips empiles sur des elements distincts = intersection -->
+    <!-- ovale ∩ cadre. (Ne pas mettre clip-cadre direction sur l'ellipse ni dans le <clipPath> -->
+    <!-- lui-meme : un <g> n'est pas un contenu valide de <clipPath>, et un clip-path pose sur un -->
+    <!-- element qui a aussi un transform herite ce transform pour son propre clip-path.) -->
+    <clipPath id="clip-cadre" clipPathUnits="userSpaceOnUse">
+      <rect x="80" y="80" width="3680" height="2000" rx="12"/>
+    </clipPath>
+
+    <!-- Ovale qui decoupe le coin haut-droit (vue du dessus, batiments miniatures) du reste de -->
+    <!-- la scene. Memes cx/cy/rx/ry que l'ellipse encre de 05-border.svg : si l'un change, -->
+    <!-- reporter la modification sur l'autre. -->
+    <clipPath id="clip-coin-ovale" clipPathUnits="userSpaceOnUse">
+      <ellipse cx="3750" cy="-220" rx="2860" ry="1840" transform="rotate(15 3750 -220)"/>
+    </clipPath>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- Ciel + horizon du calque 02-sky.svg (ne contient plus que le ciel ; le sol est entierement couvert par le pave rond). -->
+    <clipPath id="clip-ciel" clipPathUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="3840" height="805"/>
+    </clipPath>
+    <!-- Trainee des etoiles filantes (voir #etoiles-filantes) : transparente a la queue (x=0), -->
+    <!-- lumineuse a la tete (x=1). La trainee est dessinee horizontale puis tournee. -->
+    <linearGradient id="trainee-filante">
+      <stop offset="0" stop-color="#f4ecd4" stop-opacity="0"/>
+      <stop offset="0.7" stop-color="#f4ecd4" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#fffaea" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+
+  <g clip-path="url(#clip-cadre)">
+    <!-- Ancien sol (dalles) : on n'en garde que le ciel et l'horizon (y<805) ; dessous, le sol pave -->
+    <!-- en fondu laisse apparaitre le parchemin. -->
+    <g clip-path="url(#clip-ciel)">
+      <image data-source="layers/02-nature/02-sky.svg" href="layers-png/02-nature/02-sky.png" x="0" y="0" width="3840" height="720" clip-path="url(#clip-coin-ovale)"/>
+    </g>
+    <!-- Astres (etoiles/soleil/lune) juste avant le ciel : derriere les nuages et derriere -->
+    <!-- tous les batiments de la ville (le voile de nuit, lui, reste au-dessus de tout pour -->
+    <!-- assombrir aussi bien les batiments que les astres). -->
+    <g id="astres" clip-path="url(#clip-coin-ovale)">
+      <!-- Cycle jour/nuit (script "Jour et nuit") : etoiles, soleil, lune -->
+      <g id="etoiles" fill="#f4ecd4" opacity="0">
+        <circle cx="2163.3" cy="153.6" r="2.6"/>
+        <circle cx="3108.9" cy="306.5" r="1.7"/>
+        <circle cx="3473.8" cy="355.5" r="1.6"/>
+        <circle cx="3280.2" cy="496.3" r="2.1"/>
+        <circle cx="2613.6" cy="316.4" r="1.4"/>
+        <circle cx="2454.7" cy="130.4" r="1.3"/>
+        <circle cx="3523.9" cy="427.6" r="2.6"/>
+        <circle cx="2677.4" cy="393.6" r="1.9"/>
+        <circle cx="2502.6" cy="170.3" r="2.6"/>
+        <circle cx="3030.7" cy="143.1" r="1.9"/>
+        <circle cx="1809.6" cy="322.2" r="1.6"/>
+        <circle cx="2004.9" cy="307.4" r="1.9"/>
+        <circle cx="3182.4" cy="379.1" r="1.4"/>
+        <circle cx="2374.5" cy="182.4" r="1.4"/>
+        <circle cx="2086.6" cy="169.9" r="1.6"/>
+        <circle cx="3243.3" cy="332.7" r="1.7"/>
+        <circle cx="2163.9" cy="295.1" r="1.5"/>
+        <circle cx="2796.3" cy="108.8" r="2"/>
+        <circle cx="2524.9" cy="116.7" r="1.5"/>
+        <circle cx="3436.9" cy="175.1" r="1.6"/>
+        <circle cx="2674.1" cy="242.5" r="2.1"/>
+        <circle cx="1687.4" cy="330.9" r="1.4"/>
+        <circle cx="3061.6" cy="269.2" r="2"/>
+        <circle cx="1809.2" cy="445.9" r="2.1"/>
+        <circle cx="2424.6" cy="132.8" r="1.3"/>
+        <circle cx="2227.7" cy="114.8" r="1.1"/>
+        <circle cx="3097.3" cy="245.9" r="1.8"/>
+        <circle cx="2529.6" cy="256.5" r="1.5"/>
+        <circle cx="2558.7" cy="457.7" r="2"/>
+        <circle cx="3483.7" cy="460.7" r="1.6"/>
+        <circle cx="1780.3" cy="375.4" r="2.6"/>
+        <circle cx="2437.8" cy="242.6" r="1.5"/>
+        <circle cx="2224" cy="502.2" r="2.6"/>
+        <circle cx="3614.6" cy="291.7" r="1.5"/>
+        <circle cx="3498.8" cy="356.7" r="1"/>
+        <circle cx="3663.8" cy="407.2" r="1.1"/>
+        <circle cx="1911.7" cy="413.6" r="1.7"/>
+        <circle cx="3283.6" cy="388.9" r="2.6"/>
+        <circle cx="2538.7" cy="258.6" r="2.2"/>
+        <circle cx="3709.5" cy="460.8" r="2"/>
+        <circle cx="2633.4" cy="417.4" r="2"/>
+        <circle cx="1632.3" cy="403.3" r="1.3"/>
+        <circle cx="2798.5" cy="410.3" r="1.2"/>
+        <circle cx="2583.9" cy="452.6" r="1.6"/>
+        <circle cx="3149.9" cy="386.5" r="1.5"/>
+        <circle cx="1965.2" cy="170.6" r="2.6"/>
+        <circle cx="2821.3" cy="400.1" r="2.6"/>
+        <circle cx="2746.5" cy="230.8" r="2.6"/>
+        <circle cx="3585.3" cy="349.6" r="2.6"/>
+        <circle cx="2305.2" cy="177.4" r="2.1"/>
+        <circle cx="1677" cy="500.6" r="2.1"/>
+        <circle cx="3454.1" cy="133.7" r="2.6"/>
+        <circle cx="3467.5" cy="407.2" r="1.2"/>
+        <circle cx="2090.9" cy="211.6" r="2.6"/>
+        <circle cx="2959.8" cy="272.2" r="2.6"/>
+        <circle cx="3000.3" cy="226.4" r="1.1"/>
+        <circle cx="2998.5" cy="175.3" r="1.6"/>
+        <circle cx="2113.2" cy="151.7" r="1.1"/>
+        <circle cx="1851.1" cy="476.6" r="1.6"/>
+        <circle cx="3789.9" cy="262.6" r="2.6"/>
+        <circle cx="1758.1" cy="499.3" r="1.4"/>
+        <circle cx="1745.5" cy="134.2" r="1.6"/>
+        <circle cx="1628.8" cy="464" r="1.8"/>
+        <circle cx="3403.3" cy="489.7" r="1.9"/>
+        <circle cx="2214.4" cy="269.6" r="2.1"/>
+        <circle cx="2428.6" cy="187.3" r="1.9"/>
+        <circle cx="3538.4" cy="326.8" r="1.4"/>
+        <circle cx="2285" cy="221.1" r="2.6"/>
+        <circle cx="3588.2" cy="238.3" r="1.4"/>
+        <circle cx="2246.3" cy="507.6" r="1"/>
+      </g>
+      <!-- Etoiles filantes (script "Etoiles filantes") : rares, uniquement en pleine nuit -->
+      <g id="etoiles-filantes"/>
+      <g id="soleil" filter="url(#sketchyMedium)" opacity="0">
+        <circle r="92" fill="#f0c860" opacity="0.18"/>
+        <path d="M 48,0 L 74,0 M 41.6,24 L 53.7,31 M 24,41.6 L 37,64.1 M 0,48 L 0,62 M -24,41.6 L -37,64.1 M -41.6,24 L -53.7,31 M -48,0 L -74,0 M -41.6,-24 L -53.7,-31 M -24,-41.6 L -37,-64.1 M 0,-48 L 0,-62 M 24,-41.6 L 37,-64.1 M 41.6,-24 L 53.7,-31 " stroke="#c88a30" stroke-width="5" stroke-linecap="round"/>
+        <circle r="40" fill="#efc458" stroke="#8a5a20" stroke-width="4"/>
+        <path d="M -20,-18 Q -6,-30 12,-26" fill="none" stroke="#fae3a0" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <g id="lune" filter="url(#sketchyMedium)" opacity="0">
+        <path d="M 10,-36 A 36,36 0 1 0 10,36 A 46,46 0 0 1 10,-36 Z" fill="#ece4c8" stroke="#5a4a30" stroke-width="3.5"/>
+        <circle cx="-14" cy="-6" r="5" fill="#d0c6a4"/><circle cx="-8" cy="14" r="3.5" fill="#d0c6a4"/>
+      </g>
+    </g>
+    <!-- CIEL : nuages et oiseaux crees au hasard par le script ("Ciel"), devant les astres -->
+    <!-- (le soleil et la lune passent derriere les nuages) et derriere collines et batiments. -->
+    <g id="ciel" clip-path="url(#clip-coin-ovale)">
+      <g id="nuages" filter="url(#sketchyMedium)">
+      </g>
+      <g id="oiseaux" fill="none" stroke="#3a2a1a" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- Reglages des animations : voir animations-config.js. -->
+  <script href="animations-config.js"/>
+  <script href="calques-commun.js"/>
+  <script href="calque-ciel.js"/>
+</svg>

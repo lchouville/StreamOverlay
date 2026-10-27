@@ -1,7 +1,7 @@
 {
   "name": "streamoverlay-tools",
   "private": true,
-  "description": "Export des alertes animees en WebM (VP9 + alpha) pour OBS",
-  "scripts": { "export": "node export-webm.js" },
+  "description": "Export des alertes animees en WebM (VP9 + alpha) pour OBS, pre-rendu PNG des calques du fond",
+  "scripts": { "export": "node export-webm.js", "calques": "node render-calques.js" },
   "dependencies": { "ffmpeg-static": "^5.2.0", "puppeteer-core": "^24.0.0" }
 }
