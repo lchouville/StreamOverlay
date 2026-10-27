@@ -11,7 +11,7 @@
 //
 // arg = ce qui suit la commande ("!lurk 3" -> '3'), libre a chaque effet de l'interpreter.
 //
-// Aucun effet visuel ici : un effet (ex. gemmes.js) s'abonne aux evenements avec
+// Aucun effet visuel ici : un effet (ex. ../gemmes/gemmes.js) s'abonne aux evenements avec
 //   Lurk.quand('entree', function (p) { ... })   p = { login, nom, depuis (ms), arg }
 //   Lurk.quand('retour', function (p) { ... })   p = idem + duree (ms passees en lurk)
 //   Lurk.quand('modif', function (p) { ... })    p = lurker deja dans la liste qui a refait
