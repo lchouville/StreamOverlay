@@ -7,7 +7,7 @@
 <style>
   /* Canvas de reference : 420x700. Source dimensionnee pile a la taille du chat : dans OBS,
      mets la source en 420x700 et positionne-la a (1500, 360). Place ton widget de chat
-     par-dessus, a l'interieur de #chat-inner, en fond transparent. */
+     par-dessus, a l'interieur de #chat-inner, en fond transparent. #chat-inner n'est qu'un panneau sombre semi-transparent : les constellations du fond passent en dessous. */
   body { width: 420px; height: 700px; position: relative; }
 
   #chat-rect {
@@ -27,15 +27,23 @@
     position: absolute;
     inset: 17px;
     border-radius: 15px;
-    background: linear-gradient(180deg, rgba(13,20,64,0.55), rgba(7,11,34,0.65));
+    background: linear-gradient(180deg, rgba(13,20,64,0.45), rgba(7,11,34,0.55));
     overflow: hidden;
   }
 
   .motif { position: absolute; z-index: 2; }
+  /* Equerre d'angle : epaissit le trait du cadre dans le coin (dans la gouttiere, jamais sur le panneau de chat). */
+  .coin { position: absolute; z-index: 2; width: 46px; height: 46px; pointer-events: none; overflow: visible; }
+  .coin.d { right: 0; transform: scaleX(-1); }
+  .coin.b { bottom: 0; transform: scaleY(-1); }
+  .coin.d.b { transform: scale(-1, -1); }
+  /* La source fait exactement 420x700 : tout reste a l'interieur (pas de liseré exterieur ni de medaillon a cheval sur le bord). */
+  .ring-outer { outline: none; }
+  .ring-outer::before { inset: 0; }
 
   #chat-label {
     position: absolute;
-    bottom: -2px;
+    bottom: 3px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
@@ -62,20 +70,32 @@
     <div class="ring ring-outer"></div>
     <div class="ring ring-dotted"></div>
     <div class="ring ring-inner"></div>
-    <div id="chat-inner"><div class="star-field" id="chat-stars"></div></div>
+    <div id="chat-inner"></div>
     <div id="chat-label"><span>Live Chat</span></div>
   </div>
 
-<script src="../elements/stars.js"></script>
-<script src="../elements/motifs.js"></script>
 <script>
-  spawnStarField(document.getElementById('chat-stars'), 26);
-
   const rect = document.getElementById('chat-rect');
-  placeMedallion(rect, 'sapphire', 40, 0, 0);
-  placeMedallion(rect, 'sapphire', 40, 100, 0);
-  placeMedallion(rect, 'sunburst', 44, 0, 100);
-  placeMedallion(rect, 'sunburst', 44, 100, 100);
+  // Equerres d'angle : le trait du cadre s'epaissit dans le coin, avec une perle saphir sur l'arc.
+  const NS = 'http://www.w3.org/2000/svg';
+  const defs = document.createElementNS(NS, 'svg');
+  defs.setAttribute('width', 0); defs.setAttribute('height', 0); defs.style.position = 'absolute';
+  defs.innerHTML = '<defs><linearGradient id="orCoin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbf2c9"/><stop offset="0.5" stop-color="#d9c98a"/><stop offset="1" stop-color="#8a7a45"/></linearGradient>' +
+    '<radialGradient id="perleCoin" cx="0.35" cy="0.3"><stop offset="0" stop-color="#9fb6ff"/><stop offset="0.55" stop-color="#3452e0"/><stop offset="1" stop-color="#1c2f8f"/></radialGradient></defs>';
+  document.body.appendChild(defs);
+  ['', 'd', 'b', 'd b'].forEach(function (cls) {
+    const c = document.createElementNS(NS, 'svg');
+    c.setAttribute('class', 'coin ' + cls);
+    c.setAttribute('viewBox', '0 0 46 46');
+    c.innerHTML =
+      '<path d="M3 44 L3 24 A21 21 0 0 1 24 3 L44 3" fill="none" stroke="url(#orCoin)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M3 44 L3 24 A21 21 0 0 1 24 3 L44 3" fill="none" stroke="#fffbe6" stroke-width="0.8" opacity="0.6"/>' +
+      '<circle cx="8.2" cy="8.2" r="5.6" fill="url(#orCoin)"/>' +
+      '<circle cx="8.2" cy="8.2" r="3.8" fill="url(#perleCoin)" stroke="#6b5a2c" stroke-width="0.6"/>' +
+      '<circle cx="7" cy="7" r="1.1" fill="#fff" opacity="0.75"/>' +
+      '<path d="M44 3 l-3 -2.6 0 5.2 z" fill="url(#orCoin)"/><path d="M3 44 l-2.6 -3 5.2 0 z" fill="url(#orCoin)"/>';
+    rect.appendChild(c);
+  });
 </script>
 </body>
 </html>
