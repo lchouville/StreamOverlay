@@ -64,3 +64,7 @@
   animation: timer-shine 7s ease-in-out infinite;
 }
 @keyframes timer-shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+
+/* la source du timer fait exactement 320x110 : le liseré reste a l'interieur */
+.timer-box .ring-outer { outline: none; }
+.timer-box .ring-outer::before { inset: 0; }
