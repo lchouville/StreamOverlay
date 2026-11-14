@@ -48,6 +48,7 @@
 
   <div id="bg-layer" class="bg-night">
     <div class="star-field" id="bg-stars"></div>
+    <div id="constellations"></div>
   </div>
 
   <div id="game-rect">
@@ -57,10 +58,14 @@
   </div>
 
 <script src="../elements/stars.js"></script>
+<script src="../elements/twitch-chat.js"></script>
+<script src="../elements/constellations.js"></script>
 <script src="../elements/motifs.js"></script>
 <script>
   spawnStarField(document.getElementById('bg-stars'), 140);
   spawnShootingStars(document.getElementById('bg-stars'));
+  // Zones ou une constellation ne naît pas (elle y passe derriere) : jeu, chat.
+  Constellations.init(document.getElementById('constellations'), { cachees: [{ x: 30, y: 195, w: 1440, h: 810 }, { x: 1500, y: 360, w: 420, h: 700 }] });
 
   const gameRect = document.getElementById('game-rect');
   placeMedallion(gameRect, 'sunburst', 68, 0, 0);

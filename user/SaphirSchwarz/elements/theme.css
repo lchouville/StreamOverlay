@@ -114,3 +114,42 @@ html, body {
   15% { opacity: 1; }
   100% { opacity: 0; translate: 420px 196px; }
 }
+
+/* ---------- constellations du chat (voir constellations.js) ---------- */
+.constellation {
+  position: absolute; left: 0; top: 0; width: 170px; height: 124px;
+  transform-origin: top center; pointer-events: none; will-change: transform;
+  animation: const-in 1.2s ease-out;
+}
+.constellation svg { display: block; margin: 0 auto; overflow: visible; }
+.constellation line {
+  stroke: rgba(230, 220, 170, 0.5); stroke-width: 1; stroke-linecap: round;
+  stroke-dasharray: 200; stroke-dashoffset: 200; animation: const-draw 1.4s ease-out forwards;
+}
+.constellation g { opacity: 0; animation: const-pop 0.7s ease-out forwards; }
+.constellation .halo { animation: const-scint 4.2s ease-in-out infinite; }
+.constellation .coeur { filter: drop-shadow(0 0 2px rgba(207, 224, 255, 0.9)); }
+.constellation .eclat { animation: const-scint 3.4s ease-in-out infinite; }
+.constellation-nom {
+  position: relative; margin-top: 6px; padding-bottom: 7px; text-align: center; font-size: 15px; letter-spacing: 0.1em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: var(--gold-bright); text-shadow: 0 0 8px rgba(106, 63, 224, 0.95), 0 0 2px #000;
+}
+/* filet orne sous le pseudo : trait degrade + petit losange */
+.constellation-nom::after {
+  content: ''; position: absolute; left: 50%; bottom: 0; width: 56px; height: 1px; transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.constellation.pulse svg { animation: const-pulse 1s ease-out; }
+/* lurk : plus petite (echelle geree par le script), moins brillante */
+.constellation.lurk .coeur { filter: none; }
+.constellation.lurk .halo, .constellation.lurk .eclat { display: none; }
+.constellation.lurk line { stroke: rgba(230, 220, 170, 0.35); }
+.constellation.lurk .constellation-nom { text-shadow: none; color: var(--gold); font-size: 26px; letter-spacing: 0.03em; margin-top: 2px; }
+.constellation.lurk .constellation-nom::after { display: none; }
+.constellation.part { opacity: 0 !important; transition: opacity 2s ease; }
+@keyframes const-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes const-draw { to { stroke-dashoffset: 0; } }
+@keyframes const-pop { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes const-scint { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+@keyframes const-pulse { 0%, 100% { filter: none; } 40% { filter: brightness(1.8) drop-shadow(0 0 8px rgba(243, 230, 179, 0.9)); } }
