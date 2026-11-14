@@ -12,3 +12,6 @@ desktop.ini
 # secrets Twitch (token de la chaine) : jamais sur GitHub
 twitch-secrets.js
 twitch-obs.txt
+
+# captures/logs temporaires des tests navigateur
+.playwright-mcp/
