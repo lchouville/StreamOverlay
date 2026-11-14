@@ -52,3 +52,15 @@
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.08); }
 }
+
+.timer-box { box-shadow: inset 0 0 22px rgba(106, 63, 224, 0.3); }
+.timer-box::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: -60%;
+  width: 40%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(243, 230, 179, 0.12), transparent);
+  animation: timer-shine 7s ease-in-out infinite;
+}
+@keyframes timer-shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }

@@ -12,19 +12,19 @@
   #bg-layer {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 30% 20%, #1a2560 0%, #05081a 70%);
   }
 </style>
 </head>
 <body>
 
-  <div id="bg-layer">
+  <div id="bg-layer" class="bg-night">
     <div class="star-field" id="bg-stars"></div>
   </div>
 
 <script src="../elements/stars.js"></script>
 <script>
   spawnStarField(document.getElementById('bg-stars'), 220);
+  spawnShootingStars(document.getElementById('bg-stars'));
 </script>
 </body>
 </html>

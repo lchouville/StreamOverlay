@@ -14,7 +14,6 @@
   #bg-layer {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 30% 20%, #1a2560 0%, #05081a 70%);
     -webkit-mask-image: url(#view-holes);
     mask-image: url(#view-holes);
   }
@@ -29,7 +28,7 @@
 
   .ring { position: absolute; inset: 0; pointer-events: none; }
 
-  #game-rect .ring-outer { border: 2px solid var(--gold); border-radius: 26px; box-shadow: 0 0 12px rgba(217, 201, 138, 0.35); }
+  #game-rect .ring-outer { --bw: 6px; border: 2px solid var(--gold); border-radius: 26px; box-shadow: 0 0 12px rgba(217, 201, 138, 0.35), inset 0 0 22px rgba(106, 63, 224, 0.28); }
   #game-rect .ring-dotted { inset: 8px; border: 3px dotted var(--gold-dim); border-radius: 22px; }
   #game-rect .ring-inner { inset: 16px; border: 1px solid var(--gold); border-radius: 18px; }
 
@@ -47,7 +46,7 @@
     </defs>
   </svg>
 
-  <div id="bg-layer">
+  <div id="bg-layer" class="bg-night">
     <div class="star-field" id="bg-stars"></div>
   </div>
 
@@ -61,16 +60,17 @@
 <script src="../elements/motifs.js"></script>
 <script>
   spawnStarField(document.getElementById('bg-stars'), 140);
+  spawnShootingStars(document.getElementById('bg-stars'));
 
   const gameRect = document.getElementById('game-rect');
-  placeMedallion(gameRect, 'sunburst', 46, 0, 0);
-  placeMedallion(gameRect, 'sunburst', 46, 100, 0);
-  placeMedallion(gameRect, 'sunburst', 46, 0, 100);
-  placeMedallion(gameRect, 'sunburst', 46, 100, 100);
-  placeMedallion(gameRect, 'crescent', 40, 50, 0);
-  placeMedallion(gameRect, 'crescent', 40, 50, 100);
-  placeMedallion(gameRect, 'sapphire', 34, 0, 50);
-  placeMedallion(gameRect, 'sapphire', 34, 100, 50);
+  placeMedallion(gameRect, 'sunburst', 68, 0, 0);
+  placeMedallion(gameRect, 'sunburst', 68, 100, 0);
+  placeMedallion(gameRect, 'sunburst', 68, 0, 100);
+  placeMedallion(gameRect, 'sunburst', 68, 100, 100);
+  placeMedallion(gameRect, 'crescent', 56, 50, 0);
+  placeMedallion(gameRect, 'crescent', 56, 50, 100);
+  placeMedallion(gameRect, 'sapphire', 50, 0, 50);
+  placeMedallion(gameRect, 'sapphire', 50, 100, 50);
 </script>
 </body>
 </html>

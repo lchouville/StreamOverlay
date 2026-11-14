@@ -19,7 +19,7 @@
   }
 
   .ring { position: absolute; inset: 0; border-radius: 24px; pointer-events: none; }
-  .ring-outer { border: 2px solid var(--gold); box-shadow: 0 0 10px rgba(217,201,138,0.3); }
+  .ring-outer { border: 2px solid var(--gold); box-shadow: 0 0 10px rgba(217,201,138,0.3), inset 0 0 16px rgba(106,63,224,0.28); }
   .ring-dotted { inset: 7px; border-radius: 20px; border: 2px dotted var(--gold-dim); }
   .ring-inner { inset: 13px; border-radius: 16px; border: 1px solid var(--gold); }
 
@@ -47,7 +47,8 @@
     font-size: 13px;
     letter-spacing: 0.28em;
     color: var(--gold-bright);
-    background: var(--navy-deep);
+    background: linear-gradient(180deg, var(--navy-light), var(--navy-deep));
+    box-shadow: 0 0 10px rgba(217, 201, 138, 0.35), inset 0 0 8px rgba(106, 63, 224, 0.4);
     padding: 4px 14px;
     border: 1px solid var(--gold);
     border-radius: 14px;
@@ -71,10 +72,10 @@
   spawnStarField(document.getElementById('chat-stars'), 26);
 
   const rect = document.getElementById('chat-rect');
-  placeMedallion(rect, 'sapphire', 26, 0, 0);
-  placeMedallion(rect, 'sapphire', 26, 100, 0);
-  placeMedallion(rect, 'sunburst', 30, 0, 100);
-  placeMedallion(rect, 'sunburst', 30, 100, 100);
+  placeMedallion(rect, 'sapphire', 40, 0, 0);
+  placeMedallion(rect, 'sapphire', 40, 100, 0);
+  placeMedallion(rect, 'sunburst', 44, 0, 100);
+  placeMedallion(rect, 'sunburst', 44, 100, 100);
 </script>
 </body>
 </html>
