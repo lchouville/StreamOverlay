@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Nuage special : char d'assaut (clin d'oeil War Thunder), canon vers la droite (sens du vent). -->
+<!-- Meme style que les nuages normaux generes par le script "Ciel" de ville-medievale-croquis.svg : -->
+<!-- silhouette festonnee unique (festons en Q), fond #efe4c6, trait #6a5030, ombre claire -->
+<!-- #b8a070 sous le ventre et sous la tourelle, sans autre detail interieur. -->
+<!-- Canevas 300x200 (voir README.md) : le bas du nuage est pose sur le bord inferieur. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <!-- silhouette : chenille, caisse, tourelle, canon et frein de bouche -->
+    <path d="M 40,182 Q 30,184 24,168 Q 19.4,152.7 34.0,146.0 Q 29.1,131.1 44.0,136.0 Q 51.9,120.2 65.0,132.0 Q 73.0,116.7 86.0,128.0 Q 71.2,108.0 94.0,98.0 Q 104.4,76.4 120.7,94.0 Q 131.3,74.2 147.3,90.0 Q 157.4,66.5 174.0,86.0 Q 193.0,77.0 194.0,98.0 L 196,98 Q 208.0,90.4 220.7,96.7 Q 232.6,88.6 245.3,95.3 Q 257.3,87.4 270.0,94.0 Q 270.0,85.6 278.0,88.0 Q 287.4,85.5 292.0,94.0 Q 296.4,100.9 290.0,106.0 Q 283.0,112.4 276.0,106.0 L 270,104 Q 258.4,111.0 246.0,105.3 Q 234.3,110.6 222.0,106.7 Q 210.4,113.7 198.0,108.0 L 198,116 Q 209.9,106.7 217.0,120.0 Q 229.4,108.3 236.0,124.0 Q 256.1,115.7 264.0,136.0 Q 276.8,135.2 276.0,148.0 Q 286.7,160.4 271.0,165.0 Q 284.2,178.1 266.0,182.0 Q 153,190 40,182 Z"
+          fill="#efe4c6" stroke="#6a5030" stroke-width="3"/>
+
+    <!-- ombres claires, comme le dessous des nuages normaux : sous le ventre et la ou la -->
+    <!-- tourelle se pose sur le chassis -->
+    <g fill="none" stroke="#b8a070" stroke-linecap="round" opacity="0.55">
+      <path d="M 52,176 Q 150,186 256,176" stroke-width="6"/>
+      <path d="M 100,126 Q 148,119 196,121" stroke-width="6"/>
+    </g>
+  </g>
+</svg>

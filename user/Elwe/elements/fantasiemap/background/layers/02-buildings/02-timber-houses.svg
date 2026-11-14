@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Rangée de maisons à colombages (style citadin médiéval). -->
+<!-- Inspiré des maisons à pans de bois normands/bretons. -->
+<!-- GENERE par un script (hauteurs/toits varies) : rez-de-chaussee pierre (y=300-400), etages a -->
+<!-- colombages de 100u empiles vers le haut, toit au-dessus du dernier etage. -->
+<!-- Placee en retrait entre la taverne et la tour de l'horloge, a 52% (eloignement) : le pied -->
+<!-- (y=400) tombe en y=890, en partie cache par la taverne et la boulangerie. -->
+<!-- Fenetres de grenier eclairees : #building-lights dans ville-medievale-croquis.svg. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- Texture pierre (rez-de-chaussée) -->
+    <pattern id="stoneTexture" patternUnits="userSpaceOnUse" width="40" height="30">
+      <rect width="40" height="30" fill="#c9b48a"/>
+      <rect x="2" y="2" width="36" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="2" y="16" width="17" height="12" fill="#b89f72" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+      <rect x="21" y="16" width="17" height="12" fill="#d4c098" stroke="#3a2a1a" stroke-width="1" opacity="0.6"/>
+    </pattern>
+
+    <!-- Hachures toit (tuiles) -->
+    <pattern id="hatchRoof" patternUnits="userSpaceOnUse" width="10" height="12">
+      <line x1="0" y1="6" x2="10" y2="6" stroke="#2a1a0a" stroke-width="2" opacity="0.8"/>
+      <line x1="0" y1="0" x2="10" y2="0" stroke="#2a1a0a" stroke-width="1.2" opacity="0.6"/>
+    </pattern>
+
+    <filter id="sketchyHeavy" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="4" seed="42" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- ======================================================= -->
+  <!-- MAISONS À COLOMBAGES EN RANGÉE -->
+  <!-- ======================================================= -->
+  <!-- Opaque : sinon le rempart transparait a travers les facades. -->
+  <g id="maisons-citadines" transform="translate(2246.6, 682) scale(0.52)">
+
+    <!-- ======================================================= -->
+    <!-- MAISON 1 : 3 etage(s) a colombages (croix), toit a pignon -->
+    <!-- ======================================================= -->
+    <g id="maison-1" transform="translate(0, 0)">
+      <!-- Rez-de-chaussee en pierre -->
+      <rect x="0" y="300" width="180" height="100" fill="#c9b48a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <rect x="0" y="300" width="180" height="100" fill="url(#stoneTexture)" opacity="0.8"/>
+      <path d="M 60,400 L 60,330 Q 60,318 80,318 Q 100,318 100,330 L 100,400 Z" fill="#8b4513" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <circle cx="92" cy="365" r="3" fill="#1a0f05"/>
+      <!-- Etage 1 -->
+      <rect x="0" y="200" width="180" height="100" fill="#c4a060" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#8b4513" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="200" x2="0" y2="300"/>
+        <line x1="60" y1="200" x2="60" y2="300"/>
+        <line x1="120" y1="200" x2="120" y2="300"/>
+        <line x1="180" y1="200" x2="180" y2="300"/>
+        <line x1="0" y1="250" x2="180" y2="250"/>
+        <line x1="0" y1="200" x2="60" y2="250"/>
+        <line x1="60" y1="250" x2="120" y2="300"/>
+        <line x1="120" y1="200" x2="180" y2="250"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 16,222 L 7,227 L 7,272 L 16,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 44,222 L 53,227 L 53,272 L 44,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="16" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 30,222 L 30,272 M 16,247 L 44,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="13" y1="274" x2="47" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 76,222 L 67,227 L 67,272 L 76,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 104,222 L 113,227 L 113,272 L 104,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="76" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 90,222 L 90,272 M 76,247 L 104,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="73" y1="274" x2="107" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 136,222 L 127,227 L 127,272 L 136,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 164,222 L 173,227 L 173,272 L 164,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="136" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 150,222 L 150,272 M 136,247 L 164,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="133" y1="274" x2="167" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Etage 2 -->
+      <rect x="0" y="100" width="180" height="100" fill="#c4a060" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#8b4513" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="100" x2="0" y2="200"/>
+        <line x1="60" y1="100" x2="60" y2="200"/>
+        <line x1="120" y1="100" x2="120" y2="200"/>
+        <line x1="180" y1="100" x2="180" y2="200"/>
+        <line x1="0" y1="150" x2="180" y2="150"/>
+        <line x1="0" y1="100" x2="60" y2="150"/>
+        <line x1="60" y1="150" x2="120" y2="200"/>
+        <line x1="120" y1="100" x2="180" y2="150"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 16,122 L 7,127 L 7,172 L 16,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 44,122 L 53,127 L 53,172 L 44,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="16" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 30,122 L 30,172 M 16,147 L 44,147" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="13" y1="174" x2="47" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 76,122 L 67,127 L 67,172 L 76,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 104,122 L 113,127 L 113,172 L 104,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="76" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 90,122 L 90,172 M 76,147 L 104,147" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="73" y1="174" x2="107" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 136,122 L 127,127 L 127,172 L 136,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 164,122 L 173,127 L 173,172 L 164,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="136" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 150,122 L 150,172 M 136,147 L 164,147" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="133" y1="174" x2="167" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Etage 3 (grenier) -->
+      <rect x="0" y="0" width="180" height="100" fill="#c4a060" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#8b4513" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="0" x2="0" y2="100"/>
+        <line x1="60" y1="0" x2="60" y2="100"/>
+        <line x1="120" y1="0" x2="120" y2="100"/>
+        <line x1="180" y1="0" x2="180" y2="100"/>
+        <line x1="0" y1="50" x2="180" y2="50"/>
+      </g>
+      <rect x="59.5" y="20" width="61" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 90,20 L 90,70 M 59.5,45 L 120.5,45" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="56.5" y1="72" x2="123.5" y2="72" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Poutres saillantes aux planchers (sablieres d'encorbellement) -->
+      <g fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5" filter="url(#sketchyMedium)">
+        <rect x="-7" y="296" width="194" height="8"/>
+        <rect x="-7" y="196" width="194" height="8"/>
+        <rect x="-7" y="96" width="194" height="8"/>
+      </g>
+      <!-- Toit : tuiles brunes, debord de 12u, hauteur 80 -->
+      <polygon points="-12,0 90,-80 192,0" fill="#8c6b45" stroke="#2a1a0a" stroke-width="5" stroke-linejoin="round" filter="url(#sketchyMedium)"/>
+      <polygon points="-12,0 90,-80 192,0" fill="url(#hatchRoof)" opacity="0.55"/>
+      <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+        <line x1="11.4" y1="-16" x2="168.6" y2="-16"/>
+        <line x1="31.8" y1="-32" x2="148.2" y2="-32"/>
+        <line x1="52.2" y1="-48" x2="127.8" y2="-48"/>
+        <line x1="72.6" y1="-64" x2="107.4" y2="-64"/>
+      </g>
+      <!-- Epi de faitage -->
+      <line x1="90" y1="-80" x2="90" y2="-96" stroke="#1a0f05" stroke-width="3"/>
+      <circle cx="90" cy="-98" r="3.5" fill="#5a4a3a" stroke="#1a0f05" stroke-width="1.5"/>
+      <rect x="-14" y="-4" width="208" height="8" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+      <!-- Lucarne -->
+      <rect x="77" y="-34" width="26" height="22" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2.5"/>
+      <line x1="90" y1="-34" x2="90" y2="-12" stroke="#d4ba82" stroke-width="1.5"/>
+      <polygon points="71,-34 90,-56 109,-34" fill="#8c6b45" stroke="#2a1a0a" stroke-width="2.5"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- MAISON 2 : 2 etage(s) a colombages (losange), toit a pignon -->
+    <!-- ======================================================= -->
+    <g id="maison-2" transform="translate(180, 0)">
+      <!-- Rez-de-chaussee en pierre -->
+      <rect x="0" y="300" width="160" height="100" fill="#c9b48a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <rect x="0" y="300" width="160" height="100" fill="url(#stoneTexture)" opacity="0.8"/>
+      <path d="M 50,400 L 50,330 Q 50,318 70,318 Q 90,318 90,330 L 90,400 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <circle cx="82" cy="365" r="3" fill="#1a0f05"/>
+      <!-- Etage 1 -->
+      <rect x="0" y="200" width="160" height="100" fill="#c4a060" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#5a3a1a" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="200" x2="0" y2="300"/>
+        <line x1="40" y1="200" x2="40" y2="300"/>
+        <line x1="80" y1="200" x2="80" y2="300"/>
+        <line x1="120" y1="200" x2="120" y2="300"/>
+        <line x1="160" y1="200" x2="160" y2="300"/>
+        <line x1="0" y1="250" x2="160" y2="250"/>
+        <line x1="0" y1="200" x2="40" y2="250"/>
+        <line x1="40" y1="250" x2="0" y2="300"/>
+        <line x1="40" y1="200" x2="80" y2="250"/>
+        <line x1="80" y1="250" x2="40" y2="300"/>
+        <line x1="80" y1="200" x2="120" y2="250"/>
+        <line x1="120" y1="250" x2="80" y2="300"/>
+        <line x1="120" y1="200" x2="160" y2="250"/>
+        <line x1="160" y1="250" x2="120" y2="300"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 12.7,222 L 3.7,227 L 3.7,272 L 12.7,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 40.7,222 L 49.7,227 L 49.7,272 L 40.7,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="12.7" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 26.7,222 L 26.7,272 M 12.7,247 L 40.7,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="9.7" y1="274" x2="43.7" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 7.9,277.2 Q 17.3,262.8 26.7,270.8 Q 36.1,261.2 45.5,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="15.3" cy="268" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="15.3" cy="268" r="1.4" fill="#e8c860"/>
+        <circle cx="26.2" cy="264.6" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="26.2" cy="264.6" r="1.4" fill="#e8c860"/>
+        <circle cx="37.9" cy="264.8" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="37.9" cy="264.8" r="1.4" fill="#e8c860"/>
+        <path d="M 11.1,288.4 Q 4.7,298 9.5,304.4 M 42.3,288.4 Q 48.7,296.4 43.9,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="7.9" y="274" width="37.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="7.9" y1="281.2" x2="45.5" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 66,222 L 57,227 L 57,272 L 66,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 94,222 L 103,227 L 103,272 L 94,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="66" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 80,222 L 80,272 M 66,247 L 94,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="63" y1="274" x2="97" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 119.3,222 L 110.3,227 L 110.3,272 L 119.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 147.3,222 L 156.3,227 L 156.3,272 L 147.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="119.3" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 133.3,222 L 133.3,272 M 119.3,247 L 147.3,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="116.3" y1="274" x2="150.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 114.5,277.2 Q 123.9,262.8 133.3,270.8 Q 142.7,261.2 152.1,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="119.6" cy="265.1" r="4.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="119.6" cy="265.1" r="1.4" fill="#e8c860"/>
+        <circle cx="134.4" cy="263.6" r="4.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="134.4" cy="263.6" r="1.4" fill="#e8c860"/>
+        <circle cx="145.2" cy="268" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="145.2" cy="268" r="1.4" fill="#e8c860"/>
+        <path d="M 117.7,288.4 Q 111.3,298 116.1,304.4 M 148.9,288.4 Q 155.3,296.4 150.5,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="114.5" y="274" width="37.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="114.5" y1="281.2" x2="152.1" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
+      <!-- Etage 2 (grenier) -->
+      <rect x="0" y="100" width="160" height="100" fill="#c4a060" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#5a3a1a" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="100" x2="0" y2="200"/>
+        <line x1="40" y1="100" x2="40" y2="200"/>
+        <line x1="80" y1="100" x2="80" y2="200"/>
+        <line x1="120" y1="100" x2="120" y2="200"/>
+        <line x1="160" y1="100" x2="160" y2="200"/>
+        <line x1="0" y1="150" x2="160" y2="150"/>
+      </g>
+      <rect x="53" y="120" width="54" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 80,120 L 80,170 M 53,145 L 107,145" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="50" y1="172" x2="110" y2="172" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Poutres saillantes aux planchers (sablieres d'encorbellement) -->
+      <g fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5" filter="url(#sketchyMedium)">
+        <rect x="-7" y="296" width="174" height="8"/>
+        <rect x="-7" y="196" width="174" height="8"/>
+      </g>
+      <!-- Cheminee (pied cache par le toit) -->
+      <rect x="106.2" y="8.3" width="18" height="91.7" fill="#a88f68" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <rect x="102.2" y="1.3" width="26" height="8" fill="#5a4a3a" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Toit : tuiles brunes, debord de 12u, hauteur 100 -->
+      <polygon points="-12,100 80,0 172,100" fill="#8c6b45" stroke="#2a1a0a" stroke-width="5" stroke-linejoin="round" filter="url(#sketchyMedium)"/>
+      <polygon points="-12,100 80,0 172,100" fill="url(#hatchRoof)" opacity="0.55"/>
+      <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+        <line x1="5.7" y1="84" x2="154.3" y2="84"/>
+        <line x1="20.4" y1="68" x2="139.6" y2="68"/>
+        <line x1="35.2" y1="52" x2="124.8" y2="52"/>
+        <line x1="49.9" y1="36" x2="110.1" y2="36"/>
+        <line x1="64.6" y1="20" x2="95.4" y2="20"/>
+      </g>
+      <!-- Epi de faitage -->
+      <line x1="80" y1="0" x2="80" y2="-16" stroke="#1a0f05" stroke-width="3"/>
+      <circle cx="80" cy="-18" r="3.5" fill="#5a4a3a" stroke="#1a0f05" stroke-width="1.5"/>
+      <rect x="-14" y="96" width="188" height="8" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- MAISON 3 : 4 etage(s) a colombages (chevron), toit a sommet plat -->
+    <!-- ======================================================= -->
+    <g id="maison-3" transform="translate(340, 0)">
+      <!-- Rez-de-chaussee en pierre -->
+      <rect x="0" y="300" width="200" height="100" fill="#c9b48a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <rect x="0" y="300" width="200" height="100" fill="url(#stoneTexture)" opacity="0.8"/>
+      <path d="M 30,400 L 30,330 Q 30,318 50,318 Q 70,318 70,330 L 70,400 Z" fill="#8b4513" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <circle cx="62" cy="365" r="3" fill="#1a0f05"/>
+      <!-- Echoppe -->
+      <rect x="110" y="320" width="70" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 145,320 L 145,370 M 110,345 L 180,345" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="107" y1="372" x2="183" y2="372" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Etage 1 -->
+      <rect x="0" y="200" width="200" height="100" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="200" x2="0" y2="300"/>
+        <line x1="50" y1="200" x2="50" y2="300"/>
+        <line x1="100" y1="200" x2="100" y2="300"/>
+        <line x1="150" y1="200" x2="150" y2="300"/>
+        <line x1="200" y1="200" x2="200" y2="300"/>
+        <line x1="0" y1="250" x2="200" y2="250"/>
+        <line x1="0" y1="300" x2="25" y2="250"/>
+        <line x1="25" y1="250" x2="50" y2="300"/>
+        <line x1="50" y1="300" x2="75" y2="250"/>
+        <line x1="75" y1="250" x2="100" y2="300"/>
+        <line x1="100" y1="300" x2="125" y2="250"/>
+        <line x1="125" y1="250" x2="150" y2="300"/>
+        <line x1="150" y1="300" x2="175" y2="250"/>
+        <line x1="175" y1="250" x2="200" y2="300"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 19.3,222 L 10.3,227 L 10.3,272 L 19.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 47.3,222 L 56.3,227 L 56.3,272 L 47.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="19.3" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 33.3,222 L 33.3,272 M 19.3,247 L 47.3,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="16.3" y1="274" x2="50.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 14.5,277.2 Q 23.9,262.8 33.3,270.8 Q 42.7,261.2 52.1,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="22" cy="262.9" r="4.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="22" cy="262.9" r="1.4" fill="#e8c860"/>
+        <circle cx="33.8" cy="264.2" r="4.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="33.8" cy="264.2" r="1.4" fill="#e8c860"/>
+        <circle cx="45.8" cy="265.4" r="4.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="45.8" cy="265.4" r="1.4" fill="#e8c860"/>
+        <path d="M 17.7,288.4 Q 11.3,298 16.1,304.4 M 48.9,288.4 Q 55.3,296.4 50.5,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="14.5" y="274" width="37.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="14.5" y1="281.2" x2="52.1" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 86,222 L 77,227 L 77,272 L 86,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 114,222 L 123,227 L 123,272 L 114,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="86" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 100,222 L 100,272 M 86,247 L 114,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="83" y1="274" x2="117" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 152.7,222 L 143.7,227 L 143.7,272 L 152.7,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 180.7,222 L 189.7,227 L 189.7,272 L 180.7,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="152.7" y="222" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 166.7,222 L 166.7,272 M 152.7,247 L 180.7,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="149.7" y1="274" x2="183.7" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 147.9,277.2 Q 157.3,262.8 166.7,270.8 Q 176.1,261.2 185.5,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="152.8" cy="262.8" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="152.8" cy="262.8" r="1.4" fill="#e8c860"/>
+        <circle cx="165.1" cy="266.4" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="165.1" cy="266.4" r="1.4" fill="#e8c860"/>
+        <circle cx="180.3" cy="265.9" r="4.2" fill="#d8c060" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="180.3" cy="265.9" r="1.4" fill="#e8c860"/>
+        <path d="M 151.1,288.4 Q 144.7,298 149.5,304.4 M 182.3,288.4 Q 188.7,296.4 183.9,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="147.9" y="274" width="37.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="147.9" y1="281.2" x2="185.5" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
+      <!-- Etage 2 -->
+      <rect x="0" y="100" width="200" height="100" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="100" x2="0" y2="200"/>
+        <line x1="50" y1="100" x2="50" y2="200"/>
+        <line x1="100" y1="100" x2="100" y2="200"/>
+        <line x1="150" y1="100" x2="150" y2="200"/>
+        <line x1="200" y1="100" x2="200" y2="200"/>
+        <line x1="0" y1="150" x2="200" y2="150"/>
+        <line x1="0" y1="200" x2="25" y2="150"/>
+        <line x1="25" y1="150" x2="50" y2="200"/>
+        <line x1="50" y1="200" x2="75" y2="150"/>
+        <line x1="75" y1="150" x2="100" y2="200"/>
+        <line x1="100" y1="200" x2="125" y2="150"/>
+        <line x1="125" y1="150" x2="150" y2="200"/>
+        <line x1="150" y1="200" x2="175" y2="150"/>
+        <line x1="175" y1="150" x2="200" y2="200"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 19.3,122 L 10.3,127 L 10.3,172 L 19.3,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 47.3,122 L 56.3,127 L 56.3,172 L 47.3,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="19.3" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 33.3,122 L 33.3,172 M 19.3,147 L 47.3,147" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="16.3" y1="174" x2="50.3" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 86,122 L 77,127 L 77,172 L 86,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 114,122 L 123,127 L 123,172 L 114,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="86" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 100,122 L 100,172 M 86,147 L 114,147" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="83" y1="174" x2="117" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 152.7,122 L 143.7,127 L 143.7,172 L 152.7,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 180.7,122 L 189.7,127 L 189.7,172 L 180.7,172 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="152.7" y="122" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 166.7,122 L 166.7,172 M 152.7,147 L 180.7,147" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="149.7" y1="174" x2="183.7" y2="174" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Etage 3 -->
+      <rect x="0" y="0" width="200" height="100" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="0" x2="0" y2="100"/>
+        <line x1="50" y1="0" x2="50" y2="100"/>
+        <line x1="100" y1="0" x2="100" y2="100"/>
+        <line x1="150" y1="0" x2="150" y2="100"/>
+        <line x1="200" y1="0" x2="200" y2="100"/>
+        <line x1="0" y1="50" x2="200" y2="50"/>
+        <line x1="0" y1="100" x2="25" y2="50"/>
+        <line x1="25" y1="50" x2="50" y2="100"/>
+        <line x1="50" y1="100" x2="75" y2="50"/>
+        <line x1="75" y1="50" x2="100" y2="100"/>
+        <line x1="100" y1="100" x2="125" y2="50"/>
+        <line x1="125" y1="50" x2="150" y2="100"/>
+        <line x1="150" y1="100" x2="175" y2="50"/>
+        <line x1="175" y1="50" x2="200" y2="100"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 19.3,22 L 10.3,27 L 10.3,72 L 19.3,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 47.3,22 L 56.3,27 L 56.3,72 L 47.3,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="19.3" y="22" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 33.3,22 L 33.3,72 M 19.3,47 L 47.3,47" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="16.3" y1="74" x2="50.3" y2="74" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 86,22 L 77,27 L 77,72 L 86,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 114,22 L 123,27 L 123,72 L 114,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="86" y="22" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 100,22 L 100,72 M 86,47 L 114,47" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="83" y1="74" x2="117" y2="74" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 152.7,22 L 143.7,27 L 143.7,72 L 152.7,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 180.7,22 L 189.7,27 L 189.7,72 L 180.7,72 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="152.7" y="22" width="28" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 166.7,22 L 166.7,72 M 152.7,47 L 180.7,47" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="149.7" y1="74" x2="183.7" y2="74" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Etage 4 (grenier) -->
+      <rect x="0" y="-100" width="200" height="100" fill="#d4ba82" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#1a0f05" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="-100" x2="0" y2="0"/>
+        <line x1="50" y1="-100" x2="50" y2="0"/>
+        <line x1="100" y1="-100" x2="100" y2="0"/>
+        <line x1="150" y1="-100" x2="150" y2="0"/>
+        <line x1="200" y1="-100" x2="200" y2="0"/>
+        <line x1="0" y1="-50" x2="200" y2="-50"/>
+      </g>
+      <rect x="66" y="-80" width="68" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 100,-80 L 100,-30 M 66,-55 L 134,-55" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="63" y1="-28" x2="137" y2="-28" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Poutres saillantes aux planchers (sablieres d'encorbellement) -->
+      <g fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5" filter="url(#sketchyMedium)">
+        <rect x="-7" y="296" width="214" height="8"/>
+        <rect x="-7" y="196" width="214" height="8"/>
+        <rect x="-7" y="96" width="214" height="8"/>
+        <rect x="-7" y="-4" width="214" height="8"/>
+      </g>
+      <!-- Toit : tuiles brunes, debord de 12u, hauteur 90 -->
+      <polygon points="-12,-100 70,-190 130,-190 212,-100" fill="#8c6b45" stroke="#2a1a0a" stroke-width="5" stroke-linejoin="round" filter="url(#sketchyMedium)"/>
+      <polygon points="-12,-100 70,-190 130,-190 212,-100" fill="url(#hatchRoof)" opacity="0.55"/>
+      <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+        <line x1="5.6" y1="-116" x2="194.4" y2="-116"/>
+        <line x1="20.2" y1="-132" x2="179.8" y2="-132"/>
+        <line x1="34.7" y1="-148" x2="165.3" y2="-148"/>
+        <line x1="49.3" y1="-164" x2="150.7" y2="-164"/>
+        <line x1="63.9" y1="-180" x2="136.1" y2="-180"/>
+      </g>
+      <rect x="65" y="-200" width="70" height="10" fill="#b5a481" stroke="#1a0f05" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <rect x="-14" y="-104" width="228" height="8" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+      <!-- Lucarne -->
+      <rect x="87" y="-138" width="26" height="22" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2.5"/>
+      <line x1="100" y1="-138" x2="100" y2="-116" stroke="#d4ba82" stroke-width="1.5"/>
+      <polygon points="81,-138 100,-160 119,-138" fill="#8c6b45" stroke="#2a1a0a" stroke-width="2.5"/>
+    </g>
+
+    <!-- ======================================================= -->
+    <!-- MAISON 4 : 2 etage(s) a colombages (droit), toit a pignon -->
+    <!-- ======================================================= -->
+    <g id="maison-4" transform="translate(540, 0)">
+      <!-- Rez-de-chaussee en pierre -->
+      <rect x="0" y="300" width="170" height="100" fill="#c9b48a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <rect x="0" y="300" width="170" height="100" fill="url(#stoneTexture)" opacity="0.8"/>
+      <path d="M 60,400 L 60,330 Q 60,318 80,318 Q 100,318 100,330 L 100,400 Z" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <circle cx="92" cy="365" r="3" fill="#1a0f05"/>
+      <!-- Etage 1 -->
+      <rect x="0" y="200" width="170" height="100" fill="#c4a060" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#3a2a1a" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="200" x2="0" y2="300"/>
+        <line x1="42.5" y1="200" x2="42.5" y2="300"/>
+        <line x1="85" y1="200" x2="85" y2="300"/>
+        <line x1="127.5" y1="200" x2="127.5" y2="300"/>
+        <line x1="170" y1="200" x2="170" y2="300"/>
+        <line x1="0" y1="250" x2="170" y2="250"/>
+        <line x1="0" y1="225" x2="42.5" y2="250"/>
+        <line x1="42.5" y1="250" x2="0" y2="275"/>
+        <line x1="85" y1="225" x2="127.5" y2="250"/>
+        <line x1="127.5" y1="250" x2="85" y2="275"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 9.8,222 L 2.8,227 L 2.8,272 L 9.8,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 32.8,222 L 39.8,227 L 39.8,272 L 32.8,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="9.8" y="222" width="23" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 21.3,222 L 21.3,272 M 9.8,247 L 32.8,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="6.8" y1="274" x2="35.8" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 4.9,277.2 Q 13.1,262.8 21.3,270.8 Q 29.4,261.2 37.6,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="11.9" cy="263.1" r="4.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="11.9" cy="263.1" r="1.4" fill="#e8c860"/>
+        <circle cx="21.1" cy="266.8" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="21.1" cy="266.8" r="1.4" fill="#e8c860"/>
+        <circle cx="31.4" cy="263.2" r="4.2" fill="#c8642e" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="31.4" cy="263.2" r="1.4" fill="#e8c860"/>
+        <path d="M 8.1,288.4 Q 1.7,298 6.5,304.4 M 34.3,288.4 Q 40.8,296.4 35.9,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="4.9" y="274" width="32.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="4.9" y1="281.2" x2="37.6" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 52.3,222 L 45.3,227 L 45.3,272 L 52.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 75.3,222 L 82.3,227 L 82.3,272 L 75.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="52.3" y="222" width="23" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 63.8,222 L 63.8,272 M 52.3,247 L 75.3,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="49.3" y1="274" x2="78.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 94.8,222 L 87.8,227 L 87.8,272 L 94.8,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 117.8,222 L 124.8,227 L 124.8,272 L 117.8,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="94.8" y="222" width="23" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 106.3,222 L 106.3,272 M 94.8,247 L 117.8,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="91.8" y1="274" x2="120.8" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 90,277.2 Q 98.1,262.8 106.3,270.8 Q 114.4,261.2 122.6,277.2 Z" fill="#5e6440" stroke="#2a1a0a" stroke-width="1.9"/>
+        <circle cx="96.3" cy="267.5" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="96.3" cy="267.5" r="1.4" fill="#e8c860"/>
+        <circle cx="105.9" cy="267.8" r="4.2" fill="#e8dcc0" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="105.9" cy="267.8" r="1.4" fill="#e8c860"/>
+        <circle cx="118.6" cy="263.6" r="4.2" fill="#9a4a6a" stroke="#2a1a0a" stroke-width="1.3"/>
+        <circle cx="118.6" cy="263.6" r="1.4" fill="#e8c860"/>
+        <path d="M 93.2,288.4 Q 86.8,298 91.6,304.4 M 119.4,288.4 Q 125.8,296.4 121,302.8" fill="none" stroke="#5e6440" stroke-width="3.2" stroke-linecap="round"/>
+        <rect x="90" y="274" width="32.6" height="14.4" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.6"/>
+        <line x1="90" y1="281.2" x2="122.6" y2="281.2" stroke="#2a1a0a" stroke-width="1.3" opacity="0.6"/>
+      </g>
+      <g filter="url(#sketchyMedium)">
+        <path d="M 137.3,222 L 130.3,227 L 130.3,272 L 137.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+        <path d="M 160.3,222 L 167.3,227 L 167.3,272 L 160.3,272 Z" fill="#6b4a2e" stroke="#1a0f05" stroke-width="2"/>
+      </g>
+      <rect x="137.3" y="222" width="23" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 148.8,222 L 148.8,272 M 137.3,247 L 160.3,247" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="134.3" y1="274" x2="163.3" y2="274" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Etage 2 (grenier) -->
+      <rect x="0" y="100" width="170" height="100" fill="#c4a060" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyHeavy)"/>
+      <g stroke="#3a2a1a" stroke-width="4" filter="url(#sketchyMedium)">
+        <line x1="0" y1="100" x2="0" y2="200"/>
+        <line x1="42.5" y1="100" x2="42.5" y2="200"/>
+        <line x1="85" y1="100" x2="85" y2="200"/>
+        <line x1="127.5" y1="100" x2="127.5" y2="200"/>
+        <line x1="170" y1="100" x2="170" y2="200"/>
+        <line x1="0" y1="150" x2="170" y2="150"/>
+      </g>
+      <rect x="56" y="120" width="58" height="50" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+      <path d="M 85,120 L 85,170 M 56,145 L 114,145" stroke="#d4ba82" stroke-width="2"/>
+      <line x1="53" y1="172" x2="117" y2="172" stroke="#2a1a0a" stroke-width="3"/>
+      <!-- Poutres saillantes aux planchers (sablieres d'encorbellement) -->
+      <g fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5" filter="url(#sketchyMedium)">
+        <rect x="-7" y="296" width="184" height="8"/>
+        <rect x="-7" y="196" width="184" height="8"/>
+      </g>
+      <!-- Cheminee (pied cache par le toit) -->
+      <rect x="31.8" y="7.4" width="18" height="92.6" fill="#a88f68" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <rect x="27.8" y="0.4" width="26" height="8" fill="#5a4a3a" stroke="#2a1a0a" stroke-width="2"/>
+      <!-- Toit : tuiles brunes, debord de 12u, hauteur 115 -->
+      <polygon points="-12,100 85,-15 182,100" fill="#8c6b45" stroke="#2a1a0a" stroke-width="5" stroke-linejoin="round" filter="url(#sketchyMedium)"/>
+      <polygon points="-12,100 85,-15 182,100" fill="url(#hatchRoof)" opacity="0.55"/>
+      <g stroke="#2a1a0a" stroke-width="1.5" opacity="0.6" filter="url(#sketchyMedium)">
+        <line x1="4.5" y1="84" x2="165.5" y2="84"/>
+        <line x1="18" y1="68" x2="152" y2="68"/>
+        <line x1="31.5" y1="52" x2="138.5" y2="52"/>
+        <line x1="45" y1="36" x2="125" y2="36"/>
+        <line x1="58.5" y1="20" x2="111.5" y2="20"/>
+        <line x1="72" y1="4" x2="98" y2="4"/>
+      </g>
+      <!-- Epi de faitage -->
+      <line x1="85" y1="-15" x2="85" y2="-31" stroke="#1a0f05" stroke-width="3"/>
+      <circle cx="85" cy="-33" r="3.5" fill="#5a4a3a" stroke="#1a0f05" stroke-width="1.5"/>
+      <rect x="-14" y="96" width="198" height="8" fill="#3a2a1a" stroke="#1a0f05" stroke-width="1.5"/>
+    </g>
+
+  </g>
+</svg>

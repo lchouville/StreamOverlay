@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Nuage special : tete de creeper (clin d'oeil Minecraft). -->
+<!-- Meme style que les nuages normaux generes par le script "Ciel" de ville-medievale-croquis.svg : -->
+<!-- silhouette festonnee unique (festons en Q), fond #efe4c6, trait #6a5030, ombre claire -->
+<!-- #b8a070 sous le ventre. Le visage (grille 8x8, pixels de 18) est dans la teinte de l'ombre. -->
+<!-- Canevas 300x200 (voir README.md) : le bas du nuage est pose sur le bord inferieur. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <!-- silhouette : tete carree aux bords festonnes, dessous arrondi comme les nuages -->
+    <path d="M 78,184 Q 69.0,172.0 78.0,160.0 Q 66.6,148.0 78.0,136.0 Q 67.3,124.0 78.0,112.0 Q 68.8,100.0 78.0,88.0 Q 64.4,76.0 78.0,64.0 Q 66.8,52.0 78.0,40.0 Q 90.0,26.2 102.0,40.0 Q 114.0,26.6 126.0,40.0 Q 138.0,26.5 150.0,40.0 Q 162.0,27.7 174.0,40.0 Q 186.0,28.1 198.0,40.0 Q 210.0,25.0 222.0,40.0 Q 231.8,52.0 222.0,64.0 Q 233.1,76.0 222.0,88.0 Q 234.2,100.0 222.0,112.0 Q 235.5,124.0 222.0,136.0 Q 233.1,148.0 222.0,160.0 Q 231.5,172.0 222.0,184.0 Q 150,192 78,184 Z"
+          fill="#efe4c6" stroke="#6a5030" stroke-width="3"/>
+
+    <!-- visage : yeux (2x2), nez (2x1), bouche (4x2) et ses deux pattes -->
+    <path d="M 96,76 H 132 V 112 H 96 Z M 168,76 H 204 V 112 H 168 Z
+             M 132,112 H 168 V 130 H 186 V 180 H 168 V 166 H 132 V 180 H 114 V 130 H 132 Z"
+          fill="#b8a070" stroke="#b8a070" stroke-width="3" opacity="0.7"/>
+
+    <!-- dessous ombre, comme les nuages normaux -->
+    <path d="M 92,178 Q 150,186 208,178" fill="none" stroke="#b8a070" stroke-width="6" opacity="0.55"/>
+  </g>
+</svg>

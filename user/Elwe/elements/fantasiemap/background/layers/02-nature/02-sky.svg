@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : ciel + horizon (3840x2160, 16:9). -->
+<!-- Seule la partie au-dessus de l'horizon (y<805, via clip-ciel dans ville-medievale-croquis.svg) -->
+<!-- est affichee : le sol de ce calque a ete retire, le pave rond (02-cobblestones) couvrant -->
+<!-- deja entierement le sol de la ville. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- CIEL (Tiers supérieur) -->
+  <rect x="0" y="0" width="3840" height="720" fill="#d4ba82" opacity="1"/>
+
+  <!-- Oiseaux -->
+  <g stroke="#3a2a1a" stroke-width="1.5" fill="none" opacity="0.3" filter="url(#sketchyMedium)">
+    <path d="M 800,200 Q 810,195 820,200 Q 830,195 840,200"/>
+    <path d="M 1200,280 Q 1208,276 1216,280 Q 1224,276 1232,280"/>
+    <path d="M 2800,180 Q 2812,174 2824,180 Q 2836,174 2848,180"/>
+  </g>
+
+  <!-- Ligne d'horizon -->
+  <line x1="0" y1="720" x2="3840" y2="720" stroke="#3a2a1a" stroke-width="2" opacity="0.25" filter="url(#sketchyMedium)"/>
+</svg>

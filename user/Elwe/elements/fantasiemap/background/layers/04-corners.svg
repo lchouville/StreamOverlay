@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : coins plies / cornes relevees (flap degrade + pli ombre/trait/reflet). 3840x2160 (16:9). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <!-- trait "a main levee" : leger tremblement sur les lignes d'encre -->
+    <filter id="sketchy" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="2" seed="4" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- ombre portee des plis : tremblement + flou diffus -->
+    <filter id="creasedShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0075 0.02" numOctaves="2" seed="31" result="turbCS"/>
+      <feDisplacementMap in="SourceGraphic" in2="turbCS" scale="28" xChannelSelector="R" yChannelSelector="G" result="dispCS"/>
+      <feGaussianBlur in="dispCS" stdDeviation="9"/>
+    </filter>
+
+    <!-- coins plies : degrade pointe (sombre, ombre accumulee) -> arete du pli (plus clair) -->
+    <linearGradient id="cornerGradTL" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="190" y2="170">
+      <stop offset="0%" stop-color="#140b03"/>
+      <stop offset="100%" stop-color="#6b4a24"/>
+    </linearGradient>
+    <linearGradient id="cornerGradTR" gradientUnits="userSpaceOnUse" x1="3840" y1="0" x2="3730" y2="95">
+      <stop offset="0%" stop-color="#140b03"/>
+      <stop offset="100%" stop-color="#6b4a24"/>
+    </linearGradient>
+    <linearGradient id="cornerGradBL" gradientUnits="userSpaceOnUse" x1="0" y1="2160" x2="110" y2="2040">
+      <stop offset="0%" stop-color="#140b03"/>
+      <stop offset="100%" stop-color="#6b4a24"/>
+    </linearGradient>
+    <linearGradient id="cornerGradBR" gradientUnits="userSpaceOnUse" x1="3840" y1="2160" x2="3720" y2="2035">
+      <stop offset="0%" stop-color="#140b03"/>
+      <stop offset="100%" stop-color="#6b4a24"/>
+    </linearGradient>
+  </defs>
+
+  <!-- flap degrade, tailles irregulieres -->
+  <g opacity="0.55">
+    <polygon points="0,0 380,0 0,340" fill="url(#cornerGradTL)"/>
+    <polygon points="3840,0 3620,0 3840,190" fill="url(#cornerGradTR)"/>
+    <polygon points="0,2160 220,2160 0,1920" fill="url(#cornerGradBL)"/>
+    <polygon points="3840,2160 3600,2160 3840,1910" fill="url(#cornerGradBR)" opacity="0.6"/>
+  </g>
+
+  <!-- ombre portee le long de chaque pli de coin (cote papier) -->
+  <g stroke="#140b03" stroke-width="10" opacity="0.3" filter="url(#creasedShadow)">
+    <polyline points="6,346 386,6"/>
+    <polyline points="3614,6 3834,196"/>
+    <polyline points="6,1914 226,2154"/>
+    <polyline points="3594,2154 3834,1904" opacity="0.7"/>
+  </g>
+  <!-- trait du pli -->
+  <g fill="none" stroke="#5c4321" stroke-width="4" opacity="0.4" filter="url(#sketchy)">
+    <polyline points="0,340 380,0"/>
+    <polyline points="3840,190 3620,0"/>
+    <polyline points="0,1920 220,2160"/>
+    <polyline points="3600,2160 3840,1910" opacity="0.75"/>
+  </g>
+  <!-- reflet le long de chaque pli de coin (cote flap, arete eclairee) -->
+  <g stroke="#f3e6c4" stroke-width="2.5" opacity="0.22" filter="url(#sketchy)">
+    <polyline points="-5,335 375,-5"/>
+    <polyline points="3625,-5 3845,185"/>
+    <polyline points="-5,1925 215,2165"/>
+    <polyline points="3605,2165 3845,1915" opacity="0.6"/>
+  </g>
+</svg>

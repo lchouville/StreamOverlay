@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe - Fenetre de depart de quete (chrono avant le live)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap">
+<style>
+  /* Fenetre "systeme" facon jeu video (verre sombre veine de bleu, barres lumineuses en haut
+     et en bas, montants techniques sur les cotes, cadre interieur fin) avec le chrono avant
+     le depart ; a zero, elle se replie sur "La quete demarre tres bientot" + la commande.
+     Fond transparent : source OBS a part, ou importee par view-test/Start.html par-dessus la
+     carte. Mise en page dessinee en 820x1000 (fenetre + lueurs et particules), reduite par
+     #echelle : canvas de reference 533x650.
+     Les barres et les montants sont des pieces ancrees en haut / en bas / sur les cotes : la
+     fenetre peut changer de hauteur sans les deformer. */
+  :root {
+    --bleu: #3fa9ff;
+    --bleu-vif: #9fe2ff;
+    --verre: rgba(4, 9, 28, 0.42);
+    --blanc: #eef6ff;
+    --texte-doux: #a9c7e6;
+    --alerte: #ff5d6c;
+    --or: #ffd36a;
+    --lueur: drop-shadow(0 0 3px #7fd0ff) drop-shadow(0 0 10px rgba(40, 140, 255, 0.9)) drop-shadow(0 0 24px rgba(40, 110, 255, 0.55));
+  }
+  html, body { margin: 0; padding: 0; width: 533px; height: 650px; background: transparent; overflow: hidden; }
+  #echelle { position: absolute; left: 0; top: 0; width: 820px; height: 1000px; transform: scale(0.65); transform-origin: top left; }
+
+  /* ---- Fenetre systeme : s'ouvre comme un trait lumineux qui se deploie ---- */
+  #systeme {
+    position: absolute; left: 90px; top: 110px; width: 640px; height: 780px;
+    color: var(--blanc); font-family: 'Rajdhani', sans-serif;
+    animation: ouvre 1.1s cubic-bezier(.3, .9, .3, 1) both;
+    transition: height 0.9s cubic-bezier(.5, 0, .2, 1);
+  }
+  @keyframes ouvre {
+    0%   { opacity: 0; transform: scale(0.4, 0.004); }
+    35%  { opacity: 1; transform: scale(1, 0.004); }
+    100% { opacity: 1; transform: none; }
+  }
+  .verre {
+    position: absolute; inset: 0; overflow: hidden;
+    background: radial-gradient(ellipse at 50% 40%, rgba(20, 40, 90, 0.3), transparent 70%), var(--verre);
+  }
+  .verre svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .veines { opacity: 0.45; animation: veines 6s ease-in-out infinite; }
+  @keyframes veines { 50% { opacity: 0.25; } }
+
+  /* ---- Bordures ---- */
+  /* barres du haut et du bas (meme dessin, celle du bas retournee) : debordent de la fenetre */
+  .barre-h { position: absolute; left: -54px; width: 748px; height: 64px; overflow: visible; pointer-events: none; filter: var(--lueur); animation: lueur 2.6s ease-in-out infinite; }
+  .barre-h.haut { top: -30px; }
+  .barre-h.bas { bottom: -30px; transform: scaleY(-1); }
+  /* montants lateraux : rails etires sur la hauteur + crochet fixe au milieu */
+  .montant { position: absolute; top: 40px; bottom: 40px; width: 30px; pointer-events: none; filter: var(--lueur); }
+  .montant.gauche { left: -24px; }
+  .montant.droite { right: -24px; transform: scaleX(-1); }
+  .montant svg { position: absolute; left: 0; width: 30px; overflow: visible; }
+  .montant .rail { top: 0; height: 100%; }
+  .montant .crochet { top: 50%; height: 150px; margin-top: -75px; transition: opacity .5s; }
+  #systeme.reduit .montant .crochet { opacity: 0; }
+  @keyframes lueur { 50% { filter: drop-shadow(0 0 4px #9fe2ff) drop-shadow(0 0 14px rgba(40, 140, 255, 1)) drop-shadow(0 0 30px rgba(40, 110, 255, 0.7)); } }
+  .courant { stroke-dasharray: 46 300; animation: courant 2.6s linear infinite; }
+  .courant.lent { animation-duration: 4s; animation-direction: reverse; }
+  @keyframes courant { to { stroke-dashoffset: -346; } }
+
+  /* cadre interieur fin, comme une fenetre dans la fenetre */
+  .cadre {
+    position: absolute; inset: 46px 40px; display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 26px 30px 24px; border: 1.5px solid rgba(215, 235, 255, 0.7); overflow: hidden;
+    box-shadow: 0 0 10px rgba(120, 190, 255, 0.35), inset 0 0 18px rgba(63, 169, 255, 0.12);
+    animation: apparait 0.5s ease-out 0.9s both;
+  }
+  @keyframes apparait { from { opacity: 0; } to { opacity: 1; } }
+  .cadre::before, .cadre::after { content: ''; position: absolute; width: 14px; height: 14px; border: 2px solid #dff3ff; }
+  .cadre::before { left: 4px; top: 4px; border-right: 0; border-bottom: 0; }
+  .cadre::after { right: 4px; bottom: 4px; border-left: 0; border-top: 0; }
+
+  .entete { display: flex; align-items: center; gap: 16px; }
+  .icone { width: 38px; height: 38px; border: 2px solid var(--blanc); border-radius: 50%; display: grid; place-items: center;
+    font-weight: 700; font-size: 26px; line-height: 1; box-shadow: 0 0 8px rgba(160, 220, 255, 0.6); }
+  .etiquette { padding: 3px 22px 1px; border: 1.5px solid rgba(225, 240, 255, 0.85); font-weight: 700; font-size: 28px; letter-spacing: .22em;
+    background: rgba(63, 169, 255, 0.08); text-shadow: 0 0 8px rgba(160, 220, 255, 0.7); }
+  .message { margin-top: 26px; font-size: 24px; font-weight: 500; color: var(--texte-doux); }
+  h1 { margin: 6px 0 0; font-weight: 700; font-size: 50px; line-height: 1.05; color: #fff; text-shadow: 0 0 14px rgba(110, 190, 255, 0.8); }
+  .sous-titre { margin-top: 6px; font-size: 23px; font-weight: 500; color: var(--texte-doux); }
+
+  .titre-objectifs { margin: 26px 0 6px; font-weight: 700; font-size: 20px; letter-spacing: .3em; color: var(--bleu-vif); text-shadow: 0 0 8px var(--bleu); }
+  .objectifs { margin: 0; padding: 0; list-style: none; font-size: 27px; font-weight: 600; line-height: 1.5; }
+  .objectifs li::before { content: '- '; color: var(--bleu-vif); }
+
+  /* ---- Chrono ---- */
+  .chrono { margin-top: 30px; width: 100%; }
+  .depart { font-weight: 700; font-size: 20px; letter-spacing: .3em; color: var(--texte-doux); }
+  .temps { font-size: 112px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; color: #fff;
+    text-shadow: 0 0 12px var(--bleu), 0 0 32px rgba(40, 130, 255, 0.7); }
+  .barre { position: relative; height: 6px; margin: 12px 10px 0; background: rgba(63, 169, 255, 0.15); border: 1px solid rgba(160, 220, 255, 0.5); }
+  .barre > div { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: linear-gradient(90deg, var(--bleu), var(--bleu-vif)); box-shadow: 0 0 10px var(--bleu); transition: width .25s linear; }
+  .chrono.bientot .temps { text-shadow: 0 0 12px var(--alerte), 0 0 32px rgba(255, 93, 108, 0.7); animation: bat 1s ease-in-out infinite; }
+  .chrono.bientot .barre > div { background: var(--alerte); box-shadow: 0 0 10px var(--alerte); }
+  @keyframes bat { 50% { transform: scale(1.04); } }
+  .chrono.pause .temps { opacity: .5; }
+  .temps .chiffre { display: inline-block; width: 0.54em; text-align: center; }
+  .temps .sep { display: inline-block; width: 0.24em; text-align: center; }
+
+  .invite { margin-top: 22px; font-size: 22px; font-weight: 500; color: var(--texte-doux); }
+  .invite b { color: var(--bleu-vif); font-weight: 700; text-shadow: 0 0 8px var(--bleu); }
+
+  /* ---- Chrono a zero : fenetre repliee, seulement le message et la commande ---- */
+  .bientot-msg { display: none; font-weight: 700; font-size: 40px; line-height: 1.1; color: #fff; text-shadow: 0 0 12px var(--bleu), 0 0 30px rgba(40, 130, 255, 0.7); }
+  .detail { transition: opacity .4s; }
+  #systeme.reduit .detail { display: none; }
+  #systeme.reduit .cadre { justify-content: center; padding: 10px 30px; }
+  #systeme.reduit .bientot-msg { display: block; animation: apparait .6s ease-out .5s both; }
+  #systeme.reduit .invite { margin-top: 14px; animation: apparait .6s ease-out .6s both; }
+
+  /* particules lumineuses qui montent autour de la fenetre */
+  #particules { position: absolute; left: 40px; top: 50px; width: 740px; height: 900px; pointer-events: none; }
+  .particule { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #cfeeff;
+    box-shadow: 0 0 6px 1px var(--bleu); opacity: 0; animation: monte linear infinite; }
+  @keyframes monte {
+    0%   { opacity: 0; transform: translate(0, 0); }
+    15%  { opacity: 0.9; }
+    100% { opacity: 0; transform: translate(var(--dx), -220px); }
+  }
+</style>
+</head>
+<body>
+  <!-- Pieces de bordure (dessinees une fois, reutilisees par <use>) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="degrade-barre" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#2f8cff"/><stop offset="0.2" stop-color="#8fd8ff"/><stop offset="0.5" stop-color="#e6f8ff"/>
+        <stop offset="0.8" stop-color="#8fd8ff"/><stop offset="1" stop-color="#2f8cff"/>
+      </linearGradient>
+      <!-- frange electrique : le trait est deforme par un bruit qui ondule en continu -->
+      <filter id="electrique" x="-5%" y="-200%" width="110%" height="500%">
+        <feTurbulence type="turbulence" baseFrequency="0.06 0.4" numOctaves="2" seed="3" result="bruit">
+          <animate attributeName="baseFrequency" values="0.06 0.4;0.09 0.6;0.05 0.35;0.06 0.4" dur="1.4s" repeatCount="indefinite"/>
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="bruit" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <!-- barre (repere : x de 0 a 748, la fenetre va de 54 a 694 ; y = 30 est le bord de la fenetre) -->
+      <g id="piece-barre">
+        <!-- rail fin exterieur, coupe au centre -->
+        <path d="M 40,8 L 340,8 M 408,8 L 708,8" stroke="#7fd0ff" stroke-width="2"/>
+        <path d="M 352,4 L 396,4 L 390,10 L 358,10 Z" fill="#bff0ff"/>
+        <!-- barre principale : extremites en crochets qui descendent le long de la fenetre -->
+        <path d="M 6,22 L 742,22 L 742,58 L 734,58 L 734,34 L 722,34 L 714,40 L 34,40 L 26,34 L 14,34 L 14,58 L 6,58 Z" fill="url(#degrade-barre)"/>
+        <path d="M 30,30 L 718,30" stroke="#ffffff" stroke-width="3" opacity="0.9"/>
+        <path d="M 30,30 L 718,30" stroke="#bff0ff" stroke-width="5" filter="url(#electrique)" opacity="0.8"/>
+        <!-- blocs techniques et crans sous la barre -->
+        <rect x="70" y="42" width="34" height="6" fill="#bff0ff"/><rect x="110" y="42" width="12" height="6" fill="#7fd0ff"/>
+        <rect x="626" y="42" width="12" height="6" fill="#7fd0ff"/><rect x="644" y="42" width="34" height="6" fill="#bff0ff"/>
+        <path d="M 200,40 L 210,48 L 300,48 M 548,40 L 538,48 L 448,48" fill="none" stroke="#7fd0ff" stroke-width="2"/>
+        <path class="courant" d="M 10,30 L 738,30" stroke="#ffffff" stroke-width="3"/>
+      </g>
+      <!-- crochet du milieu des montants -->
+      <g id="piece-crochet">
+        <path d="M 24,0 L 24,24 L 8,40 L 8,110 L 24,126 L 24,150" fill="none" stroke="#9fe2ff" stroke-width="4"/>
+        <rect x="2" y="62" width="10" height="26" fill="#bff0ff"/>
+        <path d="M 8,48 L 16,48 M 8,102 L 16,102" stroke="#ffffff" stroke-width="2"/>
+      </g>
+    </defs>
+  </svg>
+
+  <div id="echelle">
+  <div id="particules"></div>
+  <div id="systeme">
+    <!-- Verre sombre parcouru de veines bleues (bruit ne gardant que des lignes fines) -->
+    <div class="verre">
+      <svg aria-hidden="true">
+        <filter id="filtre-veines" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.009 0.013" numOctaves="3" seed="7"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0.35  0 0 0 0 0.7  0 0 0 0 1  1 0 0 0 0"/>
+          <feComponentTransfer><feFuncA type="table" tableValues="0 0 0 0 0 0 0 0 0 0 0.9 0 0 0 0 0 0 0 0 0 0"/></feComponentTransfer>
+        </filter>
+        <rect class="veines" width="100%" height="100%" filter="url(#filtre-veines)"/>
+      </svg>
+    </div>
+
+    <svg class="barre-h haut" viewBox="0 0 748 64" aria-hidden="true"><use href="#piece-barre"/></svg>
+    <svg class="barre-h bas" viewBox="0 0 748 64" aria-hidden="true"><use href="#piece-barre"/></svg>
+    <div class="montant gauche" aria-hidden="true">
+      <svg class="rail" viewBox="0 0 30 100" preserveAspectRatio="none">
+        <path d="M 24,0 L 24,100" stroke="#5fb8ff" stroke-width="3" vector-effect="non-scaling-stroke" stroke-dasharray="120 18"/>
+        <path class="courant lent" d="M 24,0 L 24,100" stroke="#ffffff" stroke-width="2" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <svg class="crochet" viewBox="0 0 30 150"><use href="#piece-crochet"/></svg>
+    </div>
+    <div class="montant droite" aria-hidden="true">
+      <svg class="rail" viewBox="0 0 30 100" preserveAspectRatio="none">
+        <path d="M 24,0 L 24,100" stroke="#5fb8ff" stroke-width="3" vector-effect="non-scaling-stroke" stroke-dasharray="120 18"/>
+        <path class="courant" d="M 24,0 L 24,100" stroke="#ffffff" stroke-width="2" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <svg class="crochet" viewBox="0 0 30 150"><use href="#piece-crochet"/></svg>
+    </div>
+
+    <div class="cadre">
+      <div class="entete detail"><div class="icone">!</div><div class="etiquette">QUÊTE</div></div>
+      <div class="message detail">Une nouvelle quête est disponible.</div>
+      <h1 class="detail" id="titre">Une nouvelle aventure</h1>
+      <div class="sous-titre detail" id="sousTitre"></div>
+      <div class="titre-objectifs detail" id="titreObjectifs">OBJECTIFS</div>
+      <ul class="objectifs detail" id="objectifs"></ul>
+
+      <div class="chrono detail" id="chrono">
+        <div class="depart">DÉPART DANS</div>
+        <div class="temps" id="temps">05:00</div>
+        <div class="barre"><div id="progression"></div></div>
+      </div>
+      <div class="bientot-msg" id="bientot">La quête démarre très bientôt</div>
+      <div class="invite" id="invite">En attendant, tape <b>!carte</b> pour apparaître sur le plan.</div>
+    </div>
+  </div>
+  </div>
+
+<script>
+  /* Parametres d'URL (source navigateur OBS) :
+       ?time=5:00            duree du chrono (s, m:s ou h:m:s), defaut 5:00
+       &heure=20:30          ou : depart a une heure precise (prioritaire sur time)
+       &titre=...            nom de la quete (defaut : Une nouvelle aventure)
+       &sous=...             ligne sous le titre (jeu, chapitre...)
+       &objectifs=A|B|C      objectifs du live, separes par | (rien = liste masquee)
+       &fin=...              message a zero, fenetre repliee (defaut : La quete demarre tres bientot)
+       &invite=...           ligne de la commande ('' pour la masquer)
+       &manual               ne demarre pas tout seul (Espace pour lancer)
+     Controles (interaction OBS) : clic = +1 min (rouvre la fenetre si elle etait repliee),
+     Espace = pause / reprise, R = remise a zero. */
+  const params = new URLSearchParams(location.search);
+
+  // "90" -> 90 s ; "5:00" -> 300 s ; "1:02:03" -> 3723 s
+  function parseDuration(str) {
+    if (str == null || str === '') return 0;
+    const parts = String(str).split(':').map(Number);
+    if (parts.some(n => !isFinite(n) || n < 0)) return 0;
+    return parts.reduce((acc, n) => acc * 60 + n, 0) * 1000;
+  }
+  function formatTime(ms) {
+    const total = Math.max(0, Math.ceil(ms / 1000));
+    const h = Math.floor(total / 3600), m = Math.floor((total % 3600) / 60), s = total % 60;
+    const pad = n => String(n).padStart(2, '0');
+    return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+  }
+
+  // Temps affiche chiffre par chiffre dans des cases de largeur fixe : la police n'a pas de
+  // chiffres de meme largeur, sans ca le texte (et ce qui l'entoure) bougerait a chaque seconde.
+  function afficherTemps(el, texte) {
+    if (el.dataset.texte === texte) return;
+    el.dataset.texte = texte;
+    el.innerHTML = texte.split('').map(c => '<span class="' + (c === ':' ? 'sep' : 'chiffre') + '">' + c + '</span>').join('');
+  }
+
+  // ---- Textes
+  if (params.get('titre')) document.getElementById('titre').textContent = params.get('titre');
+  const sousTitre = document.getElementById('sousTitre');
+  sousTitre.textContent = params.get('sous') || '';
+  sousTitre.hidden = !params.get('sous');
+  const objectifs = (params.get('objectifs') || '').split('|').map(t => t.trim()).filter(Boolean);
+  const liste = document.getElementById('objectifs');
+  objectifs.forEach(t => { const li = document.createElement('li'); li.textContent = t; liste.appendChild(li); });
+  if (!objectifs.length) { liste.hidden = true; document.getElementById('titreObjectifs').hidden = true; }
+  if (params.has('invite')) {
+    const invite = document.getElementById('invite');
+    invite.textContent = params.get('invite');
+    invite.hidden = !params.get('invite');
+  }
+  if (params.get('fin')) document.getElementById('bientot').textContent = params.get('fin');
+
+  // ---- Particules : points lumineux qui montent lentement autour de la fenetre
+  const nuee = document.getElementById('particules');
+  for (let i = 0; i < 36; i++) {
+    const p = document.createElement('div');
+    p.className = 'particule';
+    p.style.left = (Math.random() * 100).toFixed(1) + '%';
+    p.style.top = (20 + Math.random() * 80).toFixed(1) + '%';
+    p.style.setProperty('--dx', (Math.random() * 60 - 30).toFixed(0) + 'px');
+    p.style.animationDuration = (5 + Math.random() * 7).toFixed(1) + 's';
+    p.style.animationDelay = (-Math.random() * 12).toFixed(1) + 's';
+    if (Math.random() < 0.3) { p.style.width = p.style.height = '2px'; }
+    nuee.appendChild(p);
+  }
+
+  // ---- Chrono : calcule a partir de Date.now() (reste exact meme si OBS ralentit la page).
+  // Avec &heure, la duree est le temps restant jusqu'a cette heure (le lendemain si deja passee).
+  let duree;
+  if (params.get('heure')) {
+    const [hh, mm] = params.get('heure').split(':').map(Number);
+    const cible = new Date(); cible.setHours(hh || 0, mm || 0, 0, 0);
+    if (cible <= new Date()) cible.setDate(cible.getDate() + 1);
+    duree = cible - Date.now();
+  } else duree = parseDuration(params.get('time') || '5:00');
+
+  const systeme = document.getElementById('systeme'), chrono = document.getElementById('chrono');
+  const tempsEl = document.getElementById('temps'), progression = document.getElementById('progression');
+  let ecouleAvant = 0, demarre = null, fini = false;
+  const ecoule = () => ecouleAvant + (demarre != null ? Date.now() - demarre : 0);
+
+  function rendu() {
+    const reste = duree - ecoule();
+    if (reste <= 0 && !fini) { fini = true; ecouleAvant = duree; demarre = null; }
+    afficherTemps(tempsEl, formatTime(fini ? 0 : reste));
+    // barre : part de temps restant
+    // barre : avance seconde par seconde (comme le temps affiche)
+    progression.style.width = (fini ? 0 : Math.max(0, Math.min(1, Math.ceil(reste / 1000) * 1000 / duree)) * 100).toFixed(2) + '%';
+    systeme.classList.toggle('reduit', fini);   // a zero : fenetre repliee sur le message
+    systeme.style.height = (fini ? 250 : hauteurPleine) + 'px';
+    chrono.classList.toggle('pause', demarre == null && !fini);
+    chrono.classList.toggle('bientot', !fini && reste <= 10000);
+  }
+  function boucle() { rendu(); if (demarre != null) requestAnimationFrame(boucle); }
+  function demarrer() { if (demarre != null || fini) return; demarre = Date.now(); boucle(); }
+  function pause() { if (demarre == null) return; ecouleAvant = ecoule(); demarre = null; rendu(); }
+
+  // Clic = +1 minute (rouvre et relance si le chrono etait termine).
+  document.addEventListener('click', () => {
+    const etaitFini = fini;
+    duree += 60000;
+    if (etaitFini) { fini = false; demarrer(); } else rendu();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') { e.preventDefault(); demarre != null ? pause() : demarrer(); }
+    else if (e.code === 'KeyR') { ecouleAvant = 0; demarre = null; fini = false; rendu(); }
+  });
+
+  // Hauteur ajustee au contenu (pas d'espace vide quand il y a peu d'objectifs) : bas de la
+  // derniere ligne + marge interieure du cadre (24 + bordures) + retrait du cadre (46 x 2).
+  let hauteurPleine = 780;
+  function mesurer() {
+    const etaitReduit = systeme.classList.contains('reduit');
+    systeme.classList.remove('reduit');
+    const invite = document.getElementById('invite'), dernier = invite.hidden ? chrono : invite;
+    hauteurPleine = Math.round(dernier.offsetTop + dernier.offsetHeight + 27 + 92);
+    systeme.classList.toggle('reduit', etaitReduit);
+    rendu();
+  }
+  mesurer();
+  if (document.fonts) document.fonts.ready.then(mesurer);   // police web chargee apres coup
+  if (!params.has('manual')) demarrer();
+</script>
+</body>
+</html>

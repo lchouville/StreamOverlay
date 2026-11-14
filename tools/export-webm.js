@@ -19,7 +19,7 @@ const CHROME = ['C:/Program Files/Google/Chrome/Application/chrome.exe',
                 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(fs.existsSync);
 
 // ms=10 minutes : la page ne retire pas la box pendant la capture.
-const page_url = pathToFileURL(path.resolve(__dirname, '../overlay/alert-popup.html')).href + '?ms=600000';
+const page_url = pathToFileURL(path.resolve(__dirname, '../user/SaphirSchwarz/alert-popup.html')).href + '?ms=600000';
 const outDir = path.resolve(__dirname, '../export');
 fs.mkdirSync(outDir, { recursive: true });
 

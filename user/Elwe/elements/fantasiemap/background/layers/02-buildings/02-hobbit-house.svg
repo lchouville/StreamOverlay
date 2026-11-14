@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : Maison de hobbit creusee dans une butte basse, sur la colline lointaine (a droite). -->
+<!-- Butte aplatie qui se fond dans la colline, grand chene sur la gauche du toit herbeux. -->
+<!-- Porte ronde, fenetres rondes, cheminee qui sort de l'herbe, lanterne, muret et chemin. -->
+<!-- Placee entre la foret et le bord droit, au-dessus des toits des maisons normandes, a 20 % : -->
+<!-- sol local y=200 -> y=625 ; porte ~18 px (coherent : derriere le rempart). -->
+<!-- Fumee animee en inline (#hobbit-smoke), sommet de cheminee (110,22) -> (3607.5,580.5). -->
+<!-- Fenetres eclairees : #building-lights. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <pattern id="hatchStone" patternUnits="userSpaceOnUse" width="7" height="7">
+      <rect x="0" y="0" width="7" height="7" fill="#c9b48a"/>
+      <line x1="3.5" y1="0" x2="3.5" y2="7" stroke="#3a2a1a" stroke-width="1.6" opacity="0.6"/>
+    </pattern>
+  </defs>
+
+  <g id="maison-hobbit" transform="translate(3580, 585) scale(0.2)" filter="url(#sketchyMedium)">
+
+    <!-- ===== GRAND CHENE (derriere la butte, sur la gauche) ===== -->
+    <g id="chene">
+      <!-- Tronc noueux et racines qui plongent dans la butte -->
+      <path d="M -205,110 Q -200,40 -195,-20 Q -200,-80 -215,-130 L -175,-140 Q -168,-80 -165,-20 Q -160,40 -140,110 Z"
+            fill="#5a3d24" stroke="#2a1a0a" stroke-width="5"/>
+      <path d="M -190,-10 Q -186,-60 -195,-110 M -172,20 Q -170,-30 -176,-90" fill="none" stroke="#3a2614" stroke-width="3" opacity="0.7"/>
+      <!-- Branches maitresses -->
+      <g fill="none" stroke="#5a3d24" stroke-linecap="round">
+        <path d="M -200,-110 Q -250,-150 -300,-160" stroke-width="16"/>
+        <path d="M -180,-120 Q -150,-170 -100,-185" stroke-width="16"/>
+        <path d="M -195,-130 Q -200,-190 -190,-240" stroke-width="13"/>
+        <path d="M -270,-150 Q -300,-190 -320,-200" stroke-width="8"/>
+      </g>
+      <!-- Houppier : grosses masses de feuillage en lobes -->
+      <g stroke="#2a1a0a" stroke-width="4">
+        <circle cx="-300" cy="-185" r="62" fill="#5e4c2c"/>
+        <circle cx="-110" cy="-200" r="66" fill="#5e4c2c"/>
+        <circle cx="-240" cy="-250" r="78" fill="#6e5a34"/>
+        <circle cx="-150" cy="-265" r="74" fill="#6e5a34"/>
+        <circle cx="-200" cy="-320" r="70" fill="#7d6a3e"/>
+        <circle cx="-330" cy="-240" r="48" fill="#6e5a34"/>
+        <circle cx="-70" cy="-250" r="46" fill="#7d6a3e"/>
+      </g>
+      <!-- Reflets clairs sur le haut des masses -->
+      <g fill="none" stroke="#a89660" stroke-width="5" stroke-linecap="round" opacity="0.6">
+        <path d="M -240,-345 Q -205,-375 -168,-352"/>
+        <path d="M -300,-285 Q -270,-312 -238,-300"/>
+        <path d="M -190,-300 Q -160,-322 -120,-310"/>
+      </g>
+      <!-- Glands / taches de feuilles -->
+      <g fill="#4a3c22">
+        <circle cx="-260" cy="-210" r="7"/><circle cx="-160" cy="-230" r="6"/><circle cx="-210" cy="-280" r="6"/>
+        <circle cx="-110" cy="-180" r="5"/><circle cx="-300" cy="-170" r="6"/>
+      </g>
+    </g>
+
+    <!-- ===== BUTTE herbeuse aplatie (toit de la maison), qui se fond dans la colline ===== -->
+    <path d="M -360,205 Q -330,160 -250,124 Q -170,92 -60,86 L 60,86 Q 170,92 250,124 Q 330,160 360,205 Z"
+          fill="#b89a5e" stroke="#2a1a0a" stroke-width="5"/>
+    <!-- Bas de la butte : bords adoucis dans l'herbe de la colline -->
+    <path d="M -360,205 Q -330,192 -300,196 M 300,196 Q 330,192 360,205" fill="none" stroke="#b89a5e" stroke-width="10"/>
+    <!-- Herbe et fleurs sur la butte -->
+    <g fill="none" stroke="#7a6238" stroke-width="3" stroke-linecap="round">
+      <path d="M -260,128 l -4,-15 M -250,126 l 3,-14 M -120,92 l -3,-15 M -108,90 l 4,-14 M 30,86 l -3,-15 M 42,86 l 4,-14"/>
+      <path d="M 170,96 l -4,-15 M 182,98 l 3,-14 M 280,140 l -3,-14 M 292,144 l 4,-14 M -300,160 l -3,-13 M -312,166 l 3,-13"/>
+    </g>
+    <g stroke="#2a1a0a" stroke-width="1.5">
+      <circle cx="-70" cy="88" r="7" fill="#d8c060"/><circle cx="-10" cy="84" r="6" fill="#a04030"/>
+      <circle cx="200" cy="104" r="7" fill="#e8dcc0"/><circle cx="250" cy="122" r="6" fill="#d8c060"/>
+      <circle cx="-280" cy="146" r="6" fill="#e8dcc0"/>
+    </g>
+
+    <!-- Cheminee qui sort de l'herbe -->
+    <rect x="96" y="30" width="28" height="58" fill="#a88f68" stroke="#2a1a0a" stroke-width="4"/>
+    <rect x="90" y="22" width="40" height="12" fill="#5a4a3a" stroke="#2a1a0a" stroke-width="3"/>
+
+    <!-- ===== FACADE en pierre, arc tres ouvert ===== -->
+    <path d="M -210,205 L -210,150 Q -110,112 0,110 Q 110,112 210,150 L 210,205 Z" fill="url(#hatchStone)" stroke="#2a1a0a" stroke-width="4"/>
+    <!-- Linteau de bois sur toute la facade -->
+    <path d="M -214,150 Q -110,108 0,106 Q 110,108 214,150" fill="none" stroke="#5a3d24" stroke-width="10" stroke-linecap="round"/>
+
+    <!-- Porte ronde : encadrement de pierre, porte verte a planches, poignee au centre -->
+    <circle cx="0" cy="160" r="50" fill="#c9b48a" stroke="#2a1a0a" stroke-width="5"/>
+    <g stroke="#2a1a0a" stroke-width="3">
+      <path d="M 0,110 L 0,121 M 35,125 L 28,132 M 50,160 L 39,160 M -35,125 L -28,132 M -50,160 L -39,160"/>
+    </g>
+    <circle cx="0" cy="160" r="38" fill="#5e6a40" stroke="#2a1a0a" stroke-width="4"/>
+    <g stroke="#3a4228" stroke-width="2.5">
+      <line x1="-26" y1="133" x2="-26" y2="187"/><line x1="-13" y1="125" x2="-13" y2="195"/>
+      <line x1="0" y1="122" x2="0" y2="198"/><line x1="13" y1="125" x2="13" y2="195"/><line x1="26" y1="133" x2="26" y2="187"/>
+    </g>
+    <circle cx="0" cy="160" r="6" fill="#d8b040" stroke="#2a1a0a" stroke-width="2.5"/>
+    <rect x="-46" y="198" width="92" height="10" fill="#a88f68" stroke="#2a1a0a" stroke-width="3"/>
+
+    <!-- Lanterne a cote de la porte -->
+    <line x1="62" y1="136" x2="74" y2="136" stroke="#2a1a0a" stroke-width="3"/>
+    <rect x="68" y="138" width="14" height="18" fill="#d8b860" stroke="#2a1a0a" stroke-width="2.5"/>
+    <path d="M 66,138 L 75,130 L 84,138 Z" fill="#3a2a1a" stroke="#2a1a0a" stroke-width="2"/>
+
+    <!-- Fenetres rondes avec croisillons et jardinieres -->
+    <circle cx="-125" cy="162" r="26" fill="#c9b48a" stroke="#2a1a0a" stroke-width="4"/>
+    <circle cx="-125" cy="162" r="18" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+    <path d="M -125,144 L -125,180 M -143,162 L -107,162" stroke="#d4ba82" stroke-width="4"/>
+    <circle cx="125" cy="162" r="26" fill="#c9b48a" stroke="#2a1a0a" stroke-width="4"/>
+    <circle cx="125" cy="162" r="18" fill="#1a0f05" stroke="#2a1a0a" stroke-width="2"/>
+    <path d="M 125,144 L 125,180 M 107,162 L 143,162" stroke="#d4ba82" stroke-width="4"/>
+    <rect x="-152" y="188" width="54" height="12" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.5"/>
+    <rect x="98" y="188" width="54" height="12" fill="#6b4a2e" stroke="#2a1a0a" stroke-width="2.5"/>
+    <g stroke="#2a1a0a" stroke-width="1.5">
+      <circle cx="-140" cy="185" r="5.5" fill="#a04030"/><circle cx="-125" cy="183" r="5.5" fill="#d8c060"/><circle cx="-110" cy="185" r="5.5" fill="#e8dcc0"/>
+      <circle cx="110" cy="185" r="5.5" fill="#d8c060"/><circle cx="125" cy="183" r="5.5" fill="#a04030"/><circle cx="140" cy="185" r="5.5" fill="#e8dcc0"/>
+    </g>
+
+    <!-- Chemin de dalles, muret de pierres seches, portillon -->
+    <path d="M -36,208 Q -56,232 -110,252 L -60,252 Q -20,234 36,208 Z" fill="#c9b48a" stroke="#2a1a0a" stroke-width="3"/>
+    <g fill="#b89f72" stroke="#2a1a0a" stroke-width="2.5">
+      <path d="M -330,210 Q -320,196 -300,198 Q -280,194 -270,210 Z"/>
+      <path d="M 260,210 Q 270,194 290,198 Q 310,196 320,210 Z"/>
+    </g>
+    <g stroke="#6b4a2e" stroke-width="5" stroke-linecap="round">
+      <path d="M -360,218 L -280,218 M -360,204 L -360,226 M -320,204 L -320,226 M -280,204 L -280,226"/>
+    </g>
+  </g>
+</svg>

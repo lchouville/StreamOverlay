@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="calques.css"?>
+<!-- Calque 3/4 : sol pave et campagne (collines, ble, forets, cabane, ferme, hobbit, moulin). -->
+<!-- Entre le ciel (calque 2) et le rempart + la ville (calque 4). -->
+<!-- Calque decoupe de ville-medievale-croquis.svg (version d'origine, tout-en-un, gardee en -->
+<!-- archive) : les calques s'empilent dans l'ordre 1 -> 4, chacun dans sa propre source -->
+<!-- navigateur (secondary-frame/fond/), pour repartir le rendu. Canvas 3840x2160. -->
+<!-- Les <image> pointent sur des PNG pre-rendus (layers-png/) de leur SVG data-source : apres -->
+<!-- modification d'un fichier de layers/, relancer rendu-calques.bat (racine du depot). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160"
+     preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Cadre de bordure : meme rect que la bordure exterieure de 05-border.svg. Le groupe qui -->
+    <!-- enveloppe le sol + les batiments (plus bas) porte clip-path="url(#clip-cadre)" SANS -->
+    <!-- rotation, pendant que chaque <image> a l'interieur garde clip-path="url(#clip-coin-ovale)" -->
+    <!-- (qui lui est tourne) : deux clips empiles sur des elements distincts = intersection -->
+    <!-- ovale ∩ cadre. (Ne pas mettre clip-cadre direction sur l'ellipse ni dans le <clipPath> -->
+    <!-- lui-meme : un <g> n'est pas un contenu valide de <clipPath>, et un clip-path pose sur un -->
+    <!-- element qui a aussi un transform herite ce transform pour son propre clip-path.) -->
+    <clipPath id="clip-cadre" clipPathUnits="userSpaceOnUse">
+      <rect x="80" y="80" width="3680" height="2000" rx="12"/>
+    </clipPath>
+
+    <!-- Ovale qui decoupe le coin haut-droit (vue du dessus, batiments miniatures) du reste de -->
+    <!-- la scene. Memes cx/cy/rx/ry que l'ellipse encre de 05-border.svg : si l'un change, -->
+    <!-- reporter la modification sur l'autre. -->
+    <clipPath id="clip-coin-ovale" clipPathUnits="userSpaceOnUse">
+      <ellipse cx="3750" cy="-220" rx="2860" ry="1840" transform="rotate(15 3750 -220)"/>
+    </clipPath>
+    <filter id="sketchyMedium" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <g clip-path="url(#clip-cadre)">
+    <!-- Sol de la ville entierement pave de petits paves ronds (recouvre les dalles ci-dessus). -->
+    <image data-source="layers/02-buildings/02-cobblestones.svg" href="layers-png/02-buildings/02-cobblestones.png" x="0" y="790" width="3840" height="1370" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Colline de champs de ble, derriere le rempart -->
+    <image data-source="layers/02-nature/02-hill-bg.svg" href="layers-png/02-nature/02-hill-bg.png" x="0" y="541" width="3840" height="263" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Champs de ble et chemin du moulin sur les collines : generes par le script en bas de -->
+    <!-- fichier (rangs d'epis par parcelle, ondulation au vent). Entre la colline et le moulin. -->
+    <g id="champs-ble" clip-path="url(#clip-coin-ovale)">
+      <g class="chemin"/>
+      <g class="epis" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="foret" stroke="#3a2a14" stroke-linejoin="round" filter="url(#sketchyMedium)"/>
+    </g>
+    <!-- Cabane de bucheron dans la clairiere a l'oree de la foret -->
+    <image data-source="layers/02-buildings/02-cabin-bg.svg" href="layers-png/02-buildings/02-cabin-bg.png" x="2644" y="589" width="106" height="71" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maison paysanne pres du moulin -->
+    <image data-source="layers/02-buildings/02-farmhouse.svg" href="layers-png/02-buildings/02-farmhouse.png" x="2016" y="510" width="265" height="86" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Maison de hobbit sur la colline lointaine, a droite -->
+    <image data-source="layers/02-buildings/02-hobbit-house.svg" href="layers-png/02-buildings/02-hobbit-house.png" x="3504" y="506" width="149" height="130" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Moulin a vent sur la crete de la colline -->
+    <image data-source="layers/02-buildings/02-windmill-bg.svg" href="layers-png/02-buildings/02-windmill-bg.png" x="1958" y="473" width="65" height="93" clip-path="url(#clip-coin-ovale)"/>
+    <!-- Ailes du moulin : meme transform que #moulin-a-vent du calque, moyeu en (100,95). Une aile -->
+    <!-- (pointant vers le haut) est dessinee une fois puis repetee a 90/180/270 deg ; le groupe -->
+    <!-- .ailes tourne autour du moyeu (symetrie d'ordre 4 : centre de sa boite = moyeu). -->
+    <g clip-path="url(#clip-coin-ovale)">
+    <g id="moulin-ailes" transform="translate(1957,467.6) scale(0.33)" opacity="0.9">
+      <g class="ailes">
+        <g id="aile" filter="url(#sketchyMedium)">
+          <!-- Toile tendue sur le cadre, d'un cote du bras -->
+          <rect x="103" y="-80" width="30" height="128" fill="#e3d2a6" stroke="#2a1a0a" stroke-width="2"/>
+          <!-- Lattes transversales et longeron du cadre -->
+          <g stroke="#3a2a14" stroke-width="1.4">
+            <line x1="100" y1="-64" x2="133" y2="-64"/>
+            <line x1="100" y1="-48" x2="133" y2="-48"/>
+            <line x1="100" y1="-32" x2="133" y2="-32"/>
+            <line x1="100" y1="-16" x2="133" y2="-16"/>
+            <line x1="100" y1="0" x2="133" y2="0"/>
+            <line x1="100" y1="16" x2="133" y2="16"/>
+            <line x1="100" y1="32" x2="133" y2="32"/>
+            <line x1="118" y1="-80" x2="118" y2="48"/>
+          </g>
+          <!-- Planche de bord d'attaque (cote oppose) -->
+          <rect x="91" y="-80" width="6" height="128" fill="#8a6a4a" stroke="#2a1a0a" stroke-width="1.5"/>
+          <!-- Bras (vergue) -->
+          <line x1="100" y1="95" x2="100" y2="-85" stroke="#4a3420" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <use href="#aile" transform="rotate(90 100 95)"/>
+        <use href="#aile" transform="rotate(180 100 95)"/>
+        <use href="#aile" transform="rotate(270 100 95)"/>
+      </g>
+      <!-- Moyeu (fixe) -->
+      <circle cx="100" cy="95" r="11" fill="#5a4a3a" stroke="#2a1a0a" stroke-width="3" filter="url(#sketchyMedium)"/>
+      <circle cx="100" cy="95" r="4" fill="#2a1a0a"/>
+    </g>
+    </g>
+  </g>
+
+  <!-- Reglages des animations : voir animations-config.js. -->
+  <script href="animations-config.js"/>
+  <script href="calques-commun.js"/>
+  <script href="calque-campagne.js"/>
+</svg>

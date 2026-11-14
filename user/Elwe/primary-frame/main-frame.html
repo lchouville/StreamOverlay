@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe - Main Frame (ecran + cam + chat)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap">
+<style>
+  /* Frame principale du live, style panneau de quetes : planches de bois, et chaque zone est
+     une feuille de parchemin clouee dessus, percee d'une fenetre 100% transparente a remplir
+     par les sources OBS placees EN DESSOUS :
+     - ecran : 1440x810 (16:9)  en (36,230), droit
+     - cam   : 320x320 (carre)  en (1552,48), droit
+     - chat  : 340x540          en (1564,470), droit
+     Si une zone est tournee (rot), dans OBS : Transformer > Alignement de position = Centre,
+     position = centre de la zone, rotation = rot (meme sens que OBS : positif = horaire).
+     Les zones sont definies une seule fois dans ZONES (script) : le masque, les feuilles et les
+     clous en derivent. rot tourne la fenetre ET sa feuille (la source OBS doit suivre) ; pente
+     ne penche que la feuille, la fenetre reste droite. Canvas de reference 1920x1080. */
+  html, body { margin: 0; padding: 0; width: 1920px; height: 1080px; background: transparent; overflow: hidden; }
+  #panneau { position: absolute; left: 0; top: 0; }
+</style>
+</head>
+<body>
+  <svg id="panneau" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <mask id="trous" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080">
+        <rect x="0" y="0" width="1920" height="1080" fill="white"/>
+      </mask>
+
+      <!-- veinage du bois : bruit etire a l'horizontale, assombrit les planches -->
+      <filter id="veinage" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.003 0.09" numOctaves="4" seed="7" result="bruit"/>
+        <feColorMatrix in="bruit" type="matrix" values="0 0 0 0 0.09  0 0 0 0 0.05  0 0 0 0 0.02  0 0 0 1.1 -0.45" result="veines"/>
+        <feComposite in="veines" in2="SourceGraphic" operator="in" result="veinesIn"/>
+        <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="veinesIn"/></feMerge>
+      </filter>
+
+      <!-- filtres des feuilles (#feuille-<zone>) : generes par le script (filtreFeuille), une
+           graine par feuille pour que les bords dechires et les taches ne se repetent pas -->
+
+      <!-- trait d'encre "a main levee" autour des fenetres -->
+      <filter id="sketchy" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="4" result="turb"/>
+        <feDisplacementMap in="SourceGraphic" in2="turb" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+
+      <radialGradient id="papier" cx="50%" cy="45%" r="75%">
+        <stop offset="55%" stop-color="#efe2bf"/>
+        <stop offset="100%" stop-color="#cdb07a"/>
+      </radialGradient>
+      <radialGradient id="tete-clou" cx="38%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#9a958c"/>
+        <stop offset="45%" stop-color="#4a463f"/>
+        <stop offset="100%" stop-color="#1c1a17"/>
+      </radialGradient>
+      <filter id="ombre-ecriteau" x="-5%" y="-10%" width="110%" height="130%">
+        <feDropShadow dx="5" dy="9" stdDeviation="7" flood-color="#0d0703" flood-opacity="0.65"/>
+      </filter>
+      <linearGradient id="bois-ecriteau" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#9a6a3c"/>
+        <stop offset="100%" stop-color="#6e4624"/>
+      </linearGradient>
+    </defs>
+
+    <g mask="url(#trous)">
+      <g id="planches" filter="url(#veinage)"></g>
+      <g id="clous-bois"></g>
+      <g id="feuilles"></g>
+    </g>
+    <g id="clous"></g>
+
+    <!-- Ecriteau "Tableau des Quetes", cloue dans la bande du haut, au-dessus de l'ecran -->
+    <g id="ecriteau" transform="rotate(-1.2 756 102)">
+      <g filter="url(#ombre-ecriteau)">
+        <rect x="426" y="38" width="660" height="128" rx="12" fill="url(#bois-ecriteau)" filter="url(#veinage)"/>
+      </g>
+      <!-- chanfrein : arete claire en haut, cadre sculpte en creux -->
+      <rect x="428" y="40" width="656" height="124" rx="11" fill="none" stroke="#b88a58" stroke-width="2" opacity="0.6"/>
+      <rect x="444" y="54" width="624" height="96" rx="6" fill="none" stroke="#3a2210" stroke-width="2.5"/>
+      <rect x="445.5" y="56.5" width="624" height="96" rx="6" fill="none" stroke="#b88a58" stroke-width="1" opacity="0.5"/>
+      <!-- lettres gravees : reflet clair decale sous le trait sombre -->
+      <g font-family="'IM Fell English SC', Georgia, serif" font-size="60" text-anchor="middle" letter-spacing="3">
+        <text x="756" y="122" fill="#c4975f" opacity="0.55">Tableau des Quêtes</text>
+        <text x="756" y="120" fill="#2a1608">Tableau des Quêtes</text>
+      </g>
+    </g>
+  </svg>
+<script>
+  const ZONES = [
+    { id: 'ecran', x: 36,   y: 230, w: 1440, h: 810, rot: 0, pente: 0 },
+    { id: 'cam',   x: 1552, y: 48,  w: 320,  h: 320, rot: 0, pente: 0 },
+    { id: 'chat',  x: 1564, y: 470, w: 340,  h: 540, rot: 0, pente: 0 },
+  ];
+  // marge de la feuille autour de la fenetre (plus haute en haut, pour les clous)
+  const MARGE = { cote: 22, haut: 30, bas: 26 };
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (parent, nom, attrs) => {
+    const n = document.createElementNS(NS, nom);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    parent.appendChild(n);
+    return n;
+  };
+  // pseudo-aleatoire a graine fixe : le panneau est identique a chaque chargement
+  let graine = 42;
+  const alea = () => (graine = (graine * 16807) % 2147483647) / 2147483647;
+
+  const clou = (parent, x, y, r) => {
+    el(parent, 'circle', { cx: x + 2, cy: y + 3, r: r + 1, fill: '#0d0703', opacity: 0.5 });
+    el(parent, 'circle', { cx: x, cy: y, r, fill: 'url(#tete-clou)', stroke: '#14120f', 'stroke-width': 1 });
+  };
+
+  // ---- Planches horizontales ----
+  const planches = document.getElementById('planches');
+  const teintes = ['#6b4526', '#5e3c20', '#734b2a', '#57381d', '#664224'];
+  const clousBois = document.getElementById('clous-bois');
+  for (let y = 0; y < 1080;) {
+    const h = 80 + Math.round(alea() * 40);
+    el(planches, 'rect', { x: 0, y, width: 1920, height: h, fill: teintes[Math.floor(alea() * teintes.length)] });
+    // jointure sombre + leger reflet sur l'arete du dessus
+    el(planches, 'rect', { x: 0, y, width: 1920, height: 3, fill: '#1a0f07' });
+    el(planches, 'rect', { x: 0, y: y + 3, width: 1920, height: 1.5, fill: '#8a6240', opacity: 0.5 });
+    y += h;
+  }
+  // montants verticaux a gauche et a droite, comme le cadre d'un panneau
+  for (const x of [0, 1904]) {
+    el(planches, 'rect', { x, y: 0, width: 16, height: 1080, fill: '#3e2814' });
+  }
+
+  // ---- Filtre papier d'une feuille (graine propre) ----
+  // bord dechire irregulier (ondulation large + fibres), bord roussi qui fonce vers le contour,
+  // taches d'humidite diffuses, grain fin, puis ombre portee sur le bois.
+  const defs = document.querySelector('#panneau defs');
+  const filtreFeuille = (id, s) => {
+    const f = el(defs, 'filter', { id, x: '-4%', y: '-4%', width: '108%', height: '112%', 'color-interpolation-filters': 'sRGB' });
+    el(f, 'feTurbulence', { type: 'fractalNoise', baseFrequency: 0.02, numOctaves: 5, seed: s, result: 'bord' });
+    el(f, 'feDisplacementMap', { in: 'SourceGraphic', in2: 'bord', scale: 16, xChannelSelector: 'R', yChannelSelector: 'G', result: 'dechire' });
+    // bande le long du contour : la feuille moins son coeur erode et flou
+    el(f, 'feMorphology', { in: 'dechire', operator: 'erode', radius: 4, result: 'coeur' });
+    el(f, 'feGaussianBlur', { in: 'coeur', stdDeviation: 9, result: 'coeurFlou' });
+    el(f, 'feComposite', { in: 'dechire', in2: 'coeurFlou', operator: 'out', result: 'bande' });
+    el(f, 'feFlood', { 'flood-color': '#6e3f14', 'flood-opacity': 0.6 });
+    el(f, 'feComposite', { in2: 'bande', operator: 'in', result: 'roussi' });
+    // taches : bruit tres large, seuls les pics gardent un peu d'opacite
+    el(f, 'feTurbulence', { type: 'fractalNoise', baseFrequency: 0.007, numOctaves: 3, seed: s + 1, result: 'bruitTaches' });
+    el(f, 'feColorMatrix', { in: 'bruitTaches', type: 'matrix', values: '0 0 0 0 0.45  0 0 0 0 0.3  0 0 0 0 0.12  0.9 0 0 0 -0.5', result: 'taches' });
+    el(f, 'feComposite', { in: 'taches', in2: 'dechire', operator: 'in', result: 'tachesIn' });
+    el(f, 'feTurbulence', { type: 'fractalNoise', baseFrequency: 0.7, numOctaves: 2, seed: s + 2, result: 'grain' });
+    el(f, 'feColorMatrix', { in: 'grain', type: 'matrix', values: '0 0 0 0 0.35  0 0 0 0 0.25  0 0 0 0 0.12  0 0 0 0.5 -0.1', result: 'grainC' });
+    el(f, 'feComposite', { in: 'grainC', in2: 'dechire', operator: 'in', result: 'grainIn' });
+    const m = el(f, 'feMerge', { result: 'papier' });
+    for (const n of ['dechire', 'tachesIn', 'grainIn', 'roussi']) el(m, 'feMergeNode', { in: n });
+    el(f, 'feDropShadow', { in: 'papier', dx: 3, dy: 7, stdDeviation: 5, 'flood-color': '#0d0703', 'flood-opacity': 0.6 });
+    return `url(#${id})`;
+  };
+
+  // ---- Feuilles ----
+  const feuilles = document.getElementById('feuilles');
+  const masque = document.getElementById('trous');
+  const clous = document.getElementById('clous');
+  ZONES.forEach((z, i) => {
+    const cx = z.x + z.w / 2, cy = z.y + z.h / 2;
+    const tourne = `rotate(${z.rot} ${cx} ${cy})`;
+    el(masque, 'rect', { x: z.x, y: z.y, width: z.w, height: z.h, fill: 'black', transform: tourne });
+
+    const fx = z.x - MARGE.cote, fy = z.y - MARGE.haut;
+    const fw = z.w + 2 * MARGE.cote, fh = z.h + MARGE.haut + MARGE.bas;
+    const g = el(feuilles, 'g', { id: 'feuille-' + z.id, transform: tourne });
+    el(g, 'rect', { x: fx, y: fy, width: fw, height: fh, fill: 'url(#papier)',
+      filter: filtreFeuille('feuille-papier-' + z.id, 3 + 10 * i), transform: `rotate(${z.pente} ${cx} ${cy})` });
+    // filet d'encre autour de la fenetre (colle a la source OBS)
+    el(g, 'rect', { x: z.x - 6, y: z.y - 6, width: z.w + 12, height: z.h + 12,
+      fill: 'none', stroke: '#3a2512', 'stroke-width': 2, filter: 'url(#sketchy)' });
+
+    // clous en haut de la feuille ; un de plus au milieu pour les grandes feuilles
+    const gClous = el(clous, 'g', { transform: tourne });
+    const yClou = z.y - MARGE.haut / 2 - 1;
+    const xs = [z.x + 4, z.x + z.w - 4];
+    if (z.w > 800) xs.push(cx);
+    for (const x of xs) clou(gClous, x, yClou, 8);
+  });
+
+  // l'ecriteau est cloue aux deux bouts
+  const ecriteau = document.getElementById('ecriteau');
+  clou(ecriteau, 436, 102, 7);
+  clou(ecriteau, 1076, 102, 7);
+
+  // quelques clous plantes dans le bois, a gauche/droite du panneau
+  for (let y = 60; y < 1080; y += 160 + Math.round(alea() * 80)) {
+    clou(clousBois, 8, y, 4);
+    clou(clousBois, 1912, y + 40, 4);
+  }
+</script>
+</body>
+</html>

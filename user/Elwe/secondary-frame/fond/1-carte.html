@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe - Fond 1/4 - carte et Maraudeur</title>
+<style>
+  /* Calque 1 (dessous, opaque) : papier, ville vue du dessus et Carte du Maraudeur (chat Twitch).
+     Une source navigateur Streamlabs par calque, 1920x1080, empilees dans l'ordre 1 (dessous)
+     -> 4 (dessus) : chaque source a son propre rendu, le fond ne tourne plus dans une seule page.
+     Le calque est rendu en 3840x2160 puis reduit (supersampling des filtres, comme l'ancien
+     full-frame, garde dans primary-frame/archive/). */
+  html, body { margin: 0; padding: 0; width: 1920px; height: 1080px; background: #000; overflow: hidden; }
+  iframe { width: 3840px; height: 2160px; border: 0; display: block; transform: scale(0.5); transform-origin: top left; background: transparent; }
+</style>
+</head>
+<body>
+  <iframe src="../../elements/fantasiemap/background/calque-1-carte.svg" title="Fond 1/4 - carte et Maraudeur" allowtransparency="true"></iframe>
+<script>
+  // Parametres de la page transmis au calque (?carte=, &seed=, &forme=, #twitch=...).
+  if (location.search || location.hash) {
+    document.querySelectorAll('iframe').forEach(cadre => { cadre.src = cadre.getAttribute('src') + location.search + location.hash; });
+  }
+</script>
+</body>
+</html>

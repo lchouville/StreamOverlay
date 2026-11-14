@@ -1,0 +1,223 @@
+/* Styles communs aux calques du fond (calque-*.svg), repris du <style> de
+   ville-medievale-croquis.svg. Chaque calque ne contient qu'une partie des elements : les
+   regles sans element correspondant sont simplement ignorees. */
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@1&display=swap');
+/* Carte du Maraudeur (#maraudeur) : chaque empreinte apparait a l'encre puis s'efface. */
+.pas-maraudeur { opacity: 0; animation: pasMaraudeur 6s ease-in forwards; }
+@keyframes pasMaraudeur {
+  0%   { opacity: 0; }
+  6%   { opacity: 0.85; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 0; }
+}
+/* Au-dela de 3 empreintes par personne, la plus ancienne s'efface vite. */
+.pas-maraudeur.pas-fin { animation: pasMaraudeurFin 0.5s ease-out forwards; }
+@keyframes pasMaraudeurFin { from { opacity: 0.7; } to { opacity: 0; } }
+.nom-maraudeur { transition: opacity 1.5s ease; }
+/* Ble au vent (#champs-ble) : chaque segment de rang penche autour du pied de ses epis. -->
+   Balancement permanent (wheatSway) + rafales plus fortes et plus rares (wheatGust, groupe -->
+   parent). Les delais, calcules par le script selon x, font traverser les vagues de -->
+   gauche a droite. */
+.wheat-gust, .wheat-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+.wheat-sway { animation-name: wheatSway; animation-duration: var(--ble-balancement, 3.4s); }
+.wheat-gust { animation-name: wheatGust; animation-duration: var(--ble-rafale, 11s); }
+@keyframes wheatSway {
+  0%, 100% { transform: skewX(calc(var(--ble-force-balancement, 5) * -0.3deg)); }
+  50%      { transform: skewX(calc(var(--ble-force-balancement, 5) * -1deg)); }
+}
+@keyframes wheatGust {
+  0%, 55%, 100% { transform: skewX(0deg); }
+  70%           { transform: skewX(calc(var(--ble-force-rafale, 8) * -1deg)); }
+  82%           { transform: skewX(calc(var(--ble-force-rafale, 8) * -0.375deg)); }
+}
+/* Arbres au vent (#champs-ble .foret) : memes cycles et memes vagues que le ble, mais -->
+   inclinaison reduite (bois rigide) ; le houppier ploie plus que le tronc. */
+.tree-gust, .tree-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+.tree-sway { animation-name: treeSway; animation-duration: var(--ble-balancement, 3.4s); }
+.tree-gust { animation-name: treeGust; animation-duration: var(--ble-rafale, 11s); }
+@keyframes treeSway {
+  0%, 100% { transform: skewX(calc(var(--arbre-force, 0.35) * var(--ble-force-balancement, 5) * -0.3deg)); }
+  50%      { transform: skewX(calc(var(--arbre-force, 0.35) * var(--ble-force-balancement, 5) * -1deg)); }
+}
+@keyframes treeGust {
+  0%, 55%, 100% { transform: skewX(0deg); }
+  70%           { transform: skewX(calc(var(--arbre-force, 0.35) * var(--ble-force-rafale, 8) * -1deg)); }
+  82%           { transform: skewX(calc(var(--arbre-force, 0.35) * var(--ble-force-rafale, 8) * -0.375deg)); }
+}
+/* Ailes du moulin (#moulin-ailes) : rotation continue, sens anti-horaire vu de face. */
+.ailes {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: moulinTourne var(--moulin-tour, 16s) linear infinite;
+}
+@keyframes moulinTourne {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+/* Fontaine (#fontaine-eau) : l'eau defile le long des filets (pointilles qui avancent), -->
+   les rides s'elargissent puis s'effacent dans le bassin. */
+.eau-jet, .eau-filet { stroke-dasharray: 7 6; animation: eauCoule 0.9s linear infinite; }
+.eau-filet { stroke-dasharray: 10 6; animation-duration: 0.8s; }
+@keyframes eauCoule { from { stroke-dashoffset: 26; } to { stroke-dashoffset: 0; } }
+.eau-ride { transform-box: fill-box; transform-origin: center; animation: eauRide 1.6s ease-out infinite; }
+@keyframes eauRide {
+  0%   { transform: scale(0.3); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+/* Bouffees de fumee (forge, boulangerie) : creees et animees par le script en bas de fichier. */
+.smoke-puff {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* Souris de la place (#souris-place) : couleurs du dessin (reprises de mouse.svg). */
+.souris-encre { stroke: #2a1a0a; stroke-linecap: round; stroke-linejoin: round; }
+.souris-pelage { fill: #f4efe4; }
+.souris-pelage-fonce { fill: #c9c0b0; }
+.souris-pelage-clair { fill: #fffaf0; }
+.souris-trait-pelage { stroke: #f4efe4; stroke-linecap: round; }
+.souris-trait-fonce { stroke: #c9c0b0; stroke-linecap: round; }
+.souris-trait-queue { stroke: #e8b0a8; stroke-linecap: round; fill: none; }
+.souris-poil { stroke: #a09484; stroke-linecap: round; fill: none; }
+.souris-oreille-int { fill: #eaa8a8; }
+.souris-oeil { fill: #1a0f05; }
+.souris-reflet { fill: #f4ecd4; }
+.souris-nez { fill: #c8707a; }
+/* Chat de la boulangerie (#chat-boulangerie) : queue qui balance, respiration, tete qui -->
+   penche de temps en temps, oreille qui fremit. Durees premieres entre elles pour que les -->
+   mouvements ne se repetent pas a l'identique. */
+.cat-tail, .cat-body, .cat-head, .cat-ear { transform-box: fill-box; }
+.cat-tail {
+  transform-origin: 0% 100%;
+  animation: catTail var(--chat-queue, 3.7s) ease-in-out infinite;
+}
+@keyframes catTail {
+  0%, 100% { transform: rotate(-10deg); }
+  30%      { transform: rotate(16deg); }
+  55%      { transform: rotate(4deg); }
+  75%      { transform: rotate(20deg); }
+}
+.cat-body {
+  transform-origin: 50% 100%;
+  animation: catBreath var(--chat-respiration, 2.9s) ease-in-out infinite;
+}
+@keyframes catBreath {
+  0%, 100% { transform: scale(1, 1); }
+  50%      { transform: scale(1.03, 1.07); }
+}
+.cat-head {
+  transform-origin: 50% 100%;
+  animation: catHead var(--chat-tete, 11s) ease-in-out infinite;
+}
+@keyframes catHead {
+  0%, 55%   { transform: rotate(0deg); }
+  62%, 74%  { transform: rotate(-14deg); }
+  80%, 100% { transform: rotate(0deg); }
+}
+.cat-ear {
+  transform-origin: 20% 100%;
+  animation: catEar var(--chat-oreille, 7.3s) linear infinite;
+}
+@keyframes catEar {
+  0%, 88%, 100% { transform: rotate(0deg); }
+  90%           { transform: rotate(25deg); }
+  92%           { transform: rotate(0deg); }
+  94%           { transform: rotate(20deg); }
+  96%           { transform: rotate(0deg); }
+}
+.forge-spark {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-duration: 1.6s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+.forge-spark.s1 { animation-name: forge-spark-1; }
+.forge-spark.s2 { animation-name: forge-spark-2; animation-delay: 0.5s; }
+.forge-spark.s3 { animation-name: forge-spark-3; animation-delay: 1.0s; }
+@keyframes forge-spark-1 {
+  0%   { transform: translate(0,0); opacity: 1; }
+  100% { transform: translate(-10px,-62px); opacity: 0; }
+}
+@keyframes forge-spark-2 {
+  0%   { transform: translate(0,0); opacity: 1; }
+  100% { transform: translate(12px,-58px); opacity: 0; }
+}
+@keyframes forge-spark-3 {
+  0%   { transform: translate(0,0); opacity: 1; }
+  100% { transform: translate(2px,-66px); opacity: 0; }
+}
+
+/* Lumieres de fenetres/lanternes (#building-lights) : cycle long "s'allume, reste allume -->
+   un moment, s'eteint" (win-light) combine a un scintillement rapide type flamme -->
+   (flame-glow, imbrique). Duree/delai varies par instance via style= inline pour que les -->
+   lumieres ne se synchronisent pas entre elles. */
+/* Lumieres : eclaircissent le decor (screen) au lieu de le recouvrir ; halo discret le jour, -->
+   ample la nuit. */
+.lum-halo { opacity: 0.35; transition: opacity 3s; }
+.nuit .lum-halo { opacity: 1; }
+.flame-glow.lanterne { filter: hue-rotate(-12deg) saturate(1.3); }
+/* Lanternes et torches exterieures (.exterieur, marquees par le script) : eteintes le jour, -->
+   allumees en continu la nuit avec une flamme qui vacille ; leur halo eclaire les murs et le -->
+   sol autour (flaque de lumiere). */
+.win-light.exterieur { animation: none; opacity: 0; transition: opacity 4s; }
+.nuit .win-light.exterieur { opacity: 1; }
+.exterieur .flame-glow { animation: lanterneVacille 0.9s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 80%; }
+@keyframes lanterneVacille {
+  0%, 100% { opacity: 1; transform: scale(1, 1); }
+  20%      { opacity: 0.82; transform: scale(0.94, 1.06); }
+  45%      { opacity: 0.95; transform: scale(1.05, 0.96); }
+  70%      { opacity: 0.78; transform: scale(0.97, 1.08); }
+}
+.exterieur .lum-halo { transform-box: fill-box; transform-origin: center; animation: lanterneHalo 1.7s ease-in-out infinite; }
+.nuit .exterieur .lum-halo { opacity: 1; }
+@keyframes lanterneHalo {
+  0%, 100% { transform: scale(3.6); }
+  40%      { transform: scale(3.25); }
+  70%      { transform: scale(3.8); }
+}
+.win-light {
+  animation-name: winCycle;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+@keyframes winCycle {
+  0%, 40%   { opacity: 0; }
+  55%       { opacity: 0.18; }
+  65%       { opacity: 0.3; }
+  80%       { opacity: 0.3; }
+  88%       { opacity: 0.15; }
+  95%, 100% { opacity: 0; }
+}
+/* La nuit (classe .nuit sur la racine) : les fenetres sont allumees plus souvent et plus fort. */
+.nuit .win-light { animation-name: winCycleNuit; }
+@keyframes winCycleNuit {
+  0%, 40%   { opacity: 0; }
+  48%, 88%  { opacity: 0.7; }
+  96%, 100% { opacity: 0; }
+}
+.flame-glow {
+  animation-name: flameFlicker;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+@keyframes flameFlicker {
+  0%   { opacity: 1; }
+  10%  { opacity: 0.94; }
+  22%  { opacity: 1; }
+  35%  { opacity: 0.9; }
+  48%  { opacity: 0.97; }
+  60%  { opacity: 0.92; }
+  74%  { opacity: 1; }
+  88%  { opacity: 0.95; }
+  100% { opacity: 1; }
+}

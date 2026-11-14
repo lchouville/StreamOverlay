@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Calque : chat tigre roux de profil (marche vers la droite), decoupe pour l'animation. -->
+<!-- Structure imbriquee pour les articulations : cuisse > jambe > pied (pivot = hanche, -->
+<!-- genou, cheville). Integration dans ville-medievale-croquis.svg : copier le -->
+<!-- <g id="chat-profil"> en ligne (un <image> ne s'anime pas), avec les regles .chat-* et le -->
+<!-- filtre #chat-croquis (ou le remplacer par #sketchyMedium de la scene). Tous les IDs sont -->
+<!-- prefixes "chat-profil-" pour ne pas entrer en collision avec la scene ni avec chat-assis. -->
+<!-- Les couleurs sont dans les classes ; les epaisseurs de trait sont en attributs (une classe -->
+<!-- CSS ecraserait un attribut stroke-width/fill, d'ou cette separation). -->
+<!-- Membres : trait d'encre large dessous + trait de pelage plus fin dessus = patte cernee. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="62 50 270 225" width="270" height="225">
+  <defs>
+    <style>
+      .chat-encre { stroke: #2a1a0a; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-pelage { fill: #c98a52; }
+      .chat-pelage-fonce { fill: #9c5a3c; }
+      .chat-pelage-clair { fill: #ecd2a2; }
+      .chat-trait-pelage { stroke: #c98a52; stroke-linecap: round; }
+      .chat-trait-fonce { stroke: #9c5a3c; stroke-linecap: round; }
+      .chat-rayure { stroke: #7a4426; stroke-linecap: round; fill: none; }
+      .chat-oreille-int { fill: #c07a6a; }
+      .chat-iris { fill: #9aa84a; }
+      .chat-pupille { fill: #1a0f05; }
+      .chat-reflet { fill: #f4ecd4; }
+      .chat-nez { fill: #b8645a; }
+    </style>
+    <filter id="chat-croquis" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="3" seed="58" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <g id="chat-profil" filter="url(#chat-croquis)">
+
+    <!-- 1. PATTES DU FOND (cote gauche, pelage plus fonce) -->
+    <g id="chat-profil-pattes-fond">
+      <g id="chat-profil-cuisse-arriere-g" transform-origin="150 165">
+        <path d="M 150,165 Q 134,200 142,222" fill="none" class="chat-encre" stroke-width="24"/>
+        <path d="M 150,165 Q 134,200 142,222" fill="none" class="chat-trait-fonce" stroke-width="18"/>
+        <g id="chat-profil-jambe-arriere-g" transform-origin="142 222">
+          <path d="M 142,222 Q 158,240 152,258" fill="none" class="chat-encre" stroke-width="16"/>
+          <path d="M 142,222 Q 158,240 152,258" fill="none" class="chat-trait-fonce" stroke-width="10"/>
+          <g id="chat-profil-pied-arriere-g" transform-origin="152 258">
+            <ellipse cx="159" cy="262" rx="12" ry="6" class="chat-encre chat-pelage-fonce" stroke-width="3"/>
+          </g>
+        </g>
+      </g>
+      <g id="chat-profil-cuisse-avant-g" transform-origin="238 168">
+        <path d="M 238,168 Q 248,198 240,222" fill="none" class="chat-encre" stroke-width="20"/>
+        <path d="M 238,168 Q 248,198 240,222" fill="none" class="chat-trait-fonce" stroke-width="14"/>
+        <g id="chat-profil-jambe-avant-g" transform-origin="240 222">
+          <path d="M 240,222 Q 234,240 240,258" fill="none" class="chat-encre" stroke-width="15"/>
+          <path d="M 240,222 Q 234,240 240,258" fill="none" class="chat-trait-fonce" stroke-width="9"/>
+          <g id="chat-profil-pied-avant-g" transform-origin="240 258">
+            <ellipse cx="247" cy="262" rx="12" ry="6" class="chat-encre chat-pelage-fonce" stroke-width="3"/>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- 2. QUEUE (pivot a la base, en haut de la croupe) -->
+    <g id="chat-profil-queue" transform-origin="128 148">
+      <path d="M 128,148 Q 88,142 80,104 Q 76,82 92,72" fill="none" class="chat-encre" stroke-width="19"/>
+      <path d="M 128,148 Q 88,142 80,104 Q 76,82 92,72" fill="none" class="chat-trait-pelage" stroke-width="12"/>
+      <path d="M 106,135 L 100,147 M 88,118 L 77,125 M 80,97 L 70,99" class="chat-rayure" stroke-width="4"/>
+      <path d="M 79,90 Q 79,78 92,72" fill="none" class="chat-trait-fonce" stroke-width="12"/>
+    </g>
+
+    <!-- 3. CORPS (haricot) + ventre clair + rayures tigrees du dos -->
+    <g id="chat-profil-corps">
+      <path d="M 130,140 C 130,110 250,110 260,140 C 270,170 250,190 130,190 C 110,190 110,170 130,140 Z"
+            class="chat-encre chat-pelage" stroke-width="3"/>
+      <path d="M 140,182 Q 190,192 245,176 Q 200,178 140,182 Z" class="chat-pelage-clair"/>
+      <path d="M 150,124 Q 156,140 150,158 M 172,119 Q 178,136 172,154 M 194,118 Q 200,134 194,150 M 216,120 Q 222,134 217,148"
+            class="chat-rayure" stroke-width="4.5"/>
+    </g>
+
+    <!-- 4. PATTES DU DEVANT (cote droit, pelage normal) -->
+    <g id="chat-profil-pattes-devant">
+      <g id="chat-profil-cuisse-arriere-d" transform-origin="150 165">
+        <path d="M 150,165 Q 134,200 142,222" fill="none" class="chat-encre" stroke-width="24"/>
+        <path d="M 150,165 Q 134,200 142,222" fill="none" class="chat-trait-pelage" stroke-width="18"/>
+        <!-- cuisse charnue (le haut de la patte arriere), par-dessus le trait de la patte -->
+        <path d="M 128,160 C 128,140 168,142 170,166 C 172,188 156,206 144,212 C 132,206 126,184 128,160 Z" class="chat-encre chat-pelage" stroke-width="3"/>
+        <path d="M 136,170 Q 146,166 156,172 M 136,184 Q 146,180 156,186" class="chat-rayure" stroke-width="3.5"/>
+        <g id="chat-profil-jambe-arriere-d" transform-origin="142 222">
+          <path d="M 142,222 Q 158,240 152,258" fill="none" class="chat-encre" stroke-width="16"/>
+          <path d="M 142,222 Q 158,240 152,258" fill="none" class="chat-trait-pelage" stroke-width="10"/>
+          <g id="chat-profil-pied-arriere-d" transform-origin="152 258">
+            <ellipse cx="159" cy="262" rx="12" ry="6" class="chat-encre chat-pelage-clair" stroke-width="3"/>
+          </g>
+        </g>
+      </g>
+      <g id="chat-profil-cuisse-avant-d" transform-origin="238 168">
+        <path d="M 238,168 Q 248,198 240,222" fill="none" class="chat-encre" stroke-width="20"/>
+        <path d="M 238,168 Q 248,198 240,222" fill="none" class="chat-trait-pelage" stroke-width="14"/>
+        <path d="M 237,196 L 247,198 M 236,210 L 245,212" class="chat-rayure" stroke-width="3"/>
+        <g id="chat-profil-jambe-avant-d" transform-origin="240 222">
+          <path d="M 240,222 Q 234,240 240,258" fill="none" class="chat-encre" stroke-width="15"/>
+          <path d="M 240,222 Q 234,240 240,258" fill="none" class="chat-trait-pelage" stroke-width="9"/>
+          <g id="chat-profil-pied-avant-d" transform-origin="240 258">
+            <ellipse cx="247" cy="262" rx="12" ry="6" class="chat-encre chat-pelage-clair" stroke-width="3"/>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- 5. TETE (pivot au cou) -->
+    <g id="chat-profil-tete" transform-origin="240 140">
+      <!-- oreilles derriere le crane -->
+      <g id="chat-profil-oreilles">
+        <path d="M 236,94 L 230,58 L 262,80 Z" class="chat-encre chat-pelage-fonce" stroke-width="3"/>
+        <path d="M 264,82 L 282,56 L 290,94 Z" class="chat-encre chat-pelage" stroke-width="3"/>
+        <path d="M 270,84 L 281,66 L 285,88 Z" class="chat-oreille-int"/>
+      </g>
+      <!-- crane -->
+      <circle cx="260" cy="110" r="35" class="chat-encre chat-pelage" stroke-width="3"/>
+      <!-- rayures du front et de la joue -->
+      <path d="M 246,80 Q 250,90 246,100 M 260,76 L 260,94 M 232,112 L 246,113 M 234,124 L 246,121" class="chat-rayure" stroke-width="4"/>
+      <!-- museau + menton clairs -->
+      <ellipse cx="282" cy="122" rx="15" ry="11" class="chat-pelage-clair"/>
+      <ellipse cx="276" cy="134" rx="10" ry="5" class="chat-pelage-clair"/>
+
+      <!-- Oeil (animable : clignement) : amande, pupille fendue -->
+      <g id="chat-profil-oeil" transform-origin="270 104">
+        <path d="M 260,104 Q 270,93 280,103 Q 270,111 260,104 Z" class="chat-encre chat-iris" stroke-width="2.2"/>
+        <ellipse cx="272" cy="103.5" rx="2" ry="6" class="chat-pupille"/>
+        <circle cx="275" cy="100" r="1.5" class="chat-reflet"/>
+      </g>
+
+      <!-- nez au bout du museau, bouche qui repart vers la joue -->
+      <path d="M 291,112 L 298,116 L 292,121 Z" class="chat-encre chat-nez" stroke-width="1.6"/>
+      <path d="M 293,121 Q 292,128 282,128" fill="none" class="chat-encre" stroke-width="2"/>
+
+      <g id="chat-profil-moustaches" class="chat-encre" stroke-width="1.3" fill="none" opacity="0.75">
+        <path d="M 286,118 Q 304,112 324,113 M 286,123 Q 306,122 326,126 M 284,127 Q 302,131 320,138"/>
+      </g>
+    </g>
+
+  </g>
+</svg>

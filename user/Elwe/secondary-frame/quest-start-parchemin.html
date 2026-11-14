@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe - Avis de quete sur parchemin (chrono avant le live)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap">
+<style>
+  /* Version parchemin de quest-start.html (memes parametres, meme comportement) : avis de
+     quete sur un rouleau qui se deroule, sablier et chrono ; a zero, le parchemin se
+     reenroule sur "La quete demarre tres bientot" + la commande.
+     Fond transparent : source OBS a part, ou importee par view-test/Start.html (?style=parchemin).
+     Mise en page dessinee en 820x1000, reduite par #echelle : canvas de reference 533x650.
+     Les rouleaux sont ancres en haut / en bas : le parchemin change de hauteur sans les deformer. */
+  :root {
+    --encre: #2a1a0a;
+    --encre-douce: #6a5030;
+    --parchemin: #efe2bf;
+    --cire: #9a2a1a;
+    --or: #b8862a;
+  }
+  html, body { margin: 0; padding: 0; width: 533px; height: 650px; background: transparent; overflow: hidden; }
+  #echelle { position: absolute; left: 0; top: 0; width: 820px; height: 1000px; transform: scale(0.65); transform-origin: top left; }
+
+  /* ---- Rouleau : se deroule a l'ouverture, se reenroule a zero ---- */
+  #rouleau {
+    position: absolute; left: 90px; top: 110px; width: 640px; height: 780px;
+    color: var(--encre); font-family: 'IM Fell English', Georgia, serif;
+    filter: drop-shadow(0 16px 20px rgba(30, 15, 0, 0.45));
+    animation: deroule 1.6s cubic-bezier(.2, .8, .25, 1) both;
+    transition: height 1s cubic-bezier(.5, 0, .2, 1);
+  }
+  @keyframes deroule {
+    from { clip-path: inset(0 0 calc(100% - 70px) 0); }
+    to   { clip-path: inset(-40px -40px -40px -40px); }
+  }
+  /* feuille : etiree sur la hauteur (traits d'epaisseur constante) */
+  .feuille { position: absolute; left: 0; right: 0; top: 22px; bottom: 22px; }
+  .feuille svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .rouleau-bois { position: absolute; left: -24px; width: 688px; height: 48px; overflow: visible; }
+  .rouleau-bois.haut { top: 0; }
+  .rouleau-bois.bas { bottom: 0; }
+  /* sceau accroche au coin du rouleau du haut, hors du texte */
+  .sceau { position: absolute; right: -14px; top: 4px; width: 68px; height: 68px; transform: rotate(12deg); transition: opacity .5s; }
+  #rouleau.reduit .sceau { opacity: 0; }
+
+  .contenu { position: absolute; left: 70px; right: 70px; top: 74px; bottom: 70px; display: flex; flex-direction: column; align-items: center; text-align: center; overflow: hidden; }
+  .entete { font-family: 'IM Fell English SC', serif; font-size: 26px; letter-spacing: .32em; color: var(--encre-douce); }
+  h1 { margin: 8px 0 0; font-weight: normal; font-style: italic; font-size: 60px; line-height: 1.05; }
+  .sous-titre { margin-top: 4px; font-style: italic; font-size: 26px; color: var(--encre-douce); }
+  .fleuron { width: 360px; height: 28px; margin: 12px 0 4px; flex: 0 0 auto; }
+  .titre-objectifs { font-family: 'IM Fell English SC', serif; font-size: 22px; letter-spacing: .2em; color: var(--encre-douce); align-self: flex-start; margin: 8px 16px 0; }
+  .objectifs { align-self: stretch; margin: 4px 16px 0; padding: 0; list-style: none; text-align: left; font-size: 29px; }
+  .objectifs li { display: flex; align-items: baseline; gap: 14px; padding: 3px 0; }
+  .objectifs li::before { content: ''; flex: 0 0 20px; height: 20px; border: 2.5px solid var(--encre); border-radius: 3px; transform: rotate(-3deg) translateY(3px); }
+
+  /* ---- Chrono : sablier + temps ---- */
+  .chrono { margin-top: 24px; display: flex; align-items: center; gap: 26px; }
+  .sablier { width: 84px; height: 138px; }
+  .sable-chute { stroke-dasharray: 3 7; animation: chute 0.6s linear infinite; }
+  @keyframes chute { to { stroke-dashoffset: -10; } }
+  .temps-bloc { text-align: left; }
+  .depart { font-style: italic; font-size: 28px; color: var(--encre-douce); }
+  .temps { font-size: 104px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .chrono.bientot .temps { color: var(--cire); animation: bat 1s ease-in-out infinite; }
+  @keyframes bat { 50% { transform: scale(1.05); } }
+  .temps { transform-origin: left center; }
+  .chrono.pause .temps { opacity: .55; }
+  .temps .chiffre { display: inline-block; width: 0.54em; text-align: center; }
+  .temps .sep { display: inline-block; width: 0.24em; text-align: center; }
+  .invite { margin-top: 20px; font-style: italic; font-size: 25px; color: var(--encre-douce); }
+  .invite b { font-style: normal; font-family: 'IM Fell English SC', serif; color: var(--encre); letter-spacing: .06em; }
+
+  /* ---- Chrono a zero : parchemin reenroule, seulement le message et la commande ---- */
+  .bientot-msg { display: none; font-style: italic; font-size: 44px; line-height: 1.1; color: var(--cire); }
+  #rouleau.reduit .detail { display: none; }
+  #rouleau.reduit .contenu { justify-content: center; top: 50px; bottom: 46px; }
+  #rouleau.reduit .bientot-msg { display: block; animation: apparait .6s ease-out .6s both; }
+  #rouleau.reduit .invite { margin-top: 10px; animation: apparait .6s ease-out .7s both; }
+  @keyframes apparait { from { opacity: 0; } to { opacity: 1; } }
+
+  /* poussiere doree qui flotte devant le parchemin */
+  #poussiere { position: absolute; left: 40px; top: 50px; width: 740px; height: 900px; pointer-events: none; }
+  .grain { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #ffe9b0; box-shadow: 0 0 5px 1px rgba(255, 210, 120, 0.7); opacity: 0; animation: flotte ease-in-out infinite; }
+  @keyframes flotte {
+    0%   { opacity: 0; transform: translate(0, 0); }
+    20%  { opacity: 0.8; }
+    100% { opacity: 0; transform: translate(var(--dx), -140px); }
+  }
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="croquis" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.035 0.05" numOctaves="3" seed="42" result="t"/>
+        <feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <linearGradient id="bois" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#e6d3a4"/><stop offset="0.45" stop-color="#f6ecd0"/><stop offset="1" stop-color="#b99c66"/>
+      </linearGradient>
+      <!-- rouleau de bois : parchemin enroule + poignees -->
+      <g id="piece-rouleau">
+        <rect x="18" y="4" width="652" height="40" rx="20" fill="url(#bois)" stroke="#2a1a0a" stroke-width="3"/>
+        <path d="M 40,16 Q 344,10 648,16" fill="none" stroke="#fffaf0" stroke-width="3" opacity="0.6"/>
+        <ellipse cx="18" cy="24" rx="12" ry="21" fill="#8a6a44" stroke="#2a1a0a" stroke-width="2.5"/>
+        <ellipse cx="670" cy="24" rx="12" ry="21" fill="#8a6a44" stroke="#2a1a0a" stroke-width="2.5"/>
+        <circle cx="4" cy="24" r="7" fill="#5a3a1a" stroke="#2a1a0a" stroke-width="2"/>
+        <circle cx="684" cy="24" r="7" fill="#5a3a1a" stroke="#2a1a0a" stroke-width="2"/>
+      </g>
+    </defs>
+  </svg>
+
+  <div id="echelle">
+  <div id="poussiere"></div>
+  <div id="rouleau">
+    <div class="feuille">
+      <svg viewBox="0 0 640 100" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <radialGradient id="vieilli" cx="50%" cy="45%" r="70%">
+            <stop offset="55%" stop-color="#efe2bf" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#b89a62" stop-opacity="0.55"/>
+          </radialGradient>
+        </defs>
+        <g filter="url(#croquis)">
+          <path d="M 22,0 L 618,0 Q 610,30 614,50 Q 620,75 612,100 L 26,100 Q 18,75 24,50 Q 30,25 22,0 Z"
+                fill="#efe2bf" stroke="#2a1a0a" stroke-width="3" vector-effect="non-scaling-stroke"/>
+        </g>
+        <path d="M 22,0 L 618,0 Q 610,30 614,50 Q 620,75 612,100 L 26,100 Q 18,75 24,50 Q 30,25 22,0 Z" fill="url(#vieilli)"/>
+      </svg>
+    </div>
+    <svg class="rouleau-bois haut" viewBox="0 0 688 48" aria-hidden="true"><g filter="url(#croquis)"><use href="#piece-rouleau"/></g></svg>
+    <svg class="rouleau-bois bas" viewBox="0 0 688 48" aria-hidden="true"><g filter="url(#croquis)"><use href="#piece-rouleau"/></g></svg>
+    <!-- sceau de cire appose dans le coin -->
+    <svg class="sceau" viewBox="-52 -52 104 104" aria-hidden="true">
+      <g filter="url(#croquis)">
+        <path d="M 0,-44 Q 14,-46 22,-38 Q 36,-36 38,-22 Q 48,-10 42,4 Q 46,20 34,30 Q 26,44 10,42 Q -4,50 -16,40 Q -32,40 -38,26 Q -48,14 -42,0 Q -46,-16 -34,-26 Q -28,-42 -12,-42 Z"
+              fill="#9a2a1a" stroke="#4a0e06" stroke-width="2.5"/>
+        <circle r="27" fill="none" stroke="#c4554a" stroke-width="2.5" opacity="0.8"/>
+        <text y="12" text-anchor="middle" font-family="'IM Fell English SC', serif" font-size="34" fill="#c4554a">E</text>
+      </g>
+    </svg>
+
+    <div class="contenu">
+      <div class="entete detail">~ Avis de quête ~</div>
+      <h1 class="detail" id="titre">Une nouvelle aventure</h1>
+      <div class="sous-titre detail" id="sousTitre"></div>
+      <svg class="fleuron detail" viewBox="0 0 360 28" aria-hidden="true">
+        <path d="M 10,14 Q 95,4 165,14 M 195,14 Q 265,24 350,14" fill="none" stroke="#2a1a0a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M 180,3 L 190,14 L 180,25 L 170,14 Z" fill="#b8862a" stroke="#2a1a0a" stroke-width="1.6"/>
+      </svg>
+      <div class="titre-objectifs detail" id="titreObjectifs">Objectifs</div>
+      <ul class="objectifs detail" id="objectifs"></ul>
+
+      <div class="chrono detail" id="chrono">
+        <!-- Sablier : le sable du haut baisse avec le temps restant, celui du bas monte -->
+        <svg class="sablier" viewBox="0 0 92 150" aria-hidden="true">
+          <defs>
+            <clipPath id="verre-haut"><path d="M 16,18 L 76,18 Q 76,52 50,72 L 42,72 Q 16,52 16,18 Z"/></clipPath>
+            <clipPath id="verre-bas"><path d="M 42,78 L 50,78 Q 76,98 76,132 L 16,132 Q 16,98 42,78 Z"/></clipPath>
+          </defs>
+          <rect id="sableHaut" x="10" y="18" width="72" height="54" fill="#c99a4a" clip-path="url(#verre-haut)"/>
+          <rect id="sableBas" x="10" y="132" width="72" height="0" fill="#c99a4a" clip-path="url(#verre-bas)"/>
+          <line class="sable-chute" x1="46" y1="72" x2="46" y2="130" stroke="#c99a4a" stroke-width="3"/>
+          <path d="M 16,18 L 76,18 Q 76,52 50,72 L 50,78 Q 76,98 76,132 L 16,132 Q 16,98 42,78 L 42,72 Q 16,52 16,18 Z"
+                fill="none" stroke="#2a1a0a" stroke-width="3" stroke-linejoin="round"/>
+          <rect x="6" y="8" width="80" height="11" rx="4" fill="#8a6a44" stroke="#2a1a0a" stroke-width="2.5"/>
+          <rect x="6" y="131" width="80" height="11" rx="4" fill="#8a6a44" stroke="#2a1a0a" stroke-width="2.5"/>
+        </svg>
+        <div class="temps-bloc">
+          <div class="depart">Départ dans</div>
+          <div class="temps" id="temps">05:00</div>
+        </div>
+      </div>
+      <div class="bientot-msg" id="bientot">La quête démarre très bientôt</div>
+      <div class="invite" id="invite">En attendant, tape <b>!carte</b> pour apparaître sur le plan.</div>
+    </div>
+  </div>
+  </div>
+
+<script>
+  /* Parametres d'URL : les memes que quest-start.html.
+       ?time=5:00            duree du chrono (s, m:s ou h:m:s), defaut 5:00
+       &heure=20:30          ou : depart a une heure precise (prioritaire sur time)
+       &titre=...            nom de la quete (defaut : Une nouvelle aventure)
+       &sous=...             ligne sous le titre (jeu, chapitre...)
+       &objectifs=A|B|C      objectifs du live, separes par | (rien = liste masquee)
+       &fin=...              message a zero, parchemin reenroule (defaut : La quete demarre tres bientot)
+       &invite=...           ligne de la commande ('' pour la masquer)
+       &manual               ne demarre pas tout seul (Espace pour lancer)
+     Controles (interaction OBS) : clic = +1 min (redeploie le parchemin s'il etait reenroule),
+     Espace = pause / reprise, R = remise a zero. */
+  const params = new URLSearchParams(location.search);
+
+  // "90" -> 90 s ; "5:00" -> 300 s ; "1:02:03" -> 3723 s
+  function parseDuration(str) {
+    if (str == null || str === '') return 0;
+    const parts = String(str).split(':').map(Number);
+    if (parts.some(n => !isFinite(n) || n < 0)) return 0;
+    return parts.reduce((acc, n) => acc * 60 + n, 0) * 1000;
+  }
+  function formatTime(ms) {
+    const total = Math.max(0, Math.ceil(ms / 1000));
+    const h = Math.floor(total / 3600), m = Math.floor((total % 3600) / 60), s = total % 60;
+    const pad = n => String(n).padStart(2, '0');
+    return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+  }
+
+  // Temps affiche chiffre par chiffre dans des cases de largeur fixe : la police n'a pas de
+  // chiffres de meme largeur, sans ca le texte (et ce qui l'entoure) bougerait a chaque seconde.
+  function afficherTemps(el, texte) {
+    if (el.dataset.texte === texte) return;
+    el.dataset.texte = texte;
+    el.innerHTML = texte.split('').map(c => '<span class="' + (c === ':' ? 'sep' : 'chiffre') + '">' + c + '</span>').join('');
+  }
+
+  // ---- Textes
+  if (params.get('titre')) document.getElementById('titre').textContent = params.get('titre');
+  const sousTitre = document.getElementById('sousTitre');
+  sousTitre.textContent = params.get('sous') || '';
+  sousTitre.hidden = !params.get('sous');
+  const objectifs = (params.get('objectifs') || '').split('|').map(t => t.trim()).filter(Boolean);
+  const liste = document.getElementById('objectifs');
+  objectifs.forEach(t => { const li = document.createElement('li'); li.textContent = t; liste.appendChild(li); });
+  if (!objectifs.length) { liste.hidden = true; document.getElementById('titreObjectifs').hidden = true; }
+  if (params.has('invite')) {
+    const invite = document.getElementById('invite');
+    invite.textContent = params.get('invite');
+    invite.hidden = !params.get('invite');
+  }
+  if (params.get('fin')) document.getElementById('bientot').textContent = params.get('fin');
+
+  // ---- Poussiere doree : grains qui flottent lentement autour du parchemin
+  const poussiere = document.getElementById('poussiere');
+  for (let i = 0; i < 24; i++) {
+    const g = document.createElement('div');
+    g.className = 'grain';
+    g.style.left = (Math.random() * 100).toFixed(1) + '%';
+    g.style.top = (20 + Math.random() * 80).toFixed(1) + '%';
+    g.style.setProperty('--dx', (Math.random() * 80 - 40).toFixed(0) + 'px');
+    g.style.animationDuration = (7 + Math.random() * 8).toFixed(1) + 's';
+    g.style.animationDelay = (-Math.random() * 15).toFixed(1) + 's';
+    if (Math.random() < 0.4) { g.style.width = g.style.height = '2px'; }
+    poussiere.appendChild(g);
+  }
+
+  // ---- Chrono : calcule a partir de Date.now() (reste exact meme si OBS ralentit la page).
+  // Avec &heure, la duree est le temps restant jusqu'a cette heure (le lendemain si deja passee).
+  let duree;
+  if (params.get('heure')) {
+    const [hh, mm] = params.get('heure').split(':').map(Number);
+    const cible = new Date(); cible.setHours(hh || 0, mm || 0, 0, 0);
+    if (cible <= new Date()) cible.setDate(cible.getDate() + 1);
+    duree = cible - Date.now();
+  } else duree = parseDuration(params.get('time') || '5:00');
+
+  const rouleau = document.getElementById('rouleau'), chrono = document.getElementById('chrono');
+  const tempsEl = document.getElementById('temps');
+  const sableHaut = document.getElementById('sableHaut'), sableBas = document.getElementById('sableBas');
+  let ecouleAvant = 0, demarre = null, fini = false;
+  const ecoule = () => ecouleAvant + (demarre != null ? Date.now() - demarre : 0);
+
+  function rendu() {
+    const reste = duree - ecoule();
+    if (reste <= 0 && !fini) { fini = true; ecouleAvant = duree; demarre = null; }
+    afficherTemps(tempsEl, formatTime(fini ? 0 : reste));
+    // sable : la part restante en haut, la part ecoulee en bas
+    // (par pas d'une seconde et au demi-pixel : pas de scintillement entre deux secondes)
+    const part = fini ? 0 : Math.max(0, Math.min(1, Math.ceil(reste / 1000) * 1000 / duree));
+    const haut = Math.round(54 * part * 2) / 2;
+    sableHaut.setAttribute('y', 18 + 54 - haut);
+    sableHaut.setAttribute('height', haut);
+    sableBas.setAttribute('y', 132 - (54 - haut));
+    sableBas.setAttribute('height', 54 - haut);
+    rouleau.classList.toggle('reduit', fini);   // a zero : parchemin reenroule sur le message
+    rouleau.style.height = (fini ? 250 : hauteurPleine) + 'px';
+    chrono.classList.toggle('pause', demarre == null && !fini);
+    chrono.classList.toggle('bientot', !fini && reste <= 10000);
+  }
+  function boucle() { rendu(); if (demarre != null) requestAnimationFrame(boucle); }
+  function demarrer() { if (demarre != null || fini) return; demarre = Date.now(); boucle(); }
+  function pause() { if (demarre == null) return; ecouleAvant = ecoule(); demarre = null; rendu(); }
+
+  // Clic = +1 minute (redeploie et relance si le chrono etait termine).
+  document.addEventListener('click', () => {
+    const etaitFini = fini;
+    duree += 60000;
+    if (etaitFini) { fini = false; demarrer(); } else rendu();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') { e.preventDefault(); demarre != null ? pause() : demarrer(); }
+    else if (e.code === 'KeyR') { ecouleAvant = 0; demarre = null; fini = false; rendu(); }
+  });
+
+  // Hauteur ajustee au contenu (pas d'espace vide quand il y a peu d'objectifs) : bas de la
+  // derniere ligne + retraits du contenu (74 en haut, 70 en bas, rouleaux compris).
+  let hauteurPleine = 780;
+  function mesurer() {
+    const etaitReduit = rouleau.classList.contains('reduit');
+    rouleau.classList.remove('reduit');
+    const invite = document.getElementById('invite'), dernier = invite.hidden ? chrono : invite;
+    hauteurPleine = Math.round(74 + dernier.offsetTop + dernier.offsetHeight + 70);
+    rouleau.classList.toggle('reduit', etaitReduit);
+    rendu();
+  }
+  mesurer();
+  if (document.fonts) document.fonts.ready.then(mesurer);   // police web chargee apres coup
+  if (!params.has('manual')) demarrer();
+</script>
+</body>
+</html>

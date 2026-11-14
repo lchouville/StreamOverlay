@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Elwe - Gemmes (lurk et derniers soutiens)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap">
+<style>
+  /* Gemmes magiques qui roulent en bas de l'ecran : une par lurker (!lurk / !here), et une
+     gemme elementaire par sub, don de subs et bits du live ; en haut, sur le panneau de
+     quetes, une affiche par categorie avec le dernier soutien (voir elements/gemmes/gemmes.js).
+     Source navigateur a part, 1920x1080 transparente, a poser AU-DESSUS des autres sources
+     dans chaque scene (debut, live, fin) : la meme page partout, lurkers et soutiens sont
+     partages entre scenes (elements/lurk/lurk.js, elements/derniers/derniers.js).
+     Parametres (URL) : ?sol=1078 (y du sol, bas des gemmes), &xmin=12&xmax=1908 (bords),
+     &annonce=1564,1904 (x min,max ou tombent et repartent les gemmes : le chat),
+     &haut=0 : sans les affiches des derniers soutiens en haut (placees pour le panneau de
+     quetes de la main-frame ; a mettre dans les scenes qui n'ont pas ce panneau).
+     Chat : !reload (streamer ou modo) recharge la page, en gardant lurkers et soutiens ;
+     !gemmes [sub|don|bits|lurk] [Pseudo] [pierre ou nombre] (streamer seulement) montre des
+     gemmes de test ~15 s, sans rien enregistrer (sans argument : une de chaque).
+     Tests : ?lurk=Pseudo1,Pseudo2 (arrivees), &lurk-debug (liste dans un coin),
+     &derniers=sub:Alice,bits:Bob:500,don:Dana:5. */
+  html, body { margin: 0; padding: 0; width: 1920px; height: 1080px; background: transparent; overflow: hidden; }
+  #gemmes { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
+</style>
+</head>
+<body>
+  <div id="gemmes"></div>
+<script src="../elements/twitch-chat.js"></script>
+<script src="../elements/lurk/lurk.js"></script>
+<script src="../elements/derniers/derniers.js"></script>
+<script src="../elements/gemmes/gemmes.js"></script>
+<script>
+  const param = (nom, defaut) => { const v = parseFloat(new URLSearchParams(location.search).get(nom)); return isNaN(v) ? defaut : v; };
+  const reglages = { sol: param('sol', 1078), xMin: param('xmin', 12), xMax: param('xmax', 1908),
+    annonce: (new URLSearchParams(location.search).get('annonce') || '1564,1904').split(',').map(Number) };
+  if (new URLSearchParams(location.search).get('haut') === '0') reglages.haut = false;
+  const gemmes = Gemmes(document.getElementById('gemmes'), reglages);
+  ecouterChatTwitch(Lurk.config.chaine, msg => {
+    // "!reload" (streamer ou modo) : recharge la page dans toutes les scenes, sans passer par
+    // Streamlabs. Lurkers et soutiens sont gardes (localStorage), rien n'est perdu.
+    if (msg.mot === '!reload' && (msg.streamer || msg.mod)) location.reload();
+    // "!gemmes [sub|don|bits|lurk] [Pseudo] [pierre ou nombre]" (streamer seulement) : gemmes
+    // de test, affichees ~15 s sans rien enregistrer. Sans argument : une de chaque.
+    if (msg.mot === '!gemmes' && msg.streamer) {
+      const [, quoi, nom, arg] = msg.texte.split(/\s+/);
+      if (['sub', 'don', 'bits', 'lurk'].includes(quoi)) gemmes.demo(quoi, nom, arg);
+      else ['sub', 'don', 'bits', 'lurk'].forEach((q, i) => setTimeout(() => gemmes.demo(q, 'Test'), i * 1200));
+    }
+  });
+</script>
+</body>
+</html>
