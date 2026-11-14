@@ -1,4 +1,4 @@
-name: Deploy SaphirSchwarz overlay to GitHub Pages
+name: Deploy overlays to GitHub Pages
 
 on:
   push:
@@ -23,9 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      # Seul user/SaphirSchwarz/ est publie : les URLs n'incluent donc pas "user/SaphirSchwarz/".
+      # Seul user/ est publie : les URLs sont <repo>/SaphirSchwarz/... et <repo>/Elwe/... (sans "user/").
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: user/SaphirSchwarz
+          path: user
       - id: deployment
         uses: actions/deploy-pages@v4
