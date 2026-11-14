@@ -1,9 +1,9 @@
 # StreamOverlay
 
-Overlays OBS (theme saphir/or). Le dossier `overlay/` est publie sur GitHub Pages
+Overlays OBS (theme saphir/or). Le dossier `user/SaphirSchwarz/` est publie sur GitHub Pages
 par `.github/workflows/pages.yml` a chaque push sur `main`.
 
-URLs (source Navigateur OBS) : `https://<user>.github.io/<repo>/<chemin>` ou `<chemin>` est relatif a `overlay/`.
+URLs (source Navigateur OBS) : `https://<user>.github.io/<repo>/<chemin>` ou `<chemin>` est relatif a `user/SaphirSchwarz/`.
 
 | Page | Chemin | Taille source |
 |---|---|---|

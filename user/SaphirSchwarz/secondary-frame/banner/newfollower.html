@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Saphirshwartz - Alerte Gift Sub</title>
-<link rel="stylesheet" href="../../shared/theme.css">
+<title>Saphirshwartz - Alerte Nouveau Follower</title>
+<link rel="stylesheet" href="../../elements/theme.css">
 <style>
   /* Canvas de reference : 250x60 (taille exacte de la pastille). */
   body { width: 250px; height: 60px; }
@@ -43,13 +43,15 @@
   <div class="pill">
     <div class="star-field"></div>
     <div class="icon-circle">
-      <svg viewBox="0 0 24 24" fill="#f3e6b3">
-        <path d="M12 2l2.9 6 6.6.9-4.8 4.6 1.1 6.5L12 16.9 6.2 20l1.1-6.5L2.5 8.9l6.6-.9L12 2z"/>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f3e6b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="4"/>
+        <path d="M2 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/>
+        <path d="M19 8v6M16 11h6"/>
       </svg>
     </div>
   </div>
 
-<script src="../../shared/stars.js"></script>
+<script src="../../elements/stars.js"></script>
 <script>
   document.querySelectorAll('.star-field').forEach(f => spawnStarField(f, 8));
 </script>

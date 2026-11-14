@@ -1,4 +1,4 @@
-// Box d'alerte animee. Necessite shared/stars.js et shared/alert-box.css.
+// Box d'alerte animee. Necessite elements/stars.js et elements/alert-box.css.
 const ALERT_ICONS = {
   follow:      '<svg viewBox="0 0 24 24" fill="#f3e6b3"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.6 2 5 5.5 5 8 5 9.6 6.4 12 9c2.4-2.6 4-4 6.5-4C22 5 23.6 8.6 22 11.8 19.5 16.4 12 21 12 21z"/></svg>',
   newfollower: '<svg viewBox="0 0 24 24" fill="none" stroke="#f3e6b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/><path d="M19 8v6M16 11h6"/></svg>',
