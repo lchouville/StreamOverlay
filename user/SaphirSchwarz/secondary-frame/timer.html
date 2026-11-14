@@ -19,12 +19,12 @@
 <script>
   /* Parametres d'URL (source navigateur OBS) :
        ?mode=down|up        compte a rebours (defaut) ou chronometre
-       &time=5:00           duree du compte a rebours (s, m:s ou h:m:s)
+       &time=10:00           duree du compte a rebours (s, m:s ou h:m:s)
        &label=PAUSE         texte au-dessus du temps
        &warn=10             passe en orange sous N secondes (0 = jamais)
        &end=C'est parti !   texte affiche a zero
        &manual              ne demarre pas tout seul (Espace pour lancer)
-     Par defaut : 5:00, demarre au chargement, clic = +1 min.
+     Par defaut : 10:00, demarre au chargement, clic = +1 min.
      Controles (page focus / interaction OBS) : Espace = start/pause, R = reset.
      Console : timer.start() / pause() / reset() / add(ms) / set(ms). */
   const params = new URLSearchParams(location.search);
@@ -32,7 +32,7 @@
 
   const timer = createTimer(document.getElementById('stage'), {
     mode,
-    duration: parseDuration(params.get('time') || '5:00'),
+    duration: parseDuration(params.get('time') || '10:00'),
     label: params.get('label') || '',
     warnAt: params.has('warn') ? Number(params.get('warn')) * 1000 : 10000,
     endText: params.get('end') || ''

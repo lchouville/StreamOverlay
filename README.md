@@ -10,7 +10,7 @@ URLs (source Navigateur OBS) : `https://<user>.github.io/<repo>/<chemin>` ou `<c
 | Frame jeu + cam | `SaphirSchwarz/primary-frame/game-frame.html` | 1920x1080 |
 | Frame sans cam (blabla) | `SaphirSchwarz/primary-frame/blabla-frame.html` | 1920x1080 |
 | Fond plein | `SaphirSchwarz/primary-frame/full-frame.html` | 1920x1080 |
-| Timer | `SaphirSchwarz/secondary-frame/timer.html?time=5:00&label=PAUSE` | 320x110 |
+| Timer | `SaphirSchwarz/secondary-frame/timer.html?time=10:00&label=PAUSE` | 320x110 |
 
 Timer : `time` (s, m:s, h:m:s), `mode=up`, `label`, `warn`, `end`, `manual`. Clic = +1 min.
 
