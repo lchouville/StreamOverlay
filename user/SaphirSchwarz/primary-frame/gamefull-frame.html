@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Saphirshwartz - Primary Frame (jeu plein ecran + cam)</title>
+<link rel="stylesheet" href="../elements/theme.css">
+<style>
+  /* Canvas de reference : 1920x1080. Scene "jeu en plein ecran" : le jeu occupe tout l'ecran et
+     seule la cam est encadree. Tout le reste est 100% transparent : place cette source au-dessus
+     du jeu et de la cam, la cam se place dans le cadre (340x192 a l interieur des anneaux), collee au coin : les deux cotes du cadre contre le bord de l ecran depassent hors canvas, seuls 2 segments restent visibles.
+     Position de la cam : ?pos=hd (haut-droite, defaut), hg, bd, bg. */
+  body { width: 1920px; height: 1080px; position: relative; }
+
+  #cam-rect { position: absolute; width: 360px; height: 212px; left: 1570px; top: -10px; }
+  body.hg #cam-rect { left: -10px; top: -10px; }
+  body.bd #cam-rect { left: 1570px; top: 878px; }
+  body.bg #cam-rect { left: -10px; top: 878px; }
+
+  .ring { position: absolute; inset: 0; pointer-events: none; }
+  #cam-rect .ring-outer { --bw: 4px; border: 2px solid var(--gold); border-radius: 14px; box-shadow: 0 0 10px rgba(217, 201, 138, 0.35), inset 0 0 16px rgba(106, 63, 224, 0.28); }
+  #cam-rect .ring-dotted { inset: 5px; border: 2px dotted var(--gold-dim); border-radius: 11px; }
+  #cam-rect .ring-inner { inset: 9px; border: 1px solid var(--gold); border-radius: 8px; }
+
+  .motif { position: absolute; z-index: 2; }
+</style>
+</head>
+<body>
+  <div id="cam-rect">
+    <div class="ring ring-outer"></div>
+    <div class="ring ring-dotted"></div>
+    <div class="ring ring-inner"></div>
+  </div>
+
+<script src="../elements/motifs.js"></script>
+<script>
+  const pos = new URLSearchParams(location.search).get('pos');
+  if (['hg', 'bd', 'bg'].includes(pos)) document.body.classList.add(pos);
+
+  const camRect = document.getElementById('cam-rect');
+  // Le cadre touche le bord de l'ecran : seul le coin oppose (cote interieur) peut porter un soleil sans etre coupe.
+  const droite = !['hg', 'bg'].includes(pos), haut = !['bd', 'bg'].includes(pos);
+  placeMedallion(camRect, 'sunburst', 30, droite ? 0 : 100, haut ? 100 : 0);
+</script>
+</body>
+</html>

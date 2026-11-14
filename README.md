@@ -8,6 +8,7 @@ URLs (source Navigateur OBS) : `https://<user>.github.io/<repo>/<chemin>` ou `<c
 | Page | Chemin | Taille source |
 |---|---|---|
 | Frame jeu + cam | `SaphirSchwarz/primary-frame/game-frame.html` | 1920x1080 |
+| Jeu plein ecran + cam (`?pos=hd`, `hg`, `bd`, `bg`) | `SaphirSchwarz/primary-frame/gamefull-frame.html` | 1920x1080 |
 | Frame sans cam (blabla) | `SaphirSchwarz/primary-frame/blabla-frame.html` | 1920x1080 |
 | Fond plein | `SaphirSchwarz/primary-frame/full-frame.html` | 1920x1080 |
 | Timer | `SaphirSchwarz/secondary-frame/timer.html?time=10:00&label=PAUSE` | 320x110 |
