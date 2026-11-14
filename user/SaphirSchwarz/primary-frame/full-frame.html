@@ -19,12 +19,16 @@
 
   <div id="bg-layer" class="bg-night">
     <div class="star-field" id="bg-stars"></div>
+    <div id="constellations"></div>
   </div>
 
 <script src="../elements/stars.js"></script>
+<script src="../elements/twitch-chat.js"></script>
+<script src="../elements/constellations.js"></script>
 <script>
   spawnStarField(document.getElementById('bg-stars'), 220);
   spawnShootingStars(document.getElementById('bg-stars'));
+  Constellations.init(document.getElementById('constellations'));
 </script>
 </body>
 </html>
