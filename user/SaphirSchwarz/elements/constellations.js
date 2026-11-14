@@ -14,11 +14,12 @@
 // Tests sans chat : ?test=Alice,Bob (messages), ?testlurk=Dan,Eve ; ?vitesse=10 accelere la
 // derive (x10) ; en console : Constellations.message('Alice'), .lurk('Alice'), .here('Alice').
 // Les lurkers sont gardes dans le localStorage (partage entre les sources/pages du live,
-// vide apres 6 h sans changement). Les constellations passent derriere les trous du fond
+// vide apres 12 h sans changement). Au chargement, l'historique recent du chat est aussi rejoue
+// (!lurk / !here manques pendant que la source etait fermee ; messages de moins d'1 min). Les constellations passent derriere les trous du fond
 // (zone de jeu, cam) grace au masque de #bg-layer.
 // =====================================================================================
 var Constellations = (function () {
-  var CLE = 'saphir-lurk', SESSION_H = 6;
+  var CLE = 'saphir-lurk', SESSION_H = 12;
   var CONFIG, racine, vivants = {}, vitesse = 1;
   var LARG = 130, HAUT = 96, CW = 170;       // dessin / largeur de la boite (dessin + pseudo)
   var NS = 'http://www.w3.org/2000/svg';
@@ -222,6 +223,17 @@ var Constellations = (function () {
       if (msg.mot === '!lurk') lurk(msg.nom);
       else if (msg.mot === '!here') here(msg.nom);
       else message(msg.nom);
+    });
+
+    // Historique du chat : retrouve les !lurk / !here envoyes pendant que cette page n'etait pas ouverte.
+    // Seuls les messages de la session (SESSION_H) comptent ; les messages normaux ne recreent une
+    // constellation que s'ils datent de moins de 'duree'.
+    if (typeof ecouterChatTwitch === 'function' && ecouterChatTwitch.historique) ecouterChatTwitch.historique(CONFIG.chaine, function (msg) {
+      var age = Date.now() - msg.ts;
+      if (age > SESSION_H * 3600000) return;
+      if (msg.mot === '!lurk') lurk(msg.nom);
+      else if (msg.mot === '!here') here(msg.nom);
+      else if (age < CONFIG.duree) message(msg.nom);
     });
 
     var test = q.get('test'), testLurk = q.get('testlurk');
