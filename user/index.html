@@ -5,16 +5,28 @@
 <title>StreamOverlay</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  body { font: 16px/1.6 system-ui, sans-serif; background: #0b1230; color: #f0e6c8; max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+  body { font: 16px/1.6 system-ui, sans-serif; background: #0b1230; color: #f0e6c8; margin: 2rem auto; padding: 0 1rem; max-width: 1400px; }
   h1, h2 { color: #d4af37; }
+  h1 { margin-bottom: .2rem; }
+  h2 { font-size: 1.05rem; margin: 1.2rem 0 .2rem; }
   a { color: #8fb4ff; }
   small { opacity: .7; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 2rem; align-items: start; }
+  .col { min-width: 0; }
+  ul { margin: 0; padding-left: 1.2rem; }
+  .preview { position: relative; aspect-ratio: 16 / 9; background: #000; border: 1px solid #d4af37; overflow: hidden; }
+  .preview iframe { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; border: 0; transform-origin: top left; pointer-events: none; }
 </style>
 </head>
 <body>
 <h1>StreamOverlay</h1>
 <p>Overlays pour la source Navigateur d'OBS.</p>
+<div class="cols">
+
+<section class="col">
 <h1>SaphirSchwarz</h1>
+<h2>Preview <small>game-frame</small></h2>
+<div class="preview"><iframe loading="lazy" src="SaphirSchwarz/primary-frame/game-frame.html" title="Preview SaphirSchwarz"></iframe></div>
 <h2>Frames <small>1920x1080</small></h2>
 <ul>
   <li><a href="SaphirSchwarz/primary-frame/game-frame.html">Jeu + cam</a></li>
@@ -24,7 +36,7 @@
 </ul>
 <h2>Timer <small>320x110</small></h2>
 <ul>
-  <li><a href="SaphirSchwarz/secondary-frame/timer.html?time=10:00&amp;label=PAUSE">Timer 5:00</a></li>
+  <li><a href="SaphirSchwarz/secondary-frame/timer.html?time=10:00&amp;label=PAUSE">Timer 10:00</a></li>
 </ul>
 <h2>Alertes</h2>
 <ul>
@@ -40,7 +52,12 @@
   <li><a href="SaphirSchwarz/secondary-frame/banner/gift.html">Gift</a></li>
   <li><a href="SaphirSchwarz/secondary-frame/banner/donation.html">Donation</a></li>
 </ul>
+</section>
+
+<section class="col">
 <h1>Elwe</h1>
+<h2>Preview <small>main-frame</small></h2>
+<div class="preview"><iframe loading="lazy" src="Elwe/primary-frame/main-frame.html" title="Preview Elwe"></iframe></div>
 <h2>Frames <small>1920x1080</small></h2>
 <ul>
   <li><a href="Elwe/primary-frame/main-frame.html">Main frame</a></li>
@@ -60,5 +77,15 @@
   <li><a href="Elwe/secondary-frame/quest-start-parchemin.html">Quete (parchemin)</a></li>
   <li><a href="Elwe/secondary-frame/quest-start.html">Quete (futuriste)</a></li>
 </ul>
+</section>
+
+</div>
+<script>
+  // Les previews sont des pages 1920x1080 reduites a la largeur de leur colonne.
+  const ajuste = () => document.querySelectorAll('.preview').forEach(p => {
+    p.firstElementChild.style.transform = 'scale(' + p.clientWidth / 1920 + ')';
+  });
+  addEventListener('resize', ajuste); ajuste();
+</script>
 </body>
 </html>

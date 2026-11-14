@@ -55,3 +55,62 @@ html, body {
 .sapphire {
   filter: drop-shadow(0 0 4px rgba(90, 110, 240, 0.85));
 }
+
+/* ---------- fond nuit : nebuleuses douces + vignettage ---------- */
+.bg-night {
+  background:
+    radial-gradient(ellipse 55% 40% at 80% 85%, rgba(106, 63, 224, 0.30), transparent 70%),
+    radial-gradient(ellipse 50% 38% at 15% 12%, rgba(42, 75, 214, 0.34), transparent 70%),
+    radial-gradient(ellipse at 30% 20%, #1a2560 0%, #05081a 70%);
+}
+.bg-night::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* etoiles : quelques-unes plus grosses, dorees, avec halo */
+.star.gold { background: var(--gold-bright); }
+.star.bright { box-shadow: 0 0 6px 1px rgba(207, 224, 255, 0.8); }
+.star.gold.bright { box-shadow: 0 0 7px 1px rgba(243, 230, 179, 0.8); }
+
+/* medaillons or : halo discret ; saphirs : respiration lente */
+.motif-sunburst, .motif-crescent { filter: drop-shadow(0 0 5px rgba(217, 201, 138, 0.55)); }
+.sapphire { animation: sapphire-glow 4.5s ease-in-out infinite; }
+@keyframes sapphire-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(90, 110, 240, 0.7)); }
+  50% { filter: drop-shadow(0 0 9px rgba(120, 140, 255, 1)); }
+}
+
+/* ---------- liseré or degrade (anneau exterieur des cadres) ---------- */
+.ring-outer { border-color: transparent !important; outline: 1px solid rgba(217, 201, 138, 0.55); outline-offset: 5px; }
+.ring-outer::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  padding: var(--bw, 3px);
+  border-radius: inherit;
+  background: linear-gradient(135deg, #f3e6b3 0%, #a68f4c 30%, #f3e6b3 50%, #8a7a45 75%, #f3e6b3 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+/* ---------- etoile filante ---------- */
+.shooting-star {
+  position: absolute;
+  width: 140px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(207, 224, 255, 0.9));
+  opacity: 0;
+  transform: rotate(var(--angle, 25deg));
+  animation: shoot 1.1s ease-out forwards;
+}
+@keyframes shoot {
+  0% { opacity: 0; translate: 0 0; }
+  15% { opacity: 1; }
+  100% { opacity: 0; translate: 420px 196px; }
+}
