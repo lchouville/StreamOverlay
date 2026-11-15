@@ -123,6 +123,7 @@ var Constellations = (function () {
     e.appendChild(lab);
     var v = vivants[login] = { login: login, nom: nom, el: e, lurk: lurk, x: 0, y: 0, s: 1, vx: 0, vy: 0, cible: null, cibleS: 1, dernier: Date.now(), minuteur: 0, parti: false };
     cadrer(v, true);
+    v.attente = Object.keys(vivants).filter(function (k) { return !vivants[k].attente; }).length > MAX;   // vivants contient deja v
     place(v);
     racine.appendChild(e);
     return v;
@@ -151,8 +152,31 @@ var Constellations = (function () {
   // ---- mouvement : derive continue du bas-gauche au haut-droite, en boucle -----------------
   // Sortie par la droite ou par le haut -> retour par la gauche ou par le bas (meme droite).
   var BORD = { xmin: -100, xmax: 1960, ymin: -150, ymax: 1180 };
+  // Au plus MAX constellations affichees ; les autres attendent (invisibles). Quand une sort, elle prend la
+  // file d'attente et la premiere en attente reapparait. Le point d'entree est tire au hasard sur le bord
+  // gauche ou bas (au prorata du flux), pour ne pas toujours repartir du coin le plus loin.
+  var MAX = 20;
+  function entree(v) {
+    var a = v.vx * (BORD.ymax - BORD.ymin), b = -v.vy * (BORD.xmax - BORD.xmin), dmax = -1;
+    for (var i = 0; i < 24; i++) {                      // 24 candidats ; on garde le plus loin des autres (pas de superposition)
+      var c = Math.random() < a / (a + b)
+        ? { x: BORD.xmin, y: BORD.ymin + Math.random() * (BORD.ymax - BORD.ymin) }
+        : { x: BORD.xmin + Math.random() * (BORD.xmax - BORD.xmin), y: BORD.ymax }, dmin = 1e9;
+      Object.keys(vivants).forEach(function (k) {
+        var o = vivants[k]; if (o === v || o.attente) return;
+        dmin = Math.min(dmin, Math.hypot((o.x - c.x) * 0.6, o.y - c.y));
+      });
+      if (dmin > dmax) { dmax = dmin; v.x = c.x; v.y = c.y; }
+    }
+  }
+  function reapparaitre(v) {
+    var w = Object.keys(vivants).map(function (k) { return vivants[k]; }).filter(function (o) { return o.attente; })[0];
+    if (w) { v.attente = true; w.attente = false; }
+    entree(w || v);
+  }
   function place(v) {
-    var f = Math.max(0, Math.min((v.x - BORD.xmin) / 140, (BORD.xmax - v.x) / 140, (BORD.ymax - v.y) / 140, (v.y - BORD.ymin) / 140, 1));   // fondu aux bords
+    if (v.attente) { v.el.style.opacity = 0; return; }
+    var f = Math.max(0, Math.min((v.x - BORD.xmin) / 40, (BORD.xmax - v.x) / 40, (BORD.ymax - v.y) / 40, (v.y - BORD.ymin) / 40, 1));   // fondu aux bords (court : réapparition rapide)
     v.el.style.transform = 'translate(' + (v.x - CW / 2).toFixed(1) + 'px,' + v.y.toFixed(1) + 'px) scale(' + v.s.toFixed(3) + ')';
     if (!v.parti) v.el.style.opacity = f;
   }
@@ -162,15 +186,13 @@ var Constellations = (function () {
     Object.keys(vivants).forEach(function (k) {
       var v = vivants[k];
       v.s += (v.cibleS - v.s) * Math.min(1, dt * 1.5);
+      if (v.attente) { place(v); return; }
       if (v.cible) {                                   // changement de statut : rejoint son nouveau trajet
         v.x += (v.cible.x - v.x) * Math.min(1, dt * 1.2); v.y += (v.cible.y - v.y) * Math.min(1, dt * 1.2);
         if (Math.hypot(v.cible.x - v.x, v.cible.y - v.y) < 6) v.cible = null;
       } else {
         v.x += v.vx * dt * vitesse; v.y += v.vy * dt * vitesse;
-        if (v.x > BORD.xmax || v.y < BORD.ymin) {      // boucle : on recule le long de la trajectoire jusqu'au 1er bord traverse
-          var s = Math.min((v.x - BORD.xmin) / v.vx, (BORD.ymax - v.y) / -v.vy);
-          v.x -= v.vx * s; v.y -= v.vy * s;
-        }
+        if (v.x > BORD.xmax || v.y < BORD.ymin) reapparaitre(v);
       }
       place(v);
     });
@@ -206,8 +228,8 @@ var Constellations = (function () {
       // Vitesses en px/s sur le canvas 1920x1080 (vy < 0 : vers le haut). Tout le monde suit la meme
       // diagonale et repasse en boucle ; les actifs naissent dans une zone visible, les lurkers n'importe ou.
       zones: {
-        actif: { vx: 5, vy: -2.8, echelle: 0.82 },
-        lurk: { vx: 2.2, vy: -1.2, echelle: 0.42 }
+        actif: { vx: 18, vy: -10, echelle: 0.82 },
+        lurk: { vx: 8, vy: -4.4, echelle: 0.42 }
       },
       // Rectangles ou une constellation ne doit pas NAITRE (derriere le jeu, la cam, le chat) : cf. trous du fond.
       cachees: [],
