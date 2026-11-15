@@ -14,7 +14,7 @@
   .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 2rem; align-items: start; }
   .col { min-width: 0; }
   ul { margin: 0; padding-left: 1.2rem; }
-  .preview { position: relative; aspect-ratio: 16 / 9; background: #000; border: 1px solid #d4af37; overflow: hidden; }
+  .preview { display: block; position: relative; cursor: pointer; aspect-ratio: 16 / 9; background: #000; border: 1px solid #d4af37; overflow: hidden; }
   .preview iframe { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; border: 0; transform-origin: top left; pointer-events: none; }
 </style>
 </head>
@@ -26,7 +26,7 @@
 <section class="col">
 <h1>SaphirSchwarz</h1>
 <h2>Preview <small>game-frame</small></h2>
-<div class="preview"><iframe loading="lazy" src="SaphirSchwarz/primary-frame/game-frame.html" title="Preview SaphirSchwarz"></iframe></div>
+<a class="preview" href="SaphirSchwarz/primary-frame/game-frame.html"><iframe loading="lazy" src="SaphirSchwarz/primary-frame/game-frame.html" title="Preview SaphirSchwarz"></iframe></a>
 <h2>Frames <small>1920x1080</small></h2>
 <ul>
   <li><a href="SaphirSchwarz/primary-frame/game-frame.html">Jeu + cam</a></li>
@@ -58,7 +58,7 @@
 <section class="col">
 <h1>Elwe</h1>
 <h2>Preview <small>main-frame</small></h2>
-<div class="preview"><iframe loading="lazy" src="Elwe/primary-frame/main-frame.html" title="Preview Elwe"></iframe></div>
+<a class="preview" href="Elwe/primary-frame/main-frame.html"><iframe loading="lazy" src="Elwe/primary-frame/main-frame.html" title="Preview Elwe"></iframe></a>
 <h2>Frames <small>1920x1080</small></h2>
 <ul>
   <li><a href="Elwe/primary-frame/main-frame.html">Main frame</a></li>
@@ -87,6 +87,14 @@
     p.firstElementChild.style.transform = 'scale(' + p.clientWidth / 1920 + ')';
   });
   addEventListener('resize', ajuste); ajuste();
+  // Un clic sur un lien de liste change la preview de sa colonne ; la preview, elle, ouvre la page.
+  document.querySelectorAll('.col li a').forEach(a => a.addEventListener('click', e => {
+    if (e.ctrlKey || e.metaKey || e.shiftKey) return; // ctrl/maj+clic : ouvre quand meme la page
+    e.preventDefault();
+    const p = a.closest('.col').querySelector('.preview');
+    p.href = a.href;
+    p.firstElementChild.src = a.href;
+  }));
 </script>
 </body>
 </html>
