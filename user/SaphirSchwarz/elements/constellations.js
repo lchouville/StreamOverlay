@@ -107,6 +107,7 @@ var Constellations = (function () {
     if (v.parti) return;
     v.parti = true; clearTimeout(v.minuteur);
     delete vivants[v.login];
+    remplir();
     v.el.style.opacity = '';
     v.el.classList.add('part');
     setTimeout(function () { v.el.remove(); }, 2200);
@@ -121,7 +122,7 @@ var Constellations = (function () {
     e.appendChild(dessin(login));
     var lab = document.createElement('div'); lab.className = 'constellation-nom label-font'; lab.textContent = nom;
     e.appendChild(lab);
-    var v = vivants[login] = { login: login, nom: nom, el: e, lurk: lurk, x: 0, y: 0, s: 1, vx: 0, vy: 0, cible: null, cibleS: 1, dernier: Date.now(), minuteur: 0, parti: false };
+    var v = vivants[login] = { login: login, nom: nom, el: e, lurk: lurk, x: 0, y: 0, s: 1, vx: 0, vy: 0, cible: null, cibleS: 1, dernier: Date.now(), minuteur: 0, parti: false, rang: ++rang };
     cadrer(v, true);
     v.attente = Object.keys(vivants).filter(function (k) { return !vivants[k].attente; }).length > MAX;   // vivants contient deja v
     place(v);
@@ -155,7 +156,7 @@ var Constellations = (function () {
   // Au plus MAX constellations affichees ; les autres attendent (invisibles). Quand une sort, elle prend la
   // file d'attente et la premiere en attente reapparait. Le point d'entree est tire au hasard sur le bord
   // gauche ou bas (au prorata du flux), pour ne pas toujours repartir du coin le plus loin.
-  var MAX = 20;
+  var MAX = 20, rang = 0;
   function entree(v) {
     var a = v.vx * (BORD.ymax - BORD.ymin), b = -v.vy * (BORD.xmax - BORD.xmin), dmax = -1;
     for (var i = 0; i < 24; i++) {                      // 24 candidats ; on garde le plus loin des autres (pas de superposition)
@@ -169,9 +170,15 @@ var Constellations = (function () {
       if (dmin > dmax) { dmax = dmin; v.x = c.x; v.y = c.y; }
     }
   }
+  // Une place se libere (retrait, depart) : la file d'attente comble jusqu'a MAX affichees, depuis la zone de depart.
+  function remplir() {
+    var tous = Object.keys(vivants).map(function (k) { return vivants[k]; });
+    var libres = MAX - tous.filter(function (o) { return !o.attente; }).length;
+    tous.filter(function (o) { return o.attente; }).sort(function (a, b) { return a.rang - b.rang; }).slice(0, Math.max(0, libres)).forEach(function (w) { w.attente = false; entree(w); });
+  }
   function reapparaitre(v) {
-    var w = Object.keys(vivants).map(function (k) { return vivants[k]; }).filter(function (o) { return o.attente; })[0];
-    if (w) { v.attente = true; w.attente = false; }
+    var w = Object.keys(vivants).map(function (k) { return vivants[k]; }).filter(function (o) { return o.attente; }).sort(function (a, b) { return a.rang - b.rang; })[0];
+    if (w) { v.attente = true; v.rang = ++rang; w.attente = false; }   // la sortante passe en fin de file : chacune son tour
     entree(w || v);
   }
   function place(v) {
