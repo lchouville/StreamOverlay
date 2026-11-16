@@ -273,5 +273,5 @@ var Constellations = (function () {
     requestAnimationFrame(image);
   }
 
-  return { init: init, message: message, lurk: lurk, here: here };
+  return { init: init, message: message, lurk: lurk, here: here, dessin: dessin };
 })();
