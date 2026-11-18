@@ -63,6 +63,24 @@
     text-transform: uppercase;
     white-space: nowrap;
   }
+
+  /* Messages : empiles depuis le bas, les plus anciens s'effacent en haut. */
+  #chat-inner { display: flex; flex-direction: column; justify-content: flex-end; padding: 10px 14px 24px; box-sizing: border-box;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%); mask-image: linear-gradient(180deg, transparent 0, #000 12%); }
+  .msg { font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.35; color: var(--text-cream); padding: 4px 0 5px;
+    border-bottom: 1px solid rgba(217, 201, 138, 0.14); word-wrap: break-word; overflow-wrap: anywhere; animation: msg-in .35s ease-out; }
+  .msg .nom { font-weight: 600; text-shadow: 0 0 6px rgba(106, 63, 224, 0.8), 0 0 2px #000; }
+  .msg .constellation { position: static; width: auto; height: auto; animation: none; margin: 3px 0 0; }
+  .msg .corps { display: flex; align-items: flex-start; gap: 10px; }
+  .msg .textes { flex: 1; min-width: 0; }
+  .msg .constellation { flex: none; }
+  .msg .constellation svg { width: 64px; height: auto; margin: 0; }
+  .msg .ligne + .ligne { margin-top: 3px; }
+  .msg .badge { color: var(--gold-bright); font-size: 12px; margin-right: 4px; text-shadow: 0 0 6px rgba(217, 201, 138, 0.6); }
+  .msg img { height: 1.5em; vertical-align: middle; margin: -3px 1px 0; }
+  .msg .badge-img { height: 15px; width: 15px; margin: 0 4px 0 0; vertical-align: -3px; }
+  .msg .bits { border-left: 2px solid var(--gold); padding-left: 8px; }
+  @keyframes msg-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 </style>
 </head>
 <body>
@@ -96,6 +114,89 @@
       '<path d="M44 3 l-3 -2.6 0 5.2 z" fill="url(#orCoin)"/><path d="M3 44 l-2.6 -3 5.2 0 z" fill="url(#orCoin)"/>';
     rect.appendChild(c);
   });
+</script>
+
+<script src="../elements/twitch-chat.js"></script>
+<script src="../elements/constellations.js"></script>
+<script>
+  // Chat Twitch affiche dans le cadre. ?chaine=... pour une autre chaine.
+  (function () {
+    const boite = document.getElementById('chat-inner'), MAX = 30;
+    const chaine = new URLSearchParams(location.search).get('chaine') || 'saphirschwarz';
+    const bots = ['nightbot', 'streamelements', 'streamlabs', 'moobot', 'fossabot', 'wizebot'];
+    // Couleur Twitch eclaircie (les teintes sombres se perdent sur le fond bleu nuit).
+    function clair(hex) {
+      const m = /^#([0-9a-f]{6})$/i.exec(hex || '');
+      if (!m) return 'var(--gold-bright)';
+      const n = parseInt(m[1], 16);
+      return 'rgb(' + [n >> 16, (n >> 8) & 255, n & 255].map(function (c) { return Math.round(c + (255 - c) * 0.35); }).join(',') + ')';
+    }
+    // Icones des badges (couronne = streamer, ecu = mod, saphir = VIP, etoile = sub), aux couleurs du cadre.
+    const ICONES = {"founder":"<svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" style=\"vertical-align:-3px\"><circle cx=\"10\" cy=\"10\" r=\"9\" fill=\"#d9c98a\" stroke=\"#8a7a45\" stroke-width=\"1\"/><circle cx=\"10\" cy=\"10\" r=\"6.6\" fill=\"#1c2f8f\" stroke=\"#f3e6b3\" stroke-width=\"0.7\"/><path d=\"M10 4.6 L11.4 8.2 L15.2 8.4 L12.2 10.8 L13.2 14.5 L10 12.4 L6.8 14.5 L7.8 10.8 L4.8 8.4 L8.6 8.2 Z\" fill=\"#f3e6b3\"/></svg>","lead":"<svg viewBox=\"0 0 18 18\" width=\"14\" height=\"14\" style=\"vertical-align:-2px\"><path d=\"M9 1 L16 3.5 V9 C16 13 12.5 16 9 17 C5.5 16 2 13 2 9 V3.5 Z\" fill=\"#d9c98a\" stroke=\"#8a7a45\" stroke-width=\"1.1\" stroke-linejoin=\"round\"/><path d=\"M9 4 L12.5 5.2 V9 C12.5 11.3 10.8 13 9 13.8 C7.2 13 5.5 11.3 5.5 9 V5.2 Z\" fill=\"#16205c\"/><path d=\"M9 5.6 L10 8 L12.4 8.2 L10.6 9.8 L11.2 12.2 L9 10.9 L6.8 12.2 L7.4 9.8 L5.6 8.2 L8 8 Z\" fill=\"#f3e6b3\"/></svg>","streamer":"<svg viewBox=\"0 0 20 16\" width=\"17\" height=\"14\" style=\"vertical-align:-2px\"><path d=\"M2 14 L1 4 L6 8 L10 1 L14 8 L19 4 L18 14 Z\" fill=\"#d9c98a\" stroke=\"#8a7a45\" stroke-width=\"0.8\" stroke-linejoin=\"round\"/><rect x=\"2\" y=\"12.5\" width=\"16\" height=\"2.5\" rx=\"1\" fill=\"#f3e6b3\" stroke=\"#8a7a45\" stroke-width=\"0.8\"/><circle cx=\"10\" cy=\"9.5\" r=\"1.7\" fill=\"#3452e0\" stroke=\"#f3e6b3\" stroke-width=\"0.6\"/></svg>","mod":"<svg viewBox=\"0 0 18 18\" width=\"14\" height=\"14\" style=\"vertical-align:-2px\"><path d=\"M9 1 L16 3.5 V9 C16 13 12.5 16 9 17 C5.5 16 2 13 2 9 V3.5 Z\" fill=\"#16205c\" stroke=\"#d9c98a\" stroke-width=\"1.1\" stroke-linejoin=\"round\"/><path d=\"M9 4 L12.5 5.2 V9 C12.5 11.3 10.8 13 9 13.8 C7.2 13 5.5 11.3 5.5 9 V5.2 Z\" fill=\"#3452e0\" opacity=\"0.9\"/><path d=\"M9 4 V13.8\" stroke=\"#9fb6ff\" stroke-width=\"0.7\"/></svg>","vip":"<svg viewBox=\"0 0 20 18\" width=\"15\" height=\"14\" style=\"vertical-align:-2px\"><polygon points=\"5,1 15,1 19,6 10,17 1,6\" fill=\"#3452e0\" stroke=\"#d9c98a\" stroke-width=\"1\" stroke-linejoin=\"round\"/><polygon points=\"5,1 15,1 13,6 7,6\" fill=\"#9fb6ff\"/><polygon points=\"1,6 7,6 10,17\" fill=\"#1c2f8f\"/><polygon points=\"19,6 13,6 10,17\" fill=\"#2740c4\"/><path d=\"M1 6H19M7 6L5 1M13 6L15 1M7 6L10 17M13 6L10 17\" stroke=\"#d9c98a\" stroke-width=\"0.5\" fill=\"none\" opacity=\"0.7\"/></svg>","sub":"<svg viewBox=\"0 0 20 20\" width=\"15\" height=\"14\" style=\"vertical-align:-2px\"><path d=\"M10 1 L12.6 7 L19 7.6 L14.2 11.9 L15.6 18.3 L10 15 L4.4 18.3 L5.8 11.9 L1 7.6 L7.4 7 Z\" fill=\"#d9c98a\" stroke=\"#8a7a45\" stroke-width=\"0.8\" stroke-linejoin=\"round\"/><circle cx=\"10\" cy=\"10\" r=\"2.3\" fill=\"#3452e0\" stroke=\"#f3e6b3\" stroke-width=\"0.6\"/></svg>"};
+    // Autres badges Twitch (bits, premium, partenaire, sub-gifter, hype train...) : images officielles via
+    // api.ivr.fi (lecture publique, sans token). Les nouveaux badges apparaissent sans toucher au code.
+    const PROPRES = ['broadcaster', 'moderator', 'lead_moderator', 'vip', 'subscriber', 'founder'], images = {};
+    function chargerBadges() {
+      const lire = function (url) {
+        return fetch(url).then(function (r) { return r.json(); }).then(function (l) {
+          l.forEach(function (set) { set.versions.forEach(function (v) { images[set.set_id + '/' + v.id] = v.image_url_2x; }); });
+        }).catch(function (e) { console.warn('[chat] badges indisponibles', e); });
+      };
+      return lire('https://api.ivr.fi/v2/twitch/badges/global').then(function () { return lire('https://api.ivr.fi/v2/twitch/badges/channel?login=' + encodeURIComponent(chaine)); });
+    }
+    function ajouter(msg) {
+      if (bots.indexOf(msg.login) >= 0 || msg.texte.charAt(0) === '!') return;
+      // emotes : "id:0-4,8-12/id2:6-7" (indices en caracteres Unicode, pas en unites UTF-16)
+      const car = Array.from(msg.texte), places = [];
+      (msg.tags.emotes || '').split('/').forEach(function (e) {
+        const p = e.split(':'); if (p.length < 2) return;
+        p[1].split(',').forEach(function (r) { const ab = r.split('-'); places.push({ id: p[0], d: +ab[0], f: +ab[1] }); });
+      });
+      places.sort(function (a, b) { return a.d - b.d; });
+      const div = document.createElement('div'); div.className = 'ligne' + (msg.bits ? ' bits' : '');
+      let groupe = boite.lastElementChild;
+      const meme = groupe && groupe.dataset.login === msg.login;   // messages a la suite : pseudo et constellation une seule fois
+      if (!meme) {
+        groupe = document.createElement('div'); groupe.className = 'msg'; groupe.dataset.login = msg.login;
+        const tete = document.createElement('div');
+        const founder = /(^|,)founder\//.test(msg.tags.badges || '');   // membre fondateur : medaillon, a la place de l'etoile
+        const lead = /(^|,)lead_moderator\//.test(msg.tags.badges || '');   // modo principal : ecu dore, a la place de l'ecu bleu
+        [['streamer', msg.streamer], ['lead', lead], ['mod', msg.mod && !lead], ['vip', msg.vip], ['founder', founder], ['sub', msg.sub && !founder]].forEach(function (p) {
+          const k = p[0]; if (!p[1]) return;
+          const bd = document.createElement('span'); bd.className = 'badge'; bd.innerHTML = ICONES[k]; tete.appendChild(bd);
+        });
+        (msg.tags.badges || '').split(',').forEach(function (b) {
+          if (!b || PROPRES.indexOf(b.split('/')[0]) >= 0 || !images[b]) return;
+          const im = document.createElement('img'); im.className = 'badge-img'; im.src = images[b]; im.alt = b.split('/')[0]; tete.appendChild(im);
+        });
+        const nom = document.createElement('span'); nom.className = 'nom'; nom.textContent = msg.nom; nom.style.color = clair(msg.tags.color);
+        tete.appendChild(nom); groupe.appendChild(tete);
+        const cs = document.createElement('div'); cs.className = 'constellation'; cs.appendChild(Constellations.dessin(msg.login));
+        const corps = document.createElement('div'); corps.className = 'corps'; const tx = document.createElement('div'); tx.className = 'textes';
+        corps.appendChild(cs); corps.appendChild(tx); groupe.appendChild(corps);
+      }
+      let i = 0;
+      places.forEach(function (p) {
+        if (p.d < i || p.f >= car.length) return;
+        div.appendChild(document.createTextNode(car.slice(i, p.d).join('')));
+        const im = document.createElement('img'); im.alt = car.slice(p.d, p.f + 1).join('');
+        im.src = 'https://static-cdn.jtvnw.net/emoticons/v2/' + encodeURIComponent(p.id) + '/default/dark/2.0';
+        div.appendChild(im); i = p.f + 1;
+      });
+      div.appendChild(document.createTextNode(car.slice(i).join('')));
+      groupe.querySelector('.textes').appendChild(div);
+      if (!meme) boite.appendChild(groupe);
+      while (boite.children.length > MAX) boite.firstChild.remove();
+    }
+    // Historique d'abord (messages deja envoyes avant l'ouverture), puis le direct.
+    chargerBadges().then(function () { return ecouterChatTwitch.historique(chaine, ajouter); }).then(function () { ecouterChatTwitch(chaine, ajouter); });
+    // Test sans chat : ?test=1
+    if (new URLSearchParams(location.search).get('test')) {
+      ['Alice', 'Bob', 'Carole'].forEach(function (n, k) {
+        setTimeout(function () { ajouter({ login: n.toLowerCase(), nom: n, texte: 'Salut tout le monde, belle soiree ' + n + ' !', tags: { color: ['#1e90ff', '#8a2be2', '#2e8b57'][k] }, mod: k === 1, sub: k === 2, streamer: false, vip: false, bits: 0 }); }, 300 + k * 600);
+      });
+    }
+  })();
 </script>
 </body>
 </html>

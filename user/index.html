@@ -15,7 +15,8 @@
   .col { min-width: 0; }
   ul { margin: 0; padding-left: 1.2rem; }
   .preview { display: block; position: relative; cursor: pointer; aspect-ratio: 16 / 9; background: #000; border: 1px solid #d4af37; overflow: hidden; }
-  .preview iframe { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; border: 0; transform-origin: top left; pointer-events: none; }
+  .preview .stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: top left; }
+  .preview iframe { position: absolute; border: 0; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -26,7 +27,14 @@
 <section class="col">
 <h1>SaphirSchwarz</h1>
 <h2>Preview <small>game-frame</small></h2>
-<a class="preview" href="SaphirSchwarz/primary-frame/game-frame.html"><iframe loading="lazy" src="SaphirSchwarz/primary-frame/game-frame.html" title="Preview SaphirSchwarz"></iframe></a>
+<a class="preview" href="SaphirSchwarz/primary-frame/game-frame.html"><div class="stage" data-layers="[{&quot;src&quot;:&quot;SaphirSchwarz/primary-frame/game-frame.html&quot;},{&quot;src&quot;:&quot;SaphirSchwarz/secondary-frame/chat-frame.html&quot;,&quot;x&quot;:1500,&quot;y&quot;:360,&quot;w&quot;:420,&quot;h&quot;:700}]"></div></a>
+<h2>Scenes <small>frames + elements reunis</small></h2>
+<ul>
+  <li><a href="SaphirSchwarz/primary-frame/game-frame.html" data-layers="[{&quot;src&quot;:&quot;SaphirSchwarz/primary-frame/game-frame.html&quot;},{&quot;src&quot;:&quot;SaphirSchwarz/secondary-frame/chat-frame.html&quot;,&quot;x&quot;:1500,&quot;y&quot;:360,&quot;w&quot;:420,&quot;h&quot;:700}]">Jeu + cam + chat</a></li>
+  <li><a href="SaphirSchwarz/primary-frame/gamefull-frame.html" data-layers="[{&quot;src&quot;:&quot;SaphirSchwarz/primary-frame/gamefull-frame.html&quot;}]">Jeu plein ecran + cam</a></li>
+  <li><a href="SaphirSchwarz/primary-frame/blabla-frame.html" data-layers="[{&quot;src&quot;:&quot;SaphirSchwarz/primary-frame/blabla-frame.html&quot;},{&quot;src&quot;:&quot;SaphirSchwarz/secondary-frame/chat-frame.html&quot;,&quot;x&quot;:1500,&quot;y&quot;:360,&quot;w&quot;:420,&quot;h&quot;:700}]">Blabla + chat</a></li>
+  <li><a href="SaphirSchwarz/primary-frame/full-frame.html" data-layers="[{&quot;src&quot;:&quot;SaphirSchwarz/primary-frame/full-frame.html&quot;},{&quot;src&quot;:&quot;SaphirSchwarz/secondary-frame/timer.html?time=10:00&amp;label=PAUSE&quot;,&quot;x&quot;:800,&quot;y&quot;:485,&quot;w&quot;:320,&quot;h&quot;:110}]">Starting / Ending (fond + timer)</a></li>
+</ul>
 <h2>Frames <small>1920x1080</small></h2>
 <ul>
   <li><a href="SaphirSchwarz/primary-frame/game-frame.html">Jeu + cam</a></li>
@@ -58,7 +66,7 @@
 <section class="col">
 <h1>Elwe</h1>
 <h2>Preview <small>main-frame</small></h2>
-<a class="preview" href="Elwe/primary-frame/main-frame.html"><iframe loading="lazy" src="Elwe/primary-frame/main-frame.html" title="Preview Elwe"></iframe></a>
+<a class="preview" href="Elwe/primary-frame/main-frame.html"><div class="stage" data-layers="[{&quot;src&quot;:&quot;Elwe/primary-frame/main-frame.html&quot;}]"></div></a>
 <h2>Frames <small>1920x1080</small></h2>
 <ul>
   <li><a href="Elwe/primary-frame/main-frame.html">Main frame</a></li>
@@ -82,18 +90,28 @@
 
 </div>
 <script>
-  // Les previews sont des pages 1920x1080 reduites a la largeur de leur colonne.
+  // Les previews sont des scenes 1920x1080 reduites a la largeur de leur colonne. Une scene = des pages
+  // (calques) empilees, chacune a sa position : data-layers = [{src, x, y, w, h}] (defaut : plein cadre).
   const ajuste = () => document.querySelectorAll('.preview').forEach(p => {
     p.firstElementChild.style.transform = 'scale(' + p.clientWidth / 1920 + ')';
   });
+  const montrer = (stage, layers) => {
+    stage.replaceChildren(...layers.map(l => {
+      const f = document.createElement('iframe');
+      f.src = l.src;
+      Object.assign(f.style, { left: (l.x || 0) + 'px', top: (l.y || 0) + 'px', width: (l.w || 1920) + 'px', height: (l.h || 1080) + 'px' });
+      return f;
+    }));
+  };
+  document.querySelectorAll('.stage').forEach(st => montrer(st, JSON.parse(st.dataset.layers)));
   addEventListener('resize', ajuste); ajuste();
-  // Un clic sur un lien de liste change la preview de sa colonne ; la preview, elle, ouvre la page.
+  // Un clic sur un lien de liste change la preview de sa colonne (scene ou page seule) ; la preview, elle, ouvre la page.
   document.querySelectorAll('.col li a').forEach(a => a.addEventListener('click', e => {
     if (e.ctrlKey || e.metaKey || e.shiftKey) return; // ctrl/maj+clic : ouvre quand meme la page
     e.preventDefault();
     const p = a.closest('.col').querySelector('.preview');
     p.href = a.href;
-    p.firstElementChild.src = a.href;
+    montrer(p.firstElementChild, a.dataset.layers ? JSON.parse(a.dataset.layers) : [{ src: a.getAttribute('href') }]);
   }));
 </script>
 </body>
